@@ -8,7 +8,7 @@
     <v-card
         flat
         tile
-        class="indigo lighten-1 white--text text-center"
+        class="indigo lighten-1 white--text text-center gradient"
     >
       <v-card-text>
         <v-btn
@@ -37,6 +37,12 @@
     </v-card>
   </v-footer>
 </template>
+
+<style lang="sass">
+  .gradient
+    background: rgb(27,3,250)
+    background: linear-gradient(202deg, rgba(27,3,250,0.8407738095238095) 0%, rgba(10,163,231,1) 100%)
+</style>
 
 <script>
 export default {
