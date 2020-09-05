@@ -1,9 +1,8 @@
 <template>
   <div id="home-layout" class="d-flex flex-column">
     <home-header/>
-    <div class="container">
-      <router-view/>
-    </div>
+    <home-parallax/>
+    <home-tabs/>
     <home-footer/>
   </div>
 </template>
@@ -13,6 +12,8 @@ export default {
   name: "SacchaiHomeLayout",
   components: {
     HomeHeader: () => import("@/views/home_layout/NavBar"),
+    HomeParallax: () => import("@/views/home_layout/Parallax"),
+    HomeTabs: () => import("@/views/home_layout/Tabs"),
     HomeFooter: () => import("@/views/home_layout/Footer")
   },
 }

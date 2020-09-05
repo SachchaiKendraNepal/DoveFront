@@ -1,13 +1,14 @@
 <template>
   <div>
     <v-app-bar
-        class="nav-background"
+        fixed
         dense
         dark
+        color="#1976d27a"
         elevation="3"
-        height="55px"
+        height="60"
     >
-      <v-app-bar-nav-icon/>
+      <v-app-bar-nav-icon class="nav-icon"/>
       <v-toolbar-title v-text="$route.name"/>
       <v-spacer/>
       <v-btn icon>
@@ -44,13 +45,25 @@
 </template>
 
 <style lang="sass">
-  .nav-background
-    background: rgb(0,0,0)
-    background: linear-gradient(202deg, rgba(0,0,0,1) 38%, rgba(39,10,231,1) 100%)
+.v-toolbar__content
+  padding: 4px 10px !important
+.v-icon.notranslate.fas.fa-bars.theme--dark
+  font-size: 18px
+.v-toolbar__title
+  font-family: 'Acme', sans-serif
+  padding: 0 !important
+  margin: 0 !important
+  padding-top: 1px !important
+  font-size: 20px
 </style>
 
 <script>
 export default {
-  name: "HomeNavBar"
+  name: "HomeNavBar",
+  data(){
+    return {
+      image: require("@/assets/10x3-ft-Sachai-Banner.jpg")
+    }
+  }
 }
 </script>

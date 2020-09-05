@@ -2,13 +2,13 @@
   <v-footer
       dark
       padless
-      fixed
       elevation="3"
   >
     <v-card
+        color="#385F73"
         flat
         tile
-        class="indigo lighten-1 white--text text-center gradient"
+        class="indigo lighten-1 white--text text-center"
     >
       <v-card-text>
         <v-btn
@@ -32,7 +32,7 @@
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>Kiran Parajuli</strong>
+        {{ new Date().getFullYear() }} — <strong>Sacchai Nepal</strong>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -40,8 +40,7 @@
 
 <style lang="sass">
   .gradient
-    background: rgb(27,3,250)
-    background: linear-gradient(202deg, rgba(27,3,250,0.8407738095238095) 0%, rgba(10,163,231,1) 100%)
+    background: rgb(93, 19, 91) !important
 </style>
 
 <script>
