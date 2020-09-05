@@ -10,8 +10,7 @@
 
 <style lang="sass">
 #sacchai-flex-image
-  //top: 60px
-  //max-height: 800px
+  top: 60px
 </style>
 
 <script>

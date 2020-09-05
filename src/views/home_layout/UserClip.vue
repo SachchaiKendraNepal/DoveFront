@@ -1,40 +1,60 @@
 <template>
   <v-card
+      id="profile-clip"
       class="mx-auto"
-      max-width="300"
+      max-width="230"
       outlined
   >
-    <v-list-item three-line>
-      <v-list-item-content>
-        <v-chip
-            color="blue lighten-1"
-            text-color="white"
-            small
+    <v-img
+      class="white--text align-end"
+      height="50px"
+      src="https://cdn.pixabay.com/photo/2016/10/22/03/35/water-1759703_960_720.jpg"
+    />
+    <v-row id="photo-row" align="center" justify="center">
+      <v-avatar
+          size="70px"
+      >
+        <v-img
+            src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
+        />
+      </v-avatar>
+    </v-row>
 
-        >
-          <v-avatar left>
-            <v-icon>mdi-account-group</v-icon>
-          </v-avatar>
-          <span class="text-uppercase"><b>member</b></span>
-        </v-chip>
-        <v-list-item-title class="headline mb-1">Kiran Parajuli</v-list-item-title>
+
+    <v-list-item>
+      <v-list-item-content class="text-center">
+        <v-list-item-title class="headline mb-2">Kiran Parajuli</v-list-item-title>
+
         <v-list-item-subtitle>Wake up. Kick Ass. Repeat!</v-list-item-subtitle>
       </v-list-item-content>
-
-      <v-list-item-avatar
-          size="80"
-      >
-        <v-img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"/>
-      </v-list-item-avatar>
     </v-list-item>
+    <div class="text-center mb-3">
+      <v-chip
+          small
+          label
+          class="mr-2"
+          color="primary"
+      >
+        <v-icon left>mdi-account-group</v-icon>
+        MEMBER
+      </v-chip>
 
-    <v-card-actions>
-      <v-btn text color="primary">Button</v-btn>
-      <v-btn text color="red">Button</v-btn>
-    </v-card-actions>
+      <v-chip
+          small
+          color="grey darken-3"
+          label
+          text-color="white"
+      >
+        <v-icon left>mdi-account-tie</v-icon>
+        ADMIN
+      </v-chip>
+    </div>
   </v-card>
 </template>
-
+<style lang="sass">
+#photo-row
+  margin-top: -35px
+</style>
 <script>
 export default {
   name: "UserClipComponent"

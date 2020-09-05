@@ -1,7 +1,6 @@
 <template>
   <v-card
-      max-width="344"
-      class="mx-auto"
+      class="mx-auto mb-4"
   >
     <v-list-item>
       <v-list-item-avatar>
@@ -58,6 +57,7 @@
 </template>
 <script>
 export default {
+  name: "ArticleComponent",
   data () {
     return {
       isLiked: false
