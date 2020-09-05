@@ -1,13 +1,13 @@
 <template>
   <v-tabs
       v-model="tab"
-      background-color="transparent"
-      color="primary"
+      background-color="blue lighten-5"
+      color="darkblue"
       icons-and-text
       centered
       center-active
       show-arrows
-      elevation="4"
+      slider-size="4"
   >
     <v-tab
         v-for="item in items"
