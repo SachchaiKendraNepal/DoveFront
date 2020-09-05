@@ -11,9 +11,30 @@ const routes = [
         children: [
             {
                 path: "",
-                name: "Home",
+                name: "SACCHAI NEPAL",
                 component: () => import("@/views/home/Home")
+            },
+            {
+                path: "member",
+                name: "SACCHAI NEPAL MEMBERS",
+                component: () => import("@/views/home/member/Member")
+            },
+            {
+                path: "branch",
+                name: "SACCHAI NEPAL BRANCHES",
+                component: () => import("@/views/home/branch/Branch")
+            },
+            {
+                path: "article",
+                name: "SACCHAI NEPAL ARTICLES",
+                component: () => import("@/views/home/article/Article")
+            },
+            {
+                path: "multimedia",
+                name: "SACCHAI NEPAL MULTIMEDIA",
+                component: () => import("@/views/home/multimedia/Multimedia")
             }
+
         ]
     },
 ]
