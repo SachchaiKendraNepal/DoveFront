@@ -1,7 +1,6 @@
 <template>
   <v-card id="home-header">
     <tool-bar/>
-<!--    <home-parallax/>-->
     <home-tab />
     <div id="sacchai-home-container">
       <v-row justify="center">
@@ -59,9 +58,6 @@ export default {
 </script>
 
 <style lang="css">
-/*#home-header*/
-/*  background: url('../../assets/sky-5534319.jpg') repeat center center*/
-/*  background-size: cover*/
 #sacchai-home-container {
   background-color: #fbf2e5e8;
 }

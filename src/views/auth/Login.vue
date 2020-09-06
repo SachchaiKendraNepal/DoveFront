@@ -8,33 +8,33 @@
       >
         <v-container class="py-0">
           <v-row align="center" justify="center" class="mx-6">
-            <v-col cols="12">
+            <v-col cols="12" lg="8" md="7" sm="8">
               <v-text-field
-                  v-model="user.username"
                   hide-details
-                  placeholder="example125"
+                  outlined
+                  dense
                   id="username"
                   label="Username"
-                  outlined
-                  dense
                   prepend-inner-icon="mdi-account-circle"
+                  background-color="white"
+                  v-model="user.username"
               />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" lg="8" md="7" sm="8">
               <v-text-field
-                  v-model="user.password"
+                  dense
+                  outlined
                   hide-details
-                  placeholder="password"
                   id="password"
                   label="Password"
-                  outlined
-                  dense
                   type="password"
                   prepend-inner-icon="mdi-lock-question"
+                  background-color="white"
+                  v-model="user.password"
               />
             </v-col>
-            <v-col cols="12" class="py-0 my-0">
-              <div class="remember_forgot_container my-0 pt-0 pb-2">
+            <v-col cols="12" lg="8" md="7" sm="8" class="pt-0">
+              <div class="my-0 pt-0 pb-2">
                 <router-link to="/auth/reset-password" id="forget-password">
                   <span>Forget Password?</span>
                 </router-link>
@@ -61,7 +61,8 @@
 <style lang="sass">
 #forget-password
   span
-    font-size: 12px
+    font-size: 14px
+    font-weight: bold
 </style>
 <script>
 export default {
