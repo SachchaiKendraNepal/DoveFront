@@ -32,12 +32,15 @@
           </v-card-actions>
         </v-container>
       </v-form>
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </template>
   </base-auth-card>
 </template>
 <script>
 export default {
-  name: "LoginComponent",
+  name: "ResetPasswordComponent",
   components: {
     BaseAuthCard: () => import("@/views/auth/_auth")
   },
@@ -46,24 +49,14 @@ export default {
       subtitle: "Provide username / email to reset your password...",
       user: {
         username: "",
-      },
-      item: {
-        subtitle: "Reset your password"
       }
     }
   },
   methods: {
     async requestReset() {
       try {
-        // let response = await this.$store.dispatch("Member/login", this.user);
-        // if ("access_token" in response && response.access_token !== null) {
-        //   sessionStorage.setItem("selectedLocale", "en");
-        //   this.$i18n.locale = "en";
-        //   if (JSON.parse(localStorage.getItem("currentUser"))) {
-        //     // do something
-        //   }
-        // }
-        await this.$router.replace("/");
+        this.overlay = true
+        await this.$router.replace("login");
       } finally {
         this.overlay = false;
       }

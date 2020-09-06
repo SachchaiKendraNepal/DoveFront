@@ -52,6 +52,9 @@
           </v-card-actions>
         </v-container>
       </v-form>
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </template>
   </base-auth-card>
 </template>
@@ -68,6 +71,7 @@ export default {
   },
   data() {
     return {
+      overlay: false,
       subtitle: "Login to proceed",
       user: {
         username: "",
@@ -81,6 +85,7 @@ export default {
   methods: {
     async login() {
       try {
+        this.overlay = true
         // let response = await this.$store.dispatch("Member/login", this.user);
         // if ("access_token" in response && response.access_token !== null) {
         //   sessionStorage.setItem("selectedLocale", "en");
