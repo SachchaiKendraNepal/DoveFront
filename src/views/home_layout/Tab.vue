@@ -1,13 +1,15 @@
 <template>
   <v-tabs
-      v-model="tab"
-      background-color="blue lighten-5"
-      color="darkblue"
-      icons-and-text
       centered
-      center-active
       show-arrows
-      slider-size="4"
+      center-active
+      icons-and-text
+      id="sacchai-home-tab"
+      height="60"
+      slider-size="2"
+      color="darkblue"
+      background-color="blue lighten-5"
+      v-model="tab"
   >
     <v-tab
         v-for="item in items"
@@ -23,6 +25,11 @@
 a[role="tab"]
   font-size: 12px
   font-weight: bold
+#sacchai-home-tab
+  position: -webkit-sticky
+  position: sticky
+  top: 64px
+  z-index: 4
 </style>
 <script>
 export default {

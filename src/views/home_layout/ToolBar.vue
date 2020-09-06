@@ -1,5 +1,6 @@
 <template>
   <v-toolbar
+    id="sacchai-home-toolbar"
     color="blue lighten-4"
   >
     <v-avatar>
@@ -29,6 +30,11 @@
   </v-toolbar>
 </template>
 <style lang="sass">
+#sacchai-home-toolbar
+  position: -webkit-sticky
+  position: sticky
+  top: 0
+  z-index: 10
 .v-toolbar__title
   padding-left: 8px
   font-family: 'Fira Sans Condensed', sans-serif
