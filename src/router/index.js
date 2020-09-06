@@ -37,6 +37,22 @@ const routes = [
 
         ]
     },
+    {
+        path: "/auth/",
+        component: () => import("@/layouts/AuthLayout"),
+        children: [
+            {
+                path: "login",
+                name: "SACCHAI LOGIN",
+                component: () => import("@/views/auth/Login")
+            },
+            {
+                path: "reset-password",
+                name: "SACCHAI LOGIN",
+                component: () => import("@/views/auth/ResetPassword")
+            }
+        ]
+    }
 ]
 
 const router = new VueRouter({
