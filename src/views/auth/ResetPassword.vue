@@ -1,23 +1,23 @@
 <template>
-  <base-auth-card :item="item">
+  <base-auth-card>
     <template v-slot:authForm>
-      <v-card-subtitle class="text-center my-1 py-0" dark>{{subtitle}}</v-card-subtitle>
+      <v-card-subtitle class="text-center my-1 py-0" dark>Provide <b>username / email</b> to reset your password...</v-card-subtitle>
       <v-form
           class="reset-password-form"
           @submit.prevent="requestReset()"
       >
         <v-container class="py-0">
           <v-row align="center" justify="center" class="mx-6">
-            <v-col cols="12">
+            <v-col cols="12" lg="8" md="7" sm="8" class="py-8">
               <v-text-field
-                  v-model="user.username"
-                  hide-details
-                  placeholder="kiran589"
-                  id="username"
-                  outlined
                   dense
-                  prepend-inner-icon="mdi-account-circle"
+                  outlined
+                  hide-details
+                  id="username"
                   label="Username/Email"
+                  prepend-inner-icon="mdi-account-circle"
+                  background-color="white"
+                  v-model="user.username"
               />
             </v-col>
           </v-row>
@@ -46,7 +46,7 @@ export default {
   },
   data() {
     return {
-      subtitle: "Provide username / email to reset your password...",
+      overlay: false,
       user: {
         username: "",
       }
