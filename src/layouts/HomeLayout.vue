@@ -9,7 +9,6 @@
 export default {
   name: "SacchaiHomeLayout",
   components: {
-    // HomeParallax: () => import("@/views/home_layout/Parallax"),
     HomeHeader: () => import("@/views/home_layout/HomeHeader"),
     HomeFooter: () => import("@/views/home_layout/Footer")
   },
