@@ -55,12 +55,15 @@
 		</v-card-actions>
 		<div class="comment-history">
 			<template v-for="(item, index) in items">
-				<p class="mx-4 my-0" :key="index">
-					<span class="font-weight-bold">{{ item.title }}: </span
+				<p class="mx-4 my-0 last-comments" :key="index">
+					<span class="commenter">{{ item.title }}: </span
 					><span>{{ item.subtitle }}</span>
+					<v-icon class="overlay" size="16">mdi-reply-circle</v-icon>
 				</p>
 			</template>
-			<p class="mx-4 mb-0">13 minutes ago</p>
+			<p class="mx-4 mb-0 last-commented-ago">
+				13 minutes ago <v-icon size="16">mdi-history</v-icon>
+			</p>
 		</div>
 		<v-divider class="my-2" />
 		<div class="post-comment-wrapper d-flex justify-space-between">
@@ -84,6 +87,14 @@
 
 	.comment-history
 		font-size: 13px
+		.last-commented-ago
+			opacity: .7
+			font-weight: bold
+		.commenter
+			font-size: 14px
+			font-weight: bold
+		.overlay
+			opacity: .8
 </style>
 <script>
 	export default {

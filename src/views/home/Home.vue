@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<article-here />
-		<article-here />
+		<article />
+		<article />
 		<multimedia />
 		<multimedia />
 	</div>
@@ -11,19 +11,12 @@
 	export default {
 		name: "HomeComponent",
 		components: {
-			ArticleHere: () => import("@/views/home/article/Article"),
+			Article: () => import("@/views/home/article/Article"),
 			Multimedia: () => import("@/views/home/multimedia/Multimedia")
 		},
 		data: () => ({
 			loading: false,
 			selection: 1
-		}),
-		methods: {
-			reserve() {
-				this.loading = true
-
-				setTimeout(() => (this.loading = false), 2000)
-			}
-		}
+		})
 	}
 </script>
