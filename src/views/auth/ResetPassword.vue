@@ -2,9 +2,8 @@
 	<base-auth-card>
 		<template v-slot:authForm>
 			<v-card-subtitle class="text-center my-1 py-0" dark
-				>Provide <b>username / email</b> to reset your
-				password...</v-card-subtitle
-			>
+				>Provide <b>username / email</b> to reset your password...
+			</v-card-subtitle>
 			<v-form class="reset-password-form" @submit.prevent="requestReset()">
 				<v-container class="py-0">
 					<v-row align="center" justify="center" class="mx-6">

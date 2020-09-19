@@ -1,11 +1,11 @@
 module.exports = {
-	trailingComma: 'none',
+	trailingComma: "none",
 	tabWidth: 2,
 	semi: false,
 	singleQuote: false,
 	bracketSpacing: true,
 	jsxBracketSameLine: false,
-	arrowParens: 'always',
+	arrowParens: "always",
 	endOfLine: "lf",
 	vueIndentScriptAndStyle: true,
 	embeddedLanguageFormatting: "auto",
