@@ -6,8 +6,7 @@
 		<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp" class="text-uppercase"
 			>Sacchai Nepal</v-toolbar-title
 		>
-		<div class="ml-lg-12 mr-lg-12"></div>
-		<div class="ml-lg-12 mr-lg-12"></div>
+		<v-spacer />
 		<v-text-field
 			id="search"
 			class="mx-3"
@@ -18,10 +17,8 @@
 			clearable
 			clear-icon="clear"
 			placeholder="Search Members, Branch, Articles, Multimedia..."
-		></v-text-field>
-		<div class="ml-lg-12 mr-lg-12"></div>
-		<div class="ml-lg-12 mr-lg-12"></div>
-		<div class="ml-lg-12 mr-lg-12"></div>
+		/>
+		<v-spacer />
 		<profile-dropdown />
 	</v-toolbar>
 </template>
@@ -35,8 +32,15 @@
 	  padding-left: 8px
 	  font-family: 'Fira Sans Condensed', sans-serif
 	  font-size: 22px
-	#search
-	  width: 100px !important
+	div.v-input__slot
+	  margin-left: -78px !important
+</style>
+<style>
+	@media only screen and (max-width: 740px) {
+		div.v-input__slot {
+			margin-left: 0 !important;
+		}
+	}
 </style>
 <script>
 	import ProfileDropdown from "@/views/home_layout/ProfileDropdown"
