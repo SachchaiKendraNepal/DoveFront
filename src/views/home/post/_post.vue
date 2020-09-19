@@ -66,9 +66,9 @@
 			</p>
 		</div>
 		<v-divider class="my-2" />
-		<div class="post-comment-wrapper d-flex justify-space-between">
+		<div class="d-flex justify-space-around ml-2">
 			<v-text-field
-				class="comment ml-4 mb-2"
+				class="comment mb-2"
 				dense
 				outlined
 				placeholder="Add a comment"

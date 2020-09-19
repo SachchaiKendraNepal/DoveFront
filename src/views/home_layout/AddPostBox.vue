@@ -12,10 +12,7 @@
 			</div>
 		</v-hover>
 		<v-divider />
-		<v-card-actions
-			class="d-flex justify-space-between"
-			id="start-post-actions"
-		>
+		<v-card-actions class="d-flex justify-space-around" id="start-post-actions">
 			<v-btn x-small depressed class="py-5">
 				<v-icon left size="24" color="#3aaada">mdi-camera</v-icon>
 				<span>Images</span>

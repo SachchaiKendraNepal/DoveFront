@@ -22,7 +22,7 @@
 		<profile-dropdown />
 	</v-toolbar>
 </template>
-<style lang="sass">
+<style lang="sass" scoped>
 	#sacchai-home-toolbar
 	  position: -webkit-sticky
 	  position: sticky
@@ -32,10 +32,11 @@
 	  padding-left: 8px
 	  font-family: 'Fira Sans Condensed', sans-serif
 	  font-size: 22px
-	div.v-input__slot
-	  margin-left: -78px !important
 </style>
-<style>
+<style scoped>
+	div.v-input__slot {
+		margin-left: -78px !important;
+	}
 	@media only screen and (max-width: 740px) {
 		div.v-input__slot {
 			margin-left: 0 !important;
