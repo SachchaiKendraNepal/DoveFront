@@ -25,11 +25,6 @@
 a[role="tab"]
   font-size: 12px
   font-weight: bold
-#sacchai-home-tab
-  position: -webkit-sticky
-  position: sticky
-  top: 64px
-  z-index: 4
 </style>
 <script>
 export default {
