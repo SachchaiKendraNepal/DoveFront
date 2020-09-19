@@ -4,7 +4,7 @@ module.exports = {
 	semi: false,
 	singleQuote: false,
 	bracketSpacing: true,
-	jsxBracketSameLine: false,
+	jsxBracketSameLine: true,
 	arrowParens: "always",
 	endOfLine: "lf",
 	vueIndentScriptAndStyle: true,
