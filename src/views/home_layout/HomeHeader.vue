@@ -25,6 +25,7 @@
             lg="4"
             xl="4"
         >
+          <add-post-box/>
           <router-view/>
         </v-col>
         <v-col
@@ -52,7 +53,8 @@ export default {
   components: {
     HomeTab: () => import("@/views/home_layout/Tab"),
     ToolBar: () => import("@/views/home_layout/ToolBar"),
-    UserClip: () => import("@/views/home_layout/UserClip")
+    UserClip: () => import("@/views/home_layout/UserClip"),
+    AddPostBox: () => import("@/views/home_layout/AddPostBox")
   }
 }
 </script>
