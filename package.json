@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"format": "prettier -w './src/**/*.(js|vue)'",
+		"format": "prettier -w './**/*.(js|vue|json|html)'",
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build"
 	},
@@ -39,7 +39,7 @@
 		}
 	},
 	"lint-staged": {
-		"*.{json,js,vue}": [
+		"*.{json,js,vue,html}": [
 			"yarn run format",
 			"git add"
 		]
