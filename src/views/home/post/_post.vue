@@ -43,13 +43,27 @@
       <v-spacer/>
       <v-avatar
           tile
+          v-if="!(isBookmarked)"
+          class="bookmark-avatar"
+          v-on:click="isBookmarked=true"
+          v-ripple
       >
         <v-img
             :src="bookmarkImage"
             height="70"
-        >
-
-        </v-img>
+        />
+      </v-avatar>
+      <v-avatar
+          tile
+          v-else
+          class="bookmark-avatar bookmarked"
+          v-on:click="isBookmarked=false"
+          v-ripple
+      >
+        <v-img
+            :src="bookmarkedImage"
+            height="70"
+        />
       </v-avatar>
     </v-card-actions>
     <div class="comment-history">
@@ -74,6 +88,8 @@
   </v-card>
 </template>
 <style lang="sass" scoped>
+.bookmark-avatar
+  cursor: pointer
 .v-icon
   color: #0e0d0d !important
 .comment-history
@@ -86,7 +102,9 @@ export default {
     return {
       comment: "",
       isLiked: false,
+      isBookmarked: false,
       bookmarkImage: require("@/assets/bookmark-ribbon.png"),
+      bookmarkedImage: require("@/assets/bookmarked-ribbon.png"),
       items: [
         {title: "kiran589", subtitle: "Wow, amazing!"},
         {title: "bot25", subtitle: "010110101"}
