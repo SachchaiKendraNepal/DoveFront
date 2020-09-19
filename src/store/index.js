@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import user from "@/store/modules/user";
+import Vue from "vue"
+import Vuex from "vuex"
+import user from "@/store/modules/user"
 
 Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== "prod";
+const debug = process.env.NODE_ENV !== "prod"
 
 export default new Vuex.Store({
-    modules: {
-      user
-    },
-    strict: debug
+	modules: {
+		user
+	},
+	strict: debug
 })
