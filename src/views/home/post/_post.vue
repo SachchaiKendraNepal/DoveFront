@@ -58,7 +58,7 @@
 				<p class="mx-4 my-0 last-comments" :key="index">
 					<span class="commenter">{{ item.title }}: </span
 					><span>{{ item.subtitle }}</span>
-					<v-icon class="overlay" size="16">mdi-reply-circle</v-icon>
+					<v-icon class="reply-comment" size="16">mdi-reply-circle</v-icon>
 				</p>
 			</template>
 			<p class="mx-4 mb-0 last-commented-ago">
@@ -93,8 +93,9 @@
 		.commenter
 			font-size: 14px
 			font-weight: bold
-		.overlay
+		.reply-comment
 			opacity: .8
+			cursor: pointer
 </style>
 <script>
 	export default {

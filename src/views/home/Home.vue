@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<article />
-		<article />
+		<article-post />
+		<article-post />
 		<multimedia />
 		<multimedia />
 	</div>
@@ -11,7 +11,7 @@
 	export default {
 		name: "HomeComponent",
 		components: {
-			Article: () => import("@/views/home/article/Article"),
+			ArticlePost: () => import("@/views/home/article/Article"),
 			Multimedia: () => import("@/views/home/multimedia/Multimedia")
 		},
 		data: () => ({
