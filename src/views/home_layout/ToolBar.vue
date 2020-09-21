@@ -1,16 +1,15 @@
 <template>
-	<v-toolbar id="sacchai-home-toolbar" color="blue lighten-4">
-		<v-avatar>
+	<v-toolbar id="sacchai-home-toolbar" color="blue lighten-4" height="70">
+		<v-avatar size="60">
 			<v-img :src="logo" alt="SacchaiLogo" />
 		</v-avatar>
 		<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp" class="text-uppercase"
-			>Sacchai Nepal</v-toolbar-title
+			>Sachchai Nepal</v-toolbar-title
 		>
 		<v-spacer />
 		<v-text-field
 			id="search"
 			class="mx-3"
-			dense
 			solo
 			hide-details
 			append-icon="search"
