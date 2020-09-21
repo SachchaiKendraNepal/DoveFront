@@ -54,14 +54,26 @@
 											</p>
 											<v-divider />
 										</v-col>
-										<v-col cols="12" class="ma-0 pa-0">
+										<v-col cols="12" md="6" class="pl-0 py-0">
 											<v-text-field
+												id="member-f_name"
 												prepend-inner-icon="mdi-form-textbox"
 												class="ma-0"
 												outlined
 												dense
 												v-model="editedItem.full_name"
-												label="Full Name"
+												label="First Name"
+											/>
+										</v-col>
+										<v-col cols="12" md="6" class="px-0 py-0">
+											<v-text-field
+												id="member-l_name"
+												prepend-inner-icon="mdi-form-textbox"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.l_name"
+												label="Last Name"
 											/>
 										</v-col>
 										<v-col cols="12" class="ma-0 pa-0">
@@ -138,7 +150,7 @@
 										<v-col cols="12" class="pl-0">
 											<p class="heading ma-0 pa-0">
 												<v-icon class="pb-1">mdi-map-marker</v-icon>
-												Address Information
+												Location Information
 											</p>
 											<v-divider />
 										</v-col>
@@ -215,6 +227,7 @@
 </style>
 <script>
 export default {
+	name: "MembersTable",
 	data: () => ({
 		branches: ["Polar Branch", "Seiko Branch", "Akiko Branch"],
 		isLoading: false,
@@ -242,7 +255,19 @@ export default {
 		],
 		members: [],
 		editedIndex: -1,
-		editedItem: {},
+		editedItem: {
+			username: "",
+			email: "",
+			f_name: "",
+			l_name: "",
+			branch: "",
+			phone: Number,
+			temporary_address: "",
+			permanent_address: "",
+			is_superuser: false,
+			is_staff: false,
+			is_approved: false
+		},
 		defaultItem: {}
 	}),
 
