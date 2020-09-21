@@ -33,15 +33,15 @@
 </template>
 
 <style lang="sass">
-	.gradient
-	  background: rgb(93, 19, 91) !important
+.gradient
+  background: rgb(93, 19, 91) !important
 </style>
 
 <script>
-	export default {
-		name: "HomeFooter",
-		data: () => ({
-			icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]
-		})
-	}
+export default {
+	name: "HomeFooter",
+	data: () => ({
+		icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]
+	})
+}
 </script>

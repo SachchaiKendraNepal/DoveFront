@@ -7,13 +7,13 @@
 </template>
 
 <script>
-	export default {
-		name: "KhelKudDashboardLayout",
-		components: {
-			// maybe appbar
-		},
-		data: () => ({
-			expandOnHover: false
-		})
-	}
+export default {
+	name: "KhelKudDashboardLayout",
+	components: {
+		// maybe appbar
+	},
+	data: () => ({
+		expandOnHover: false
+	})
+}
 </script>

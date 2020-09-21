@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	export default {
-		name: "UserClipComponent"
-	}
+export default {
+	name: "UserClipComponent"
+}
 </script>

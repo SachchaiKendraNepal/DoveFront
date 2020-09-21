@@ -33,36 +33,36 @@
 	</v-card>
 </template>
 <style scoped lang="sass">
-	#start-post-av
-		opacity: 0.7
+#start-post-av
+	opacity: 0.7
 
-	#start-a-post
-		font-size: 22px
-		font-weight: 500
-		font-family: "Acme", sans-serif
-		letter-spacing: 1px
-		color: #4f5151
+#start-a-post
+	font-size: 22px
+	font-weight: 500
+	font-family: "Acme", sans-serif
+	letter-spacing: 1px
+	color: #4f5151
 
-	#start-post-box:hover
-		background-color: #e3f0fc
+#start-post-box:hover
+	background-color: #e3f0fc
 
-	#start-post-actions button span
-		font-size: 12px !important
-		font-weight: bold
-		@media only screen and (max-width: 974px) and (min-width: 600px)
-			display: none
-		@media only screen and (max-width: 480px)
-			display: none
-		@media only screen and (min-width: 1260px) and (max-width: 1470px)
-			display: none
+#start-post-actions button span
+	font-size: 12px !important
+	font-weight: bold
+	@media only screen and (max-width: 974px) and (min-width: 600px)
+		display: none
+	@media only screen and (max-width: 480px)
+		display: none
+	@media only screen and (min-width: 1260px) and (max-width: 1470px)
+		display: none
 </style>
 <script>
-	export default {
-		name: "AddPostBoxComponent",
-		data() {
-			return {
-				writePostIcon: require("@/assets/write_post_icon.jpg")
-			}
+export default {
+	name: "AddPostBoxComponent",
+	data() {
+		return {
+			writePostIcon: require("@/assets/write_post_icon.jpg")
 		}
 	}
+}
 </script>

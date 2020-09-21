@@ -36,11 +36,11 @@
 	</v-card>
 </template>
 <style lang="sass">
-	#photo-row
-	  margin-top: -35px
+#photo-row
+  margin-top: -35px
 </style>
 <script>
-	export default {
-		name: "UserClipComponent"
-	}
+export default {
+	name: "UserClipComponent"
+}
 </script>

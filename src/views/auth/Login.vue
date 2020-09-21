@@ -54,47 +54,47 @@
 	</base-auth-card>
 </template>
 <style lang="sass">
-	#forget-password
-	  span
-	    font-size: 14px
-	    font-weight: bold
+#forget-password
+  span
+    font-size: 14px
+    font-weight: bold
 </style>
 <script>
-	export default {
-		name: "LoginComponent",
-		components: {
-			BaseAuthCard: () => import("@/views/auth/_auth")
-		},
-		data() {
-			return {
-				overlay: false,
-				subtitle: "Login to proceed",
-				user: {
-					username: "",
-					password: ""
-				},
-				item: {
-					subtitle: "Login to proceed"
-				}
+export default {
+	name: "LoginComponent",
+	components: {
+		BaseAuthCard: () => import("@/views/auth/_auth")
+	},
+	data() {
+		return {
+			overlay: false,
+			subtitle: "Login to proceed",
+			user: {
+				username: "",
+				password: ""
+			},
+			item: {
+				subtitle: "Login to proceed"
 			}
-		},
-		methods: {
-			async login() {
-				try {
-					this.overlay = true
-					// let response = await this.$store.dispatch("Member/login", this.user);
-					// if ("access_token" in response && response.access_token !== null) {
-					//   sessionStorage.setItem("selectedLocale", "en");
-					//   this.$i18n.locale = "en";
-					//   if (JSON.parse(localStorage.getItem("currentUser"))) {
-					//     // do something
-					//   }
-					// }
-					await this.$router.replace("/")
-				} finally {
-					this.overlay = false
-				}
+		}
+	},
+	methods: {
+		async login() {
+			try {
+				this.overlay = true
+				// let response = await this.$store.dispatch("Member/login", this.user);
+				// if ("access_token" in response && response.access_token !== null) {
+				//   sessionStorage.setItem("selectedLocale", "en");
+				//   this.$i18n.locale = "en";
+				//   if (JSON.parse(localStorage.getItem("currentUser"))) {
+				//     // do something
+				//   }
+				// }
+				await this.$router.replace("/")
+			} finally {
+				this.overlay = false
 			}
 		}
 	}
+}
 </script>
