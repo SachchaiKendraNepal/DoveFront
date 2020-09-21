@@ -23,16 +23,17 @@
 </template>
 <style lang="sass" scoped>
 	#auth-title-en
-	  font-family: 'Crimson Text', serif !important
-	  font-size: 35px !important
-	  font-weight: 500 !important
-	  padding-top: 15px
+		font-family: 'Crimson Text', serif !important
+		font-size: 35px !important
+		font-weight: 500 !important
+		padding-top: 15px
+
 	#auth-title-np
-	  font-family: 'Khand', serif !important
-	  font-size: 35px !important
-	  font-weight: 500 !important
-	  padding-top: 15px
-	  color: #261e1e
+		font-family: 'Khand', serif !important
+		font-size: 35px !important
+		font-weight: 500 !important
+		padding-top: 15px
+		color: #261e1e
 </style>
 <script>
 	export default {
@@ -42,7 +43,7 @@
 				en: true,
 				overlay: false,
 				banner: require("@/assets/sacchai_banner_v1.jpg"),
-				footer: require("@/assets/sacchai_banner_footer_v2.jpg")
+				footer: require("@/assets/sacchai_banner_foot_reprised.jpg")
 			}
 		}
 	}

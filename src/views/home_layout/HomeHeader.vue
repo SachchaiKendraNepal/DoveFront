@@ -2,6 +2,7 @@
 	<v-card id="home-header">
 		<tool-bar />
 		<v-btn
+			id="to-top"
 			v-scroll="onScroll"
 			v-show="fab"
 			fab
@@ -30,7 +31,6 @@
 					</div>
 				</v-col>
 				<v-col class="mb-0 pb-0" sm="6" md="6" lg="4" xl="4">
-					<add-post-box />
 					<router-view />
 				</v-col>
 				<v-col
@@ -56,8 +56,7 @@
 		components: {
 			HomeTab: () => import("@/views/home_layout/Tab"),
 			ToolBar: () => import("@/views/home_layout/ToolBar"),
-			UserClip: () => import("@/views/home_layout/UserClip"),
-			AddPostBox: () => import("@/views/home_layout/AddPostBox")
+			UserClip: () => import("@/views/home_layout/UserClip")
 		},
 		data() {
 			return {
@@ -74,8 +73,7 @@
 	}
 </script>
 
-<style lang="css">
-	#sacchai-home-container {
-		background-color: #fbf2e5e8;
-	}
+<style lang="sass">
+	#sacchai-home-container
+		background-color: #fbf2e5e8
 </style>

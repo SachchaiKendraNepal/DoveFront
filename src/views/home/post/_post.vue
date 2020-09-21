@@ -6,8 +6,8 @@
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title class="headline"
-					>Our Changing Planet</v-list-item-title
-				>
+					>Our Changing Planet
+				</v-list-item-title>
 				<v-list-item-subtitle>by Kurt Wagner</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
@@ -53,65 +53,28 @@
 				<v-img :src="bookmarkedImage" height="70" />
 			</v-avatar>
 		</v-card-actions>
-		<div class="comment-history">
-			<template v-for="(item, index) in items">
-				<p class="mx-4 my-0 last-comments" :key="index">
-					<span class="commenter">{{ item.title }}: </span
-					><span>{{ item.subtitle }}</span>
-					<v-icon class="reply-comment" size="16">mdi-reply-circle</v-icon>
-				</p>
-			</template>
-			<p class="mx-4 mb-0 last-commented-ago">
-				13 minutes ago <v-icon size="16">mdi-history</v-icon>
-			</p>
-		</div>
-		<v-divider class="my-2" />
-		<div class="d-flex justify-space-around ml-2">
-			<v-text-field
-				class="comment mb-2"
-				dense
-				outlined
-				placeholder="Add a comment"
-				hide-details
-			/>
-			<v-btn text color="blue darken-3" class="mt-1"> Post </v-btn>
-		</div>
+		<post-comment />
 	</v-card>
 </template>
 <style lang="sass" scoped>
 	.bookmark-avatar
 		cursor: pointer
+		opacity: .8
 
 	.v-icon
 		color: #0e0d0d !important
-
-	.comment-history
-		font-size: 13px
-		.last-commented-ago
-			opacity: .7
-			font-weight: bold
-		.commenter
-			font-size: 14px
-			font-weight: bold
-		.reply-comment
-			opacity: .8
-			cursor: pointer
 </style>
 <script>
 	export default {
 		name: "BasePostComponent",
-		data() {
-			return {
-				comment: "",
-				isLiked: false,
-				isBookmarked: false,
-				bookmarkImage: require("@/assets/bookmark-ribbon.png"),
-				bookmarkedImage: require("@/assets/bookmarked-ribbon.png"),
-				items: [
-					{ title: "kiran589", subtitle: "Wow, amazing!" },
-					{ title: "bot25", subtitle: "010110101" }
-				]
-			}
-		}
+		components: {
+			PostComment: () => import("@/views/home/post/_comment")
+		},
+		data: () => ({
+			isLiked: false,
+			isBookmarked: false,
+			bookmarkImage: require("@/assets/bookmark-ribbon.png"),
+			bookmarkedImage: require("@/assets/bookmarked-ribbon.png")
+		})
 	}
 </script>

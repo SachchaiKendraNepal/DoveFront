@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<add-post-box />
 		<article-post />
 		<article-post />
 		<multimedia />
@@ -12,7 +13,8 @@
 		name: "HomeComponent",
 		components: {
 			ArticlePost: () => import("@/views/home/article/Article"),
-			Multimedia: () => import("@/views/home/multimedia/Multimedia")
+			Multimedia: () => import("@/views/home/multimedia/Multimedia"),
+			AddPostBox: () => import("@/views/home_layout/AddPostBox")
 		},
 		data: () => ({
 			loading: false,
