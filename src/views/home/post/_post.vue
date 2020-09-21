@@ -53,10 +53,23 @@
 				<v-img :src="bookmarkedImage" height="70" />
 			</v-avatar>
 		</v-card-actions>
+		<p class="mb-1 mx-4 love-count">
+			<span>15</span> Love Reacts <v-icon size="20">mdi-heart</v-icon>
+		</p>
 		<post-comment />
 	</v-card>
 </template>
 <style lang="sass" scoped>
+.love-count
+	font-size: 14px
+	font-family: 'Fira Sans', sans-serif
+	font-weight: 500
+	span
+		font-size: 16px
+	span:hover
+		color: #c40909
+		zoom: 120%
+
 .bookmark-avatar
 	cursor: pointer
 	opacity: .8
