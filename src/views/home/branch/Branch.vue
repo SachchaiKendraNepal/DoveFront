@@ -1,120 +1,342 @@
 <template>
-	<v-data-table
-		:headers="headers"
-		:items="desserts"
-		sort-by="calories"
-		class="elevation-1"
-	>
-		<template v-slot:top>
-			<v-toolbar flat color="white">
-				<v-toolbar-title>My CRUD</v-toolbar-title>
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-spacer></v-spacer>
-				<v-dialog v-model="dialog" max-width="500px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
-							>New Item</v-btn
-						>
-					</template>
-					<v-card>
-						<v-card-title>
-							<span class="headline">{{ formTitle }}</span>
-						</v-card-title>
+	<div :class="$vuetify.breakpoint.lgAndDown ? 'mx-12 my-12' : 'container'">
+		<v-data-table
+			:loading="isLoading"
+			loading-text="Branches Loading..."
+			calculate-widths
+			:headers="headers"
+			:items="branches"
+			:search="search"
+			multi-sort
+			:items-per-page="12"
+			class="elevation-3 mx-lg-6 mx-xl-12"
+		>
+			<template v-slot:top>
+				<v-toolbar flat color="grey lighten-2">
+					<v-icon size="30" class="mr-2">mdi-city-variant</v-icon>
+					<v-toolbar-title>Sachchai Branches</v-toolbar-title>
+					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-text-field
+						solo
+						dense
+						hide-details
+						v-model="search"
+						label=""
+						name="search"
+						prepend-inner-icon="mdi-magnify"
+						clearable
+						placeholder="Search"
+					/>
+					<v-spacer />
+					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-dialog v-model="dialog" max-width="500px">
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn dark v-on="on" v-bind="attrs" color="primary">
+								<v-icon dark :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''">
+									mdi-plus-circle</v-icon
+								>
+								<span v-if="$vuetify.breakpoint.smAndUp">New Branch</span>
+							</v-btn>
+						</template>
+						<v-card color="rgb(251 250 241)">
+							<v-card-title>
+								<v-icon size="40" class="mr-4">{{ formIcon }}</v-icon>
+								<span class="headline">{{ formTitle }}</span>
+							</v-card-title>
+							<v-divider />
+							<v-card-text>
+								<v-container>
+									<v-row>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-city-variant</v-icon>
+												Branch Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												id="branch-name"
+												class="ma-0"
+												outlined
+												dense
+												clearable
+												label="Name"
+												v-model="editedItem.name"
+												prepend-inner-icon="mdi-form-textbox"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												id="branch-phone"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="Phone"
+												type="number"
+												v-model="editedItem.phone"
+												prepend-inner-icon="mdi-phone-classic"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-checkbox
+												id="is_main"
+												label="Is Main Branch?"
+												v-model="editedItem.is_main"
+												append-icon="mdi-map-marker-star-outline"
+											/>
+										</v-col>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-map-marker</v-icon>
+												Location Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-select
+												id="branch-country"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="Country"
+												:items="countries"
+												v-model="editedItem.country"
+												prepend-inner-icon="mdi-web"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-select
+												id="branch-province"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="Province"
+												:items="provinces"
+												v-model="editedItem.country"
+												prepend-inner-icon="mdi-office-building-marker-outline"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-select
+												id="branch-districts"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												:items="districts"
+												label="District"
+												v-model="editedItem.district"
+												prepend-inner-icon="mdi-map-marker-multiple-outline"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0" v-if="!editedItem.vdc">
+											<v-select
+												id="branch-municipality"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="Municipality"
+												:items="municipalities"
+												v-model="editedItem.municipality"
+												prepend-inner-icon="mdi-google-maps"
+											/>
+										</v-col>
+										<v-col
+											cols="12"
+											class="ma-0 pa-0"
+											v-if="editedItem.municipality"
+										>
+											<v-select
+												id="branch-municipality-ward"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="Municipality Ward"
+												:items="municipality_wards"
+												prepend-inner-icon="mdi-numeric"
+												v-model="editedItem.municipality_ward"
+											/>
+										</v-col>
+										<v-col
+											cols="12"
+											class="ma-0 pa-0"
+											v-if="!editedItem.municipality"
+										>
+											<v-select
+												id="branch-vdc"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="VDC"
+												:items="vdcs"
+												v-model="editedItem.vdc"
+												prepend-inner-icon="mdi-home-map-marker"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0" v-if="editedItem.vdc">
+											<v-select
+												id="branch-vdc-ward"
+												class="ma-0"
+												dense
+												outlined
+												clearable
+												label="VDC Ward"
+												:items="vdc_wards"
+												v-model="editedItem.vdc_ward"
+												prepend-inner-icon="mdi-numeric"
+											/>
+										</v-col>
+									</v-row>
+								</v-container>
+							</v-card-text>
 
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.name"
-											label="Dessert name"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.calories"
-											label="Calories"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.fat"
-											label="Fat (g)"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.carbs"
-											label="Carbs (g)"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.protein"
-											label="Protein (g)"
-										></v-text-field>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
-
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-							<v-btn color="blue darken-1" text @click="save">Save</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-			</v-toolbar>
-		</template>
-		<template v-slot:item.actions="{ item }">
-			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-		</template>
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize">Reset</v-btn>
-		</template>
-	</v-data-table>
+							<v-card-actions>
+								<v-spacer></v-spacer>
+								<v-btn
+									color="red lighten-5"
+									class="red--text"
+									depressed
+									@click="close"
+									>Cancel</v-btn
+								>
+								<v-btn
+									color="blue lighten-5"
+									class="blue--text"
+									depressed
+									@click="save"
+									>Save</v-btn
+								>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+				</v-toolbar>
+			</template>
+			<template v-slot:item.is_main="{ item }">
+				<v-switch v-model="item.is_main" color="primary" />
+			</template>
+			<template v-slot:item.actions="{ item }">
+				<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+				<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+			</template>
+			<template v-slot:no-data>
+				<v-btn color="primary" @click="initialize">Reset</v-btn>
+			</template>
+		</v-data-table>
+	</div>
 </template>
-
+<style lang="sass" scoped>
+.v-input--selection-controls
+	margin-top: 0
+</style>
 <script>
 export default {
+	name: "BranchTable",
 	data: () => ({
+		countries: [
+			"Nepal",
+			"India",
+			"Bhutan",
+			"Pakistan",
+			"Singapore",
+			"HongKong"
+		],
+		provinces: [
+			"Bagmati Pradesh",
+			"Gandaki Pradesh",
+			"Uttar Pradesh",
+			"Goa",
+			"Province 1"
+		],
+		districts: [
+			"Kaski",
+			"Kathmandu",
+			"Humla",
+			"Jhapa",
+			"Chitwan",
+			"Sarlahi",
+			"Nepalgunj"
+		],
+		municipalities: ["Pokhara-Lekhnath", "Kathmandu", "Panchkhal", "Banepa"],
+		municipality_wards: ["Amarsingh", "Tinpiple", "Chauthe", "Chaukot"],
+		vdcs: [
+			"Barai",
+			"Bargaun",
+			"Badalkot",
+			"Photu",
+			"Aaglung",
+			"Siddhara",
+			"Simalapani",
+			"Aruchaur",
+			"Arukharka",
+			"Armala",
+			"Deurali"
+		],
+		vdc_wards: [
+			"alskdf",
+			"sldkf",
+			"sldkf",
+			"sldkf",
+			"sldkfjs",
+			"sldkfs",
+			"owiek",
+			"mndkjf",
+			"woeik"
+		],
+		search: "",
+		isLoading: false,
 		dialog: false,
 		headers: [
 			{
-				text: "Dessert (100g serving)",
+				text: "PK",
 				align: "start",
-				sortable: false,
-				value: "name"
+				value: "id"
 			},
-			{ text: "Calories", value: "calories" },
-			{ text: "Fat (g)", value: "fat" },
-			{ text: "Carbs (g)", value: "carbs" },
-			{ text: "Protein (g)", value: "protein" },
-			{ text: "Actions", value: "actions", sortable: false }
+			{ text: "NAME", value: "name" },
+			{ text: "COUNTRY", value: "country" },
+			{ text: "PROVINCE", value: "province" },
+			{ text: "DISTRICT", value: "district" },
+			{ text: "MUNICIPALITY", value: "municipality" },
+			{ text: "MUNICIPALITY WARD", value: "municipality_ward" },
+			{ text: "VDC", value: "vdc" },
+			{ text: "VDC WARD", value: "vdc_ward" },
+			{ text: "PHONE", value: "phone" },
+			{ text: "IS MAIN BRANCH", value: "is_main" },
+			{ text: "CREATED BY", value: "created_by" },
+			{ text: "CREATED AT", value: "created_at" },
+			{ text: "MODIFIED BY", value: "updated_by" },
+			{ text: "MODIFIED AT", value: "updated_at" },
+			{ text: "ACTIONS", value: "actions", sortable: false }
 		],
-		desserts: [],
+		branches: [],
 		editedIndex: -1,
 		editedItem: {
 			name: "",
-			calories: 0,
-			fat: 0,
-			carbs: 0,
-			protein: 0
+			country: "",
+			province: "",
+			district: "",
+			municipality: "",
+			municipality_ward: "",
+			vdc: "",
+			vdc_ward: "",
+			phone: Number,
+			is_main: false
 		},
-		defaultItem: {
-			name: "",
-			calories: 0,
-			fat: 0,
-			carbs: 0,
-			protein: 0
-		}
+		defaultItem: {}
 	}),
 
 	computed: {
 		formTitle() {
-			return this.editedIndex === -1 ? "New Item" : "Edit Item"
+			return this.editedIndex === -1 ? "New Branch" : "Edit Branch"
+		},
+		formIcon() {
+			return this.editedIndex === -1 ? "mdi-home-modern" : "mdi-home-edit"
 		}
 	},
 
@@ -130,90 +352,72 @@ export default {
 
 	methods: {
 		initialize() {
-			this.desserts = [
+			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
+			this.branches = [
 				{
-					name: "Frozen Yogurt",
-					calories: 159,
-					fat: 6.0,
-					carbs: 24,
-					protein: 4.0
+					id: 1,
+					name: "Pokhara Branch",
+					country: "Nepal",
+					province: "Gandaki Pradesh",
+					district: "Kaski",
+					municipality: "Pokhara-Lekhnath",
+					municipality_ward: "Amarsingh",
+					vdc: null,
+					vdc_ward: null,
+					phone: 9856325632,
+					is_main: false,
+					created_by: "kiran589",
+					created_at: now,
+					updated_by: "bot25",
+					updated_at: now
 				},
 				{
-					name: "Ice cream sandwich",
-					calories: 237,
-					fat: 9.0,
-					carbs: 37,
-					protein: 4.3
+					id: 2,
+					name: "Kathmandu Branch",
+					country: "Nepal",
+					province: "Bagmati Pradesh",
+					district: "Kathmandu",
+					municipality: "Kathmandu",
+					municipality_ward: "Baneshowr",
+					vdc: null,
+					vdc_ward: null,
+					phone: 9858325632,
+					is_main: true,
+					created_by: "bot25",
+					created_at: now,
+					updated_by: "bot25",
+					updated_at: now
 				},
 				{
-					name: "Eclair",
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0
-				},
-				{
-					name: "Cupcake",
-					calories: 305,
-					fat: 3.7,
-					carbs: 67,
-					protein: 4.3
-				},
-				{
-					name: "Gingerbread",
-					calories: 356,
-					fat: 16.0,
-					carbs: 49,
-					protein: 3.9
-				},
-				{
-					name: "Jelly bean",
-					calories: 375,
-					fat: 0.0,
-					carbs: 94,
-					protein: 0.0
-				},
-				{
-					name: "Lollipop",
-					calories: 392,
-					fat: 0.2,
-					carbs: 98,
-					protein: 0
-				},
-				{
-					name: "Honeycomb",
-					calories: 408,
-					fat: 3.2,
-					carbs: 87,
-					protein: 6.5
-				},
-				{
-					name: "Donut",
-					calories: 452,
-					fat: 25.0,
-					carbs: 51,
-					protein: 4.9
-				},
-				{
-					name: "KitKat",
-					calories: 518,
-					fat: 26.0,
-					carbs: 65,
-					protein: 7
+					id: 3,
+					name: "Humla Branch",
+					country: "Nepal",
+					province: "Province No. 1",
+					district: "Humla",
+					municipality: null,
+					municipality_ward: null,
+					vdc: "Humlee",
+					vdc_ward: "Humlii",
+					phone: 9858325578,
+					is_main: false,
+					created_by: "raymz584",
+					created_at: now,
+					updated_by: "raymz584",
+					updated_at: now
 				}
 			]
 		},
 
 		editItem(item) {
-			this.editedIndex = this.desserts.indexOf(item)
+			this.editedIndex = this.branches.indexOf(item)
 			this.editedItem = Object.assign({}, item)
 			this.dialog = true
 		},
 
 		deleteItem(item) {
-			const index = this.desserts.indexOf(item)
-			confirm("Are you sure you want to delete this item?") &&
-				this.desserts.splice(index, 1)
+			const index = this.branches.indexOf(item)
+			confirm("Are you sure you want to delete this branch?") &&
+				this.branches.splice(index, 1)
 		},
 
 		close() {
@@ -226,9 +430,9 @@ export default {
 
 		save() {
 			if (this.editedIndex > -1) {
-				Object.assign(this.desserts[this.editedIndex], this.editedItem)
+				Object.assign(this.branches[this.editedIndex], this.editedItem)
 			} else {
-				this.desserts.push(this.editedItem)
+				this.branches.push(this.editedItem)
 			}
 			this.close()
 		}
