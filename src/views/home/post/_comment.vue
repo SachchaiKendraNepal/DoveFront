@@ -28,26 +28,26 @@
 	</div>
 </template>
 <style lang="sass" scoped>
-	.comment-histories
-		font-size: 13px
-		.last-commented-ago
-			font-weight: bold
-		.commenter
-			font-size: 14px
-			font-weight: bold
-		.reply-comment
-			opacity: .8
-			cursor: pointer
+.comment-histories
+	font-size: 13px
+	.last-commented-ago
+		font-weight: bold
+	.commenter
+		font-size: 14px
+		font-weight: bold
+	.reply-comment
+		opacity: .8
+		cursor: pointer
 </style>
 <script>
-	export default {
-		name: "CommentComponent",
-		data: () => ({
-			comment: "",
-			items: [
-				{ title: "kiran589", subtitle: "Wow, amazing!" },
-				{ title: "bot25", subtitle: "010110101" }
-			]
-		})
-	}
+export default {
+	name: "CommentComponent",
+	data: () => ({
+		comment: "",
+		items: [
+			{ title: "kiran589", subtitle: "Wow, amazing!" },
+			{ title: "bot25", subtitle: "010110101" }
+		]
+	})
+}
 </script>

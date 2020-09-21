@@ -11,18 +11,18 @@
 	</base-post-card>
 </template>
 <script>
-	import vuePlayer from "@algoz098/vue-player"
+import vuePlayer from "@algoz098/vue-player"
 
-	export default {
-		name: "MultimediaComponent",
-		components: {
-			vuePlayer,
-			BasePostCard: () => import("@/views/home/post/_post")
-		},
-		data() {
-			return {
-				isLiked: false
-			}
+export default {
+	name: "MultimediaComponent",
+	components: {
+		vuePlayer,
+		BasePostCard: () => import("@/views/home/post/_post")
+	},
+	data() {
+		return {
+			isLiked: false
 		}
 	}
+}
 </script>

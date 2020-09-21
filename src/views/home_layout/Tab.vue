@@ -18,24 +18,24 @@
 	</v-tabs>
 </template>
 <style lang="sass">
-	a[role="tab"]
-	  font-size: 12px
-	  font-weight: bold
+a[role="tab"]
+  font-size: 12px
+  font-weight: bold
 </style>
 <script>
-	export default {
-		name: "HomeTabComponent",
-		data() {
-			return {
-				tab: null,
-				items: [
-					{ name: "Home", icon: "mdi-home", to: "/" },
-					{ name: "Branches", icon: "mdi-home-group", to: "/branch" },
-					{ name: "Members", icon: "mdi-account-group", to: "/member" },
-					{ name: "Articles", icon: "mdi-post", to: "/article" },
-					{ name: "Multimedia", icon: "mdi-video-vintage", to: "/multimedia" }
-				]
-			}
+export default {
+	name: "HomeTabComponent",
+	data() {
+		return {
+			tab: null,
+			items: [
+				{ name: "Home", icon: "mdi-home", to: "/" },
+				{ name: "Branches", icon: "mdi-home-group", to: "/branch" },
+				{ name: "Members", icon: "mdi-account-group", to: "/member" },
+				{ name: "Articles", icon: "mdi-post", to: "/article" },
+				{ name: "Multimedia", icon: "mdi-video-vintage", to: "/multimedia" }
+			]
 		}
 	}
+}
 </script>

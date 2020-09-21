@@ -34,28 +34,28 @@
 	</base-auth-card>
 </template>
 <script>
-	export default {
-		name: "ResetPasswordComponent",
-		components: {
-			BaseAuthCard: () => import("@/views/auth/_auth")
-		},
-		data() {
-			return {
-				overlay: false,
-				user: {
-					username: ""
-				}
+export default {
+	name: "ResetPasswordComponent",
+	components: {
+		BaseAuthCard: () => import("@/views/auth/_auth")
+	},
+	data() {
+		return {
+			overlay: false,
+			user: {
+				username: ""
 			}
-		},
-		methods: {
-			async requestReset() {
-				try {
-					this.overlay = true
-					await this.$router.replace("login")
-				} finally {
-					this.overlay = false
-				}
+		}
+	},
+	methods: {
+		async requestReset() {
+			try {
+				this.overlay = true
+				await this.$router.replace("login")
+			} finally {
+				this.overlay = false
 			}
 		}
 	}
+}
 </script>

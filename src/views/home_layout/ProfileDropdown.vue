@@ -22,11 +22,11 @@
 </template>
 
 <script>
-	export default {
-		data: () => ({
-			btns: [["Removed", "0"]],
-			colors: ["teal darken-1"],
-			items: [...Array(4)].map((_, i) => `Item ${i}`)
-		})
-	}
+export default {
+	data: () => ({
+		btns: [["Removed", "0"]],
+		colors: ["teal darken-1"],
+		items: [...Array(4)].map((_, i) => `Item ${i}`)
+	})
+}
 </script>

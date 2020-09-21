@@ -6,16 +6,16 @@
 </template>
 
 <script>
-	export default {
-		name: "SacchaiHomeLayout",
-		components: {
-			HomeHeader: () => import("@/views/home_layout/HomeHeader"),
-			HomeFooter: () => import("@/views/home_layout/Footer")
-		}
+export default {
+	name: "SacchaiHomeLayout",
+	components: {
+		HomeHeader: () => import("@/views/home_layout/HomeHeader"),
+		HomeFooter: () => import("@/views/home_layout/Footer")
 	}
+}
 </script>
 
 <style lang="sass">
-	#home-layout
-	  height: 100%
+#home-layout
+  height: 100%
 </style>

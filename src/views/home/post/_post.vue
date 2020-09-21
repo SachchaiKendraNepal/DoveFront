@@ -2,11 +2,11 @@
 	<v-card class="mx-auto mb-4">
 		<v-list-item>
 			<v-list-item-avatar>
-				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
 			</v-list-item-avatar>
 			<v-list-item-content>
-				<v-list-item-title class="headline"
-					>Our Changing Planet
+				<v-list-item-title class="headline">
+					Our Changing Planet
 				</v-list-item-title>
 				<v-list-item-subtitle>by Kurt Wagner</v-list-item-subtitle>
 			</v-list-item-content>
@@ -57,24 +57,24 @@
 	</v-card>
 </template>
 <style lang="sass" scoped>
-	.bookmark-avatar
-		cursor: pointer
-		opacity: .8
+.bookmark-avatar
+	cursor: pointer
+	opacity: .8
 
-	.v-icon
-		color: #0e0d0d !important
+.v-icon
+	color: #0e0d0d !important
 </style>
 <script>
-	export default {
-		name: "BasePostComponent",
-		components: {
-			PostComment: () => import("@/views/home/post/_comment")
-		},
-		data: () => ({
-			isLiked: false,
-			isBookmarked: false,
-			bookmarkImage: require("@/assets/bookmark-ribbon.png"),
-			bookmarkedImage: require("@/assets/bookmarked-ribbon.png")
-		})
-	}
+export default {
+	name: "BasePostComponent",
+	components: {
+		PostComment: () => import("@/views/home/post/_comment")
+	},
+	data: () => ({
+		isLiked: false,
+		isBookmarked: false,
+		bookmarkImage: require("@/assets/bookmark-ribbon.png"),
+		bookmarkedImage: require("@/assets/bookmarked-ribbon.png")
+	})
+}
 </script>

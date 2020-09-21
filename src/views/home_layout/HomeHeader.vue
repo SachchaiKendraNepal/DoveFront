@@ -51,29 +51,29 @@
 </template>
 
 <script>
-	export default {
-		name: "TopNavTabComponent",
-		components: {
-			HomeTab: () => import("@/views/home_layout/Tab"),
-			ToolBar: () => import("@/views/home_layout/ToolBar"),
-			UserClip: () => import("@/views/home_layout/UserClip")
-		},
-		data() {
-			return {
-				fab: false
-			}
-		},
-		methods: {
-			onScroll(e) {
-				if (typeof window === "undefined") return
-				const top = window.pageYOffset || e.target.scrollTop
-				this.fab = top > 20
-			}
+export default {
+	name: "TopNavTabComponent",
+	components: {
+		HomeTab: () => import("@/views/home_layout/Tab"),
+		ToolBar: () => import("@/views/home_layout/ToolBar"),
+		UserClip: () => import("@/views/home_layout/UserClip")
+	},
+	data() {
+		return {
+			fab: false
+		}
+	},
+	methods: {
+		onScroll(e) {
+			if (typeof window === "undefined") return
+			const top = window.pageYOffset || e.target.scrollTop
+			this.fab = top > 20
 		}
 	}
+}
 </script>
 
 <style lang="sass">
-	#sacchai-home-container
-		background-color: #fbf2e5e8
+#sacchai-home-container
+	background-color: #fbf2e5e8
 </style>
