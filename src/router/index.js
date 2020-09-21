@@ -11,27 +11,27 @@ const routes = [
 		children: [
 			{
 				path: "",
-				name: "SACCHAI NEPAL",
+				name: "SACHCHAI NEPAL",
 				component: () => import("@/views/home/Home")
 			},
 			{
 				path: "member",
-				name: "SACCHAI NEPAL MEMBERS",
+				name: "SACHCHAI NEPAL MEMBERS",
 				component: () => import("@/views/home/member/Member")
 			},
 			{
 				path: "branch",
-				name: "SACCHAI NEPAL BRANCHES",
+				name: "SACHCHAI NEPAL BRANCHES",
 				component: () => import("@/views/home/branch/Branch")
 			},
 			{
 				path: "article",
-				name: "SACCHAI NEPAL ARTICLES",
+				name: "SACHCHAI NEPAL ARTICLES",
 				component: () => import("@/views/home/article/Article")
 			},
 			{
 				path: "multimedia",
-				name: "SACCHAI NEPAL MULTIMEDIA",
+				name: "SACHCHAI NEPAL MULTIMEDIA",
 				component: () => import("@/views/home/multimedia/Multimedia")
 			}
 		]
@@ -42,12 +42,12 @@ const routes = [
 		children: [
 			{
 				path: "login",
-				name: "SACCHAI LOGIN",
+				name: "SACHCHAI LOGIN",
 				component: () => import("@/views/auth/Login")
 			},
 			{
 				path: "reset-password",
-				name: "SACCHAI LOGIN",
+				name: "SACHCHAI LOGIN",
 				component: () => import("@/views/auth/ResetPassword")
 			}
 		]
