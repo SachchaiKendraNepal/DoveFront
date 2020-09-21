@@ -1,120 +1,257 @@
 <template>
-	<v-data-table
-		:headers="headers"
-		:items="desserts"
-		sort-by="calories"
-		class="elevation-1"
-	>
-		<template v-slot:top>
-			<v-toolbar flat color="white">
-				<v-toolbar-title>My CRUD</v-toolbar-title>
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-spacer></v-spacer>
-				<v-dialog v-model="dialog" max-width="500px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
-							>New Item</v-btn
-						>
-					</template>
-					<v-card>
-						<v-card-title>
-							<span class="headline">{{ formTitle }}</span>
-						</v-card-title>
+	<div class="container">
+		<v-data-table
+			:loading="isLoading"
+			loading-text="Members Loading..."
+			calculate-widths
+			:headers="headers"
+			:items="members"
+			:search="search"
+			multi-sort
+			:items-per-page="12"
+			class="elevation-3 mx-lg-6 mx-xl-12"
+		>
+			<template v-slot:top>
+				<v-toolbar flat color="grey lighten-2">
+					<v-icon size="30" class="mr-2">mdi-account-supervisor-circle</v-icon>
+					<v-toolbar-title>Sachchai Members</v-toolbar-title>
+					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-text-field
+						solo
+						dense
+						hide-details
+						v-model="search"
+						label=""
+						name="search"
+						prepend-inner-icon="mdi-magnify"
+						clearable
+						placeholder="Search"
+					/>
+					<v-spacer />
+					<v-divider class="mx-4" inset vertical></v-divider>
+					<v-dialog v-model="dialog" max-width="500px">
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn dark v-on="on" v-bind="attrs" color="primary">
+								<v-icon dark :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''">
+									mdi-plus-circle</v-icon
+								>
+								<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
+							</v-btn>
+						</template>
+						<v-card color="rgb(251 250 241)">
+							<v-card-title>
+								<v-icon size="40" class="mr-4">{{ formIcon }}</v-icon>
+								<span class="headline">{{ formTitle }}</span>
+							</v-card-title>
+							<v-divider />
+							<v-card-text>
+								<v-container>
+									<v-row>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-account-circle</v-icon>
+												Personal Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-form-textbox"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.full_name"
+												label="Full Name"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-card-account-details-outline"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.username"
+												label="Username"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-at"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.email"
+												type="email"
+												label="Email"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-phone-classic"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.phone"
+												label="Phone"
+												type="number"
+											/>
+										</v-col>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-shield-key</v-icon>
+												Permissions Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
+											<v-checkbox
+												prepend-icon="mdi-account-tie"
+												v-model="editedItem.is_staff"
+												label="Staff Status"
+											/>
+										</v-col>
+										<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
+											<v-checkbox
+												prepend-icon="mdi-account-cowboy-hat"
+												v-model="editedItem.is_superuser"
+												label="Superuser status"
+											/>
+										</v-col>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-city-variant</v-icon>
+												Branch Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-select
+												prepend-inner-icon="mdi-home-city"
+												class="ma-0"
+												:items="branches"
+												v-model="editedItem.branch"
+												label="Branch"
+												dense
+												outlined
+											></v-select>
+										</v-col>
+										<v-col cols="12" class="pl-0">
+											<p class="heading ma-0 pa-0">
+												<v-icon class="pb-1">mdi-map-marker</v-icon>
+												Address Information
+											</p>
+											<v-divider />
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-office-building-marker"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.temporary_address"
+												label="Temporary Address"
+											/>
+										</v-col>
+										<v-col cols="12" class="ma-0 pa-0">
+											<v-text-field
+												prepend-inner-icon="mdi-crosshairs-gps"
+												class="ma-0"
+												outlined
+												dense
+												v-model="editedItem.permanent_address"
+												label="Permanent Address"
+											/>
+										</v-col>
+									</v-row>
+								</v-container>
+							</v-card-text>
 
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.name"
-											label="Dessert name"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.calories"
-											label="Calories"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.fat"
-											label="Fat (g)"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.carbs"
-											label="Carbs (g)"
-										></v-text-field>
-									</v-col>
-									<v-col cols="12" sm="6" md="4">
-										<v-text-field
-											v-model="editedItem.protein"
-											label="Protein (g)"
-										></v-text-field>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
-
-						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-							<v-btn color="blue darken-1" text @click="save">Save</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-			</v-toolbar>
-		</template>
-		<template v-slot:item.actions="{ item }">
-			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-		</template>
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize">Reset</v-btn>
-		</template>
-	</v-data-table>
+							<v-card-actions>
+								<v-spacer></v-spacer>
+								<v-btn
+									color="red lighten-5"
+									class="red--text"
+									depressed
+									@click="close"
+									>Cancel</v-btn
+								>
+								<v-btn
+									color="blue lighten-5"
+									class="blue--text"
+									depressed
+									@click="save"
+									>Save</v-btn
+								>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+				</v-toolbar>
+			</template>
+			<template v-slot:item.is_staff="{ item }">
+				<v-simple-checkbox v-model="item.is_staff" disabled></v-simple-checkbox>
+			</template>
+			<template v-slot:item.is_superuser="{ item }">
+				<v-simple-checkbox
+					v-model="item.is_superuser"
+					disabled
+				></v-simple-checkbox>
+			</template>
+			<template v-slot:item.is_approved="{ item }">
+				<v-switch v-model="item.is_approved" color="primary" />
+			</template>
+			<template v-slot:item.actions="{ item }">
+				<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
+				<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+			</template>
+			<template v-slot:no-data>
+				<v-btn color="primary" @click="initialize">Reset</v-btn>
+			</template>
+		</v-data-table>
+	</div>
 </template>
-
+<style lang="sass" scoped>
+.v-input--selection-controls
+	margin-top: 0
+</style>
 <script>
 export default {
 	data: () => ({
+		branches: ["Polar Branch", "Seiko Branch", "Akiko Branch"],
+		isLoading: false,
+		search: "",
 		dialog: false,
 		headers: [
 			{
-				text: "Dessert (100g serving)",
+				text: "PK",
 				align: "start",
-				sortable: false,
-				value: "name"
+				value: "id"
 			},
-			{ text: "Calories", value: "calories" },
-			{ text: "Fat (g)", value: "fat" },
-			{ text: "Carbs (g)", value: "carbs" },
-			{ text: "Protein (g)", value: "protein" },
-			{ text: "Actions", value: "actions", sortable: false }
+			{ text: "USERNAME", value: "username" },
+			{ text: "EMAIL", value: "email" },
+			{ text: "FULL NAME", value: "full_name" },
+			{ text: "BRANCH", value: "branch" },
+			{ text: "PHONE", value: "phone" },
+			{ text: "TEMPORARY ADDRESS", value: "temporary_address" },
+			{ text: "PERMANENT ADDRESS", value: "permanent_address" },
+			{ text: "SUPERUSER STATUS", value: "is_superuser" },
+			{ text: "STAFF STATUS", value: "is_staff" },
+			{ text: "APPROVED STATUS", value: "is_approved" },
+			{ text: "APPROVED AT", value: "approved_at" },
+			{ text: "DATE JOINED", value: "date_joined" },
+			{ text: "ACTIONS", value: "actions", sortable: false }
 		],
-		desserts: [],
+		members: [],
 		editedIndex: -1,
-		editedItem: {
-			name: "",
-			calories: 0,
-			fat: 0,
-			carbs: 0,
-			protein: 0
-		},
-		defaultItem: {
-			name: "",
-			calories: 0,
-			fat: 0,
-			carbs: 0,
-			protein: 0
-		}
+		editedItem: {},
+		defaultItem: {}
 	}),
 
 	computed: {
 		formTitle() {
-			return this.editedIndex === -1 ? "New Item" : "Edit Item"
+			return this.editedIndex === -1 ? "New Member" : "Edit Member"
+		},
+		formIcon() {
+			return this.editedIndex === -1 ? "mdi-plus-circle" : "mdi-account-edit"
 		}
 	},
 
@@ -130,90 +267,201 @@ export default {
 
 	methods: {
 		initialize() {
-			this.desserts = [
+			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
+			this.members = [
 				{
-					name: "Frozen Yogurt",
-					calories: 159,
-					fat: 6.0,
-					carbs: 24,
-					protein: 4.0
+					id: 1,
+					username: "kiran589",
+					email: "kiran589@gmail.com",
+					full_name: "Kiran Parajuli",
+					phone: 9843530425,
+					branch: "Polar Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "ABC, XYZ",
+					permanent_address: "DAC, YML"
 				},
 				{
-					name: "Ice cream sandwich",
-					calories: 237,
-					fat: 9.0,
-					carbs: 37,
-					protein: 4.3
+					id: 2,
+					username: "bot25",
+					email: "bot25@gmail.com",
+					full_name: "Bot Heikki",
+					phone: 985632256,
+					branch: "Seiko Branch",
+					is_approved: false,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: false,
+					is_staff: true,
+					temporary_address: "CAB, ZYX",
+					permanent_address: "PKC, LMT"
 				},
 				{
-					name: "Eclair",
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0
+					id: 3,
+					username: "skshetry101",
+					email: "susant@gmail.com",
+					full_name: "Susant Kshetry",
+					phone: 984568953,
+					branch: "Akiko Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "ABC, XYZ",
+					permanent_address: "DAC, YML"
 				},
 				{
-					name: "Cupcake",
-					calories: 305,
-					fat: 3.7,
-					carbs: 67,
-					protein: 4.3
+					id: 4,
+					username: "kiran589",
+					email: "kiran589@gmail.com",
+					full_name: "Kiran Parajuli",
+					phone: 9843530425,
+					branch: "Polar Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "CAB, ZYX",
+					permanent_address: "PKC, LMT"
 				},
 				{
-					name: "Gingerbread",
-					calories: 356,
-					fat: 16.0,
-					carbs: 49,
-					protein: 3.9
+					id: 5,
+					username: "bot25",
+					email: "bot25@gmail.com",
+					full_name: "Bot Heikki",
+					phone: 985632256,
+					branch: "Seiko Branch",
+					is_approved: false,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: false,
+					is_staff: true,
+					temporary_address: "CAB, ZYX",
+					permanent_address: "PKC, LMT"
 				},
 				{
-					name: "Jelly bean",
-					calories: 375,
-					fat: 0.0,
-					carbs: 94,
-					protein: 0.0
+					id: 6,
+					username: "skshetry101",
+					email: "susant@gmail.com",
+					full_name: "Susant Kshetry",
+					phone: 984568953,
+					branch: "Akiko Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "CAB, ZYX",
+					permanent_address: "DAC, YML"
 				},
 				{
-					name: "Lollipop",
-					calories: 392,
-					fat: 0.2,
-					carbs: 98,
-					protein: 0
+					id: 7,
+					username: "kiran589",
+					email: "kiran589@gmail.com",
+					full_name: "Kiran Parajuli",
+					phone: 9843530425,
+					branch: "Polar Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "CAB, ZYX",
+					permanent_address: "DAC, YML"
 				},
 				{
-					name: "Honeycomb",
-					calories: 408,
-					fat: 3.2,
-					carbs: 87,
-					protein: 6.5
+					id: 8,
+					username: "bot25",
+					email: "bot25@gmail.com",
+					full_name: "Bot Heikki",
+					phone: 985632256,
+					branch: "Seiko Branch",
+					is_approved: false,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: false,
+					is_staff: true,
+					temporary_address: "AJX, YHJ",
+					permanent_address: "NYF, NJY"
 				},
 				{
-					name: "Donut",
-					calories: 452,
-					fat: 25.0,
-					carbs: 51,
-					protein: 4.9
+					id: 9,
+					username: "skshetry101",
+					email: "susant@gmail.com",
+					full_name: "Susant Kshetry",
+					phone: 984568953,
+					branch: "Akiko Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "NUH, HBV",
+					permanent_address: "HJU, JKI"
 				},
 				{
-					name: "KitKat",
-					calories: 518,
-					fat: 26.0,
-					carbs: 65,
-					protein: 7
+					id: 10,
+					username: "kiran589",
+					email: "kiran589@gmail.com",
+					full_name: "Kiran Parajuli",
+					phone: 9843530425,
+					branch: "Polar Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "NUH, HBV",
+					permanent_address: "HJU, JKI"
+				},
+				{
+					id: 11,
+					username: "bot25",
+					email: "bot25@gmail.com",
+					full_name: "Bot Heikki",
+					phone: 985632256,
+					branch: "Seiko Branch",
+					is_approved: false,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: false,
+					is_staff: true,
+					temporary_address: "NUH, HBV",
+					permanent_address: "HJU, JKI"
+				},
+				{
+					id: 12,
+					username: "skshetry101",
+					email: "susant@gmail.com",
+					full_name: "Susant Kshetry",
+					phone: 984568953,
+					branch: "Akiko Branch",
+					is_approved: true,
+					approved_at: now,
+					date_joined: now,
+					is_superuser: true,
+					is_staff: true,
+					temporary_address: "NUI, KUH",
+					permanent_address: "HYW, QPO"
 				}
 			]
 		},
 
 		editItem(item) {
-			this.editedIndex = this.desserts.indexOf(item)
+			this.editedIndex = this.members.indexOf(item)
 			this.editedItem = Object.assign({}, item)
 			this.dialog = true
 		},
 
 		deleteItem(item) {
-			const index = this.desserts.indexOf(item)
-			confirm("Are you sure you want to delete this item?") &&
-				this.desserts.splice(index, 1)
+			const index = this.members.indexOf(item)
+			confirm("Are you sure you want to delete this member?") &&
+				this.members.splice(index, 1)
 		},
 
 		close() {
@@ -226,9 +474,9 @@ export default {
 
 		save() {
 			if (this.editedIndex > -1) {
-				Object.assign(this.desserts[this.editedIndex], this.editedItem)
+				Object.assign(this.members[this.editedIndex], this.editedItem)
 			} else {
-				this.desserts.push(this.editedItem)
+				this.members.push(this.editedItem)
 			}
 			this.close()
 		}
