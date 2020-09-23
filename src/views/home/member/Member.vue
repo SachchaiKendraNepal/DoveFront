@@ -56,10 +56,7 @@
 										class="text-center"
 									>
 										<v-avatar size="120">
-											<v-img
-												src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-											>
-											</v-img>
+											<v-img :src="editedItem.image"> </v-img>
 										</v-avatar>
 									</v-col>
 									<v-col cols="12" sm="8" md="8" lg="8" xl="8">
@@ -73,10 +70,45 @@
 											<v-list-item>
 												<v-list-item-content>
 													<p class="headline">
-														<!--														{{editedItem.f_name}} {{editedItem.l_name}}-->
+														<!--{{editedItem.f_name}} {{editedItem.l_name}}-->
 														Kiran Parajuli
-														<v-icon v-ripple>mdi-account-cowboy-hat</v-icon>
-														<v-icon v-ripple size="26">mdi-account-tie</v-icon>
+														<v-tooltip bottom>
+															<template v-slot:activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	v-on="on"
+																	v-bind="attrs"
+																	color="green darken-1"
+																	>mdi-check-decagram</v-icon
+																>
+															</template>
+															<span>Approved</span>
+														</v-tooltip>
+														<v-tooltip bottom>
+															<template v-slot:activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	v-on="on"
+																	v-bind="attrs"
+																	color="black lighten-2"
+																	>mdi-account-cowboy-hat</v-icon
+																>
+															</template>
+															<span>Super User</span>
+														</v-tooltip>
+														<v-tooltip bottom>
+															<template v-slot:activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	size="26"
+																	v-on="on"
+																	v-bind="attrs"
+																	color="orange darken-2"
+																	>mdi-account-tie</v-icon
+																>
+															</template>
+															<span>Staff Member</span>
+														</v-tooltip>
 													</p>
 													<v-divider />
 													<p>
@@ -95,6 +127,15 @@
 																<v-icon right>mdi-hammer</v-icon>
 															</v-chip>
 														</span>
+													</p>
+													<p class="mb-0">
+														<v-icon class="small-detail-icon"
+															>mdi-shape-plus</v-icon
+														>
+														<b>Date joined:</b>
+														<span class="px-1">{{
+															editedItem.date_joined
+														}}</span>
 													</p>
 													<p class="mb-0">
 														<v-icon class="small-detail-icon"
@@ -122,6 +163,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="First Name"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.full_name"
@@ -134,6 +176,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="Last Name"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.l_name"
@@ -146,6 +189,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="Username"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.username"
@@ -158,6 +202,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											type="email"
 											label="Email"
 											:disabled="viewIndex !== -1"
@@ -171,11 +216,29 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="Phone"
 											type="number"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.phone"
 											prepend-inner-icon="mdi-phone-classic"
+										/>
+									</v-col>
+									<v-col cols="12" class="ma-0 pa-0">
+										<v-file-input
+											id="member-image-input"
+											class="ma-0"
+											outlined
+											dense
+											chips
+											show-size
+											clearable
+											accept="image/*"
+											label="Profile Image"
+											v-model="editedItem.imageForUpload"
+											:disabled="viewIndex !== -1"
+											prepend-icon=""
+											prepend-inner-icon="mdi-camera"
 										/>
 									</v-col>
 									<v-col cols="12" class="pl-0">
@@ -214,8 +277,9 @@
 										<v-select
 											id="member-branch"
 											class="ma-0"
-											dense
 											outlined
+											dense
+											clearable
 											label="Branch"
 											:items="branches"
 											:disabled="viewIndex !== -1"
@@ -236,6 +300,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="Temporary Address"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.temporary_address"
@@ -248,6 +313,7 @@
 											class="ma-0"
 											outlined
 											dense
+											clearable
 											label="Permanent Address"
 											:disabled="viewIndex !== -1"
 											v-model="editedItem.permanent_address"
@@ -366,9 +432,16 @@ export default {
 			is_superuser: false,
 			is_staff: false,
 			is_approved: false,
-			last_login: ""
+			last_login: "",
+			imageForUpload: Image,
+			date_joined: "",
+			approved_at: ""
 		},
-		defaultItem: {}
+		defaultItem: {},
+		rules: [
+			(value) =>
+				!value || value.size < 2000000 || "Image size should be less than 2 MB!"
+		]
 	}),
 
 	computed: {
@@ -410,7 +483,9 @@ export default {
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
 					permanent_address: "DAC, YML",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 2,
@@ -426,7 +501,9 @@ export default {
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
 					permanent_address: "PKC, LMT",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 3,
@@ -442,7 +519,9 @@ export default {
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
 					permanent_address: "DAC, YML",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 4,
@@ -458,7 +537,9 @@ export default {
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
 					permanent_address: "PKC, LMT",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 5,
@@ -474,7 +555,9 @@ export default {
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
 					permanent_address: "PKC, LMT",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 6,
@@ -490,7 +573,9 @@ export default {
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
 					permanent_address: "DAC, YML",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 7,
@@ -506,7 +591,9 @@ export default {
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
 					permanent_address: "DAC, YML",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 8,
@@ -522,7 +609,9 @@ export default {
 					is_staff: true,
 					temporary_address: "AJX, YHJ",
 					permanent_address: "NYF, NJY",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 9,
@@ -538,7 +627,9 @@ export default {
 					is_staff: true,
 					temporary_address: "NUH, HBV",
 					permanent_address: "HJU, JKI",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 10,
@@ -554,7 +645,9 @@ export default {
 					is_staff: true,
 					temporary_address: "NUH, HBV",
 					permanent_address: "HJU, JKI",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 11,
@@ -570,7 +663,9 @@ export default {
 					is_staff: true,
 					temporary_address: "NUH, HBV",
 					permanent_address: "HJU, JKI",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 12,
@@ -586,7 +681,9 @@ export default {
 					is_staff: true,
 					temporary_address: "NUI, KUH",
 					permanent_address: "HYW, QPO",
-					last_login: now
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				}
 			]
 		},
