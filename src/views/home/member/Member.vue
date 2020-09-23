@@ -29,12 +29,12 @@
 				/>
 				<v-spacer />
 				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-dialog v-model="dialog" max-width="500px">
+				<v-dialog v-model="dialog" max-width="550px">
 					<template v-slot:activator="{ on, attrs }">
 						<v-btn dark v-on="on" v-bind="attrs" color="primary">
 							<v-icon dark :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''">
-								mdi-plus-circle</v-icon
-							>
+								mdi-plus-circle
+							</v-icon>
 							<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
 						</v-btn>
 					</template>
@@ -47,6 +47,68 @@
 						<v-card-text>
 							<v-container>
 								<v-row>
+									<v-col
+										cols="12"
+										sm="4"
+										md="4"
+										lg="4"
+										xl="4"
+										class="text-center"
+									>
+										<v-avatar size="120">
+											<v-img
+												src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
+											>
+											</v-img>
+										</v-avatar>
+									</v-col>
+									<v-col cols="12" sm="8" md="8" lg="8" xl="8">
+										<v-card
+											id="short-member-detail"
+											flat
+											class="mx-auto"
+											max-width="450"
+											tile
+										>
+											<v-list-item>
+												<v-list-item-content>
+													<p class="headline">
+														<!--														{{editedItem.f_name}} {{editedItem.l_name}}-->
+														Kiran Parajuli
+														<v-icon v-ripple>mdi-account-cowboy-hat</v-icon>
+														<v-icon v-ripple size="26">mdi-account-tie</v-icon>
+													</p>
+													<v-divider />
+													<p>
+														<v-icon class="small-detail-icon"
+															>mdi-account-key</v-icon
+														>
+														<b>Role assigned:</b>
+														<span class="px-1">
+															<v-chip
+																small
+																class="ma-2"
+																color="primary"
+																text-color="white"
+															>
+																MAINTAINER
+																<v-icon right>mdi-hammer</v-icon>
+															</v-chip>
+														</span>
+													</p>
+													<p class="mb-0">
+														<v-icon class="small-detail-icon"
+															>mdi-history</v-icon
+														>
+														<b>Last logged in:</b>
+														<span class="px-1">{{
+															editedItem.last_login
+														}}</span>
+													</p>
+												</v-list-item-content>
+											</v-list-item>
+										</v-card>
+									</v-col>
 									<v-col cols="12" class="pl-0">
 										<p class="heading ma-0 pa-0">
 											<v-icon class="pb-1">mdi-account-circle</v-icon>
@@ -57,55 +119,63 @@
 									<v-col cols="12" md="6" class="pl-0 py-0">
 										<v-text-field
 											id="member-f_name"
-											prepend-inner-icon="mdi-form-textbox"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.full_name"
 											label="First Name"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.full_name"
+											prepend-inner-icon="mdi-form-textbox"
 										/>
 									</v-col>
 									<v-col cols="12" md="6" class="px-0 py-0">
 										<v-text-field
 											id="member-l_name"
-											prepend-inner-icon="mdi-form-textbox"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.l_name"
 											label="Last Name"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.l_name"
+											prepend-inner-icon="mdi-form-textbox"
 										/>
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-text-field
-											prepend-inner-icon="mdi-card-account-details-outline"
+											id="member-username"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.username"
 											label="Username"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.username"
+											prepend-inner-icon="mdi-card-account-details-outline"
 										/>
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-text-field
-											prepend-inner-icon="mdi-at"
+											id="member-email"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.email"
 											type="email"
 											label="Email"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.email"
+											prepend-inner-icon="mdi-at"
 										/>
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-text-field
-											prepend-inner-icon="mdi-phone-classic"
+											id="member-phone"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.phone"
 											label="Phone"
 											type="number"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.phone"
+											prepend-inner-icon="mdi-phone-classic"
 										/>
 									</v-col>
 									<v-col cols="12" class="pl-0">
@@ -117,16 +187,20 @@
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
 										<v-checkbox
-											prepend-icon="mdi-account-tie"
-											v-model="editedItem.is_staff"
+											id="member-is-staff"
 											label="Staff Status"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.is_staff"
+											prepend-icon="mdi-account-tie"
 										/>
 									</v-col>
 									<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
 										<v-checkbox
-											prepend-icon="mdi-account-cowboy-hat"
-											v-model="editedItem.is_superuser"
+											id="member-is-superuser"
 											label="Superuser status"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.is_superuser"
+											prepend-icon="mdi-account-cowboy-hat"
 										/>
 									</v-col>
 									<v-col cols="12" class="pl-0">
@@ -138,14 +212,16 @@
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-select
-											prepend-inner-icon="mdi-home-city"
+											id="member-branch"
 											class="ma-0"
-											:items="branches"
-											v-model="editedItem.branch"
-											label="Branch"
 											dense
 											outlined
-										></v-select>
+											label="Branch"
+											:items="branches"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.branch"
+											prepend-inner-icon="mdi-home-city"
+										/>
 									</v-col>
 									<v-col cols="12" class="pl-0">
 										<p class="heading ma-0 pa-0">
@@ -156,44 +232,48 @@
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-text-field
-											prepend-inner-icon="mdi-office-building-marker"
+											id="member-temporary-address"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.temporary_address"
 											label="Temporary Address"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.temporary_address"
+											prepend-inner-icon="mdi-office-building-marker"
 										/>
 									</v-col>
 									<v-col cols="12" class="ma-0 pa-0">
 										<v-text-field
-											prepend-inner-icon="mdi-crosshairs-gps"
+											id="member-permanent-address"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.permanent_address"
 											label="Permanent Address"
+											:disabled="viewIndex !== -1"
+											v-model="editedItem.permanent_address"
+											prepend-inner-icon="mdi-crosshairs-gps"
 										/>
 									</v-col>
 								</v-row>
 							</v-container>
 						</v-card-text>
 
-						<v-card-actions>
+						<v-card-actions v-if="viewIndex === -1">
 							<v-spacer></v-spacer>
 							<v-btn
 								color="red lighten-5"
 								class="red--text"
 								depressed
 								@click="close"
-								>Cancel</v-btn
-							>
+								>Cancel
+							</v-btn>
 							<v-btn
 								color="blue lighten-5"
 								class="blue--text"
 								depressed
 								@click="save"
-								>Save</v-btn
-							>
+								>Save
+							</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
@@ -212,8 +292,27 @@
 			<v-switch v-model="item.is_approved" color="primary" />
 		</template>
 		<template v-slot:item.actions="{ item }">
-			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+			<v-icon
+				class="mr-2"
+				@click="showItem(item)"
+				color="orange"
+				v-ripple
+				size="20"
+			>
+				mdi-eye</v-icon
+			>
+			<v-icon
+				class="mr-2"
+				@click="editItem(item)"
+				color="primary"
+				v-ripple
+				size="20"
+			>
+				mdi-pencil</v-icon
+			>
+			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20">
+				mdi-delete</v-icon
+			>
 		</template>
 		<template v-slot:no-data>
 			<v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -223,6 +322,10 @@
 <style lang="sass" scoped>
 .v-input--selection-controls
 	margin-top: 0
+#short-member-detail
+	.small-detail-icon
+		margin-top: -4px
+		margin-right: 4px
 </style>
 <script>
 export default {
@@ -238,22 +341,19 @@ export default {
 				align: "start",
 				value: "id"
 			},
-			{ text: "USERNAME", value: "username" },
-			{ text: "EMAIL", value: "email" },
 			{ text: "FULL NAME", value: "full_name" },
+			{ text: "USERNAME", value: "username" },
 			{ text: "BRANCH", value: "branch" },
 			{ text: "PHONE", value: "phone" },
-			{ text: "TEMPORARY ADDRESS", value: "temporary_address" },
-			{ text: "PERMANENT ADDRESS", value: "permanent_address" },
 			{ text: "SUPERUSER STATUS", value: "is_superuser" },
 			{ text: "STAFF STATUS", value: "is_staff" },
 			{ text: "APPROVED STATUS", value: "is_approved" },
-			{ text: "APPROVED AT", value: "approved_at" },
 			{ text: "DATE JOINED", value: "date_joined" },
 			{ text: "ACTIONS", value: "actions", sortable: false }
 		],
 		members: [],
 		editedIndex: -1,
+		viewIndex: -1,
 		editedItem: {
 			username: "",
 			email: "",
@@ -265,16 +365,19 @@ export default {
 			permanent_address: "",
 			is_superuser: false,
 			is_staff: false,
-			is_approved: false
+			is_approved: false,
+			last_login: ""
 		},
 		defaultItem: {}
 	}),
 
 	computed: {
 		formTitle() {
+			if (this.viewIndex !== -1) return "View Member"
 			return this.editedIndex === -1 ? "New Member" : "Edit Member"
 		},
 		formIcon() {
+			if (this.viewIndex !== -1) return "mdi-account-circle"
 			return this.editedIndex === -1 ? "mdi-plus-circle" : "mdi-account-edit"
 		}
 	},
@@ -306,7 +409,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now
 				},
 				{
 					id: 2,
@@ -321,7 +425,8 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now
 				},
 				{
 					id: 3,
@@ -336,7 +441,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now
 				},
 				{
 					id: 4,
@@ -351,7 +457,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now
 				},
 				{
 					id: 5,
@@ -366,7 +473,8 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now
 				},
 				{
 					id: 6,
@@ -381,7 +489,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now
 				},
 				{
 					id: 7,
@@ -396,7 +505,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now
 				},
 				{
 					id: 8,
@@ -411,7 +521,8 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "AJX, YHJ",
-					permanent_address: "NYF, NJY"
+					permanent_address: "NYF, NJY",
+					last_login: now
 				},
 				{
 					id: 9,
@@ -426,7 +537,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now
 				},
 				{
 					id: 10,
@@ -441,7 +553,8 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now
 				},
 				{
 					id: 11,
@@ -456,7 +569,8 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now
 				},
 				{
 					id: 12,
@@ -471,13 +585,20 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUI, KUH",
-					permanent_address: "HYW, QPO"
+					permanent_address: "HYW, QPO",
+					last_login: now
 				}
 			]
 		},
 
 		editItem(item) {
 			this.editedIndex = this.members.indexOf(item)
+			this.editedItem = Object.assign({}, item)
+			this.dialog = true
+		},
+
+		showItem(item) {
+			this.viewIndex = this.members.indexOf(item)
 			this.editedItem = Object.assign({}, item)
 			this.dialog = true
 		},
@@ -493,6 +614,7 @@ export default {
 			this.$nextTick(() => {
 				this.editedItem = Object.assign({}, this.defaultItem)
 				this.editedIndex = -1
+				this.viewIndex = -1
 			})
 		},
 
