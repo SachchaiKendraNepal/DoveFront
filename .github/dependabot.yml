@@ -25,5 +25,4 @@ updates:
     reviewers:
       - "kiranparajuli589"
     target-branch: "master"
-    vendor: true
     versioning-strategy: increase
