@@ -36,9 +36,9 @@ const actions = {
 				commit("SET_CURRENT_USER", response.user)
 				commit("SET_MESSAGE", "")
 				// save new access token at localStorage
-				localStorage.setItem("access_token", response["token"])
+				localStorage.setItem("access_token", response.token)
 				// save currentUser at localStorage
-				localStorage.setItem("currentUser", JSON.stringify(response["user"]))
+				localStorage.setItem("currentUser", JSON.stringify(response.user))
 			} else {
 				commit("SET_MESSAGE", response.message)
 				commit("SET_CURRENT_USER", {})

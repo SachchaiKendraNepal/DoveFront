@@ -1,5 +1,9 @@
 <template>
-	<v-row align="center" justify="center" class="mx-1">
+	<v-row
+		align="center"
+		justify="center"
+		class="mx-1"
+	>
 		<v-col>
 			<router-view />
 		</v-col>

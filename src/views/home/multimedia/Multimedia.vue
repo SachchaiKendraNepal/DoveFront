@@ -1,12 +1,12 @@
 <template>
 	<base-post-card>
-		<template v-slot:media>
+		<template #media>
 			<vue-player
+				v-model="playing"
 				src="http://techslides.com/demos/sample-videos/small.mp4"
 				poster="https://via.placeholder.com/150"
 				title="this is a title"
-				v-model="playing"
-			></vue-player>
+			/>
 		</template>
 	</base-post-card>
 </template>
@@ -21,6 +21,7 @@ export default {
 	},
 	data() {
 		return {
+			playing: false,
 			isLiked: false
 		}
 	}

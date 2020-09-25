@@ -2,16 +2,16 @@
 	<v-card id="home-header">
 		<tool-bar />
 		<v-btn
+			v-show="fab"
 			id="to-top"
 			v-scroll="onScroll"
-			v-show="fab"
 			fab
 			dark
 			fixed
 			bottom
 			right
 			color="primary"
-			v-on:click="$vuetify.goTo(0)"
+			@click="$vuetify.goTo(0)"
 		>
 			<v-icon>keyboard_arrow_up</v-icon>
 		</v-btn>

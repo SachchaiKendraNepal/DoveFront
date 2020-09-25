@@ -11,16 +11,32 @@
 		:items-per-page="12"
 		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
 	>
-		<template v-slot:top>
-			<v-toolbar flat color="grey lighten-2">
-				<v-icon size="30" class="mr-2">mdi-account-supervisor-circle</v-icon>
-				<v-toolbar-title>Sachchai Members</v-toolbar-title>
-				<v-divider class="mx-4" inset vertical></v-divider>
+		<template #top>
+			<v-toolbar
+				flat
+				color="grey lighten-2"
+			>
+				<v-avatar
+					class="elevation-2 mr-2"
+					size="40"
+				>
+					<v-icon size="30">
+						mdi-account-supervisor-circle
+					</v-icon>
+				</v-avatar>
+				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+					Sachchai Members
+				</v-toolbar-title>
+				<v-divider
+					class="mx-4"
+					inset
+					vertical
+				/>
 				<v-text-field
+					v-model="search"
 					solo
 					dense
 					hide-details
-					v-model="search"
 					label=""
 					name="search"
 					prepend-inner-icon="mdi-magnify"
@@ -28,202 +44,491 @@
 					placeholder="Search"
 				/>
 				<v-spacer />
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-dialog v-model="dialog" max-width="500px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn dark v-on="on" v-bind="attrs" color="primary">
-							<v-icon dark :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''">
-								mdi-plus-circle</v-icon
+				<v-divider
+					class="mx-4"
+					inset
+					vertical
+				/>
+				<v-dialog
+					v-model="dialog"
+					max-width="550px"
+				>
+					<template #activator="{ on, attrs }">
+						<v-btn
+							dark
+							v-bind="attrs"
+							color="primary"
+							v-on="on"
+						>
+							<v-icon
+								dark
+								:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
 							>
+								mdi-plus-circle
+							</v-icon>
 							<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
 						</v-btn>
 					</template>
 					<v-card color="rgb(251 250 241)">
 						<v-card-title>
-							<v-icon size="40" class="mr-4">{{ formIcon }}</v-icon>
+							<v-icon
+								size="40"
+								class="mr-4"
+							>
+								{{ formIcon }}
+							</v-icon>
 							<span class="headline">{{ formTitle }}</span>
 						</v-card-title>
 						<v-divider />
 						<v-card-text>
 							<v-container>
 								<v-row>
-									<v-col cols="12" class="pl-0">
+									<v-col
+										v-show="editedIndex !== -1 || viewIndex !== -1"
+										cols="12"
+										sm="4"
+										md="4"
+										lg="4"
+										xl="4"
+										class="text-center"
+									>
+										<v-avatar
+											size="150"
+											class="mt-2"
+										>
+											<v-img :src="editedItem.image" />
+										</v-avatar>
+									</v-col>
+									<v-col
+										v-show="editedIndex !== -1 || viewIndex !== -1"
+										cols="12"
+										sm="8"
+										md="8"
+										lg="8"
+										xl="8"
+									>
+										<v-card
+											id="short-member-detail"
+											flat
+											class="mx-auto"
+											max-width="450"
+											tile
+										>
+											<v-list-item>
+												<v-list-item-content>
+													<p class="headline">
+														<!--{{editedItem.f_name}} {{editedItem.l_name}}-->
+														Kiran Parajuli
+														<v-tooltip bottom>
+															<template #activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	v-bind="attrs"
+																	color="green darken-1"
+																	v-on="on"
+																>
+																	mdi-check-decagram
+																</v-icon>
+															</template>
+															<span>Approved</span>
+														</v-tooltip>
+														<v-tooltip bottom>
+															<template #activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	v-bind="attrs"
+																	color="black lighten-2"
+																	v-on="on"
+																>
+																	mdi-account-cowboy-hat
+																</v-icon>
+															</template>
+															<span>Super User</span>
+														</v-tooltip>
+														<v-tooltip bottom>
+															<template #activator="{ on, attrs }">
+																<v-icon
+																	v-ripple
+																	size="26"
+																	v-bind="attrs"
+																	color="orange darken-2"
+																	v-on="on"
+																>
+																	mdi-account-tie
+																</v-icon>
+															</template>
+															<span>Staff Member</span>
+														</v-tooltip>
+													</p>
+													<v-divider />
+													<p>
+														<v-icon class="small-detail-icon">
+															mdi-account-key
+														</v-icon>
+														<b>Role assigned:</b>
+														<span class="px-1">
+															<v-chip
+																small
+																class="ma-2"
+																color="primary"
+																text-color="white"
+															>
+																MAINTAINER
+																<v-icon right>mdi-hammer</v-icon>
+															</v-chip>
+														</span>
+													</p>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-shape-plus
+														</v-icon>
+														<b>Date joined:</b>
+														<span class="px-1">{{ editedItem.date_joined }}</span>
+													</p>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-account-check
+														</v-icon>
+														<b>Approved by:</b>
+														<span class="px-1"> Kiran Parajuli </span>
+													</p>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-check
+														</v-icon>
+														<b>Approved at:</b>
+														<span class="px-1">{{ editedItem.date_joined }}</span>
+													</p>
+													<p class="mb-0">
+														<v-icon class="small-detail-icon">
+															mdi-history
+														</v-icon>
+														<b>Last logged in:</b>
+														<span class="px-1">{{ editedItem.last_login }}</span>
+													</p>
+												</v-list-item-content>
+											</v-list-item>
+										</v-card>
+									</v-col>
+									<v-col
+										cols="12"
+										class="pl-0"
+									>
 										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-account-circle</v-icon>
+											<v-icon class="pb-1">
+												mdi-account-circle
+											</v-icon>
 											Personal Information
 										</p>
 										<v-divider />
 									</v-col>
-									<v-col cols="12" md="6" class="pl-0 py-0">
+									<v-col
+										cols="12"
+										md="6"
+										class="pl-0 py-0"
+									>
 										<v-text-field
 											id="member-f_name"
-											prepend-inner-icon="mdi-form-textbox"
+											v-model="editedItem.full_name"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.full_name"
+											clearable
 											label="First Name"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-form-textbox"
 										/>
 									</v-col>
-									<v-col cols="12" md="6" class="px-0 py-0">
+									<v-col
+										cols="12"
+										md="6"
+										class="px-0 py-0"
+									>
 										<v-text-field
 											id="member-l_name"
-											prepend-inner-icon="mdi-form-textbox"
-											class="ma-0"
-											outlined
-											dense
 											v-model="editedItem.l_name"
+											class="ma-0"
+											outlined
+											dense
+											clearable
 											label="Last Name"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-form-textbox"
 										/>
 									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
 										<v-text-field
-											prepend-inner-icon="mdi-card-account-details-outline"
-											class="ma-0"
-											outlined
-											dense
+											id="member-username"
 											v-model="editedItem.username"
-											label="Username"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-text-field
-											prepend-inner-icon="mdi-at"
 											class="ma-0"
 											outlined
 											dense
+											clearable
+											label="Username"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-card-account-details-outline"
+										/>
+									</v-col>
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
+										<v-text-field
+											id="member-email"
 											v-model="editedItem.email"
+											class="ma-0"
+											outlined
+											dense
+											clearable
 											type="email"
 											label="Email"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-at"
 										/>
 									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
 										<v-text-field
-											prepend-inner-icon="mdi-phone-classic"
+											id="member-phone"
+											v-model="editedItem.phone"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.phone"
+											clearable
 											label="Phone"
 											type="number"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-phone-classic"
 										/>
 									</v-col>
-									<v-col cols="12" class="pl-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
+										<v-file-input
+											id="member-image-input"
+											v-model="editedItem.imageForUpload"
+											class="ma-0"
+											outlined
+											dense
+											chips
+											show-size
+											clearable
+											accept="image/*"
+											label="Profile Image"
+											:disabled="viewIndex !== -1"
+											prepend-icon=""
+											prepend-inner-icon="mdi-camera"
+										/>
+									</v-col>
+									<v-col
+										cols="12"
+										class="pl-0"
+									>
 										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-shield-key</v-icon>
+											<v-icon class="pb-1">
+												mdi-shield-key
+											</v-icon>
 											Permissions Information
 										</p>
 										<v-divider />
 									</v-col>
-									<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										md="6"
+										lg="6"
+										xl="6"
+										class="ma-0 pa-0"
+									>
 										<v-checkbox
-											prepend-icon="mdi-account-tie"
+											id="member-is-staff"
 											v-model="editedItem.is_staff"
 											label="Staff Status"
+											:disabled="viewIndex !== -1"
+											prepend-icon="mdi-account-tie"
 										/>
 									</v-col>
-									<v-col cols="12" md="6" lg="6" xl="6" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										md="6"
+										lg="6"
+										xl="6"
+										class="ma-0 pa-0"
+									>
 										<v-checkbox
-											prepend-icon="mdi-account-cowboy-hat"
+											id="member-is-superuser"
 											v-model="editedItem.is_superuser"
 											label="Superuser status"
+											:disabled="viewIndex !== -1"
+											prepend-icon="mdi-account-cowboy-hat"
 										/>
 									</v-col>
-									<v-col cols="12" class="pl-0">
+									<v-col
+										cols="12"
+										class="pl-0"
+									>
 										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-city-variant</v-icon>
+											<v-icon class="pb-1">
+												mdi-city-variant
+											</v-icon>
 											Branch Information
 										</p>
 										<v-divider />
 									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
 										<v-select
-											prepend-inner-icon="mdi-home-city"
-											class="ma-0"
-											:items="branches"
+											id="member-branch"
 											v-model="editedItem.branch"
-											label="Branch"
-											dense
+											class="ma-0"
 											outlined
-										></v-select>
+											dense
+											clearable
+											label="Branch"
+											:items="branches"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-home-city"
+										/>
 									</v-col>
-									<v-col cols="12" class="pl-0">
+									<v-col
+										cols="12"
+										class="pl-0"
+									>
 										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-map-marker</v-icon>
+											<v-icon class="pb-1">
+												mdi-map-marker
+											</v-icon>
 											Location Information
 										</p>
 										<v-divider />
 									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
 										<v-text-field
-											prepend-inner-icon="mdi-office-building-marker"
+											id="member-temporary-address"
+											v-model="editedItem.temporary_address"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.temporary_address"
+											clearable
 											label="Temporary Address"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-office-building-marker"
 										/>
 									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
+									<v-col
+										cols="12"
+										class="ma-0 pa-0"
+									>
 										<v-text-field
-											prepend-inner-icon="mdi-crosshairs-gps"
+											id="member-permanent-address"
+											v-model="editedItem.permanent_address"
 											class="ma-0"
 											outlined
 											dense
-											v-model="editedItem.permanent_address"
+											clearable
 											label="Permanent Address"
+											:disabled="viewIndex !== -1"
+											prepend-inner-icon="mdi-crosshairs-gps"
 										/>
 									</v-col>
 								</v-row>
 							</v-container>
 						</v-card-text>
 
-						<v-card-actions>
-							<v-spacer></v-spacer>
+						<v-card-actions v-if="viewIndex === -1">
+							<v-spacer />
 							<v-btn
 								color="red lighten-5"
 								class="red--text"
 								depressed
 								@click="close"
-								>Cancel</v-btn
 							>
+								Cancel
+							</v-btn>
 							<v-btn
 								color="blue lighten-5"
 								class="blue--text"
 								depressed
 								@click="save"
-								>Save</v-btn
 							>
+								Save
+							</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
 			</v-toolbar>
 		</template>
-		<template v-slot:item.is_staff="{ item }">
-			<v-simple-checkbox v-model="item.is_staff" disabled></v-simple-checkbox>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.is_staff="{ item }">
+			<v-simple-checkbox
+				v-model="item.is_staff"
+				disabled
+			/>
 		</template>
-		<template v-slot:item.is_superuser="{ item }">
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.is_superuser="{ item }">
 			<v-simple-checkbox
 				v-model="item.is_superuser"
 				disabled
-			></v-simple-checkbox>
+			/>
 		</template>
-		<template v-slot:item.is_approved="{ item }">
-			<v-switch v-model="item.is_approved" color="primary" />
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.is_approved="{ item }">
+			<v-switch
+				v-model="item.is_approved"
+				color="primary"
+			/>
 		</template>
-		<template v-slot:item.actions="{ item }">
-			<v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-			<v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.actions="{ item }">
+			<v-icon
+				v-ripple
+				class="mr-2"
+				color="orange"
+				size="20"
+				@click="showItem(item)"
+			>
+				mdi-eye
+			</v-icon>
+			<v-icon
+				v-ripple
+				class="mr-2"
+				color="primary"
+				size="20"
+				@click="editItem(item)"
+			>
+				mdi-pencil
+			</v-icon>
+			<v-icon
+				v-ripple
+				color="red"
+				size="20"
+				@click="deleteItem(item)"
+			>
+				mdi-delete
+			</v-icon>
 		</template>
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize">Reset</v-btn>
+		<template #no-data>
+			<v-btn
+				color="primary"
+				@click="initialize"
+			>
+				Reset
+			</v-btn>
 		</template>
 	</v-data-table>
 </template>
-<style lang="sass" scoped>
-.v-input--selection-controls
-	margin-top: 0
-</style>
+
 <script>
 export default {
 	name: "MembersTable",
@@ -238,22 +543,19 @@ export default {
 				align: "start",
 				value: "id"
 			},
-			{ text: "USERNAME", value: "username" },
-			{ text: "EMAIL", value: "email" },
 			{ text: "FULL NAME", value: "full_name" },
+			{ text: "USERNAME", value: "username" },
 			{ text: "BRANCH", value: "branch" },
 			{ text: "PHONE", value: "phone" },
-			{ text: "TEMPORARY ADDRESS", value: "temporary_address" },
-			{ text: "PERMANENT ADDRESS", value: "permanent_address" },
 			{ text: "SUPERUSER STATUS", value: "is_superuser" },
 			{ text: "STAFF STATUS", value: "is_staff" },
 			{ text: "APPROVED STATUS", value: "is_approved" },
-			{ text: "APPROVED AT", value: "approved_at" },
 			{ text: "DATE JOINED", value: "date_joined" },
 			{ text: "ACTIONS", value: "actions", sortable: false }
 		],
 		members: [],
 		editedIndex: -1,
+		viewIndex: -1,
 		editedItem: {
 			username: "",
 			email: "",
@@ -265,16 +567,23 @@ export default {
 			permanent_address: "",
 			is_superuser: false,
 			is_staff: false,
-			is_approved: false
+			is_approved: false,
+			last_login: "",
+			imageForUpload: Image,
+			date_joined: "",
+			approved_at: ""
 		},
-		defaultItem: {}
+		defaultItem: {},
+		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
 	}),
 
 	computed: {
 		formTitle() {
+			if (this.viewIndex !== -1) return "View Member Detail"
 			return this.editedIndex === -1 ? "New Member" : "Edit Member"
 		},
 		formIcon() {
+			if (this.viewIndex !== -1) return "mdi-account-circle"
 			return this.editedIndex === -1 ? "mdi-plus-circle" : "mdi-account-edit"
 		}
 	},
@@ -306,7 +615,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 2,
@@ -321,7 +633,10 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 3,
@@ -336,7 +651,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 4,
@@ -351,7 +669,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 5,
@@ -366,7 +687,10 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT"
+					permanent_address: "PKC, LMT",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 6,
@@ -381,7 +705,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 7,
@@ -396,7 +723,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML"
+					permanent_address: "DAC, YML",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 8,
@@ -411,7 +741,10 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "AJX, YHJ",
-					permanent_address: "NYF, NJY"
+					permanent_address: "NYF, NJY",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 9,
@@ -426,7 +759,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 10,
@@ -441,7 +777,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 11,
@@ -456,7 +795,10 @@ export default {
 					is_superuser: false,
 					is_staff: true,
 					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI"
+					permanent_address: "HJU, JKI",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
 				{
 					id: 12,
@@ -471,7 +813,10 @@ export default {
 					is_superuser: true,
 					is_staff: true,
 					temporary_address: "NUI, KUH",
-					permanent_address: "HYW, QPO"
+					permanent_address: "HYW, QPO",
+					last_login: now,
+					image:
+						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				}
 			]
 		},
@@ -482,10 +827,15 @@ export default {
 			this.dialog = true
 		},
 
+		showItem(item) {
+			this.viewIndex = this.members.indexOf(item)
+			this.editedItem = Object.assign({}, item)
+			this.dialog = true
+		},
+
 		deleteItem(item) {
 			const index = this.members.indexOf(item)
-			confirm("Are you sure you want to delete this member?") &&
-				this.members.splice(index, 1)
+			confirm("Are you sure you want to delete this member?") && this.members.splice(index, 1)
 		},
 
 		close() {
@@ -493,6 +843,7 @@ export default {
 			this.$nextTick(() => {
 				this.editedItem = Object.assign({}, this.defaultItem)
 				this.editedIndex = -1
+				this.viewIndex = -1
 			})
 		},
 
@@ -507,3 +858,13 @@ export default {
 	}
 }
 </script>
+
+<style lang="sass" scoped>
+.v-input--selection-controls
+	margin-top: 0
+
+#short-member-detail
+	.small-detail-icon
+		margin-top: -4px
+		margin-right: 4px
+</style>

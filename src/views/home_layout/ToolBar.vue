@@ -1,11 +1,21 @@
 <template>
-	<v-toolbar id="sacchai-home-toolbar" color="blue lighten-4" height="70">
+	<v-toolbar
+		id="sacchai-home-toolbar"
+		color="blue lighten-4"
+		height="70"
+	>
 		<v-avatar size="60">
-			<v-img :src="logo" alt="SacchaiLogo" />
+			<v-img
+				:src="logo"
+				alt="SacchaiLogo"
+			/>
 		</v-avatar>
-		<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp" class="text-uppercase"
-			>Sachchai Nepal</v-toolbar-title
+		<v-toolbar-title
+			v-show="$vuetify.breakpoint.smAndUp"
+			class="text-uppercase"
 		>
+			Sachchai Nepal
+		</v-toolbar-title>
 		<v-spacer />
 		<v-text-field
 			id="search"
@@ -21,21 +31,7 @@
 		<profile-dropdown />
 	</v-toolbar>
 </template>
-<style lang="sass">
-#sacchai-home-toolbar
-	position: -webkit-sticky
-	position: sticky
-	top: 0
-	z-index: 10
-	.v-toolbar__title
-		padding-left: 8px
-		font-family: 'Fira Sans Condensed', sans-serif
-		font-size: 22px
-	.v-input__slot
-		margin-left: -78px !important
-		@media only screen and (max-width: 740px)
-			margin-left: 0 !important
-</style>
+
 <script>
 import ProfileDropdown from "@/views/home_layout/ProfileDropdown"
 
@@ -51,3 +47,21 @@ export default {
 	}
 }
 </script>
+
+<style lang="sass">
+#sacchai-home-toolbar
+	position: -webkit-sticky
+	position: sticky
+	top: 0
+	z-index: 10
+
+	.v-toolbar__title
+		padding-left: 8px
+		font-family: 'Fira Sans Condensed', sans-serif
+		font-size: 22px
+
+	.v-input__slot
+		margin-left: -78px !important
+		@media only screen and (max-width: 740px)
+			margin-left: 0 !important
+</style>
