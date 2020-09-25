@@ -1,18 +1,18 @@
 <template>
-	<!--  <v-parallax-->
-	<!--      id="banner"-->
-	<!--  >-->
-	<div id="banner">
-		<v-img
-			eager
-			id="sacchai-flex-image"
-			alt="Sacchai Flex Display"
-			:src="image"
-			:contain="true"
-			height="400px"
-		/>
-	</div>
-	<!--  </v-parallax>-->
+  <!--  <v-parallax-->
+  <!--      id="banner"-->
+  <!--  >-->
+  <div id="banner">
+    <v-img
+      eager
+      id="sacchai-flex-image"
+      alt="Sacchai Flex Display"
+      :src="image"
+      :contain="true"
+      height="400px"
+    />
+  </div>
+  <!--  </v-parallax>-->
 </template>
 
 <style lang="sass">

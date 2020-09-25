@@ -1,8 +1,11 @@
 <template>
-	<div id="home-layout" class="d-flex flex-column">
-		<home-header />
-		<home-footer />
-	</div>
+  <div
+    id="home-layout"
+    class="d-flex flex-column"
+  >
+    <home-header />
+    <home-footer />
+  </div>
 </template>
 
 <script>

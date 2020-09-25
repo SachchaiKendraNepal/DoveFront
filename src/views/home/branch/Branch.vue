@@ -1,346 +1,545 @@
 <template>
-	<v-data-table
-		id="branch-d-table"
-		:loading="isLoading"
-		loading-text="Branches Loading..."
-		calculate-widths
-		:headers="headers"
-		:items="branches"
-		:search="search"
-		multi-sort
-		:items-per-page="12"
-		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
-	>
-		<template v-slot:top>
-			<v-toolbar flat color="grey lighten-2">
-				<v-avatar class="elevation-2 mr-2" size="40">
-					<v-icon size="30" class="">mdi-city-variant</v-icon>
-				</v-avatar>
-				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">Sachchai Branches</v-toolbar-title>
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-text-field
-					solo
-					dense
-					hide-details
-					v-model="search"
-					label=""
-					name="search"
-					prepend-inner-icon="mdi-magnify"
-					clearable
-					placeholder="Search"
-				/>
-				<v-spacer />
-				<v-divider class="mx-4" inset vertical></v-divider>
-				<v-dialog v-model="dialog" max-width="600px">
-					<template v-slot:activator="{ on, attrs }">
-						<v-btn dark v-on="on" v-bind="attrs" color="primary">
-							<v-icon dark :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''">
-								mdi-plus-circle</v-icon
-							>
-							<span v-if="$vuetify.breakpoint.smAndUp">New Branch</span>
-						</v-btn>
-					</template>
-					<v-card color="rgb(251 250 241)">
-						<v-card-title>
-							<v-avatar size="40" class="mr-4 elevation-3">
-								<v-icon dark size="30">{{ formIcon }}</v-icon>
-							</v-avatar>
-							<span class="headline white--text">{{ formTitle }}</span>
-						</v-card-title>
-						<v-divider />
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col
-										cols="12"
-										sm="4"
-										md="4"
-										lg="4"
-										xl="4"
-										class="text-center"
-										v-show="editedIndex !== -1 || viewIndex !== -1"
-									>
-										<v-avatar size="150" class="mt-2">
-											<v-img :src="editedItem.image"> </v-img>
-										</v-avatar>
-									</v-col>
-									<v-col
-										cols="12"
-										sm="8"
-										md="8"
-										lg="8"
-										xl="8"
-										v-show="editedIndex !== -1 || viewIndex !== -1"
-									>
-										<v-card id="short-member-detail" flat class="mx-auto" max-width="450" tile>
-											<v-list-item>
-												<v-list-item-content>
-													<p class="headline">
-														{{ editedItem.name }}
-														<v-tooltip bottom>
-															<template v-slot:activator="{ on, attrs }">
-																<v-icon v-ripple v-on="on" v-bind="attrs" color="green darken-1">
-																	mdi-check-decagram
-																</v-icon>
-															</template>
-															<span>Sacchai Branch</span>
-														</v-tooltip>
-														<v-tooltip bottom>
-															<template v-slot:activator="{ on, attrs }">
-																<v-icon v-ripple v-on="on" v-bind="attrs" color="red darken-3">
-																	mdi-map-marker-star
-																</v-icon>
-															</template>
-															<span>Main Branch</span>
-														</v-tooltip>
-													</p>
-													<v-divider class="mb-2" />
-													<div class="mb-2">
-														<v-chip label color="blue lighten-5" class="mr-1 mb-1">
-															<v-icon left>mdi-map-marker-star</v-icon>
-															<b>Main Branch</b>
-															<v-icon right>mdi-church</v-icon>
-														</v-chip>
-														<v-chip label dark class="mb-1">
-															<v-icon left color="white">mdi-dove</v-icon>
-															<b>Sacchai Branch</b>
-															<v-icon right>mdi-city</v-icon>
-														</v-chip>
-													</div>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon"> mdi-shape-plus </v-icon>
-														<b>Date created:</b>
-														<span class="px-1">{{ editedItem.created_at }}</span>
-													</p>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon"> mdi-plus </v-icon>
-														<b>Created by:</b>
-														<span class="px-1"> Kiran Parajuli </span>
-													</p>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon"> mdi-account-network </v-icon>
-														<b>Total Members:</b>
-														<span class="px-1">558</span>
-													</p>
-													<p class="mb-0">
-														<v-icon class="small-detail-icon"> mdi-pencil </v-icon>
-														<b>Last Updated By:</b>
-														<span class="px-1">Sam Gellaitry</span>
-													</p>
-												</v-list-item-content>
-											</v-list-item>
-										</v-card>
-									</v-col>
-									<v-col cols="12" class="pl-0">
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-city-variant</v-icon>
-											Branch Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-text-field
-											id="branch-name"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Name"
-											v-model="editedItem.name"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-form-textbox"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-text-field
-											id="branch-phone"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="Phone"
-											type="number"
-											v-model="editedItem.phone"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-phone-classic"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-checkbox
-											id="is_main"
-											label="Is Main Branch?"
-											v-model="editedItem.is_main"
-											:disabled="viewIndex !== -1"
-											append-icon="mdi-map-marker-star-outline"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-file-input
-											id="member-image-input"
-											class="ma-0"
-											outlined
-											dense
-											chips
-											show-size
-											clearable
-											accept="image/*"
-											label="Branch Image"
-											v-model="editedItem.imageForUpload"
-											:disabled="viewIndex !== -1"
-											prepend-icon=""
-											prepend-inner-icon="mdi-camera"
-										/>
-									</v-col>
-									<v-col cols="12" class="pl-0">
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">mdi-map-marker</v-icon>
-											Location Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-select
-											id="branch-country"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="Country"
-											:items="countries"
-											:disabled="viewIndex !== -1"
-											v-model="editedItem.country"
-											prepend-inner-icon="mdi-web"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-select
-											id="branch-province"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="Province"
-											:items="provinces"
-											v-model="editedItem.country"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-office-building-marker-outline"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0">
-										<v-select
-											id="branch-districts"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											:items="districts"
-											label="District"
-											v-model="editedItem.district"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-map-marker-multiple-outline"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0" v-if="!editedItem.vdc">
-										<v-select
-											id="branch-municipality"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="Municipality"
-											:items="municipalities"
-											v-model="editedItem.municipality"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-google-maps"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0" v-if="editedItem.municipality">
-										<v-select
-											id="branch-municipality-ward"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="Municipality Ward"
-											:items="municipality_wards"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-numeric"
-											v-model="editedItem.municipality_ward"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0" v-if="!editedItem.municipality">
-										<v-select
-											id="branch-vdc"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="VDC"
-											:items="vdcs"
-											v-model="editedItem.vdc"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-home-map-marker"
-										/>
-									</v-col>
-									<v-col cols="12" class="ma-0 pa-0" v-if="editedItem.vdc">
-										<v-select
-											id="branch-vdc-ward"
-											class="ma-0"
-											dense
-											outlined
-											clearable
-											label="VDC Ward"
-											:items="vdc_wards"
-											v-model="editedItem.vdc_ward"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-numeric"
-										/>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
+  <v-data-table
+    id="branch-d-table"
+    :loading="isLoading"
+    loading-text="Branches Loading..."
+    calculate-widths
+    :headers="headers"
+    :items="branches"
+    :search="search"
+    multi-sort
+    :items-per-page="12"
+    class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
+  >
+    <template #top>
+      <v-toolbar
+        flat
+        color="grey lighten-2"
+      >
+        <v-avatar
+          class="elevation-2 mr-2"
+          size="40"
+        >
+          <v-icon
+            size="30"
+            class=""
+          >
+            mdi-city-variant
+          </v-icon>
+        </v-avatar>
+        <v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+          Sachchai Branches
+        </v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        />
+        <v-text-field
+          solo
+          dense
+          hide-details
+          v-model="search"
+          label=""
+          name="search"
+          prepend-inner-icon="mdi-magnify"
+          clearable
+          placeholder="Search"
+        />
+        <v-spacer />
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        />
+        <v-dialog
+          v-model="dialog"
+          max-width="600px"
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              dark
+              v-on="on"
+              v-bind="attrs"
+              color="primary"
+            >
+              <v-icon
+                dark
+                :class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+              >
+                mdi-plus-circle
+              </v-icon>
+              <span v-if="$vuetify.breakpoint.smAndUp">New Branch</span>
+            </v-btn>
+          </template>
+          <v-card color="rgb(251 250 241)">
+            <v-card-title>
+              <v-avatar
+                size="40"
+                class="mr-4 elevation-3"
+              >
+                <v-icon
+                  dark
+                  size="30"
+                >
+                  {{ formIcon }}
+                </v-icon>
+              </v-avatar>
+              <span class="headline white--text">{{ formTitle }}</span>
+            </v-card-title>
+            <v-divider />
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col
+                    cols="12"
+                    sm="4"
+                    md="4"
+                    lg="4"
+                    xl="4"
+                    class="text-center"
+                    v-show="editedIndex !== -1 || viewIndex !== -1"
+                  >
+                    <v-avatar
+                      size="150"
+                      class="mt-2"
+                    >
+                      <v-img :src="editedItem.image" />
+                    </v-avatar>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="8"
+                    md="8"
+                    lg="8"
+                    xl="8"
+                    v-show="editedIndex !== -1 || viewIndex !== -1"
+                  >
+                    <v-card
+                      id="short-member-detail"
+                      flat
+                      class="mx-auto"
+                      max-width="450"
+                      tile
+                    >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <p class="headline">
+                            {{ editedItem.name }}
+                            <v-tooltip bottom>
+                              <template #activator="{ on, attrs }">
+                                <v-icon
+                                  v-ripple
+                                  v-on="on"
+                                  v-bind="attrs"
+                                  color="green darken-1"
+                                >
+                                  mdi-check-decagram
+                                </v-icon>
+                              </template>
+                              <span>Sacchai Branch</span>
+                            </v-tooltip>
+                            <v-tooltip bottom>
+                              <template #activator="{ on, attrs }">
+                                <v-icon
+                                  v-ripple
+                                  v-on="on"
+                                  v-bind="attrs"
+                                  color="red darken-3"
+                                >
+                                  mdi-map-marker-star
+                                </v-icon>
+                              </template>
+                              <span>Main Branch</span>
+                            </v-tooltip>
+                          </p>
+                          <v-divider class="mb-2" />
+                          <div class="mb-2">
+                            <v-chip
+                              label
+                              color="blue lighten-5"
+                              class="mr-1 mb-1"
+                            >
+                              <v-icon left>
+                                mdi-map-marker-star
+                              </v-icon>
+                              <b>Main Branch</b>
+                              <v-icon right>
+                                mdi-church
+                              </v-icon>
+                            </v-chip>
+                            <v-chip
+                              label
+                              dark
+                              class="mb-1"
+                            >
+                              <v-icon
+                                left
+                                color="white"
+                              >
+                                mdi-dove
+                              </v-icon>
+                              <b>Sacchai Branch</b>
+                              <v-icon right>
+                                mdi-city
+                              </v-icon>
+                            </v-chip>
+                          </div>
+                          <p class="mb-0 mb-2">
+                            <v-icon class="small-detail-icon">
+                              mdi-shape-plus
+                            </v-icon>
+                            <b>Date created:</b>
+                            <span class="px-1">{{ editedItem.created_at }}</span>
+                          </p>
+                          <p class="mb-0 mb-2">
+                            <v-icon class="small-detail-icon">
+                              mdi-plus
+                            </v-icon>
+                            <b>Created by:</b>
+                            <span class="px-1"> Kiran Parajuli </span>
+                          </p>
+                          <p class="mb-0 mb-2">
+                            <v-icon class="small-detail-icon">
+                              mdi-account-network
+                            </v-icon>
+                            <b>Total Members:</b>
+                            <span class="px-1">558</span>
+                          </p>
+                          <p class="mb-0">
+                            <v-icon class="small-detail-icon">
+                              mdi-pencil
+                            </v-icon>
+                            <b>Last Updated By:</b>
+                            <span class="px-1">Sam Gellaitry</span>
+                          </p>
+                        </v-list-item-content>
+                      </v-list-item>
+                    </v-card>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="pl-0"
+                  >
+                    <p class="heading ma-0 pa-0">
+                      <v-icon class="pb-1">
+                        mdi-city-variant
+                      </v-icon>
+                      Branch Information
+                    </p>
+                    <v-divider />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-text-field
+                      id="branch-name"
+                      class="ma-0"
+                      outlined
+                      dense
+                      clearable
+                      label="Name"
+                      v-model="editedItem.name"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-form-textbox"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-text-field
+                      id="branch-phone"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="Phone"
+                      type="number"
+                      v-model="editedItem.phone"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-phone-classic"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-checkbox
+                      id="is_main"
+                      label="Is Main Branch?"
+                      v-model="editedItem.is_main"
+                      :disabled="viewIndex !== -1"
+                      append-icon="mdi-map-marker-star-outline"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-file-input
+                      id="member-image-input"
+                      class="ma-0"
+                      outlined
+                      dense
+                      chips
+                      show-size
+                      clearable
+                      accept="image/*"
+                      label="Branch Image"
+                      v-model="editedItem.imageForUpload"
+                      :disabled="viewIndex !== -1"
+                      prepend-icon=""
+                      prepend-inner-icon="mdi-camera"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="pl-0"
+                  >
+                    <p class="heading ma-0 pa-0">
+                      <v-icon class="pb-1">
+                        mdi-map-marker
+                      </v-icon>
+                      Location Information
+                    </p>
+                    <v-divider />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-select
+                      id="branch-country"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="Country"
+                      :items="countries"
+                      :disabled="viewIndex !== -1"
+                      v-model="editedItem.country"
+                      prepend-inner-icon="mdi-web"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-select
+                      id="branch-province"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="Province"
+                      :items="provinces"
+                      v-model="editedItem.country"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-office-building-marker-outline"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                  >
+                    <v-select
+                      id="branch-districts"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      :items="districts"
+                      label="District"
+                      v-model="editedItem.district"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-map-marker-multiple-outline"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                    v-if="!editedItem.vdc"
+                  >
+                    <v-select
+                      id="branch-municipality"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="Municipality"
+                      :items="municipalities"
+                      v-model="editedItem.municipality"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-google-maps"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                    v-if="editedItem.municipality"
+                  >
+                    <v-select
+                      id="branch-municipality-ward"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="Municipality Ward"
+                      :items="municipality_wards"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-numeric"
+                      v-model="editedItem.municipality_ward"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                    v-if="!editedItem.municipality"
+                  >
+                    <v-select
+                      id="branch-vdc"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="VDC"
+                      :items="vdcs"
+                      v-model="editedItem.vdc"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-home-map-marker"
+                    />
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="ma-0 pa-0"
+                    v-if="editedItem.vdc"
+                  >
+                    <v-select
+                      id="branch-vdc-ward"
+                      class="ma-0"
+                      dense
+                      outlined
+                      clearable
+                      label="VDC Ward"
+                      :items="vdc_wards"
+                      v-model="editedItem.vdc_ward"
+                      :disabled="viewIndex !== -1"
+                      prepend-inner-icon="mdi-numeric"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
 
-						<v-card-actions v-if="viewIndex === -1">
-							<v-spacer></v-spacer>
-							<v-btn color="red lighten-5" class="red--text" depressed @click="close">Cancel</v-btn>
-							<v-btn color="blue lighten-5" class="blue--text" depressed @click="save">Save</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
-			</v-toolbar>
-		</template>
-		<template v-slot:item.is_main="{ item }">
-			<v-checkbox v-model="item.is_main" color="primary" disabled />
-		</template>
-		<template v-slot:item.municipality="{ item }">
-			<v-icon v-if="!item.municipality">mdi-dots-horizontal</v-icon>
-			<p v-else class="mb-0" v-html="item.municipality" />
-		</template>
-		<template v-slot:item.municipality_ward="{ item }">
-			<v-icon v-if="!item.municipality_ward">mdi-dots-horizontal</v-icon>
-			<p v-else class="mb-0" v-html="item.municipality_ward" />
-		</template>
-		<template v-slot:item.vdc="{ item }">
-			<v-icon v-if="!item.vdc">mdi-dots-horizontal</v-icon>
-			<p v-else class="mb-0" v-html="item.vdc" />
-		</template>
-		<template v-slot:item.vdc_ward="{ item }">
-			<v-icon v-if="!item.vdc_ward">mdi-dots-horizontal</v-icon>
-			<p v-else class="mb-0" v-html="item.vdc_ward" />
-		</template>
-		<template v-slot:item.actions="{ item }">
-			<v-icon class="mr-2" @click="showItem(item)" color="orange" v-ripple size="20">
-				mdi-eye
-			</v-icon>
-			<v-icon class="mr-2" @click="editItem(item)" color="primary" v-ripple size="20">
-				mdi-pencil</v-icon
-			>
-			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20"> mdi-delete </v-icon>
-		</template>
-		<template v-slot:no-data>
-			<v-btn color="primary" @click="initialize">Reset</v-btn>
-		</template>
-	</v-data-table>
+            <v-card-actions v-if="viewIndex === -1">
+              <v-spacer />
+              <v-btn
+                color="red lighten-5"
+                class="red--text"
+                depressed
+                @click="close"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                color="blue lighten-5"
+                class="blue--text"
+                depressed
+                @click="save"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template #item.is_main="{ item }">
+      <v-checkbox
+        v-model="item.is_main"
+        color="primary"
+        disabled
+      />
+    </template>
+    <template #item.municipality="{ item }">
+      <v-icon v-if="!item.municipality">
+        mdi-dots-horizontal
+      </v-icon>
+      <p
+        v-else
+        class="mb-0"
+        v-html="item.municipality"
+      />
+    </template>
+    <template #item.municipality_ward="{ item }">
+      <v-icon v-if="!item.municipality_ward">
+        mdi-dots-horizontal
+      </v-icon>
+      <p
+        v-else
+        class="mb-0"
+        v-html="item.municipality_ward"
+      />
+    </template>
+    <template #item.vdc="{ item }">
+      <v-icon v-if="!item.vdc">
+        mdi-dots-horizontal
+      </v-icon>
+      <p
+        v-else
+        class="mb-0"
+        v-html="item.vdc"
+      />
+    </template>
+    <template #item.vdc_ward="{ item }">
+      <v-icon v-if="!item.vdc_ward">
+        mdi-dots-horizontal
+      </v-icon>
+      <p
+        v-else
+        class="mb-0"
+        v-html="item.vdc_ward"
+      />
+    </template>
+    <template #item.actions="{ item }">
+      <v-icon
+        class="mr-2"
+        @click="showItem(item)"
+        color="orange"
+        v-ripple
+        size="20"
+      >
+        mdi-eye
+      </v-icon>
+      <v-icon
+        class="mr-2"
+        @click="editItem(item)"
+        color="primary"
+        v-ripple
+        size="20"
+      >
+        mdi-pencil
+      </v-icon>
+      <v-icon
+        @click="deleteItem(item)"
+        color="red"
+        v-ripple
+        size="20"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    <template #no-data>
+      <v-btn
+        color="primary"
+        @click="initialize"
+      >
+        Reset
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 <style lang="sass" scoped>
 .v-input--selection-controls

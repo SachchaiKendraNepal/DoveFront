@@ -33,17 +33,6 @@
 		"vue-template-compiler": "^2.6.11",
 		"vuetify-loader": "^1.3.0"
 	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"*.{json,js,vue,html}": [
-			"yarn run format",
-			"git add"
-		]
-	},
 	"engines": {
 		"node": ">=10 <13"
 	}

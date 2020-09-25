@@ -1,9 +1,12 @@
 <template>
-	<base-post-card>
-		<template v-slot:media>
-			<v-img src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg" height="194"></v-img>
-		</template>
-	</base-post-card>
+  <base-post-card>
+    <template #media>
+      <v-img
+        src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+        height="194"
+      />
+    </template>
+  </base-post-card>
 </template>
 <style lang="sass" scoped>
 .v-icon

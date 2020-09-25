@@ -1,25 +1,35 @@
 <template>
-	<v-toolbar id="sacchai-home-toolbar" color="blue lighten-4" height="70">
-		<v-avatar size="60">
-			<v-img :src="logo" alt="SacchaiLogo" />
-		</v-avatar>
-		<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp" class="text-uppercase"
-			>Sachchai Nepal</v-toolbar-title
-		>
-		<v-spacer />
-		<v-text-field
-			id="search"
-			class="mx-3"
-			solo
-			hide-details
-			append-icon="search"
-			clearable
-			clear-icon="clear"
-			placeholder="Search Members, Branch, Articles, Multimedia..."
-		/>
-		<v-spacer />
-		<profile-dropdown />
-	</v-toolbar>
+  <v-toolbar
+    id="sacchai-home-toolbar"
+    color="blue lighten-4"
+    height="70"
+  >
+    <v-avatar size="60">
+      <v-img
+        :src="logo"
+        alt="SacchaiLogo"
+      />
+    </v-avatar>
+    <v-toolbar-title
+      v-show="$vuetify.breakpoint.smAndUp"
+      class="text-uppercase"
+    >
+      Sachchai Nepal
+    </v-toolbar-title>
+    <v-spacer />
+    <v-text-field
+      id="search"
+      class="mx-3"
+      solo
+      hide-details
+      append-icon="search"
+      clearable
+      clear-icon="clear"
+      placeholder="Search Members, Branch, Articles, Multimedia..."
+    />
+    <v-spacer />
+    <profile-dropdown />
+  </v-toolbar>
 </template>
 <style lang="sass">
 #sacchai-home-toolbar
