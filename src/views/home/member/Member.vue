@@ -13,8 +13,12 @@
 	>
 		<template v-slot:top>
 			<v-toolbar flat color="grey lighten-2">
-				<v-icon size="30" class="mr-2">mdi-account-supervisor-circle</v-icon>
-				<v-toolbar-title>Sachchai Members</v-toolbar-title>
+				<v-avatar class="elevation-2 mr-2" size="40">
+					<v-icon size="30">mdi-account-supervisor-circle</v-icon>
+				</v-avatar>
+				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp"
+					>Sachchai Members</v-toolbar-title
+				>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-text-field
 					solo
@@ -54,12 +58,20 @@
 										lg="4"
 										xl="4"
 										class="text-center"
+										v-show="editedIndex !== -1 || viewIndex !== -1"
 									>
-										<v-avatar size="120">
+										<v-avatar size="150" class="mt-2">
 											<v-img :src="editedItem.image"> </v-img>
 										</v-avatar>
 									</v-col>
-									<v-col cols="12" sm="8" md="8" lg="8" xl="8">
+									<v-col
+										cols="12"
+										sm="8"
+										md="8"
+										lg="8"
+										xl="8"
+										v-show="editedIndex !== -1 || viewIndex !== -1"
+									>
 										<v-card
 											id="short-member-detail"
 											flat
@@ -112,9 +124,9 @@
 													</p>
 													<v-divider />
 													<p>
-														<v-icon class="small-detail-icon"
-															>mdi-account-key</v-icon
-														>
+														<v-icon class="small-detail-icon">
+															mdi-account-key
+														</v-icon>
 														<b>Role assigned:</b>
 														<span class="px-1">
 															<v-chip
@@ -128,11 +140,27 @@
 															</v-chip>
 														</span>
 													</p>
-													<p class="mb-0">
-														<v-icon class="small-detail-icon"
-															>mdi-shape-plus</v-icon
-														>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-shape-plus
+														</v-icon>
 														<b>Date joined:</b>
+														<span class="px-1">{{
+															editedItem.date_joined
+														}}</span>
+													</p>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-account-check
+														</v-icon>
+														<b>Approved by:</b>
+														<span class="px-1"> Kiran Parajuli </span>
+													</p>
+													<p class="mb-0 mb-2">
+														<v-icon class="small-detail-icon">
+															mdi-check
+														</v-icon>
+														<b>Approved at:</b>
 														<span class="px-1">{{
 															editedItem.date_joined
 														}}</span>
@@ -349,10 +377,7 @@
 			<v-simple-checkbox v-model="item.is_staff" disabled></v-simple-checkbox>
 		</template>
 		<template v-slot:item.is_superuser="{ item }">
-			<v-simple-checkbox
-				v-model="item.is_superuser"
-				disabled
-			></v-simple-checkbox>
+			<v-simple-checkbox v-model="item.is_superuser" disabled />
 		</template>
 		<template v-slot:item.is_approved="{ item }">
 			<v-switch v-model="item.is_approved" color="primary" />
@@ -365,8 +390,8 @@
 				v-ripple
 				size="20"
 			>
-				mdi-eye</v-icon
-			>
+				mdi-eye
+			</v-icon>
 			<v-icon
 				class="mr-2"
 				@click="editItem(item)"
@@ -377,8 +402,8 @@
 				mdi-pencil</v-icon
 			>
 			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20">
-				mdi-delete</v-icon
-			>
+				mdi-delete
+			</v-icon>
 		</template>
 		<template v-slot:no-data>
 			<v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -446,7 +471,7 @@ export default {
 
 	computed: {
 		formTitle() {
-			if (this.viewIndex !== -1) return "View Member"
+			if (this.viewIndex !== -1) return "View Member Detail"
 			return this.editedIndex === -1 ? "New Member" : "Edit Member"
 		},
 		formIcon() {
