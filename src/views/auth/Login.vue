@@ -41,9 +41,7 @@
 						</v-col>
 					</v-row>
 					<v-card-actions class="justify-center my-0 pt-0 pb-3">
-						<v-btn class="my-0" color="primary" v-on:click="login">
-							Login
-						</v-btn>
+						<v-btn class="my-0" color="primary" v-on:click="login"> Login </v-btn>
 					</v-card-actions>
 				</v-container>
 			</v-form>

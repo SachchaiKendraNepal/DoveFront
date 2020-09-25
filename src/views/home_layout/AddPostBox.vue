@@ -1,10 +1,7 @@
 <template>
 	<v-card id="start-post-card" class="mx-auto mb-4" outlined>
 		<v-hover close-delay="1" v-slot:default="{ hover }">
-			<div
-				id="start-post-box"
-				class="d-flex align-center mx-4 mt-4 mb-1 pt-1 py-2"
-			>
+			<div id="start-post-box" class="d-flex align-center mx-4 mt-4 mb-1 pt-1 py-2">
 				<v-avatar tile size="38" class="mx-4" id="start-post-av">
 					<v-img :src="writePostIcon" />
 				</v-avatar>

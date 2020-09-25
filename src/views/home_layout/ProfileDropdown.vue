@@ -21,12 +21,7 @@
 			</template>
 			<v-list rounded dense class="ma-0" color="teal lighten-5">
 				<v-list-item-group v-model="my_item" color="primary">
-					<v-list-item
-						v-for="(my_item, i) in my_items"
-						:key="i"
-						class="ma-0 px-2"
-						:to="my_item.to"
-					>
+					<v-list-item v-for="(my_item, i) in my_items" :key="i" class="ma-0 px-2" :to="my_item.to">
 						<v-list-item-icon>
 							<v-icon v-text="my_item.icon"></v-icon>
 						</v-list-item-icon>

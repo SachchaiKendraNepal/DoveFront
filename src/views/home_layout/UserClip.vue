@@ -15,9 +15,7 @@
 
 		<v-list-item>
 			<v-list-item-content class="text-center">
-				<v-list-item-title class="headline mb-2"
-					>Kiran Parajuli</v-list-item-title
-				>
+				<v-list-item-title class="headline mb-2">Kiran Parajuli</v-list-item-title>
 
 				<v-list-item-subtitle>Wake up. Kick Ass. Repeat!</v-list-item-subtitle>
 			</v-list-item-content>

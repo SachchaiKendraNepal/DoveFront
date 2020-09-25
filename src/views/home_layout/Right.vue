@@ -3,9 +3,7 @@
 		<v-list-item three-line>
 			<v-list-item-content>
 				<div class="overline mb-4">Member</div>
-				<v-list-item-title class="headline mb-1"
-					>Kiran Parajuli</v-list-item-title
-				>
+				<v-list-item-title class="headline mb-1">Kiran Parajuli</v-list-item-title>
 				<v-list-item-subtitle>Wake up. Kick Ass. Repeat!</v-list-item-subtitle>
 			</v-list-item-content>
 

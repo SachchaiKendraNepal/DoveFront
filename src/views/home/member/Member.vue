@@ -16,9 +16,7 @@
 				<v-avatar class="elevation-2 mr-2" size="40">
 					<v-icon size="30">mdi-account-supervisor-circle</v-icon>
 				</v-avatar>
-				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp"
-					>Sachchai Members</v-toolbar-title
-				>
+				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">Sachchai Members</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-text-field
 					solo
@@ -72,13 +70,7 @@
 										xl="8"
 										v-show="editedIndex !== -1 || viewIndex !== -1"
 									>
-										<v-card
-											id="short-member-detail"
-											flat
-											class="mx-auto"
-											max-width="450"
-											tile
-										>
+										<v-card id="short-member-detail" flat class="mx-auto" max-width="450" tile>
 											<v-list-item>
 												<v-list-item-content>
 													<p class="headline">
@@ -86,11 +78,7 @@
 														Kiran Parajuli
 														<v-tooltip bottom>
 															<template v-slot:activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-on="on"
-																	v-bind="attrs"
-																	color="green darken-1"
+																<v-icon v-ripple v-on="on" v-bind="attrs" color="green darken-1"
 																	>mdi-check-decagram</v-icon
 																>
 															</template>
@@ -98,11 +86,7 @@
 														</v-tooltip>
 														<v-tooltip bottom>
 															<template v-slot:activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-on="on"
-																	v-bind="attrs"
-																	color="black lighten-2"
+																<v-icon v-ripple v-on="on" v-bind="attrs" color="black lighten-2"
 																	>mdi-account-cowboy-hat</v-icon
 																>
 															</template>
@@ -124,55 +108,34 @@
 													</p>
 													<v-divider />
 													<p>
-														<v-icon class="small-detail-icon">
-															mdi-account-key
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-account-key </v-icon>
 														<b>Role assigned:</b>
 														<span class="px-1">
-															<v-chip
-																small
-																class="ma-2"
-																color="primary"
-																text-color="white"
-															>
+															<v-chip small class="ma-2" color="primary" text-color="white">
 																MAINTAINER
 																<v-icon right>mdi-hammer</v-icon>
 															</v-chip>
 														</span>
 													</p>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-shape-plus
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-shape-plus </v-icon>
 														<b>Date joined:</b>
-														<span class="px-1">{{
-															editedItem.date_joined
-														}}</span>
+														<span class="px-1">{{ editedItem.date_joined }}</span>
 													</p>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-account-check
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-account-check </v-icon>
 														<b>Approved by:</b>
 														<span class="px-1"> Kiran Parajuli </span>
 													</p>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-check
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-check </v-icon>
 														<b>Approved at:</b>
-														<span class="px-1">{{
-															editedItem.date_joined
-														}}</span>
+														<span class="px-1">{{ editedItem.date_joined }}</span>
 													</p>
 													<p class="mb-0">
-														<v-icon class="small-detail-icon"
-															>mdi-history</v-icon
-														>
+														<v-icon class="small-detail-icon">mdi-history</v-icon>
 														<b>Last logged in:</b>
-														<span class="px-1">{{
-															editedItem.last_login
-														}}</span>
+														<span class="px-1">{{ editedItem.last_login }}</span>
 													</p>
 												</v-list-item-content>
 											</v-list-item>
@@ -354,19 +317,11 @@
 
 						<v-card-actions v-if="viewIndex === -1">
 							<v-spacer></v-spacer>
-							<v-btn
-								color="red lighten-5"
-								class="red--text"
-								depressed
-								@click="close"
-								>Cancel
+							<v-btn color="red lighten-5" class="red--text" depressed @click="close">
+								Cancel
 							</v-btn>
-							<v-btn
-								color="blue lighten-5"
-								class="blue--text"
-								depressed
-								@click="save"
-								>Save
+							<v-btn color="blue lighten-5" class="blue--text" depressed @click="save">
+								Save
 							</v-btn>
 						</v-card-actions>
 					</v-card>
@@ -383,27 +338,13 @@
 			<v-switch v-model="item.is_approved" color="primary" />
 		</template>
 		<template v-slot:item.actions="{ item }">
-			<v-icon
-				class="mr-2"
-				@click="showItem(item)"
-				color="orange"
-				v-ripple
-				size="20"
-			>
+			<v-icon class="mr-2" @click="showItem(item)" color="orange" v-ripple size="20">
 				mdi-eye
 			</v-icon>
-			<v-icon
-				class="mr-2"
-				@click="editItem(item)"
-				color="primary"
-				v-ripple
-				size="20"
-			>
-				mdi-pencil</v-icon
-			>
-			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20">
-				mdi-delete
+			<v-icon class="mr-2" @click="editItem(item)" color="primary" v-ripple size="20">
+				mdi-pencil
 			</v-icon>
+			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20"> mdi-delete </v-icon>
 		</template>
 		<template v-slot:no-data>
 			<v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -463,10 +404,7 @@ export default {
 			approved_at: ""
 		},
 		defaultItem: {},
-		rules: [
-			(value) =>
-				!value || value.size < 2000000 || "Image size should be less than 2 MB!"
-		]
+		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
 	}),
 
 	computed: {
@@ -727,8 +665,7 @@ export default {
 
 		deleteItem(item) {
 			const index = this.members.indexOf(item)
-			confirm("Are you sure you want to delete this member?") &&
-				this.members.splice(index, 1)
+			confirm("Are you sure you want to delete this member?") && this.members.splice(index, 1)
 		},
 
 		close() {

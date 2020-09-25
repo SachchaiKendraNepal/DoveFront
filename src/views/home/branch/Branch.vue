@@ -16,9 +16,7 @@
 				<v-avatar class="elevation-2 mr-2" size="40">
 					<v-icon size="30" class="">mdi-city-variant</v-icon>
 				</v-avatar>
-				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp"
-					>Sachchai Branches</v-toolbar-title
-				>
+				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">Sachchai Branches</v-toolbar-title>
 				<v-divider class="mx-4" inset vertical></v-divider>
 				<v-text-field
 					solo
@@ -74,49 +72,31 @@
 										xl="8"
 										v-show="editedIndex !== -1 || viewIndex !== -1"
 									>
-										<v-card
-											id="short-member-detail"
-											flat
-											class="mx-auto"
-											max-width="450"
-											tile
-										>
+										<v-card id="short-member-detail" flat class="mx-auto" max-width="450" tile>
 											<v-list-item>
 												<v-list-item-content>
 													<p class="headline">
 														{{ editedItem.name }}
 														<v-tooltip bottom>
 															<template v-slot:activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-on="on"
-																	v-bind="attrs"
-																	color="green darken-1"
-																	>mdi-check-decagram</v-icon
-																>
+																<v-icon v-ripple v-on="on" v-bind="attrs" color="green darken-1">
+																	mdi-check-decagram
+																</v-icon>
 															</template>
 															<span>Sacchai Branch</span>
 														</v-tooltip>
 														<v-tooltip bottom>
 															<template v-slot:activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-on="on"
-																	v-bind="attrs"
-																	color="red darken-3"
-																	>mdi-map-marker-star</v-icon
-																>
+																<v-icon v-ripple v-on="on" v-bind="attrs" color="red darken-3">
+																	mdi-map-marker-star
+																</v-icon>
 															</template>
 															<span>Main Branch</span>
 														</v-tooltip>
 													</p>
 													<v-divider class="mb-2" />
 													<div class="mb-2">
-														<v-chip
-															label
-															color="blue lighten-5"
-															class="mr-1 mb-1"
-														>
+														<v-chip label color="blue lighten-5" class="mr-1 mb-1">
 															<v-icon left>mdi-map-marker-star</v-icon>
 															<b>Main Branch</b>
 															<v-icon right>mdi-church</v-icon>
@@ -128,32 +108,22 @@
 														</v-chip>
 													</div>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-shape-plus
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-shape-plus </v-icon>
 														<b>Date created:</b>
-														<span class="px-1">{{
-															editedItem.created_at
-														}}</span>
+														<span class="px-1">{{ editedItem.created_at }}</span>
 													</p>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-plus
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-plus </v-icon>
 														<b>Created by:</b>
 														<span class="px-1"> Kiran Parajuli </span>
 													</p>
 													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-account-network
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-account-network </v-icon>
 														<b>Total Members:</b>
 														<span class="px-1">558</span>
 													</p>
 													<p class="mb-0">
-														<v-icon class="small-detail-icon">
-															mdi-pencil
-														</v-icon>
+														<v-icon class="small-detail-icon"> mdi-pencil </v-icon>
 														<b>Last Updated By:</b>
 														<span class="px-1">Sam Gellaitry</span>
 													</p>
@@ -284,11 +254,7 @@
 											prepend-inner-icon="mdi-google-maps"
 										/>
 									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-										v-if="editedItem.municipality"
-									>
+									<v-col cols="12" class="ma-0 pa-0" v-if="editedItem.municipality">
 										<v-select
 											id="branch-municipality-ward"
 											class="ma-0"
@@ -302,11 +268,7 @@
 											v-model="editedItem.municipality_ward"
 										/>
 									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-										v-if="!editedItem.municipality"
-									>
+									<v-col cols="12" class="ma-0 pa-0" v-if="!editedItem.municipality">
 										<v-select
 											id="branch-vdc"
 											class="ma-0"
@@ -340,20 +302,8 @@
 
 						<v-card-actions v-if="viewIndex === -1">
 							<v-spacer></v-spacer>
-							<v-btn
-								color="red lighten-5"
-								class="red--text"
-								depressed
-								@click="close"
-								>Cancel</v-btn
-							>
-							<v-btn
-								color="blue lighten-5"
-								class="blue--text"
-								depressed
-								@click="save"
-								>Save</v-btn
-							>
+							<v-btn color="red lighten-5" class="red--text" depressed @click="close">Cancel</v-btn>
+							<v-btn color="blue lighten-5" class="blue--text" depressed @click="save">Save</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
@@ -379,27 +329,13 @@
 			<p v-else class="mb-0" v-html="item.vdc_ward" />
 		</template>
 		<template v-slot:item.actions="{ item }">
-			<v-icon
-				class="mr-2"
-				@click="showItem(item)"
-				color="orange"
-				v-ripple
-				size="20"
-			>
+			<v-icon class="mr-2" @click="showItem(item)" color="orange" v-ripple size="20">
 				mdi-eye
 			</v-icon>
-			<v-icon
-				class="mr-2"
-				@click="editItem(item)"
-				color="primary"
-				v-ripple
-				size="20"
-			>
+			<v-icon class="mr-2" @click="editItem(item)" color="primary" v-ripple size="20">
 				mdi-pencil</v-icon
 			>
-			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20">
-				mdi-delete
-			</v-icon>
+			<v-icon @click="deleteItem(item)" color="red" v-ripple size="20"> mdi-delete </v-icon>
 		</template>
 		<template v-slot:no-data>
 			<v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -419,30 +355,9 @@
 export default {
 	name: "BranchTable",
 	data: () => ({
-		countries: [
-			"Nepal",
-			"India",
-			"Bhutan",
-			"Pakistan",
-			"Singapore",
-			"HongKong"
-		],
-		provinces: [
-			"Bagmati Pradesh",
-			"Gandaki Pradesh",
-			"Uttar Pradesh",
-			"Goa",
-			"Province 1"
-		],
-		districts: [
-			"Kaski",
-			"Kathmandu",
-			"Humla",
-			"Jhapa",
-			"Chitwan",
-			"Sarlahi",
-			"Nepalgunj"
-		],
+		countries: ["Nepal", "India", "Bhutan", "Pakistan", "Singapore", "HongKong"],
+		provinces: ["Bagmati Pradesh", "Gandaki Pradesh", "Uttar Pradesh", "Goa", "Province 1"],
+		districts: ["Kaski", "Kathmandu", "Humla", "Jhapa", "Chitwan", "Sarlahi", "Nepalgunj"],
 		municipalities: ["Pokhara-Lekhnath", "Kathmandu", "Panchkhal", "Banepa"],
 		municipality_wards: ["Amarsingh", "Tinpiple", "Chauthe", "Chaukot"],
 		vdcs: [
@@ -508,10 +423,7 @@ export default {
 			imageForUpload: Image
 		},
 		defaultItem: {},
-		rules: [
-			(value) =>
-				!value || value.size < 2000000 || "Image size should be less than 2 MB!"
-		]
+		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
 	}),
 
 	computed: {
@@ -841,8 +753,7 @@ export default {
 
 		deleteItem(item) {
 			const index = this.branches.indexOf(item)
-			confirm("Are you sure you want to delete this branch?") &&
-				this.branches.splice(index, 1)
+			confirm("Are you sure you want to delete this branch?") && this.branches.splice(index, 1)
 		},
 
 		close() {

@@ -7,5 +7,6 @@ module.exports = {
 	arrowParens: "always",
 	endOfLine: "lf",
 	embeddedLanguageFormatting: "auto",
-	useTabs: true
+	useTabs: true,
+	printWidth: 100
 }

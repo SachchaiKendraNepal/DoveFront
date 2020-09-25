@@ -14,16 +14,8 @@
 		</div>
 		<v-divider class="my-2" />
 		<div class="comment-box d-flex justify-space-around ml-2">
-			<v-text-field
-				class="comment mb-2"
-				dense
-				outlined
-				placeholder="Add a comment"
-				hide-details
-			/>
-			<v-btn text color="blue darken-3" class="font-weight-bold mt-1">
-				Post
-			</v-btn>
+			<v-text-field class="comment mb-2" dense outlined placeholder="Add a comment" hide-details />
+			<v-btn text color="blue darken-3" class="font-weight-bold mt-1"> Post </v-btn>
 		</div>
 	</div>
 </template>
