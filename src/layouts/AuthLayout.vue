@@ -1,13 +1,13 @@
 <template>
-  <v-row
-    align="center"
-    justify="center"
-    class="mx-1"
-  >
-    <v-col>
-      <router-view />
-    </v-col>
-  </v-row>
+	<v-row
+		align="center"
+		justify="center"
+		class="mx-1"
+	>
+		<v-col>
+			<router-view />
+		</v-col>
+	</v-row>
 </template>
 
 <script>

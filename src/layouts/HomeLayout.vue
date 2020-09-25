@@ -1,11 +1,11 @@
 <template>
-  <div
-    id="home-layout"
-    class="d-flex flex-column"
-  >
-    <home-header />
-    <home-footer />
-  </div>
+	<div
+		id="home-layout"
+		class="d-flex flex-column"
+	>
+		<home-header />
+		<home-footer />
+	</div>
 </template>
 
 <script>
@@ -20,5 +20,5 @@ export default {
 
 <style lang="sass">
 #home-layout
-  height: 100%
+	height: 100%
 </style>
