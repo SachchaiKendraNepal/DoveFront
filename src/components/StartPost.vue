@@ -1,52 +1,158 @@
 <template>
 	<v-card
-		color="#26c6da"
-		dark
-		max-width="500"
+		light
+		max-width="650"
 	>
-		<v-card-title>
-			<v-icon
-				large
-				left
+		<v-toolbar
+			dark
+		>
+			<v-avatar
+				class="elevation-3"
+				size="40"
+				tile
 			>
-				mdi-twitter
-			</v-icon>
-			<span class="title font-weight-light">Twitter</span>
-		</v-card-title>
-
-		<v-card-text class="headline font-weight-bold">
-			"Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as
-			well."
-		</v-card-text>
-
-		<v-card-actions>
-			<v-list-item class="grow">
-				<v-list-item-avatar color="grey darken-3">
+				<v-icon size="30">
+					mdi-pencil-box
+				</v-icon>
+			</v-avatar>
+			<v-spacer />
+			<v-toolbar-title class="text-uppercase font-weight-bold">
+				start a post
+			</v-toolbar-title>
+			<v-spacer />
+			<v-avatar
+				v-ripple
+				class="elevation-3"
+				size="40"
+			>
+				<v-icon
+					@click="$emit('close-dialog')"
+				>
+					mdi-close-circle
+				</v-icon>
+			</v-avatar>
+		</v-toolbar>
+		<v-divider />
+		<v-row
+			id="post-detail-row"
+			class="mx-2 pa-0"
+			justify="start"
+			align="center"
+		>
+			<v-col cols="2"
+				class="pr-0 mr-0"
+			>
+				<v-avatar>
 					<v-img
 						class="elevation-6"
 						src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
 					/>
-				</v-list-item-avatar>
-
-				<v-list-item-content>
-					<v-list-item-title>Evan You</v-list-item-title>
-				</v-list-item-content>
-
-				<v-row
-					align="center"
-					justify="end"
-				>
-					<v-icon class="mr-1">
-						mdi-heart
-					</v-icon>
-					<span class="subheading mr-2">256</span>
-					<span class="mr-1">·</span>
-					<v-icon class="mr-1">
-						mdi-share-variant
-					</v-icon>
-					<span class="subheading">45</span>
-				</v-row>
-			</v-list-item>
+				</v-avatar>
+			</v-col>
+			<v-col
+				cols="10"
+				class="pl-0 ml-0"
+			>
+				<v-list two-line>
+					<p class="ma-0 pa-0">
+						Kiran Parajuli
+					</p>
+					<v-chip
+						dense
+						label
+						style="font-size: 10px; font-weight: bold"
+					>
+						Member
+						<v-icon right
+							small
+						>
+							mdi-account-circle
+						</v-icon>
+					</v-chip>
+				</v-list>
+			</v-col>
+			<v-col cols="12">
+				<v-text-field
+					id="title"
+					v-model="post.title"
+					class="ma-0 pa-0"
+					name="title"
+					placeholder="What is a title for your post, Kiran?"
+					label="Title"
+					hide-details
+					outlined
+					clearable
+				/>
+			</v-col>
+			<v-col cols="12">
+				<v-textarea
+					id="description"
+					v-model="post.description"
+					class="ma-0 pa-0"
+					name="description"
+					placeholder="Write something about your activity, Kiran!"
+					label="Description"
+					outlined
+					hide-details
+					clearable
+				/>
+			</v-col>
+		</v-row>
+		<v-row
+			id="add-resources-row"
+			class="mx-5 pa-0"
+			justify="center"
+			align="center"
+		>
+			<p class="ma-0 pa-0">
+				Add to your post
+			</p>
+			<v-spacer />
+			<v-btn
+				fab x-small
+				dark
+				color="#3aaada"
+			>
+				<v-icon>mdi-camera</v-icon>
+			</v-btn>
+			<v-btn
+				fab x-small
+				dark
+				color="#9896f2"
+			>
+				<v-icon>mdi-music</v-icon>
+			</v-btn>
+			<v-btn
+				fab x-small
+				dark
+				color="#009688"
+			>
+				<v-icon>mdi-video</v-icon>
+			</v-btn>
+			<v-btn
+				fab x-small
+				dark
+				color="blue"
+			>
+				<v-icon>mdi-tag-faces</v-icon>
+			</v-btn>
+			<v-btn
+				fab x-small
+				dark
+				color="red"
+			>
+				<v-icon>mdi-google-maps</v-icon>
+			</v-btn>
+		</v-row>
+		<v-card-actions class="pa-4">
+			<v-btn
+				id="post-submit"
+				block
+				dark
+				color="#288dba"
+			>
+				POST
+			</v-btn>
 		</v-card-actions>
 	</v-card>
 </template>
@@ -54,12 +160,39 @@
 <script>
 export default {
 	name: "StartAPostComponent",
+	emits: ["close-dialog"],
 	data: () => ({
-		// add something
-	})
+		post: {
+			title: "",
+			description: ""
+		}
+	}),
 }
 </script>
 
 <style lang="sass">
+#title
+	font-family: Roboto, sans-serif
+	font-size: 20px
 
+#description
+	margin-top: 0 !important
+	padding-top: 15px !important
+	font-size: 20px
+	font-family: "Roboto", sans-serif
+	line-height: 25px
+
+#post-submit
+	font-size: 18px
+	letter-spacing: 0
+	height: 42px
+#add-resources-row
+	padding: 8px !important
+	border: 2px solid #008db6
+	border-radius: 4px
+	p
+		font-size: 18px
+	.v-btn
+		margin-right: 4px
+		margin-left: 4px
 </style>

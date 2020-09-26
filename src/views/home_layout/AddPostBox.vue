@@ -36,7 +36,7 @@
 					</div>
 				</v-hover>
 			</template>
-			<start-post-box />
+			<start-post-box @close-dialog="closeDialog" />
 		</v-dialog>
 		<v-divider />
 		<v-card-actions
@@ -79,7 +79,7 @@
 				<v-icon
 					left
 					size="24"
-					color="#9896f2"
+					color="#009688"
 				>
 					mdi-video
 				</v-icon>
@@ -109,10 +109,16 @@ export default {
 	components: {
 		StartPostBox: () => import("@/components/StartPost")
 	},
+	emits: ["close-post-dialog"],
 	data: () => ({
 		dialog: false,
 		writePostIcon: require("@/assets/write_post_icon.jpg")
-	})
+	}),
+	methods: {
+		closeDialog() {
+			this.dialog = false
+		}
+	}
 }
 </script>
 
