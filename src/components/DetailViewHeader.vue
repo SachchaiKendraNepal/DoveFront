@@ -25,15 +25,6 @@
 </template>
 <script>
 export default {
-	name: "DetailViewHeaderComponent",
-	props: {
-		item: {
-			type: Object,
-			required: true
-		}
-	},
-	data: () => ({
-
-	})
+	name: "DetailViewHeaderComponent"
 }
 </script>

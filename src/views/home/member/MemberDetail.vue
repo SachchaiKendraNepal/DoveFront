@@ -324,6 +324,9 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+::v-deep .v-slide-group__wrapper
+	@media only screen and (max-width: 588px)
+		width: 60px !important
 .alice-blue
 	background-color: aliceblue
 .headline

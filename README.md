@@ -1,4 +1,4 @@
-# Dove Frontend For Sacchai Nepal
+# Dove Frontend For Sachchai Nepal
 
 ## Project setup
 ```

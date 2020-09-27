@@ -104,6 +104,9 @@ export default {
 		color: #c40909
 		zoom: 120%
 
+.headline
+	font-weight: 300
+
 .bookmark-avatar
 	cursor: pointer
 	opacity: .8
