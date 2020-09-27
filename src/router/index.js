@@ -15,9 +15,14 @@ const routes = [
 				component: () => import("@/views/home/Home")
 			},
 			{
-				path: "member",
-				name: "SACHCHAI NEPAL MEMBERS",
+				path: "follower",
+				name: "SACHCHAI NEPAL FOLLOWERS",
 				component: () => import("@/views/home/member/Member")
+			},
+			{
+				path: "follower/:id",
+				name: "SACHCHAI NEPAL FOLLOWER",
+				component: () => import("@/views/home/member/MemberDetail")
 			},
 			{
 				path: "branch",

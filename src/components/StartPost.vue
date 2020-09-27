@@ -79,7 +79,7 @@
 					name="title"
 					placeholder="What is a title for your post, Kiran?"
 					label="Title"
-					hide-details
+					hide-details="auto"
 					outlined
 					clearable
 				/>
@@ -93,7 +93,7 @@
 					placeholder="Write something about your activity, Kiran!"
 					label="Description"
 					outlined
-					hide-details
+					hide-details="auto"
 					clearable
 				/>
 			</v-col>

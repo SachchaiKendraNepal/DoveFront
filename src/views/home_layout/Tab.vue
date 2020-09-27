@@ -30,7 +30,7 @@ export default {
 			items: [
 				{ name: "Home", icon: "mdi-home", to: "/" },
 				{ name: "Branches", icon: "mdi-home-group", to: "/branch" },
-				{ name: "Members", icon: "mdi-account-group", to: "/member" },
+				{ name: "Followers", icon: "mdi-account-group", to: "/follower" },
 				{ name: "Articles", icon: "mdi-post", to: "/article" },
 				{ name: "Multimedia", icon: "mdi-video-vintage", to: "/multimedia" }
 			]
