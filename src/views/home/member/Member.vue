@@ -117,8 +117,13 @@
 											<v-list-item>
 												<v-list-item-content>
 													<p class="headline">
-														<!--{{editedItem.f_name}} {{editedItem.l_name}}-->
-														Kiran Parajuli
+														<span
+															id="follower-full-name-display"
+															class="mr-2"
+															@click="routeToMemberDetailPage(editedItem.id)"
+														>
+															{{ editedItem.f_name }} {{ editedItem.l_name }}
+														</span>
 														<v-tooltip bottom>
 															<template #activator="{ on, attrs }">
 																<v-icon
@@ -229,7 +234,7 @@
 									>
 										<v-text-field
 											id="member-f_name"
-											v-model="editedItem.full_name"
+											v-model="editedItem.f_name"
 											class="ma-0"
 											outlined
 											dense
@@ -469,6 +474,15 @@
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.full_name="{ item }">
+			<p
+				class="ma-0 pa-0 follower-full-name"
+				@click="routeToMemberDetailPage(item.id)"
+			>
+				{{ item.f_name }} {{ item.l_name }}
+			</p>
+		</template>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_staff="{ item }">
 			<v-simple-checkbox
 				v-model="item.is_staff"
@@ -530,6 +544,8 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
 	name: "MembersTable",
 	data: () => ({
@@ -606,7 +622,8 @@ export default {
 					id: 1,
 					username: "kiran589",
 					email: "kiran589@gmail.com",
-					full_name: "Kiran Parajuli",
+					f_name: "Kiran",
+					l_name: "Parajuli",
 					phone: 9843530425,
 					branch: "Polar Branch",
 					is_approved: true,
@@ -624,7 +641,8 @@ export default {
 					id: 2,
 					username: "bot25",
 					email: "bot25@gmail.com",
-					full_name: "Bot Heikki",
+					f_name: "Bot",
+					l_name: "Heikki",
 					phone: 985632256,
 					branch: "Seiko Branch",
 					is_approved: false,
@@ -642,7 +660,8 @@ export default {
 					id: 3,
 					username: "skshetry101",
 					email: "susant@gmail.com",
-					full_name: "Susant Kshetry",
+					f_name: "Susant",
+					l_name: "Kshetry",
 					phone: 984568953,
 					branch: "Akiko Branch",
 					is_approved: true,
@@ -658,11 +677,12 @@ export default {
 				},
 				{
 					id: 4,
-					username: "kiran589",
-					email: "kiran589@gmail.com",
-					full_name: "Kiran Parajuli",
+					username: "1996amrit",
+					email: "1996amrit@gmail.com",
+					f_name: "Amrit",
+					l_name: "Neupane",
 					phone: 9843530425,
-					branch: "Polar Branch",
+					branch: "Main Branch",
 					is_approved: true,
 					approved_at: now,
 					date_joined: now,
@@ -674,150 +694,6 @@ export default {
 					image:
 						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
-				{
-					id: 5,
-					username: "bot25",
-					email: "bot25@gmail.com",
-					full_name: "Bot Heikki",
-					phone: 985632256,
-					branch: "Seiko Branch",
-					is_approved: false,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: false,
-					is_staff: true,
-					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 6,
-					username: "skshetry101",
-					email: "susant@gmail.com",
-					full_name: "Susant Kshetry",
-					phone: 984568953,
-					branch: "Akiko Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 7,
-					username: "kiran589",
-					email: "kiran589@gmail.com",
-					full_name: "Kiran Parajuli",
-					phone: 9843530425,
-					branch: "Polar Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "CAB, ZYX",
-					permanent_address: "DAC, YML",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 8,
-					username: "bot25",
-					email: "bot25@gmail.com",
-					full_name: "Bot Heikki",
-					phone: 985632256,
-					branch: "Seiko Branch",
-					is_approved: false,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: false,
-					is_staff: true,
-					temporary_address: "AJX, YHJ",
-					permanent_address: "NYF, NJY",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 9,
-					username: "skshetry101",
-					email: "susant@gmail.com",
-					full_name: "Susant Kshetry",
-					phone: 984568953,
-					branch: "Akiko Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 10,
-					username: "kiran589",
-					email: "kiran589@gmail.com",
-					full_name: "Kiran Parajuli",
-					phone: 9843530425,
-					branch: "Polar Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 11,
-					username: "bot25",
-					email: "bot25@gmail.com",
-					full_name: "Bot Heikki",
-					phone: 985632256,
-					branch: "Seiko Branch",
-					is_approved: false,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: false,
-					is_staff: true,
-					temporary_address: "NUH, HBV",
-					permanent_address: "HJU, JKI",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 12,
-					username: "skshetry101",
-					email: "susant@gmail.com",
-					full_name: "Susant Kshetry",
-					phone: 984568953,
-					branch: "Akiko Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "NUI, KUH",
-					permanent_address: "HYW, QPO",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				}
 			]
 		},
 
@@ -854,6 +730,10 @@ export default {
 				this.members.push(this.editedItem)
 			}
 			this.close()
+		},
+
+		routeToMemberDetailPage(itemId) {
+			router.push({name: "SACHCHAI NEPAL FOLLOWER", params: { id: itemId }})
 		}
 	}
 }
@@ -863,8 +743,15 @@ export default {
 .v-input--selection-controls
 	margin-top: 0
 
+#follower-full-name-display
+	cursor: pointer
+
 #short-member-detail
 	.small-detail-icon
 		margin-top: -4px
 		margin-right: 4px
+.follower-full-name
+	font-size: 20px
+	color: #474646
+	cursor: pointer
 </style>
