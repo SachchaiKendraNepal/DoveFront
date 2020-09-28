@@ -121,7 +121,10 @@
 										>
 											<v-list-item>
 												<v-list-item-content>
-													<p class="headline">
+													<p
+														class="headline cursor"
+														@click="routeToBranchDetailPage(editedItem.id)"
+													>
 														{{ editedItem.name }}
 														<v-tooltip bottom>
 															<template #activator="{ on, attrs }">
@@ -326,7 +329,7 @@
 									>
 										<v-select
 											id="branch-province"
-											v-model="editedItem.country"
+											v-model="editedItem.province"
 											class="ma-0"
 											dense
 											outlined
@@ -454,6 +457,15 @@
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.name="{ item }">
+			<p
+				class="branch-name cursor"
+				@click="routeToBranchDetailPage(item.id)"
+			>
+				{{ item.name }}
+			</p>
+		</template>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_main="{ item }">
 			<v-checkbox
 				v-model="item.is_main"
@@ -550,6 +562,8 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
 	name: "BranchTable",
 	data: () => ({
@@ -608,6 +622,7 @@ export default {
 		editedIndex: -1,
 		viewIndex: -1,
 		editedItem: {
+			id: "",
 			name: "",
 			country: "",
 			province: "",
@@ -970,6 +985,10 @@ export default {
 				this.branches.push(this.editedItem)
 			}
 			this.close()
+		},
+
+		routeToBranchDetailPage(itemId) {
+			router.push({name: "SACHCHAI NEPAL BRANCH", params: { id: itemId }})
 		}
 	}
 }
@@ -985,4 +1004,13 @@ export default {
 
 .v-card__title
 	background-color: #535151 !important
+
+.branch-name
+	margin: 0
+	padding: 0
+	font-size: 18px
+	font-weight: 300
+
+.cursor
+	cursor: pointer
 </style>
