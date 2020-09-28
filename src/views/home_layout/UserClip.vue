@@ -24,7 +24,10 @@
 
 		<v-list-item>
 			<v-list-item-content class="text-center">
-				<v-list-item-title class="headline mb-2">
+				<v-list-item-title
+					id="user-name"
+					class="mb-2"
+				>
 					Kiran Parajuli
 				</v-list-item-title>
 
@@ -63,7 +66,10 @@ export default {
 	name: "UserClipComponent"
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
+#user-name
+	font-size: 25px !important
+	font-weight: 300 !important
 #photo-row
 	margin-top: -35px
 </style>

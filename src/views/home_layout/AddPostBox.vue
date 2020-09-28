@@ -126,8 +126,8 @@ export default {
 #start-post-av
 	opacity: 0.7
 #start-a-post
-	font-size: 22px
-	font-weight: 500
+	font-size: 26px
+	font-weight: 400
 	font-family: "Acme", sans-serif
 	letter-spacing: 1px
 	color: #4f5151
