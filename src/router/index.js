@@ -30,6 +30,11 @@ const routes = [
 				component: () => import("@/views/home/branch/Branch")
 			},
 			{
+				path: "branch/:id",
+				name: "SACHCHAI NEPAL BRANCH",
+				component: () => import("@/views/home/branch/BranchDetail")
+			},
+			{
 				path: "article",
 				name: "SACHCHAI NEPAL ARTICLES",
 				component: () => import("@/views/home/article/Article")
