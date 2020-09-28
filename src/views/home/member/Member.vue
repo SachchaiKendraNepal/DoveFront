@@ -573,6 +573,7 @@ export default {
 		editedIndex: -1,
 		viewIndex: -1,
 		editedItem: {
+			id: "",
 			username: "",
 			email: "",
 			f_name: "",
@@ -751,7 +752,8 @@ export default {
 		margin-top: -4px
 		margin-right: 4px
 .follower-full-name
-	font-size: 20px
+	font-size: 18px
+	font-weight: 300
 	color: #474646
 	cursor: pointer
 </style>
