@@ -17,7 +17,10 @@
 			>
 				{{ toolbarIcon }}
 			</v-icon>
-			<v-toolbar-title id="explore-toolbar-title">
+			<v-toolbar-title
+				id="explore-toolbar-title"
+				class="text-uppercase"
+			>
 				{{ toolbarTitle }}
 			</v-toolbar-title>
 			<v-spacer />
@@ -79,6 +82,7 @@ export default {
 #detail-sheet
 	margin-top: 48px
 #explore-toolbar-title
+	font-size: 18px
 	font-family: Roboto, sans-serif
 	font-weight: 300
 </style>
