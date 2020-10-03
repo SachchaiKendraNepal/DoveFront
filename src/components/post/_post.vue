@@ -80,7 +80,7 @@
 export default {
 	name: "BasePostComponent",
 	components: {
-		PostComment: () => import("@/views/home/post/_comment")
+		PostComment: () => import("@/components/post/_comment")
 	},
 	data: () => ({
 		isLiked: false,

@@ -17,7 +17,7 @@ export default {
 	name: "MultimediaComponent",
 	components: {
 		vuePlayer,
-		BasePostCard: () => import("@/views/home/post/_post")
+		BasePostCard: () => import("@/components/post/_post")
 	},
 	data() {
 		return {

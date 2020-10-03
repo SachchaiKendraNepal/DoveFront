@@ -37,12 +37,12 @@ const routes = [
 			{
 				path: "article",
 				name: "SACHCHAI NEPAL ARTICLES",
-				component: () => import("@/views/home/article/Article")
+				component: () => import("@/views/home/article/Articles")
 			},
 			{
 				path: "multimedia",
-				name: "SACHCHAI NEPAL MULTIMEDIA",
-				component: () => import("@/views/home/multimedia/Multimedia")
+				name: "SACHCHAI NEPAL MULTIMEDIAS",
+				component: () => import("@/views/home/multimedia/Multimedias")
 			}
 		]
 	},

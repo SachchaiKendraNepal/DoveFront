@@ -13,14 +13,12 @@
 export default {
 	name: "ArticleComponent",
 	components: {
-		BasePostCard: () => import("@/views/home/post/_post")
+		BasePostCard: () => import("@/components/post/_post"),
 	},
-	data() {
-		return {
-			// return something
-		}
-	}
-}
+	data: () => ({
+		// return something
+	})
+};
 </script>
 
 <style lang="sass" scoped>

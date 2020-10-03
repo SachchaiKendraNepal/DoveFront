@@ -49,8 +49,8 @@
 export default {
 	name: "HomeComponent",
 	components: {
-		ArticlePost: () => import("@/views/home/article/Article"),
-		Multimedia: () => import("@/views/home/multimedia/Multimedia"),
+		ArticlePost: () => import("@/components/Article"),
+		Multimedia: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home_layout/AddPostBox"),
 		UserClip: () => import("@/views/home_layout/UserClip")
 	},
