@@ -36,3 +36,7 @@ export default {
 	}
 }
 </script>
+<style lang="sass" scoped>
+::v-deep div.title
+	text-align: center !important
+</style>

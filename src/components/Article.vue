@@ -1,5 +1,8 @@
 <template>
-	<base-post-card :post="post">
+	<base-post-card
+		:post="post"
+		:is-article="true"
+	>
 		<template #media>
 			<v-img
 				:src="image"
