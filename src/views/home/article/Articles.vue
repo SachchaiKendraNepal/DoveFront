@@ -11,7 +11,7 @@
 			md="4"
 			sm="6"
 		>
-			<article-post />
+			<article-post :post="post" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -20,7 +20,7 @@
 			md="4"
 			sm="6"
 		>
-			<article-post />
+			<article-post :post="post" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -29,7 +29,7 @@
 			md="4"
 			sm="6"
 		>
-			<article-post />
+			<article-post :post="post" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -38,7 +38,7 @@
 			md="4"
 			sm="6"
 		>
-			<article-post />
+			<article-post :post="post"/>
 		</v-col>
 	</v-row>
 </template>
@@ -50,7 +50,12 @@ export default {
 		ArticlePost
 	},
 	data: () => ({
-		// do something
+		post: {
+			id: 1,
+			title: "Our Changing Planet",
+			author: "Kurt Wagner",
+			description: "Visit ten places on our planet that are undergoing the biggest changes today."
+		}
 	})
 }
 </script>

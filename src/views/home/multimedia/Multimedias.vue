@@ -11,7 +11,7 @@
 			md="4"
 			sm="6"
 		>
-			<multimedia-post />
+			<multimedia-post :post="multimediaPost" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -20,7 +20,7 @@
 			md="4"
 			sm="6"
 		>
-			<multimedia-post />
+			<multimedia-post :post="multimediaPost" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -29,7 +29,7 @@
 			md="4"
 			sm="6"
 		>
-			<multimedia-post />
+			<multimedia-post :post="multimediaPost" />
 		</v-col>
 		<v-col
 			cols="12"
@@ -38,7 +38,7 @@
 			md="4"
 			sm="6"
 		>
-			<multimedia-post />
+			<multimedia-post :post="multimediaPost" />
 		</v-col>
 	</v-row>
 </template>
@@ -50,6 +50,14 @@ export default {
 	components: {
 		MultimediaPost
 	},
+	data: () => ({
+		multimediaPost: {
+			id: 1,
+			title: "Alice in the Wonderland",
+			author: "Kiran Parajuli",
+			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
+		}
+	})
 }
 </script>
 <style lang="sass" scoped>

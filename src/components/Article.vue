@@ -1,8 +1,8 @@
 <template>
-	<base-post-card>
+	<base-post-card :post="post">
 		<template #media>
 			<v-img
-				src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+				:src="image"
 				height="194"
 			/>
 		</template>
@@ -15,8 +15,14 @@ export default {
 	components: {
 		BasePostCard: () => import("@/components/post/_post"),
 	},
+	props: {
+		post: {
+			required: true,
+			type: Object
+		}
+	},
 	data: () => ({
-		// return something
+		image: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
 	})
 };
 </script>

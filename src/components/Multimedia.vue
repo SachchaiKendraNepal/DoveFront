@@ -1,11 +1,11 @@
 <template>
-	<base-post-card>
+	<base-post-card :post="post">
 		<template #media>
 			<vue-player
 				v-model="playing"
-				src="http://techslides.com/demos/sample-videos/small.mp4"
-				poster="https://via.placeholder.com/150"
-				title="this is a title"
+				:src="videoUrl"
+				:poster="videoPosterImageUrl"
+				:title="videoPosterTitle"
 			/>
 		</template>
 	</base-post-card>
@@ -19,8 +19,17 @@ export default {
 		vuePlayer,
 		BasePostCard: () => import("@/components/post/_post")
 	},
+	props: {
+		post: {
+			type: Object,
+			required: true
+		}
+	},
 	data() {
 		return {
+			videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
+			videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
+			videoPosterTitle: "ALICE IN THE WONDERLAND",
 			playing: false,
 			isLiked: false
 		}

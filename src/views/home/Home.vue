@@ -24,10 +24,10 @@
 				xl="4"
 			>
 				<add-post-box />
-				<article-post />
-				<article-post />
-				<multimedia />
-				<multimedia />
+				<article-post :post="articlePost" />
+				<article-post :post="articlePost" />
+				<multimedia :post="multimediaPost" />
+				<multimedia :post="multimediaPost" />
 			</v-col>
 			<v-col
 				v-show="$route.name === 'SACHCHAI NEPAL'"
@@ -55,7 +55,19 @@ export default {
 		UserClip: () => import("@/views/home_layout/UserClip")
 	},
 	data: () => ({
-		loading: false
+		loading: false,
+		articlePost: {
+			id: 1,
+			title: "Our Changing Planet",
+			author: "Kurt Wagner",
+			description: "Visit ten places on our planet that are undergoing the biggest changes today."
+		},
+		multimediaPost: {
+			id: 1,
+			title: "Alice in the Wonderland",
+			author: "Kiran Parajuli",
+			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
+		}
 	})
 }
 </script>

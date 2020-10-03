@@ -6,16 +6,16 @@
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title class="headline">
-					Our Changing Planet
+					{{ post.title }}
 				</v-list-item-title>
-				<v-list-item-subtitle>by Kurt Wagner</v-list-item-subtitle>
+				<v-list-item-subtitle>by&nbsp;{{ post.author }}</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
 
 		<slot name="media" />
 
 		<v-card-text class="post-description my-0 pt-2 pb-0">
-			Visit ten places on our planet that are undergoing the biggest changes today.
+			{{ post.description }}
 		</v-card-text>
 
 		<v-card-actions class="post-actions my-0 pt-1 pb-0">
@@ -67,7 +67,7 @@
 			</v-avatar>
 		</v-card-actions>
 		<p class="mb-1 mx-4 love-count">
-			<span>15</span> Love Reacts
+			<span>{{ loveCount }}</span>&nbsp;Love Reacts
 			<v-icon size="20">
 				mdi-heart
 			</v-icon>
@@ -82,7 +82,14 @@ export default {
 	components: {
 		PostComment: () => import("@/components/post/_comment")
 	},
+	props: {
+		post: {
+			type: Object,
+			required: true
+		}
+	},
 	data: () => ({
+		loveCount: 15,
 		isLiked: false,
 		isBookmarked: false,
 		bookmarkImage: require("@/assets/bookmark-ribbon.png"),
