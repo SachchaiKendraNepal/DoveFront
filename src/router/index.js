@@ -40,9 +40,19 @@ const routes = [
 				component: () => import("@/views/home/article/Articles")
 			},
 			{
+				path: "article/:id",
+				name: "SACHCHAI NEPAL ARTICLE",
+				component: () => import("@/views/home/article/ArticleDetail")
+			},
+			{
 				path: "multimedia",
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
 				component: () => import("@/views/home/multimedia/Multimedias")
+			},
+			{
+				path: "multimedia/:id",
+				name: "SACHCHAI NEPAL MULTIMEDIA",
+				component: () => import("@/views/home/multimedia/MultimediaDetail")
 			}
 		]
 	},
@@ -57,7 +67,7 @@ const routes = [
 			},
 			{
 				path: "reset-password",
-				name: "SACHCHAI LOGIN",
+				name: "SACHCHAI RESET PASSWORD",
 				component: () => import("@/views/auth/ResetPassword")
 			}
 		]
