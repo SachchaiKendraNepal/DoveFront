@@ -1,8 +1,11 @@
 <template>
-	<base-post-card>
+	<base-post-card
+		:post="post"
+		:is-article="true"
+	>
 		<template #media>
 			<v-img
-				src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+				:src="image"
 				height="194"
 			/>
 		</template>
@@ -13,14 +16,18 @@
 export default {
 	name: "ArticleComponent",
 	components: {
-		BasePostCard: () => import("@/views/home/post/_post")
+		BasePostCard: () => import("@/components/post/_post"),
 	},
-	data() {
-		return {
-			// return something
+	props: {
+		post: {
+			required: true,
+			type: Object
 		}
-	}
-}
+	},
+	data: () => ({
+		image: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+	})
+};
 </script>
 
 <style lang="sass" scoped>
