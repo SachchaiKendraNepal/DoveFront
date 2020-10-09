@@ -2,7 +2,7 @@
 	<v-card
 		id="profile-clip"
 		class="mx-auto"
-		max-width="230"
+		max-width="300"
 		outlined
 	>
 		<v-img

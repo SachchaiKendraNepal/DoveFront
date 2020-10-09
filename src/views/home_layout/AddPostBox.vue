@@ -39,67 +39,26 @@
 			<start-post-box @close-dialog="closeDialog" />
 		</v-dialog>
 		<v-divider />
-		<v-card-actions
+		<v-row
 			id="start-post-actions"
-			class="d-flex justify-space-around"
+			no-gutters
+			justify="space-around"
+			align="center"
 		>
-			<v-btn
-				x-small
-				depressed
-				class="py-5"
+			<v-card-actions
+				v-for="(item, index) in actionButtons"
+				:key="index"
+				class="ma-0 pa-0"
 			>
-				<v-icon
-					left
-					size="24"
-					color="#3aaada"
-				>
-					mdi-camera
-				</v-icon>
-				<span>Images</span>
-			</v-btn>
-			<v-btn
-				x-small
-				depressed
-				class="py-5"
-			>
-				<v-icon
-					left
-					size="24"
-					color="#9896f2"
-				>
-					mdi-music
-				</v-icon>
-				<span>Audios</span>
-			</v-btn>
-			<v-btn
-				x-small
-				depressed
-				class="py-5"
-			>
-				<v-icon
-					left
-					size="24"
-					color="#009688"
-				>
-					mdi-video
-				</v-icon>
-				<span>Videos</span>
-			</v-btn>
-			<v-btn
-				x-small
-				depressed
-				class="py-5"
-			>
-				<v-icon
-					left
-					size="24"
-					color="#ef7e37"
-				>
-					mdi-post
-				</v-icon>
-				<span>Write Article</span>
-			</v-btn>
-		</v-card-actions>
+				<depressed-button
+					:icon="item.icon"
+					:text="item.text"
+					:color="item.color"
+					size="22"
+					:tooltip="item.text"
+				/>
+			</v-card-actions>
+		</v-row>
 	</v-card>
 </template>
 
@@ -107,10 +66,18 @@
 export default {
 	name: "AddPostBoxComponent",
 	components: {
-		StartPostBox: () => import("@/components/StartPost")
+		StartPostBox: () => import("@/components/StartPost"),
+		DepressedButton: () => import("@/components/DerpressedButtonWithToolTip")
 	},
 	emits: ["close-post-dialog"],
 	data: () => ({
+		actionButtons: [
+			{icon: "mdi-camera", text: "Images", color: "#3aaada"},
+			{icon: "mdi-music", text: "Audios", color: "#9896f2"},
+			{icon: "mdi-video", text: "Videos", color: "#009688"},
+			{icon: "mdi-calendar-text", text: "Event", color: "#c21d98"},
+			{icon: "mdi-post", text: "Write Article", color: "#ef7e37"},
+		],
 		dialog: false,
 		writePostIcon: require("@/assets/write_post_icon.jpg")
 	}),
@@ -133,8 +100,8 @@ export default {
 	color: #4f5151
 #start-post-box:hover
 	background-color: #e3f0fc
-#start-post-actions button span
-	font-size: 12px !important
+::v-deep span.btn-text
+	font-size: 10px !important
 	font-weight: bold
 	@media only screen and (max-width: 974px) and (min-width: 600px)
 		display: none
