@@ -4,7 +4,7 @@
 		:is-article="true"
 	>
 		<template #imageCarousel>
-			<v-carousel>
+			<v-carousel height="100vh">
 				<v-carousel-item
 					v-for="(item,i) in articleImages"
 					:key="i"

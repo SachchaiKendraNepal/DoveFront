@@ -3,16 +3,22 @@
 		id="sacchai-home-container"
 		class="px-2"
 	>
-		<v-row justify="center">
+		<v-row class="ma-0 pa-0 mx-2">
 			<v-col
-				v-show="$route.name === 'SACHCHAI NEPAL'"
+				v-show="$route.name === 'SACHCHAI NEPAL HOME'"
 				class="mb-0 pb-0"
 				sm="3"
 				md="3"
 				lg="4"
 				xl="4"
 			>
-				<div class="float-lg-right float-md-right">
+				<div :class="
+					$vuetify.breakpoint.mdAndUp
+						? 'sticky'
+						: 'sticky'
+				"
+				>
+					<v-spacer />
 					<user-clip />
 				</div>
 			</v-col>
@@ -28,18 +34,6 @@
 				<article-post :post="articlePost" />
 				<multimedia :post="multimediaPost" />
 				<multimedia :post="multimediaPost" />
-			</v-col>
-			<v-col
-				v-show="$route.name === 'SACHCHAI NEPAL'"
-				class="mb-0 pb-0"
-				sm="3"
-				md="3"
-				lg="4"
-				xl="4"
-			>
-				<div class="float-lg-left float-md-left">
-					<user-clip />
-				</div>
 			</v-col>
 		</v-row>
 	</div>
@@ -71,3 +65,8 @@ export default {
 	})
 }
 </script>
+<style lang="sass" scoped>
+.sticky
+	position: sticky
+	top: 80px
+</style>

@@ -14,6 +14,7 @@ Vue.component(vuePlayer)
 Vue.component(APlayer)
 
 Vue.prototype.$api = api
+Vue.prototype.$jq = $
 
 Vue.config.productionTip = false
 

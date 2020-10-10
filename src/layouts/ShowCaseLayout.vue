@@ -9,7 +9,7 @@
 			<v-spacer />
 			<v-avatar
 				size="130"
-				tile
+				class="logo"
 			>
 				<v-img
 					:src="logo"
@@ -174,9 +174,9 @@ export default {
 		$(window).scroll(function () {
 			const scrollTop = $(this).scrollTop()
 			$("#showcase-nav-bar").css({
-				opacity: function () {
+				background: function () {
 					const elementHeight = $(this).height();
-					return 1 - (elementHeight - scrollTop) / elementHeight;
+					return "rgb(255,255,255," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
 				}
 			});
 		});
@@ -186,4 +186,6 @@ export default {
 <style lang="sass" scoped>
 .overline
 	font-size: 22px !important
+#showcase-nav-bar
+	background: rgba(255, 255, 255, 0)
 </style>

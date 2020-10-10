@@ -20,7 +20,7 @@ const routes = [
 		children: [
 			{
 				path: "",
-				name: "SACHCHAI NEPAL",
+				name: "SACHCHAI NEPAL HOME",
 				component: () => import("@/views/home/Home")
 			},
 			{
@@ -49,21 +49,21 @@ const routes = [
 				component: () => import("@/views/home/article/Articles")
 			},
 			{
-				path: "article/:id",
-				name: "SACHCHAI NEPAL ARTICLE",
-				component: () => import("@/views/home/article/ArticleDetail")
-			},
-			{
 				path: "multimedia",
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
 				component: () => import("@/views/home/multimedia/Multimedias")
 			},
-			{
-				path: "multimedia/:id",
-				name: "SACHCHAI NEPAL MULTIMEDIA",
-				component: () => import("@/views/home/multimedia/MultimediaDetail")
-			}
 		]
+	},
+	{
+		path: "/home/article/:id",
+		name: "SACHCHAI NEPAL ARTICLE",
+		component: () => import("@/views/home/article/ArticleDetail")
+	},
+	{
+		path: "/home/multimedia/:id",
+		name: "SACHCHAI NEPAL MULTIMEDIA",
+		component: () => import("@/views/home/multimedia/MultimediaDetail")
 	},
 	{
 		path: "/auth/",

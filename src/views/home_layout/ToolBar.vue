@@ -28,12 +28,29 @@
 			placeholder="Search Members, Branch, Articles, Multimedia..."
 		/>
 		<v-spacer />
+		<v-tooltip bottom>
+			<template #activator="{ on, attrs }">
+				<v-avatar
+					class="elevation-4 mx-2"
+					color="grey darken-3"
+					v-bind="attrs"
+					v-on="on"
+					@click="routeToShowcase()"
+				>
+					<v-icon dark>
+						mdi-view-carousel-outline
+					</v-icon>
+				</v-avatar>
+			</template>
+			<span>Showcase</span>
+		</v-tooltip>
 		<profile-dropdown />
 	</v-toolbar>
 </template>
 
 <script>
 import ProfileDropdown from "@/views/home_layout/ProfileDropdown"
+import router from "@/router";
 
 export default {
 	name: "TopNavToolBarComponent",
@@ -43,6 +60,11 @@ export default {
 	data() {
 		return {
 			logo: require("@/assets/sacchai_logo.jpg")
+		}
+	},
+	methods: {
+		routeToShowcase() {
+			router.push({name: "SACHCHAI SHOWCASE"})
 		}
 	}
 }
