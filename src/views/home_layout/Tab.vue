@@ -28,11 +28,11 @@ export default {
 		return {
 			tab: null,
 			items: [
-				{ name: "Home", icon: "mdi-home", to: "/" },
-				{ name: "Branches", icon: "mdi-home-group", to: "/branch" },
-				{ name: "Followers", icon: "mdi-account-group", to: "/follower" },
-				{ name: "Articles", icon: "mdi-post", to: "/article" },
-				{ name: "Multimedia", icon: "mdi-video-vintage", to: "/multimedia" }
+				{ name: "Home", icon: "mdi-home", to: "/home" },
+				{ name: "Branches", icon: "mdi-home-group", to: "/home/branch" },
+				{ name: "Followers", icon: "mdi-account-group", to: "/home/follower" },
+				{ name: "Articles", icon: "mdi-post", to: "/home/article" },
+				{ name: "Multimedia", icon: "mdi-video-vintage", to: "/home/multimedia" }
 			]
 		}
 	}
