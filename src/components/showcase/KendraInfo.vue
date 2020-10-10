@@ -3,6 +3,7 @@
 		id="kendra-info-box"
 		class="my-4"
 		flat
+		width="100%"
 	>
 		<v-card-subtitle
 			id="kendra_name"

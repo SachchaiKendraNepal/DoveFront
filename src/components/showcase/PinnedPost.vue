@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		dark
-		max-width="300"
+		max-width="250"
 	>
 		<v-list-item dark>
 			<v-list-item-avatar>
@@ -10,7 +10,7 @@
 			<v-list-item-content>
 				<v-list-item-title
 					class="title cursor"
-					@click="routeToPostDetail(post.id)"
+					@click="routeToPostDetail(post.id, isArticle)"
 				>
 					{{ post.title }}
 				</v-list-item-title>
@@ -34,40 +34,67 @@
 			height="200"
 			class="bordered mb-1"
 		/>
-		<v-img src="https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg"
-			height="200"
-			class="bordered"
-		/>
 		<v-card-actions>
-			<v-btn depressed>
-				<v-icon>mdi-heart</v-icon>
+			<v-btn depressed
+				small
+			>
+				<v-icon small>
+					mdi-heart
+				</v-icon>
 			</v-btn>
-			<v-btn depressed>
-				<v-icon>mdi-comment-outline</v-icon>
+			<v-btn depressed
+				small
+			>
+				<v-icon small>
+					mdi-comment-outline
+				</v-icon>
 			</v-btn>
-			<v-btn depressed>
-				<v-icon>mdi-share-outline</v-icon>
+			<v-btn depressed
+				small
+			>
+				<v-icon small>
+					mdi-share-outline
+				</v-icon>
 			</v-btn>
-			<v-btn depressed>
-				<v-icon>mdi-bookmark</v-icon>
+			<v-btn depressed
+				small
+			>
+				<v-icon small>
+					mdi-bookmark
+				</v-icon>
 			</v-btn>
 		</v-card-actions>
 	</v-card>
 </template>
 <script>
+import router from "@/router";
+
 export  default {
 	name: "PinnedPostComponent",
 	props: {
 		post: {
 			type: Object,
 			required: true
+		},
+		isArticle: {
+			type: Boolean,
+			required: false,
+			default: false
 		}
 	},
+	methods: {
+		routeToPostDetail(itemID, isArticle) {
+			console.log(isArticle)
+			isArticle
+				? router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: itemID }})
+				: router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: itemID }})
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
+.cursor
+	cursor: pointer
 .title
 	font-size: 14px!important
-//.bordered
-//	border: 2px solid black
 </style>

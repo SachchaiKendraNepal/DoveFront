@@ -3,7 +3,7 @@
 		<v-carousel
 			class="not-round"
 			cycle
-			height="700"
+			height="100vh"
 			hide-delimiter-background
 			:show-arrows="false"
 		>
@@ -17,6 +17,7 @@
 </template>
 <script>
 export default {
+	name: "ShowCaseSliderComponent",
 	data: () => ({
 		loading: false,
 		groupMembers: null,
