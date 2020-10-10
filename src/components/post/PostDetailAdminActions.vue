@@ -1,39 +1,46 @@
 <template>
-	<v-row
+	<v-row class="alice-blue ma-0 pa-0 py-2 px-2"
+		justify="space-around"
 		align="center"
-		justify="start"
-		class="mx-0 pt-4 pb-2 px-2 alice-blue"
 	>
-		<v-col cols="12"
-			class="py-4"
-		>
-			<v-btn
-				dark
-				block
-				large
-				color="red darken-3"
-			>
-				<v-icon left>
-					mdi-delete
-				</v-icon>
-				DELETE
-			</v-btn>
-		</v-col>
-		<v-col cols="12"
-			class="py-4"
-		>
-			<v-btn
-				dark
-				block
-				large
-				color="green darken-2"
-			>
-				<v-icon left>
-					mdi-check-decagram
-				</v-icon>
-				APPROVE
-			</v-btn>
-		</v-col>
+		<h4 class="pa-0 ma-0">
+			ADMIN ACTIONS:
+		</h4>
+		<v-spacer />
+		<v-tooltip bottom>
+			<template #activator="{on, attrs}">
+				<v-btn
+					dark
+					icon
+					v-bind="attrs"
+					color="red darken-3"
+					class="elevation-3 mr-1"
+					v-on="on"
+				>
+					<v-icon>
+						mdi-delete
+					</v-icon>
+				</v-btn>
+			</template>
+			<span>DELETE</span>
+		</v-tooltip>
+		<v-tooltip bottom>
+			<template #activator="{on, attrs}">
+				<v-btn
+					dark
+					icon
+					v-bind="attrs"
+					color="green darken-3"
+					class="elevation-3"
+					v-on="on"
+				>
+					<v-icon>
+						mdi-check-decagram
+					</v-icon>
+				</v-btn>
+			</template>
+			<span>APPROVE</span>
+		</v-tooltip>
 	</v-row>
 </template>
 <script>

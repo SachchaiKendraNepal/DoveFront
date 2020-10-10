@@ -1,14 +1,15 @@
 <template>
 	<div>
 		<v-toolbar
+			id="comment-toolbar"
 			dark
-			dense
+			height="40px"
 		>
 			<v-toolbar-title style="font-size: medium">
 				Comments
 			</v-toolbar-title>
 		</v-toolbar>
-		<div class="ma-0 py-2 px-2 scrollable-y-comments">
+		<div class="ma-0 pa-0 scrollable-y-comments">
 			<v-list three-line>
 				<template v-for="(item, index) in comments">
 					<v-subheader
@@ -53,6 +54,8 @@
 	</div>
 </template>
 <script>
+import $ from "jquery"
+
 export default {
 	name: "CommentsDetailComponent",
 	props: {
@@ -111,7 +114,17 @@ export default {
 				comment: "We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
 			},
 		]
-	})
+	}),
+	mounted() {
+		const commentToolbarHeight = 40
+		const commentPostBox = 64
+		const topSectionHeight = $("#magic").height() + commentToolbarHeight + commentPostBox
+		$(".scrollable-y-comments").height($(window).height() - topSectionHeight)
+		$(window).resize(function () {
+			$(".scrollable-y-comments").height($(window).height() -
+				$("#magic").height() - commentToolbarHeight - commentPostBox)
+		})
+	}
 }
 </script>
 <style lang="sass" scoped>
@@ -122,7 +135,6 @@ export default {
 	padding: 5px
 	text-align: justify
 .scrollable-y-comments
-	height: 505px
 	overflow-y: auto
 ::v-deep .v-subheader
 	height: 15px
