@@ -7,16 +7,18 @@ import "roboto-fontface/css/roboto/roboto-fontface.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 import api from "@/handler/axios"
 import vuePlayer from "@algoz098/vue-player"
-import Aplayer from "vue-aplayer"
+import APlayer from "vue-aplayer"
+import $ from "jquery"
 
 Vue.component(vuePlayer)
-Vue.component(Aplayer)
+Vue.component(APlayer)
 
 Vue.prototype.$api = api
 
 Vue.config.productionTip = false
 
 new Vue({
+	$,
 	router,
 	store,
 	vuetify,

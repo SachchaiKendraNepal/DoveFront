@@ -1,6 +1,6 @@
 <template>
 	<base-post-detail
-		:target="article"
+		:target="post"
 		:is-article="true"
 	>
 		<template #imageCarousel>
@@ -15,7 +15,7 @@
 			</v-carousel>
 		</template>
 		<template #comments>
-			<comments-detail :id="article.id" />
+			<comments-detail :id="post.id" />
 		</template>
 	</base-post-detail>
 </template>
@@ -44,7 +44,7 @@ export default {
 				src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
 			},
 		],
-		article: {
+		post: {
 			id: 1,
 			title: "How beautiful is nature?",
 			description: "Nature The word nature is a commonly used word." +

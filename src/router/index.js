@@ -7,6 +7,15 @@ Vue.use(VueRouter)
 const routes = [
 	{
 		path: "/",
+		component: () => import("@/layouts/ShowCaseLayout"),
+		children: [{
+			path: "",
+			name: "SACHCHAI SHOWCASE",
+			component: () => import("@/views/showcase/ShowCase")
+		}]
+	},
+	{
+		path: "/home",
 		component: HomeLayout,
 		children: [
 			{
