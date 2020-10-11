@@ -37,7 +37,9 @@
 					:key="i"
 					class="ma-0 pa-0 mx-2"
 				>
-					<pinned-post :post="item" />
+					<pinned-post :post="item"
+						:is-article="true"
+					/>
 				</v-container>
 			</template>
 		</pin-bar>
@@ -50,9 +52,7 @@
 					:key="i"
 					class="ma-0 pa-0 mx-2"
 				>
-					<pinned-post :post="item"
-						:is-article="true"
-					/>
+					<pinned-post :post="item" />
 				</v-container>
 			</template>
 		</pin-bar>
@@ -178,8 +178,8 @@ export default {
 					const elementHeight = $(this).height();
 					return "rgb(255,255,255," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
 				}
-			});
-		});
+			})
+		})
 	}
 }
 </script>

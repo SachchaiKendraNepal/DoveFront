@@ -298,7 +298,6 @@ export default {
 			} else if (/\.(mp4)$/i.test(latestFile.name)) {
 				this.videoURLs.push(latestUrl)
 				this.videos.push(latestFile)
-				console.log(this.videos)
 			} else if (/\.(mp3)$/i.test(latestFile.name)) {
 				this.audioURLs.push({
 					title: "Kiran Parajuli",
@@ -320,6 +319,7 @@ export default {
 			if (newFile && !oldFile) {
 				// Filter file extension
 				if (!/\.(jpeg|jpe|jpg|gif|png|webp|mp4|mp3)$/i.test(newFile.name)) {
+					alert("Unsupported file type selected. Please select valid image, audio or video file.")
 					return prevent()
 				}
 			}
