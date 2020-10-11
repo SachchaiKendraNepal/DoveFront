@@ -39,11 +39,6 @@ const routes = [
 				component: () => import("@/views/home/branch/Branch")
 			},
 			{
-				path: "branch/:id",
-				name: "SACHCHAI NEPAL BRANCH",
-				component: () => import("@/views/home/branch/BranchDetail")
-			},
-			{
 				path: "article",
 				name: "SACHCHAI NEPAL ARTICLES",
 				component: () => import("@/views/home/article/Articles")
@@ -53,8 +48,14 @@ const routes = [
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
 				component: () => import("@/views/home/multimedia/Multimedias")
 			},
+			{
+				path: "event",
+				name: "SACHCHAI NEPAL EVENTS",
+				component: () => import("@/views/home/event/Events")
+			},
 		]
 	},
+	// Detail Views (Requires Full Page)
 	{
 		path: "/home/article/:id",
 		name: "SACHCHAI NEPAL ARTICLE",
@@ -64,6 +65,11 @@ const routes = [
 		path: "/home/multimedia/:id",
 		name: "SACHCHAI NEPAL MULTIMEDIA",
 		component: () => import("@/views/home/multimedia/MultimediaDetail")
+	},
+	{
+		path: "/home/event/:id",
+		name: "SACHCHAI NEPAL EVENT",
+		component: () => import("@/views/home/event/EventDetail")
 	},
 	{
 		path: "/auth/",
