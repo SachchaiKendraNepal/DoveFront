@@ -96,7 +96,7 @@
 				</div>
 				<slot name="comments" />
 				<v-row
-					id="post-comment"
+					id="post-comment-from-detail"
 					justify="center"
 					align="center"
 					class="ma-0 pa-2 alice-blue"

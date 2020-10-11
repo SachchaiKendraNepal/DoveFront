@@ -84,7 +84,6 @@ export  default {
 	},
 	methods: {
 		routeToPostDetail(itemID, isArticle) {
-			console.log(isArticle)
 			isArticle
 				? router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: itemID }})
 				: router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: itemID }})

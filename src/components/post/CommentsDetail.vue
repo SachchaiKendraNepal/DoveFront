@@ -1,14 +1,15 @@
 <template>
 	<div>
-		<v-toolbar
-			id="comment-toolbar"
-			dark
-			height="40px"
-		>
-			<v-toolbar-title style="font-size: medium">
-				Comments
-			</v-toolbar-title>
-		</v-toolbar>
+		<div id="comment-toolbar">
+			<v-toolbar
+				dark
+				height="40px"
+			>
+				<v-toolbar-title style="font-size: medium">
+					Comments
+				</v-toolbar-title>
+			</v-toolbar>
+		</div>
 		<div class="ma-0 pa-0 scrollable-y-comments">
 			<v-list three-line>
 				<template v-for="(item, index) in comments">
@@ -117,12 +118,15 @@ export default {
 	}),
 	mounted() {
 		const commentToolbarHeight = 40
-		const commentPostBox = 64
-		const topSectionHeight = $("#magic").height() + commentToolbarHeight + commentPostBox
-		$(".scrollable-y-comments").height($(window).height() - topSectionHeight)
+		$(document).ready(function () {
+			const commentPostBox = $("#post-comment-from-detail").css("height")
+			const topSectionHeight = $("#magic").height() + commentToolbarHeight + parseInt(commentPostBox)
+			$(".scrollable-y-comments").height($(window).height() - topSectionHeight)
+		})
 		$(window).resize(function () {
+			const commentPostBox = $("#post-comment-from-detail").css("height")
 			$(".scrollable-y-comments").height($(window).height() -
-				$("#magic").height() - commentToolbarHeight - commentPostBox)
+				$("#magic").height() - commentToolbarHeight - parseInt(commentPostBox))
 		})
 	}
 }
