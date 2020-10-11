@@ -559,6 +559,7 @@ export default {
 				align: "start",
 				value: "id"
 			},
+			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "FULL NAME", value: "full_name" },
 			{ text: "USERNAME", value: "username" },
 			{ text: "BRANCH", value: "branch" },
@@ -566,8 +567,7 @@ export default {
 			{ text: "SUPERUSER STATUS", value: "is_superuser" },
 			{ text: "STAFF STATUS", value: "is_staff" },
 			{ text: "APPROVED STATUS", value: "is_approved" },
-			{ text: "DATE JOINED", value: "date_joined" },
-			{ text: "ACTIONS", value: "actions", sortable: false }
+			{ text: "DATE JOINED", value: "date_joined" }
 		],
 		members: [],
 		editedIndex: -1,
