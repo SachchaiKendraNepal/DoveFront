@@ -75,7 +75,7 @@ export default {
 	position: -webkit-sticky
 	position: sticky
 	top: 0
-	z-index: 10
+	z-index: 200
 
 	::v-deep .v-toolbar__title
 		padding-left: 8px

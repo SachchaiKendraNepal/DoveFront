@@ -68,5 +68,5 @@ export default {
 <style lang="sass" scoped>
 .sticky
 	position: sticky
-	top: 80px
+	top: 140px
 </style>

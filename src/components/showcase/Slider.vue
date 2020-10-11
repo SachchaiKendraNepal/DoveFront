@@ -43,7 +43,7 @@
 									</v-icon>
 								</v-btn>
 							</template>
-							<span v-if="$vuetify.breakpoint.smAndUp">Explore More</span>
+							<span>Explore More</span>
 						</v-tooltip>
 					</div>
 				</v-row>
