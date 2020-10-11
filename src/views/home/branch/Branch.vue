@@ -474,51 +474,17 @@
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.municipality="{ item }">
-			<v-icon v-if="!item.municipality">
-				mdi-dots-horizontal
-			</v-icon>
+		<template #item.location="{ item }">
 			<p
-				v-else
 				class="mb-0"
 			>
-				{{ item.municipality }}
-			</p>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.municipality_ward="{ item }">
-			<v-icon v-if="!item.municipality_ward">
-				mdi-dots-horizontal
-			</v-icon>
-			<p
-				v-else
-				class="mb-0"
-			>
-				{{ item.municipality_ward }}
-			</p>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.vdc="{ item }">
-			<v-icon v-if="!item.vdc">
-				mdi-dots-horizontal
-			</v-icon>
-			<p
-				v-else
-				class="mb-0"
-			>
-				{{ item.vdc }}
-			</p>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.vdc_ward="{ item }">
-			<v-icon v-if="!item.vdc_ward">
-				mdi-dots-horizontal
-			</v-icon>
-			<p
-				v-else
-				class="mb-0"
-			>
-				{{ item.vdc_ward }}
+				<span style="color: #545454">
+					{{ (item.vdc_ward) ? item.vdc_ward : item.municipality_ward }},&nbsp;
+					{{ (item.vdc) ? item.vdc : item.municipality }},&nbsp;
+				</span>
+				<i>{{ item.district }},&nbsp;
+					{{ item.province }},&nbsp;</i>
+				<b>{{ item.country }}</b>
 			</p>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -605,18 +571,12 @@ export default {
 				align: "start",
 				value: "id"
 			},
+			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
 			{ text: "PHONE", value: "phone" },
 			{ text: "IS MAIN BRANCH", value: "is_main" },
-			{ text: "COUNTRY", value: "country" },
-			{ text: "PROVINCE", value: "province" },
-			{ text: "DISTRICT", value: "district" },
-			{ text: "MUNICIPALITY", value: "municipality" },
-			{ text: "MUNICIPALITY WARD", value: "municipality_ward" },
-			{ text: "VDC", value: "vdc" },
-			{ text: "VDC WARD", value: "vdc_ward" },
-			{ text: "CREATED AT", value: "created_at" },
-			{ text: "ACTIONS", value: "actions", sortable: false }
+			{ text: "LOCATION", value: "location" },
+			{ text: "CREATED AT", value: "created_at" }
 		],
 		branches: [],
 		editedIndex: -1,
