@@ -1,20 +1,7 @@
 <template>
 	<v-card id="home-header">
 		<tool-bar />
-		<v-btn
-			v-show="fab"
-			id="to-top"
-			v-scroll="onScroll"
-			fab
-			dark
-			fixed
-			bottom
-			right
-			color="primary"
-			@click="$vuetify.goTo(0)"
-		>
-			<v-icon>keyboard_arrow_up</v-icon>
-		</v-btn>
+		<scroll-up />
 		<home-tab />
 		<router-view />
 	</v-card>
@@ -24,20 +11,9 @@ export default {
 	name: "TopNavTabComponent",
 	components: {
 		HomeTab: () => import("@/views/home_layout/Tab"),
-		ToolBar: () => import("@/views/home_layout/ToolBar")
+		ToolBar: () => import("@/views/home_layout/ToolBar"),
+		ScrollUp: () => import("@/components/ScrollTop")
 	},
-	data() {
-		return {
-			fab: false
-		}
-	},
-	methods: {
-		onScroll(e) {
-			if (typeof window === "undefined") return
-			const top = window.pageYOffset || e.target.scrollTop
-			this.fab = top > 20
-		}
-	}
 }
 </script>
 

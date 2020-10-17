@@ -1,5 +1,8 @@
 <template>
 	<v-card>
+		<scroll-top
+			color="grey darken-4"
+		/>
 		<showcase-bar />
 		<div class="slider-wrapper">
 			<show-case-slider />
@@ -49,6 +52,9 @@
 		<div class="peek-services-wrapper">
 			<services-peek />
 		</div>
+		<div class="mt-3">
+			<home-footer />
+		</div>
 	</v-card>
 </template>
 <script>
@@ -57,6 +63,7 @@ export default {
 	name: "ShowCaseLayout",
 	components: {
 		ShowCaseSlider,
+		ScrollTop: () => import("@/components/ScrollTop"),
 		ServicesPeek: () => import("@/components/showcase/PeekServices"),
 		ShowcaseBar: () => import("@/components/showcase/ShowCaseBar"),
 		EventHighlights: () => import("@/components/showcase/EventHighlights"),
@@ -64,6 +71,7 @@ export default {
 		PinBar: () => import("@/components/showcase/PinnedBar"),
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
+		HomeFooter: () => import("@/views/home_layout/Footer")
 	},
 	data: () => ({
 		pinnedArticles: [
