@@ -103,7 +103,7 @@ export default {
 	margin-top: -45px
 	animation: slow
 	margin-bottom: -45px
-	z-index: 100
+	z-index: 50
 #right-card
 	width: 100%
 </style>
