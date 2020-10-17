@@ -1,23 +1,6 @@
 <template>
 	<v-card>
-		<v-app-bar
-			id="showcase-nav-bar"
-			fixed
-			light
-			height="135"
-		>
-			<v-spacer />
-			<v-avatar
-				size="130"
-				class="logo"
-			>
-				<v-img
-					:src="logo"
-					alt="SacchaiLogo"
-				/>
-			</v-avatar>
-			<v-spacer />
-		</v-app-bar>
+		<showcase-bar />
 		<div class="slider-wrapper">
 			<show-case-slider />
 		</div>
@@ -72,6 +55,7 @@ export default {
 	name: "ShowCaseLayout",
 	components: {
 		ShowCaseSlider,
+		ShowcaseBar: () => import("@/components/showcase/ShowCaseBar"),
 		EventHighlights: () => import("@/components/showcase/EventHighlights"),
 		KendraInfoBox: () => import("@/components/showcase/KendraInfo"),
 		PinBar: () => import("@/components/showcase/PinnedBar"),
@@ -79,7 +63,6 @@ export default {
 		Scatter: () => import("@/components/showcase/Scatter"),
 	},
 	data: () => ({
-		logo: require("@/assets/showcase_logo_v1.png"),
 		pinnedArticles: [
 			{
 				id: 1,
@@ -175,24 +158,11 @@ export default {
 			},
 		]
 	}),
-	mounted: function () {
-		$(window).scroll(function () {
-			const scrollTop = $(this).scrollTop()
-			$("#showcase-nav-bar").css({
-				background: function () {
-					const elementHeight = $(this).height();
-					return "rgb(255,255,255," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
-				}
-			})
-		})
-	}
 }
 </script>
 <style lang="sass" scoped>
 .overline
 	font-size: 22px !important
-#showcase-nav-bar
-	background: rgba(255, 255, 255, 0)
 .events-highlights-wrapper
 	margin: -80px 20px 0 20px
 </style>
