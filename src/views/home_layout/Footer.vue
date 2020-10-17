@@ -1,29 +1,31 @@
 <template>
 	<v-footer
-		dark
 		padless
 		elevation="3"
 	>
 		<v-card
-			color="#385F73"
+			color="rgb(255 242 202)"
 			flat
 			tile
-			class="indigo lighten-1 white--text text-center"
+			class="text-center"
 		>
 			<v-card-text>
 				<v-btn
-					v-for="icon in icons"
-					:key="icon"
-					class="mx-4 white--text"
+					v-for="(item, index) in icons"
+					:key="index"
+					class="mx-4"
 					icon
 				>
-					<v-icon size="24px">
-						{{ icon }}
+					<v-icon
+						size="24px"
+						:color="item.color"
+					>
+						{{ item.icon }}
 					</v-icon>
 				</v-btn>
 			</v-card-text>
 
-			<v-card-text class="white--text pt-0">
+			<v-card-text class="pt-0">
 				Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo
 				interdum. Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed
 				massa consectetur dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi
@@ -34,7 +36,7 @@
 
 			<v-divider />
 
-			<v-card-text class="white--text">
+			<v-card-text>
 				{{ new Date().getFullYear() }} — <strong>Sacchai Nepal</strong>
 			</v-card-text>
 		</v-card>
@@ -45,7 +47,12 @@
 export default {
 	name: "HomeFooter",
 	data: () => ({
-		icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"]
+		icons: [
+			{color: "#3a80ec", icon: "mdi-facebook"},
+			{color: "#f71701", icon: "mdi-youtube"},
+			{color: "#bb2d71", icon: "mdi-instagram"},
+			{color: "rgb(62 161 242)", icon: "mdi-twitter"}
+		]
 	})
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		dark
-		width="300"
+		width="285"
 		height="400"
 	>
 		<v-list-item dark>
@@ -39,58 +39,56 @@
 			src="https://linkpicture.com/q/mass_clapping.jpg"
 		>
 			<v-row
-				class="ma-0 pa-0"
-				align="center"
+				id="parallax-actions"
+				no-gutters
 			>
-				<v-col cols="6"
-					class="d-flex justify-center ma-0 pa-0"
+				<v-col cols="12"
+					class="ma-0 pa-0 d-flex justify-space-around"
+					style="height: 40px; margin-top: 30px !important;"
 				>
-					<v-btn
-						color="#2e2626d9"
-						depressed
-						large
-						class="py-5 mx-0 px-2"
-					>
-						<v-chip dense>
-							2
-						</v-chip>
-						<v-icon>
+					<v-btn icon>
+						<v-icon
+							large
+							color="#cebfbf"
+						>
 							mdi-image
 						</v-icon>
-					</v-btn>
-				</v-col>
-				<v-col cols="6"
-					class="d-flex justify-center ma-0 pa-0"
-				>
-					<v-btn
-						color="#2e2626d9"
-						depressed
-						large
-						class="py-5 mx-0 px-2"
-					>
-						<v-chip dense>
-							1
+						<v-chip dense
+							class="ml-1"
+						>
+							5
 						</v-chip>
-						<v-icon>
+					</v-btn>
+					<v-btn icon>
+						<v-icon
+							large
+							color="#cebfbf"
+						>
 							mdi-music
 						</v-icon>
+						<v-chip dense
+							class="ml-1"
+						>
+							5
+						</v-chip>
 					</v-btn>
 				</v-col>
 				<v-col cols="12"
-					class="d-flex justify-center ma-0 pa-0"
+					class="ma-0 pa-0 d-flex justify-center"
+					style="height: 40px; margin-top: -120px !important;"
 				>
-					<v-btn
-						color="#2e2626d9"
-						depressed
-						large
-						class="py-5 mx-0 px-2"
-					>
-						<v-chip dense>
-							5
-						</v-chip>
-						<v-icon>
+					<v-btn icon>
+						<v-icon
+							large
+							color="#cebfbf"
+						>
 							mdi-video-box
 						</v-icon>
+						<v-chip dense
+							class="ml-2"
+						>
+							5
+						</v-chip>
 					</v-btn>
 				</v-col>
 			</v-row>
@@ -137,7 +135,6 @@
 </template>
 <script>
 import router from "@/router"
-import $ from "jquery"
 
 export  default {
 	name: "PinnedPostComponent",
@@ -166,4 +163,6 @@ export  default {
 	cursor: pointer
 .title
 	font-size: 14px!important
+#parallax-actions
+	cursor: pointer
 </style>

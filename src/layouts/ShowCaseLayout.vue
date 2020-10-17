@@ -1,5 +1,8 @@
 <template>
-	<v-card>
+	<v-card color="#d9ecf3">
+		<scroll-top
+			color="grey darken-4"
+		/>
 		<showcase-bar />
 		<div class="slider-wrapper">
 			<show-case-slider />
@@ -17,11 +20,17 @@
 		<pin-bar
 			title="Pinned Articles"
 			icon="mdi-post"
+			toolbar-color="success"
 		>
 			<template #items>
-				<v-container v-for="(item, i) in pinnedArticles"
-					:key="i"
-					class="ma-0 pa-0 mx-2"
+				<v-container v-for="(item, index) in pinnedArticles"
+					:key="index"
+					class="ma-0 pa-0"
+					:class="
+						(index === 0)
+							? 'mr-2'
+							: 'mx-2'
+					"
 				>
 					<pinned-post :post="item"
 						:is-article="true"
@@ -31,12 +40,19 @@
 		</pin-bar>
 		<div class="py-3" />
 		<pin-bar
-			title="Pinned Multimedias" icon="mdi-video-box"
+			title="Pinned Multimedias"
+			icon="mdi-video-box"
+			toolbar-color="error"
 		>
 			<template #items>
-				<v-container v-for="(item, i) in pinnedArticles"
-					:key="i"
-					class="ma-0 pa-0 mx-2"
+				<v-container v-for="(item, index) in pinnedArticles"
+					:key="index"
+					class="ma-0 pa-0"
+					:class="
+						(index === 0)
+							? 'mr-2'
+							: 'mx-2'
+					"
 				>
 					<pinned-post :post="item" />
 				</v-container>
@@ -49,6 +65,9 @@
 		<div class="peek-services-wrapper">
 			<services-peek />
 		</div>
+		<div class="mt-3">
+			<home-footer />
+		</div>
 	</v-card>
 </template>
 <script>
@@ -57,6 +76,7 @@ export default {
 	name: "ShowCaseLayout",
 	components: {
 		ShowCaseSlider,
+		ScrollTop: () => import("@/components/ScrollTop"),
 		ServicesPeek: () => import("@/components/showcase/PeekServices"),
 		ShowcaseBar: () => import("@/components/showcase/ShowCaseBar"),
 		EventHighlights: () => import("@/components/showcase/EventHighlights"),
@@ -64,6 +84,7 @@ export default {
 		PinBar: () => import("@/components/showcase/PinnedBar"),
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
+		HomeFooter: () => import("@/views/home_layout/Footer")
 	},
 	data: () => ({
 		pinnedArticles: [
@@ -168,4 +189,6 @@ export default {
 	font-size: 22px !important
 .events-highlights-wrapper
 	margin: -80px 20px 0 20px
+.slider-wrapper
+	background: #d9ecf3
 </style>

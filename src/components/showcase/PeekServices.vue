@@ -23,6 +23,7 @@
 				v-for="(item, index) in items"
 				:id="item.id"
 				:key="index"
+				class="peek-card"
 				cols="12"
 				xl="4" lg="4"
 				md="4" sm="4"
@@ -30,7 +31,7 @@
 				<v-avatar size="200">
 					<v-img :src="item.image" />
 				</v-avatar>
-				<p class="title">
+				<p class="peek-title">
 					{{ item.title }}
 				</p>
 				<v-card
@@ -68,7 +69,7 @@ export default {
 				id: "peace-col",
 				title: "PEACE OF MIND",
 				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-				image: "https://i2.wp.com/thegeopolitics.com/wp-content/uploads/2018/03/peace-and-conflict.jpg?fit=678%2C381&ssl=1"
+				image: "https://cdn.dribbble.com/users/1738860/screenshots/5554042/meditation_4x.png?compress=1&resize=400x300"
 			}
 		]
 	})
@@ -76,6 +77,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 #peek-services-card
+	background: aliceblue
 	::v-deep .v-card__title
 		font-size: 14px !important
 		color: #013045
@@ -113,4 +115,12 @@ export default {
 		width: 150px !important
 		min-width: 150px !important
 		height: 150px !important
+	.peek-card
+		.peek-title
+			margin: 0
+			padding: 5px 0 0 0
+			font-family: 'Cinzel', serif
+			font-weight: 500
+			font-size: 24px
+
 </style>

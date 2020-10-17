@@ -149,7 +149,7 @@ export default {
 	height: 200px
 	width: 3px
 ::v-deep.v-card
-	background-color: #eaedee
+	background-color: #d9ecf3
 	//background-image: url("https://image.freepik.com/free-photo/blue-watercolor-texture-with-copyspace-right_24972-147.jpg")
 	//background-repeat: no-repeat
 	//background-position: center

@@ -5,7 +5,7 @@
 		light
 		height="135"
 	>
-		<div class="social-networks">
+		<div class="social-networks text-center">
 			<v-icon
 				v-ripple
 				color="#3a80ec"
@@ -113,6 +113,14 @@ export default {
 
 	}),
 	mounted: function () {
+		$(document).ready(() => {
+			const scrollTop = $(window).scrollTop()
+			if(scrollTop === 0) {
+				$("#showcase-nav-bar").css({
+					background: "rgb(255,255,255, 0)"
+				})
+			}
+		})
 		$(window).scroll(function () {
 			const scrollTop = $(this).scrollTop()
 			$("#showcase-nav-bar").css({
@@ -122,7 +130,7 @@ export default {
 				}
 			})
 		})
-	}
+	},
 }
 </script>
 <style lang="sass" scoped>
