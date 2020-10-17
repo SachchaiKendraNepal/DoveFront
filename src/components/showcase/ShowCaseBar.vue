@@ -5,7 +5,7 @@
 		light
 		height="135"
 	>
-		<div class="social-networks">
+		<div class="social-networks text-center">
 			<v-icon
 				v-ripple
 				color="#3a80ec"

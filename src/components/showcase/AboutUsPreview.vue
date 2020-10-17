@@ -41,6 +41,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .about-us
+	background: aliceblue
 	::v-deep .v-card__title
 		margin: 0
 		padding: 0 2px 8px
