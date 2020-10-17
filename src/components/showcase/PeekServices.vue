@@ -105,8 +105,11 @@ export default {
 		font-family: 'Lobster Two', cursive
 		font-weight: 500
 	::v-deep.v-avatar
-		transition: height .3s ease
+		transition: ease-in-out .5s
+		backface-visibility: hidden !important
 	::v-deep.v-avatar:hover
+		transition: ease-in-out .4s
+		backface-visibility: hidden !important
 		width: 150px !important
 		min-width: 150px !important
 		height: 150px !important
