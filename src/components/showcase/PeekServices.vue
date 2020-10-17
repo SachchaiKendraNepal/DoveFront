@@ -20,16 +20,18 @@
 			class="text-center"
 		>
 			<v-col
-				id="satsang-column"
+				v-for="(item, index) in items"
+				:id="item.id"
+				:key="index"
 				cols="12"
 				xl="4" lg="4"
 				md="4" sm="4"
 			>
 				<v-avatar size="200">
-					<v-img src="https://s3-ap-south-1.amazonaws.com/soulveda-media-prod/wp-content/uploads/2019/11/07115632/DV_What-is-Satsang.jpg" />
+					<v-img :src="item.image" />
 				</v-avatar>
 				<p class="title">
-					SATSANG
+					{{ item.title }}
 				</p>
 				<v-card
 					class="ma-2 mx-auto"
@@ -38,55 +40,40 @@
 					max-width="450"
 				>
 					<v-card-text>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					</v-card-text>
-				</v-card>
-			</v-col>
-			<v-col cols="12"
-				xl="4" lg="4"
-				md="4" sm="4"
-			>
-				<v-avatar size="200">
-					<v-img src="https://www.careersinaudit.com/getasset/45b80f0b-1410-4675-99e6-c6e2885214d4/" />
-				</v-avatar>
-				<p class="title">
-					MOTIVATION
-				</p>
-				<v-card
-					class="ma-2 mx-auto"
-					flat
-					outlined
-					max-width="450"
-				>
-					<v-card-text>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-					</v-card-text>
-				</v-card>
-			</v-col>
-			<v-col cols="12"
-				xl="4" lg="4"
-				md="4" sm="4"
-			>
-				<v-avatar size="200">
-					<v-img src="https://i2.wp.com/thegeopolitics.com/wp-content/uploads/2018/03/peace-and-conflict.jpg?fit=678%2C381&ssl=1" />
-				</v-avatar>
-				<p class="title">
-					PEACE OF MIND
-				</p>
-				<v-card
-					class="ma-2 mx-auto"
-					flat
-					outlined
-					max-width="450"
-				>
-					<v-card-text>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						{{ item.description }}
 					</v-card-text>
 				</v-card>
 			</v-col>
 		</v-row>
 	</v-card>
 </template>
+<script>
+export default {
+	name: "PeekServicesBox",
+	data: () => ({
+		items: [
+			{
+				id: "satsang-col",
+				title: "SATSANG",
+				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+				image: "https://s3-ap-south-1.amazonaws.com/soulveda-media-prod/wp-content/uploads/2019/11/07115632/DV_What-is-Satsang.jpg"
+			},
+			{
+				id: "motivation-col",
+				title: "MOTIVATION",
+				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+				image: "https://www.careersinaudit.com/getasset/45b80f0b-1410-4675-99e6-c6e2885214d4/"
+			},
+			{
+				id: "peace-col",
+				title: "PEACE OF MIND",
+				description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+				image: "https://i2.wp.com/thegeopolitics.com/wp-content/uploads/2018/03/peace-and-conflict.jpg?fit=678%2C381&ssl=1"
+			}
+		]
+	})
+}
+</script>
 <style lang="sass" scoped>
 #peek-services-card
 	::v-deep .v-card__title
