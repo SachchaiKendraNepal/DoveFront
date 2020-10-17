@@ -114,9 +114,12 @@ export default {
 	}),
 	mounted: function () {
 		$(document).ready(() => {
-			$("#showcase-nav-bar").css({
-				background: "rgb(255,255,255, 0)"
-			})
+			const scrollTop = $(window).scrollTop()
+			if(scrollTop === 0) {
+				$("#showcase-nav-bar").css({
+					background: "rgb(255,255,255, 0)"
+				})
+			}
 		})
 		$(window).scroll(function () {
 			const scrollTop = $(this).scrollTop()

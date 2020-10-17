@@ -1,5 +1,5 @@
 <template>
-	<v-card>
+	<v-card color="#d9ecf3">
 		<scroll-top
 			color="grey darken-4"
 		/>
@@ -20,11 +20,17 @@
 		<pin-bar
 			title="Pinned Articles"
 			icon="mdi-post"
+			toolbar-color="success"
 		>
 			<template #items>
-				<v-container v-for="(item, i) in pinnedArticles"
-					:key="i"
-					class="ma-0 pa-0 mx-2"
+				<v-container v-for="(item, index) in pinnedArticles"
+					:key="index"
+					class="ma-0 pa-0"
+					:class="
+						(index === 0)
+							? 'mr-2'
+							: 'mx-2'
+					"
 				>
 					<pinned-post :post="item"
 						:is-article="true"
@@ -34,12 +40,19 @@
 		</pin-bar>
 		<div class="py-3" />
 		<pin-bar
-			title="Pinned Multimedias" icon="mdi-video-box"
+			title="Pinned Multimedias"
+			icon="mdi-video-box"
+			toolbar-color="error"
 		>
 			<template #items>
-				<v-container v-for="(item, i) in pinnedArticles"
-					:key="i"
-					class="ma-0 pa-0 mx-2"
+				<v-container v-for="(item, index) in pinnedArticles"
+					:key="index"
+					class="ma-0 pa-0"
+					:class="
+						(index === 0)
+							? 'mr-2'
+							: 'mx-2'
+					"
 				>
 					<pinned-post :post="item" />
 				</v-container>
@@ -176,4 +189,6 @@ export default {
 	font-size: 22px !important
 .events-highlights-wrapper
 	margin: -80px 20px 0 20px
+.slider-wrapper
+	background: #d9ecf3
 </style>
