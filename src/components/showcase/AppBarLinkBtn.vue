@@ -2,7 +2,10 @@
 	<v-btn depressed
 		color="transparent"
 	>
-		<v-icon v-if="$vuetify.breakpoint.smAndDown">
+		<v-icon
+			v-if="$vuetify.breakpoint.smAndDown"
+			size="22"
+		>
 			{{ icon }}
 		</v-icon>
 		<span
