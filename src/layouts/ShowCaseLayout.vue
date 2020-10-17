@@ -46,15 +46,18 @@
 		<v-row no-gutters>
 			<scatter />
 		</v-row>
+		<div class="peek-services-wrapper">
+			<services-peek />
+		</div>
 	</v-card>
 </template>
 <script>
-import $ from "jquery"
 import ShowCaseSlider from "@/components/showcase/Slider"
 export default {
 	name: "ShowCaseLayout",
 	components: {
 		ShowCaseSlider,
+		ServicesPeek: () => import("@/components/showcase/PeekServices"),
 		ShowcaseBar: () => import("@/components/showcase/ShowCaseBar"),
 		EventHighlights: () => import("@/components/showcase/EventHighlights"),
 		KendraInfoBox: () => import("@/components/showcase/KendraInfo"),

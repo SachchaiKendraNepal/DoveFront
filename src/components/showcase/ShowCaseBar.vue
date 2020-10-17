@@ -128,6 +128,7 @@ export default {
 <style lang="sass" scoped>
 #showcase-nav-bar
 	border-radius: 0
+	z-index: 100
 	background: aliceblue
 	.social-networks
 		::v-deep.v-icon
