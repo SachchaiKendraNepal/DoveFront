@@ -21,6 +21,9 @@
 		<div class="slider-wrapper">
 			<show-case-slider />
 		</div>
+		<div class="events-highlights-wrapper">
+			<event-highlights />
+		</div>
 		<v-row
 			class="ma-0 pa-0"
 			justify="center"
@@ -64,10 +67,12 @@
 </template>
 <script>
 import $ from "jquery"
+import ShowCaseSlider from "@/components/showcase/Slider"
 export default {
 	name: "ShowCaseLayout",
 	components: {
-		ShowCaseSlider: () => import("@/components/showcase/Slider"),
+		ShowCaseSlider,
+		EventHighlights: () => import("@/components/showcase/EventHighlights"),
 		KendraInfoBox: () => import("@/components/showcase/KendraInfo"),
 		PinBar: () => import("@/components/showcase/PinnedBar"),
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
@@ -188,4 +193,6 @@ export default {
 	font-size: 22px !important
 #showcase-nav-bar
 	background: rgba(255, 255, 255, 0)
+.events-highlights-wrapper
+	margin: -80px 20px 0 20px
 </style>

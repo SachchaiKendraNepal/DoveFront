@@ -32,13 +32,15 @@
 			<template #activator="{ on, attrs }">
 				<v-avatar
 					class="elevation-4 mx-2"
-					color="grey darken-3"
+					color="#0e7ed8"
 					v-bind="attrs"
 					v-on="on"
 					@click="routeToShowcase()"
 				>
-					<v-icon dark>
-						mdi-view-carousel-outline
+					<v-icon size="24"
+						color="grey lighten-3"
+					>
+						mdi-view-dashboard
 					</v-icon>
 				</v-avatar>
 			</template>

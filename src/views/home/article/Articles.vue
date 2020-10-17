@@ -38,7 +38,7 @@
 			md="4"
 			sm="6"
 		>
-			<article-post :post="post"/>
+			<article-post :post="post" />
 		</v-col>
 	</v-row>
 </template>
