@@ -9,7 +9,7 @@
 			dense
 			dark
 			:color="toolbarColor"
-			max-width="316"
+			max-width="640"
 		>
 			<v-avatar
 				color="white"
