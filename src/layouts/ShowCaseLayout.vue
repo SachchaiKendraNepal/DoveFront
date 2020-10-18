@@ -66,6 +66,9 @@
 			<services-peek />
 		</div>
 		<div class="mt-3">
+			<showcase-map />
+		</div>
+		<div class="mt-3">
 			<home-footer />
 		</div>
 	</v-card>
@@ -84,7 +87,8 @@ export default {
 		PinBar: () => import("@/components/showcase/PinnedBar"),
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
-		HomeFooter: () => import("@/views/home_layout/Footer")
+		HomeFooter: () => import("@/views/home_layout/Footer"),
+		ShowcaseMap: () => import("@/components/showcase/Map")
 	},
 	data: () => ({
 		pinnedArticles: [
