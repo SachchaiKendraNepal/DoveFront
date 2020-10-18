@@ -9,7 +9,7 @@
 		</v-card-title>
 		<v-divider />
 		<p class="pb-0 quote">
-			The essence of all religions is one. Only their approaches are different.
+			"The essence of all religions is one. Only their approaches are different."
 		</p>
 		<p class="text-center quoter">
 			- Mahatma Gandhi
