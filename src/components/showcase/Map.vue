@@ -11,9 +11,8 @@
 			sm="6"
 		>
 			<v-parallax
-				src="@/assets/kaudada_group.jpg"
+				:src="mapInfoParallaxImage"
 				height="400"
-				style="border-radius: 10px; border: 3px solid white"
 			>
 				<v-row align="start"
 					justify="center"
@@ -35,12 +34,12 @@
 									mdi-map-legend
 								</v-icon>
 							</v-avatar>
-							Find us on our map!
+							{{ mapInfo.title }}
 						</p>
 						<p id="find-us-subtitle"
 							class="subtitle-2"
 						>
-							We provide a very nice map navigation system where you can find all of our branches locations.
+							{{ mapInfo.description }}
 						</p>
 						<v-btn
 							depressed
@@ -89,10 +88,10 @@
 					<l-tooltip>
 						<div class="text-center">
 							<p class="ma-0 pa-0">
-								Sachchai Kendra Nepal
+								{{ kendraLocationInfo.name }}
 							</p>
 							<p class="ma-0 pa-0">
-								Lamachaur-16, Pokhara
+								{{ kendraLocationInfo.location }}
 							</p>
 						</div>
 					</l-tooltip>
@@ -127,6 +126,16 @@ export default {
 	},
 	data() {
 		return {
+			mapInfoParallaxImage: require("@/assets/kaudada_group.jpg"),
+			mapInfo: {
+				title: "Find us on our map!",
+				description: "We provide a very nice map navigation system where" +
+					" you can find all of our branches locations."
+			},
+			kendraLocationInfo: {
+				name: "Sachchai Kendra Nepal",
+				location: "Lamachaur-16, Pokhara"
+			},
 			url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
 			zoom: 14,
 			center: latLng(28.251877, 83.981037),
@@ -162,6 +171,9 @@ export default {
 	border: 3px solid white
 	border-radius: 10px
 #find-us
+	::v-deep.v-parallax
+		border-radius: 10px
+		border: 3px solid white
 	::v-deep.v-image
 		border-radius: 10px
 .v-parallax
