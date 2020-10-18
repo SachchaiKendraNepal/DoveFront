@@ -2,7 +2,7 @@
 	<v-card
 		id="event-highlights-card"
 		max-width="1100"
-		class="mx-auto"
+		class="mx-auto elevation-24"
 	>
 		<v-carousel
 			cycle
@@ -49,7 +49,11 @@
 										cols="12"
 										class="ma-0 pa-0 mt-1 pb-2"
 									>
-										<h1>{{ event.start_date.day }}</h1>
+										<h1>
+											{{ event.start_date.day }}<sup>{{
+												getSuperScript(event.start_date.day)
+											}}</sup>
+										</h1>
 									</v-col>
 									<v-col cols="12"
 										class="ma-0 pa-0 pt-4 pb-4 month-column"
@@ -188,12 +192,24 @@ export default {
 		events: []
 	}),
 	computed: {
-
+		// eslint-disable-next-line vue/return-in-computed-property
 	},
 	created() {
 		this.initialize();
 	},
 	methods: {
+		getSuperScript(day) {
+			const rem = day % 10
+			if ( rem === 1) {
+				return "st"
+			} else if (rem === 2) {
+				return "nd"
+			} else if (rem === 3) {
+				return "rd"
+			} else {
+				return "th"
+			}
+		},
 		initialize() {
 			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
 			this.events = [
@@ -307,9 +323,11 @@ export default {
 <style lang="sass" scoped>
 #date-column
 	padding-top: 10px !important
+	h1
+		padding-left: 15px
 .month-column
-	background: #5b5555
-	border-color: #5b5555
+	background: #228396
+	border-color: #228396
 .small-title
 	font-size: 24px
 	margin-top: 7px !important
