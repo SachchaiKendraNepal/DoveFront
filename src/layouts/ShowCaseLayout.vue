@@ -23,19 +23,16 @@
 			toolbar-color="success"
 		>
 			<template #items>
-				<v-container v-for="(item, index) in pinnedArticles"
+				<v-card
+					v-for="(item, index) in pinnedArticles"
 					:key="index"
-					class="ma-0 pa-0"
-					:class="
-						(index === 0)
-							? 'mr-2'
-							: 'mx-2'
-					"
+					class="swiper-slide"
+					dark
 				>
 					<pinned-post :post="item"
 						:is-article="true"
 					/>
-				</v-container>
+				</v-card>
 			</template>
 		</pin-bar>
 		<div class="py-3" />
@@ -45,17 +42,14 @@
 			toolbar-color="error"
 		>
 			<template #items>
-				<v-container v-for="(item, index) in pinnedArticles"
+				<v-card
+					v-for="(item, index) in pinnedArticles"
 					:key="index"
-					class="ma-0 pa-0"
-					:class="
-						(index === 0)
-							? 'mr-2'
-							: 'mx-2'
-					"
+					class="swiper-slide"
+					dark
 				>
 					<pinned-post :post="item" />
-				</v-container>
+				</v-card>
 			</template>
 		</pin-bar>
 		<div class="py-5" />
@@ -64,6 +58,12 @@
 		</v-row>
 		<div class="peek-services-wrapper">
 			<services-peek />
+		</div>
+		<div class="mt-3">
+			<showcase-map />
+		</div>
+		<div class="mt-3">
+			<awesome-swiper />
 		</div>
 		<div class="mt-3">
 			<showcase-map />
@@ -88,6 +88,7 @@ export default {
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
+		AwesomeSwiper: () => import("@/components/showcase/AwesomeSwiper"),
 		ShowcaseMap: () => import("@/components/showcase/Map")
 	},
 	data: () => ({

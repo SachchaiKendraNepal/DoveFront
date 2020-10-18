@@ -1,7 +1,7 @@
 <template>
 	<v-card
-		class="mx-3 mx-sm-3 mx-md-6"
-		color="#d9ecf3"
+		color="aliceblue"
+		class="mx-6"
 		outlined
 		flat
 	>
@@ -9,7 +9,6 @@
 			dense
 			dark
 			:color="toolbarColor"
-			max-width="640"
 		>
 			<v-avatar
 				color="white"
@@ -32,75 +31,20 @@
 			align="center"
 			justify="center"
 		>
-			<v-col
-				id="previous-column"
-				cols="12"
-				xl="1"
-				lg="1"
-				md="1"
-				sm="1"
-				class="ma-0 pa-0 d-flex justify-center align-center mx-sm-3 ml-md-12"
-			>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-btn icon
-							large
-							class="slider-btn previous"
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon large>
-								mdi-skip-previous-circle
-							</v-icon>
-						</v-btn>
-					</template>
-					<span>Previous</span>
-				</v-tooltip>
-			</v-col>
-			<v-col cols="12"
-				class="ma-0 pa-0"
-			>
-				<div
-					class="d-flex d-inline horizontal-scroller ml-sm-3 ml-md-12"
-				>
+			<div class="swiper-container">
+				<div class="swiper-wrapper mx-3">
 					<slot name="items" />
 				</div>
-			</v-col>
-			<v-col
-				id="next-column"
-				cols="12"
-				xl="1"
-				lg="1"
-				md="1"
-				sm="1"
-				class="ma-0 pa-0 d-flex justify-center align-center"
-				:class="
-					$vuetify.breakpoint.smAndUp
-						? ''
-						: 'mx-3'
-				"
-			>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-btn icon
-							large
-							class="slider-btn next"
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon large>
-								mdi-skip-next-circle
-							</v-icon>
-						</v-btn>
-					</template>
-					<span>Next</span>
-				</v-tooltip>
-			</v-col>
+				<div class="swiper-pagination" />
+				<div class="swiper-button-prev" />
+				<div class="swiper-button-next" />
+			</div>
 		</v-row>
 	</v-card>
 </template>
 <script>
-import $ from "jquery"
+import Swiper, { Navigation, Pagination } from "swiper"
+
 export default {
 	name: "PinnedBarComponent",
 	props: {
@@ -109,49 +53,71 @@ export default {
 		toolbarColor: {type: String, required: true}
 	},
 	mounted() {
-		$(".previous").click(function (e) {
-			$(this)
-				.closest(".row")
-				.find(".horizontal-scroller")
-				.animate({
-					scrollLeft: "-=200px"
-				}, "slow");
-		})
-		$(".next").click(function (e) {
-			$(this)
-				.parent()
-				.parent()
-				.find(".horizontal-scroller")
-				.animate({
-					scrollLeft: "+=200px"
-				}, "slow");
+		Swiper.use([Navigation, Pagination]);
+
+		const mySwiper = new Swiper(".swiper-container", {
+			// Optional parameters
+			direction: "horizontal",
+			loop: false,
+			freeMode: true,
+			centerInsufficientSlides: true,
+			slidesOffsetBefore: 50,
+			slidesOffsetAfter: 50,
+			breakpoints: {
+				285: {
+					slidesPerView: 1,
+					spaceBetween: 30,
+				},
+				// when window width is >= 480px
+				550: {
+					slidesPerView: 2,
+					spaceBetween: 100,
+				},
+				// when window width is >= 640px
+				900: {
+					slidesPerView: 3,
+					spaceBetween: 100,
+				},
+				1400: {
+					slidesPerView: 4,
+					spaceBetween: 100,
+				},
+				1800: {
+					slidesPerView: 5,
+					spaceBetween: 100,
+				},
+			},
+			grabCursor: true,
+			speed: 700,
+
+			// If we need pagination
+			pagination: {
+				el: ".swiper-pagination",
+				type: "bullets",
+				clickable: true
+			},
+
+			// Navigation arrows
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
 		})
 	},
+	methods: {
+		onSwiper(swiper) {
+			console.log(swiper)
+		},
+		onSlideChange() {
+			console.log("slide change")
+		},
+	}
 }
 </script>
 <style lang="sass" scoped>
-.horizontal-scroller
-	overflow-x: auto
-	white-space: nowrap
-	font-size: 0
+.swiper-container
+	width: 100%
+	height: 356px
 .overline
 	font-size: 14px !important
-#previous-column
-	width: 40px
-	height: 63%
-	position: absolute
-	background: #1312126e
-	z-index: 10
-	left: 0
-	.v-icon
-		color: #dbd9d9
-#next-column
-	height: 63%
-	width: 40px
-	position: absolute
-	background: #1312126e
-	z-index: 10
-	right: 0
-	.v-icon
-		color: #dbd9d9
 </style>

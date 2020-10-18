@@ -1,9 +1,5 @@
 <template>
-	<v-card
-		dark
-		width="285"
-		height="400"
-	>
+	<div>
 		<v-list-item dark>
 			<v-list-item-avatar>
 				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
@@ -93,45 +89,7 @@
 				</v-col>
 			</v-row>
 		</v-parallax>
-		<v-card-actions class="d-flex justify-space-around">
-			<v-btn
-				depressed
-				small
-			>
-				<v-icon
-					small
-				>
-					mdi-heart
-				</v-icon>
-			</v-btn>
-			<v-btn
-				depressed
-				small
-			>
-				<v-icon
-					small
-				>
-					mdi-comment
-				</v-icon>
-			</v-btn>
-			<v-btn
-				depressed
-				small
-			>
-				<v-icon small>
-					mdi-share
-				</v-icon>
-			</v-btn>
-			<v-btn
-				depressed
-				small
-			>
-				<v-icon small>
-					mdi-bookmark
-				</v-icon>
-			</v-btn>
-		</v-card-actions>
-	</v-card>
+	</div>
 </template>
 <script>
 import router from "@/router"
