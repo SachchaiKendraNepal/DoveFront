@@ -1,104 +1,98 @@
 <template>
-	<v-row no-gutters
-		class="ma-0 pa-0 mx-3"
+	<v-parallax
+		:src="mapInfoParallaxImage"
+		height="500"
 	>
-		<v-col
-			id="find-us"
-			cols="12"
-			xl="4"
-			lg="6"
-			md="6"
-			sm="6"
+		<v-row
+			id="find-us-row"
+			align="start"
 		>
-			<v-parallax
-				:src="mapInfoParallaxImage"
-				height="400"
+			<v-col
+				cols="12"
+				xl="4"
+				lg="4"
+				md="6"
+				sm="6"
 			>
-				<v-row align="start"
-					justify="center"
+				<p
+					id="find-us-title"
+					class="ma-0 pa-0"
 				>
-					<v-col cols="12"
-						class="text-xs-center"
+					<v-avatar size="65"
+						color="white"
+						class="elevation-12"
 					>
-						<p
-							id="find-us-title"
-							class="ma-0 pa-0"
+						<v-icon x-large
+							color="blue darken-2"
 						>
-							<v-avatar size="65"
-								color="white"
-								class="elevation-12"
-							>
-								<v-icon x-large
-									color="blue darken-2"
-								>
-									mdi-map-legend
-								</v-icon>
-							</v-avatar>
-							{{ mapInfo.title }}
-						</p>
-						<p id="find-us-subtitle"
-							class="subtitle-2"
-						>
-							{{ mapInfo.description }}
-						</p>
-						<v-btn
-							depressed
-							x-large
-							class="py-8"
-						>
-							<v-icon>mdi-home-map-marker</v-icon>
-							View Branches
-						</v-btn>
-					</v-col>
-				</v-row>
-			</v-parallax>
-		</v-col>
-		<v-col
-			id="map-column"
-			cols="12"
-			xl="8"
-			lg="6"
-			md="6"
-			sm="6"
-		>
-			<l-map
-				id="map-box"
-				:zoom="zoom"
-				:center="center"
-			>
-				<l-control-layers position="topright" />
-				<l-tile-layer
-					v-for="tileProvider in tileProviders"
-					:key="tileProvider.name"
-					:name="tileProvider.name"
-					:visible="tileProvider.visible"
-					:url="tileProvider.url"
-					:attribution="tileProvider.attribution"
-					layer-type="base"
-				/>
-				<l-marker :lat-lng="[28.251877, 83.981037]">
-					<l-icon :icon-anchor="staticAnchor">
-						<v-icon v-ripple
-							color="red"
-							x-large
-						>
-							mdi-google-maps
+							mdi-map-legend
 						</v-icon>
-					</l-icon>
-					<l-tooltip>
-						<div class="text-center">
-							<p class="ma-0 pa-0">
-								{{ kendraLocationInfo.name }}
-							</p>
-							<p class="ma-0 pa-0">
-								{{ kendraLocationInfo.location }}
-							</p>
-						</div>
-					</l-tooltip>
-				</l-marker>
-			</l-map>
-		</v-col>
-	</v-row>
+					</v-avatar>
+					{{ mapInfo.title }}
+				</p>
+				<p id="find-us-subtitle"
+					class="subtitle-2"
+				>
+					{{ mapInfo.description }}
+				</p>
+				<v-btn
+					id="view-branch-maps"
+					depressed
+					x-large
+					class="py-8"
+				>
+					<v-icon>mdi-home-map-marker</v-icon>
+					<span>View Branches</span>
+				</v-btn>
+			</v-col>
+			<v-col
+				id="map-column"
+				class="d-flex justify-end"
+				cols="12"
+				xl="8"
+				lg="8"
+				md="6"
+				sm="6"
+			>
+				<l-map
+					id="map-box"
+					:zoom="zoom"
+					:center="center"
+				>
+					<l-control-layers position="topright" />
+					<l-tile-layer
+						v-for="tileProvider in tileProviders"
+						:key="tileProvider.name"
+						:name="tileProvider.name"
+						:visible="tileProvider.visible"
+						:url="tileProvider.url"
+						:attribution="tileProvider.attribution"
+						layer-type="base"
+					/>
+					<l-marker :lat-lng="[28.251877, 83.981037]">
+						<l-icon :icon-anchor="staticAnchor">
+							<v-icon v-ripple
+								color="red"
+								x-large
+							>
+								mdi-google-maps
+							</v-icon>
+						</l-icon>
+						<l-tooltip>
+							<div class="text-center">
+								<p class="ma-0 pa-0">
+									{{ kendraLocationInfo.name }}
+								</p>
+								<p class="ma-0 pa-0">
+									{{ kendraLocationInfo.location }}
+								</p>
+							</div>
+						</l-tooltip>
+					</l-marker>
+				</l-map>
+			</v-col>
+		</v-row>
+	</v-parallax>
 </template>
 
 <script>
@@ -128,7 +122,7 @@ export default {
 		return {
 			mapInfoParallaxImage: require("@/assets/kaudada_group.jpg"),
 			mapInfo: {
-				title: "Find us on our map!",
+				title: "Find us!",
 				description: "We provide a very nice map navigation system where" +
 					" you can find all of our branches locations."
 			},
@@ -165,11 +159,31 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+#find-us-row
+	margin: 0
+	padding: 0
 #map-box
-	height: 400px
-	max-width: 100%
+	height: 440px
+	max-width: 500px
 	border: 3px solid white
 	border-radius: 10px
+#map-column
+	margin-top: 20px
+	transition: all 1s
+	-webkit-transition: all 1s
+	display: block
+	@media only screen and (max-width: 600px)
+		#map-box
+			height: 200px
+			width: 200px
+			display: block
+#map-column
+	@media only screen and (max-width: 384px)
+		display: none !important
+#view-branch-maps
+	span
+		@media only screen and (max-width: 275px)
+			display: none !important
 #find-us
 	::v-deep.v-parallax
 		border-radius: 10px
@@ -178,13 +192,16 @@ export default {
 		border-radius: 10px
 .v-parallax
 	::v-deep.v-parallax__image-container
-		opacity: 45% !important
+			background: rgba(0,0,0,0.6)
+			opacity: 90%
+			transition: all 1s
+			-webkit-transition: all 1s
 #find-us-title
 	font-family: 'Lemonada', cursive !important
 	font-size: 50px
 	font-weight: 700
 #find-us-subtitle
-	color: #414141
+	color: #e9e7e7
 	font-size: 18px !important
 	font-weight: bold
 </style>
