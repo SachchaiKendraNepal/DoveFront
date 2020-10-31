@@ -2,6 +2,7 @@
 	<v-card
 		id="start-post-card"
 		class="mx-auto mb-4"
+		max-width="800"
 		outlined
 	>
 		<v-dialog

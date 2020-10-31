@@ -1,42 +1,99 @@
 <template>
-	<div
-		id="sacchai-home-container"
-		class="px-2"
-	>
-		<v-row class="ma-0 pa-0 mx-2">
-			<v-col
-				v-show="$route.name === 'SACHCHAI NEPAL HOME'"
-				class="mb-0 pb-0"
-				sm="3"
-				md="3"
-				lg="4"
-				xl="4"
+	<v-main class="grey lighten-3">
+		<v-container>
+			<v-row class="ma-0 pa-0 pt-3"
+				justify="center" align="start"
 			>
-				<div :class="
-					$vuetify.breakpoint.mdAndUp
-						? 'sticky'
-						: 'sticky'
-				"
+				<v-col
+					class="ma-0 pa-0 sticky"
+					cols="12"
+					xl="3"
+					lg="3"
+					md="4"
+					sm="4"
+					xs="6"
 				>
-					<v-spacer />
-					<user-clip />
-				</div>
-			</v-col>
-			<v-col
-				class="mb-0 pb-0"
-				sm="6"
-				md="6"
-				lg="4"
-				xl="4"
-			>
-				<add-post-box />
-				<article-post :post="articlePost" />
-				<article-post :post="articlePost" />
-				<multimedia :post="multimediaPost" />
-				<multimedia :post="multimediaPost" />
-			</v-col>
-		</v-row>
-	</div>
+					<v-sheet
+						rounded="lg"
+						color="grey lighten-3"
+					>
+						<user-clip />
+						<v-card class="mt-3">
+							<v-list
+								color="transparent"
+							>
+								<v-list-item
+									v-for="n in 5"
+									:key="n"
+									link
+								>
+									<v-list-item-content>
+										<v-list-item-title>
+											List Item {{ n }}
+										</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+
+								<v-divider class="my-2" />
+
+								<v-list-item
+									link
+									color="grey lighten-4"
+								>
+									<v-list-item-content>
+										<v-list-item-title>
+											Refresh
+										</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+							</v-list>
+						</v-card>
+					</v-sheet>
+				</v-col>
+
+				<v-col
+					class="ma-0 pa-0"
+					xl="9"
+					lg="9"
+					md="8"
+					sm="8"
+					xs="6"
+				>
+					<v-sheet
+						color="grey lighten-3"
+						min-height="70vh"
+						rounded="lg"
+					>
+						<v-row
+							align="start"
+							class="mx-4"
+						>
+							<v-col
+								class="ma-0 pa-0 px-4"
+								cols="12"
+								xl="6"
+								lg="6"
+							>
+								<add-post-box />
+								<article-post :post="articlePost" />
+								<article-post :post="articlePost" />
+							</v-col>
+							<v-col
+								class="ma-0 pa-0 px-4"
+								cols="12"
+								xl="6"
+								lg="6"
+							>
+								<article-post :post="articlePost" />
+								<multimedia :post="multimediaPost" />
+								<multimedia :post="multimediaPost" />
+							</v-col>
+						</v-row>
+					</v-sheet>
+				</v-col>
+			</v-row>
+		</v-container>
+	</v-main>
 </template>
 
 <script>
