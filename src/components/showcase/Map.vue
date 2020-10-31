@@ -178,7 +178,7 @@ export default {
 			width: 200px
 			display: block
 #map-column
-	@media only screen and (max-width: 384px)
+	@media only screen and (max-width: 369px)
 		display: none !important
 #view-branch-maps
 	span
