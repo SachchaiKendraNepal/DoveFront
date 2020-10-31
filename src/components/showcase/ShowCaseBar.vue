@@ -2,7 +2,6 @@
 	<v-app-bar
 		id="showcase-nav-bar"
 		fixed
-		light
 		height="135"
 	>
 		<div class="social-networks text-center">
@@ -122,11 +121,12 @@ export default {
 			}
 		})
 		$(window).scroll(function () {
+			console.log("here")
 			const scrollTop = $(this).scrollTop()
 			$("#showcase-nav-bar").css({
 				background: function () {
 					const elementHeight = $(this).height();
-					return "rgb(255,255,255," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
+					return "rgb(230,230,230," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
 				}
 			})
 		})
@@ -135,9 +135,9 @@ export default {
 </script>
 <style lang="sass" scoped>
 #showcase-nav-bar
+	top:0
 	border-radius: 0
 	z-index: 100
-	background: aliceblue
 	.social-networks
 		::v-deep.v-icon
 			padding: 6px

@@ -4,6 +4,7 @@
 			class="not-round"
 			cycle
 			height="100vh"
+			width="100vw"
 			hide-delimiter-background
 			:show-arrows="false"
 			vertical-delimiters=""
