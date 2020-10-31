@@ -5,7 +5,12 @@
 				justify="center" align="start"
 			>
 				<v-col
-					class="ma-0 pa-0 sticky"
+					class="ma-0 pa-0 d-flex justify-center"
+					:class="
+						$vuetify.breakpoint.smAndUp
+							? 'sticky'
+							: ''
+					"
 					cols="12"
 					xl="3"
 					lg="3"
@@ -16,36 +21,40 @@
 					<v-sheet
 						rounded="lg"
 						color="grey lighten-3"
+						width="85%"
+						class="pb-3"
 					>
 						<user-clip />
-						<v-card class="mt-3">
-							<v-list
-								color="transparent"
+						<v-card
+							class="mx-auto mt-3"
+							max-width="500"
+						>
+							<v-list color="blue darken-4"
+								dark
 							>
-								<v-list-item
-									v-for="n in 5"
-									:key="n"
-									link
+								<v-list-group
+									v-for="item in items"
+									:key="item.title"
+									v-model="item.active"
+									active-class="light-blue--text"
+									:prepend-icon="item.action"
+									no-action
 								>
-									<v-list-item-content>
-										<v-list-item-title>
-											List Item {{ n }}
-										</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
+									<template #activator>
+										<v-list-item-content>
+											<v-list-item-title v-text="item.title" />
+										</v-list-item-content>
+									</template>
 
-								<v-divider class="my-2" />
-
-								<v-list-item
-									link
-									color="grey lighten-4"
-								>
-									<v-list-item-content>
-										<v-list-item-title>
-											Refresh
-										</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
+									<v-list-item
+										v-for="child in item.items"
+										:key="child.title"
+									>
+										<v-list-item-content>
+											<v-list-item-title v-text="child.title" />
+										</v-list-item-content>
+									</v-list-item>
+								</v-list-group>
 							</v-list>
 						</v-card>
 					</v-sheet>
@@ -118,7 +127,49 @@ export default {
 			title: "Alice in the Wonderland",
 			author: "Kiran Parajuli",
 			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
-		}
+		},
+		items: [
+			{
+				action: "mdi-ticket",
+				items: [{ title: "List Item" }],
+				title: "Attractions",
+			},
+			{
+				action: "mdi-silverware-fork-knife",
+				active: false,
+				items: [
+					{ title: "Breakfast & brunch" },
+					{ title: "New American" },
+					{ title: "Sushi" },
+				],
+				title: "Dining",
+			},
+			{
+				action: "mdi-school",
+				items: [{ title: "List Item" }],
+				title: "Education",
+			},
+			{
+				action: "mdi-run",
+				items: [{ title: "List Item" }],
+				title: "Family",
+			},
+			{
+				action: "mdi-bottle-tonic-plus",
+				items: [{ title: "List Item" }],
+				title: "Health",
+			},
+			{
+				action: "mdi-content-cut",
+				items: [{ title: "List Item" }],
+				title: "Office",
+			},
+			{
+				action: "mdi-tag",
+				items: [{ title: "List Item" }],
+				title: "Promotions",
+			},
+		],
 	})
 }
 </script>
