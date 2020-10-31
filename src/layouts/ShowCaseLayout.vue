@@ -17,54 +17,33 @@
 		>
 			<kendra-info-box />
 		</v-row>
+		<v-divider inset />
 		<pin-bar
 			title="Pinned Articles"
 			icon="mdi-post"
 			toolbar-color="success"
 		>
 			<template #items>
-				<v-container v-for="(item, index) in pinnedArticles"
+				<v-card
+					v-for="(item, index) in pinnedArticles"
 					:key="index"
-					class="ma-0 pa-0"
-					:class="
-						(index === 0)
-							? 'mr-2'
-							: 'mx-2'
-					"
+					class="swiper-slide"
+					dark
 				>
 					<pinned-post :post="item"
 						:is-article="true"
 					/>
-				</v-container>
+				</v-card>
 			</template>
 		</pin-bar>
-		<div class="py-3" />
-		<pin-bar
-			title="Pinned Multimedias"
-			icon="mdi-video-box"
-			toolbar-color="error"
-		>
-			<template #items>
-				<v-container v-for="(item, index) in pinnedArticles"
-					:key="index"
-					class="ma-0 pa-0"
-					:class="
-						(index === 0)
-							? 'mr-2'
-							: 'mx-2'
-					"
-				>
-					<pinned-post :post="item" />
-				</v-container>
-			</template>
-		</pin-bar>
-		<div class="py-5" />
-		<v-row no-gutters>
+		<v-divider inset />
+		<v-row class="ma-0 pa-0">
 			<scatter />
 		</v-row>
 		<div class="peek-services-wrapper">
 			<services-peek />
 		</div>
+		<our-great-stuff />
 		<div class="mt-3">
 			<showcase-map />
 		</div>
@@ -88,6 +67,7 @@ export default {
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
+		OurGreatStuff: () => import("@/components/showcase/OurGreatStuff"),
 		ShowcaseMap: () => import("@/components/showcase/Map")
 	},
 	data: () => ({

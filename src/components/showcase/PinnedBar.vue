@@ -1,106 +1,102 @@
 <template>
-	<v-card
-		class="mx-3 mx-sm-3 mx-md-6"
-		color="#d9ecf3"
-		outlined
-		flat
+	<v-row
+		class="ma-0 pa-0"
+		align="center"
+		justify="space-around"
 	>
-		<v-toolbar
-			dense
-			dark
-			:color="toolbarColor"
-			max-width="640"
+		<v-col
+			class="ma-0 pa-0"
+			cols="12"
+			xl="4"
+			lg="4"
+			md="4"
+			sm="6"
+			xs="6"
 		>
-			<v-avatar
-				color="white"
-				size="35"
-				class="elevation-4"
+			<v-card
+				flat
+				max-height="400"
+				color="rgb(217 236 244)"
 			>
-				<v-icon
-					color="grey darken-4"
-					size="22"
+				<v-row no-gutters
+					justify="start" align="center"
 				>
-					{{ icon }}
-				</v-icon>
-			</v-avatar>
-			<v-toolbar-title class="overline ml-2">
-				{{ title }}
-			</v-toolbar-title>
-		</v-toolbar>
-		<v-row
-			class="ma-0 pa-0 py-2"
-			align="center"
-			justify="center"
-		>
-			<v-col
-				id="previous-column"
-				cols="12"
-				xl="1"
-				lg="1"
-				md="1"
-				sm="1"
-				class="ma-0 pa-0 d-flex justify-center align-center mx-sm-3 ml-md-12"
-			>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-btn icon
-							large
-							class="slider-btn previous"
-							v-bind="attrs"
-							v-on="on"
+					<v-col
+						cols="12"
+						xl="3"
+						lg="3"
+						md="4"
+						sm="4"
+						xs="4"
+						class="text-center"
+					>
+						<v-avatar size="90"
+							class="elevation-14"
 						>
-							<v-icon large>
-								mdi-skip-previous-circle
+							<v-icon
+								size="80"
+								color="red darken-2"
+							>
+								mdi-bullseye-arrow
 							</v-icon>
-						</v-btn>
-					</template>
-					<span>Previous</span>
-				</v-tooltip>
-			</v-col>
-			<v-col cols="12"
-				class="ma-0 pa-0"
-			>
-				<div
-					class="d-flex d-inline horizontal-scroller ml-sm-3 ml-md-12"
+						</v-avatar>
+					</v-col>
+					<v-col
+						cols="12"
+						xl="9"
+						lg="9"
+						md="8"
+						sm="8"
+						xs="8"
+					>
+						<v-card-text class="display-1 py-0">
+							Become a part of something great
+						</v-card-text>
+					</v-col>
+				</v-row>
+				<v-card-text v-show="$vuetify.breakpoint.smAndUp"
+					class="subtitle-1"
 				>
+					We provide a nice feeds management for our followers.
+					We can post our thoughts, events or any inspirations as Sachchai Nepal Post.
+				</v-card-text>
+				<v-card-text class="subtitle-2">
+					See our top pinned items here. <v-icon large>
+						mdi-arrow-right
+					</v-icon>
+				</v-card-text>
+				<v-card-actions>
+					<v-btn large
+						text
+						color="blue darken-1"
+					>
+						<v-icon>mdi-plus</v-icon>Explore All
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-col>
+		<v-col
+			cols="12"
+			xl="8"
+			lg="8"
+			md="8"
+			sm="6"
+			xs="6"
+			class="ma-0 pa-0"
+		>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
 					<slot name="items" />
 				</div>
-			</v-col>
-			<v-col
-				id="next-column"
-				cols="12"
-				xl="1"
-				lg="1"
-				md="1"
-				sm="1"
-				class="ma-0 pa-0 d-flex justify-center align-center"
-				:class="
-					$vuetify.breakpoint.smAndUp
-						? ''
-						: 'mx-3'
-				"
-			>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-btn icon
-							large
-							class="slider-btn next"
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon large>
-								mdi-skip-next-circle
-							</v-icon>
-						</v-btn>
-					</template>
-					<span>Next</span>
-				</v-tooltip>
-			</v-col>
-		</v-row>
-	</v-card>
+				<div class="swiper-button-prev" />
+				<div class="swiper-button-next" />
+			</div>
+		</v-col>
+	</v-row>
 </template>
 <script>
-import $ from "jquery"
+import Swiper, { Navigation, Pagination } from "swiper"
+
 export default {
 	name: "PinnedBarComponent",
 	props: {
@@ -109,49 +105,82 @@ export default {
 		toolbarColor: {type: String, required: true}
 	},
 	mounted() {
-		$(".previous").click(function (e) {
-			$(this)
-				.closest(".row")
-				.find(".horizontal-scroller")
-				.animate({
-					scrollLeft: "-=200px"
-				}, "slow");
-		})
-		$(".next").click(function (e) {
-			$(this)
-				.parent()
-				.parent()
-				.find(".horizontal-scroller")
-				.animate({
-					scrollLeft: "+=200px"
-				}, "slow");
-		})
+		this.initSwiper()
 	},
+	methods: {
+		onSwiper(swiper) {
+			// console.log(swiper)
+		},
+		onSlideChange() {
+			// console.log("slide change")
+		},
+		initSwiper() {
+			Swiper.use([Navigation, Pagination]);
+
+			const pinSwiper = new Swiper(".swiper-container", {
+				direction: "horizontal",
+				loop: false,
+				freeMode: true,
+				centerInsufficientSlides: true,
+				slidesOffsetBefore: 10,
+				slidesOffsetAfter: 10,
+				breakpoints: {
+					115: {
+						slidesPerView: 1,
+						spaceBetween: 25,
+					},
+					325: {
+						slidesPerView: 2,
+						spaceBetween: 25,
+					},
+					600: {
+						slidesPerView: 1,
+						spaceBetween: 25,
+					},
+					634: {
+						slidesPerView: 2,
+						spaceBetween: 25,
+					},
+					960: {
+						slidesPerView: 3,
+						spaceBetween: 25,
+					},
+					1270: {
+						slidesPerView: 4,
+						spaceBetween: 25,
+					},
+					1700: {
+						slidesPerView: 5,
+						spaceBetween: 25,
+					},
+					2000: {
+						slidesPerView: 6,
+						spaceBetween: 25,
+					},
+					2400: {
+						slidesPerView: 7,
+						spaceBetween: 25,
+					},
+					3010: {
+						slidesPerView: 8,
+						spaceBetween:25
+					}
+				},
+				grabCursor: true,
+				speed: 1500,
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				},
+			})
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
-.horizontal-scroller
-	overflow-x: auto
-	white-space: nowrap
-	font-size: 0
+.swiper-container
+	width: 100%
+	height: 356px
 .overline
 	font-size: 14px !important
-#previous-column
-	width: 40px
-	height: 63%
-	position: absolute
-	background: #1312126e
-	z-index: 10
-	left: 0
-	.v-icon
-		color: #dbd9d9
-#next-column
-	height: 63%
-	width: 40px
-	position: absolute
-	background: #1312126e
-	z-index: 10
-	right: 0
-	.v-icon
-		color: #dbd9d9
 </style>
