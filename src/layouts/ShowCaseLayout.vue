@@ -48,6 +48,7 @@
 			<services-peek />
 		</div>
 		<our-great-stuff />
+		<awesome-swiper />
 		<div class="mt-3">
 			<showcase-map />
 		</div>
@@ -72,7 +73,8 @@ export default {
 		Scatter: () => import("@/components/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
 		OurGreatStuff: () => import("@/components/showcase/OurGreatStuff"),
-		ShowcaseMap: () => import("@/components/showcase/Map")
+		ShowcaseMap: () => import("@/components/showcase/Map"),
+		AwesomeSwiper: () => import("@/components/showcase/AwesomeSwiper")
 	},
 	data: () => ({
 		pinnedArticles: [

@@ -1,28 +1,83 @@
 <template>
-	<!-- Slider main container -->
-	<div class="swiper-container">
-		<!-- Additional required wrapper -->
-		<div class="swiper-wrapper">
-			<!-- Slides -->
-			<v-card class="swiper-slide">
-				<v-card-text>Hero One</v-card-text>
-			</v-card>
-			<v-card class="swiper-slide">
-				<v-card-text>Hero Two</v-card-text>
-			</v-card>
-			<v-card class="swiper-slide">
-				<v-card-text>Hero Three</v-card-text>
-			</v-card>
-			<v-card class="swiper-slide">
-				<v-card-text>Hero Four</v-card-text>
-			</v-card>
-		</div>
-		<!-- If we need pagination -->
-		<div class="swiper-pagination" />
+	<div>
+		<v-card
+			id="bg-card"
+			height="400"
+			max-width="100vw"
+			color="orange darken-2"
+			class="mt-3"
+		>
+			<h1
+				id="sermons"
+				class="subtitle-2 pt-xl-16 pt-lg-12 pt-md-8 pt-sm-6"
+			>
+				<u>OUR SERMONS</u>
+			</h1>
+			<h1 class="text-center">
+				<i>"Healthy citizens are the greatest asset any country can have."</i>
+			</h1>
+		</v-card>
+		<!-- Slider main container -->
+		<div class="swiper-container">
+			<!-- Additional required wrapper -->
+			<div class="swiper-wrapper">
+				<!-- Slides -->
+				<v-card
+					v-for="(item, i) in items"
+					:key="i"
+					class="swiper-slide"
+				>
+					<v-img
+						height="80px"
+						:src="item.src"
+					>
+						<v-card-title class="white--text">
+							<v-avatar size="56">
+								<img
+									alt="user"
+									:src="item.user"
+								>
+							</v-avatar>
+							<p class="ml-3">
+								John Doe
+							</p>
+						</v-card-title>
+					</v-img>
 
-		<!-- If we need navigation buttons -->
-		<div class="swiper-button-prev" />
-		<div class="swiper-button-next" />
+					<v-card-text class="px-0">
+						<div class="font-weight-bold ml-8 mb-2">
+							Today
+						</div>
+
+						<v-timeline
+							align-top
+							dense
+						>
+							<v-timeline-item
+								v-for="message in item.messages"
+								:key="message.time"
+								:color="message.color"
+								small
+								class="px-0"
+							>
+								<div>
+									<div class="font-weight-normal">
+										<strong>{{ message.from }}</strong> @{{ message.time }}
+									</div>
+									<div>{{ message.message }}</div>
+								</div>
+							</v-timeline-item>
+						</v-timeline>
+					</v-card-text>
+				</v-card>
+			</div>
+			<!-- If we need pagination -->
+			<div class="swiper-pagination" />
+
+			<!-- If we need navigation buttons -->
+			<div class="swiper-button-prev" />
+			<div class="swiper-button-next" />
+		</div>
 	</div>
 </template>
 <script>
@@ -30,6 +85,154 @@ import Swiper, { Navigation, Pagination } from "swiper"
 
 export default {
 	name: "AwesomeSwiperComponent",
+	data: () => ({
+		items: [
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+			{
+				src: "https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg",
+				user: "https://cdn.pixabay.com/photo/2020/06/24/19/12/cabbage-5337431_1280.jpg",
+				messages: [
+					{
+						from: "You",
+						message: "Sure, I'll see you later.",
+						time: "10:42am",
+						color: "deep-purple lighten-1",
+					},
+					{
+						from: "John Doe",
+						message: "Yeah, sure. Does 1:00pm work?",
+						time: "10:37am",
+						color: "green",
+					},
+					{
+						from: "You",
+						message: "Want to grab lunch today?",
+						time: "9:47am",
+						color: "deep-purple lighten-1",
+					},
+				],
+			},
+		]
+	}),
 	mounted() {
 		// core version + navigation, pagination modules:
 		Swiper.use([Navigation, Pagination]);
@@ -38,27 +241,27 @@ export default {
 			// Optional parameters
 			direction: "horizontal",
 			loop: false,
-			spaceBetween: 10,
+			spaceBetween: 50,
 			freeMode: true,
 			centerInsufficientSlides: true,
 			slidesOffsetBefore: 50,
 			slidesOffsetAfter: 50,
 			breakpoints: {
-				200: {
+				300: {
 					slidesPerView: 1,
 				},
 				// when window width is >= 480px
-				400: {
+				600: {
 					slidesPerView: 2,
 				},
 				// when window width is >= 640px
-				600: {
+				900: {
 					slidesPerView: 3,
 				},
-				800: {
+				1200: {
 					slidesPerView: 4,
 				},
-				1000: {
+				1500: {
 					slidesPerView: 5,
 				},
 			},
@@ -91,7 +294,20 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+#bg-card
+	border-radius: 0
+	#sermons
+		color: white
+		letter-spacing: 2px !important
+		text-align: center
+		border-width: initial !important
+		u
+			text-decoration: none
+			border-bottom: 3px dotted white
+	h1
+		color: white
 .swiper-container
+	margin-top: -200px
 	width: 100%
-	height: 300px
+	height: 400px
 </style>
