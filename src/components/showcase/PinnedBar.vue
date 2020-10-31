@@ -17,6 +17,7 @@
 				flat
 				max-height="400"
 				color="rgb(217 236 244)"
+				class="px-xl-16 px-lg-16 px-md-6"
 			>
 				<v-row no-gutters
 					justify="start" align="center"
@@ -49,7 +50,7 @@
 						sm="8"
 						xs="8"
 					>
-						<v-card-text class="display-1 py-0">
+						<v-card-text class="pin-header py-0">
 							Become a part of something great
 						</v-card-text>
 					</v-col>
@@ -60,7 +61,7 @@
 					We provide a nice feeds management for our followers.
 					We can post our thoughts, events or any inspirations as Sachchai Nepal Post.
 				</v-card-text>
-				<v-card-text class="subtitle-2">
+				<v-card-text class="subtitle-2 text-center">
 					See our top pinned items here. <v-icon large>
 						mdi-arrow-right
 					</v-icon>
@@ -183,4 +184,22 @@ export default {
 	height: 356px
 .overline
 	font-size: 14px !important
+.pin-header
+	text-align: center
+	font-family: "Acme", sans-serif
+	@media only screen and (min-width:1390px)
+		font-size: 52px
+		line-height: 52px
+	@media only screen and (min-width:1119px) and (max-width: 1389px)
+		font-size: 48px
+		line-height: 40px
+	@media only screen and (min-width:600px) and (max-width: 1118px)
+		font-size: 32px
+		line-height: 32px
+	@media only screen and (min-width:300px) and (max-width: 599px)
+		font-size: 48px
+		line-height: 48px
+	@media only screen and (max-width:299px)
+		font-size: 32px
+		line-height: 32px
 </style>
