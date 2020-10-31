@@ -17,6 +17,7 @@
 		>
 			<kendra-info-box />
 		</v-row>
+		<v-divider inset />
 		<pin-bar
 			title="Pinned Articles"
 			icon="mdi-post"
@@ -35,36 +36,14 @@
 				</v-card>
 			</template>
 		</pin-bar>
-		<div class="py-3" />
-		<pin-bar
-			title="Pinned Multimedias"
-			icon="mdi-video-box"
-			toolbar-color="error"
-		>
-			<template #items>
-				<v-card
-					v-for="(item, index) in pinnedArticles"
-					:key="index"
-					class="swiper-slide"
-					dark
-				>
-					<pinned-post :post="item" />
-				</v-card>
-			</template>
-		</pin-bar>
-		<div class="py-5" />
-		<v-row no-gutters>
+		<v-divider inset />
+		<v-row class="ma-0 pa-0">
 			<scatter />
 		</v-row>
 		<div class="peek-services-wrapper">
 			<services-peek />
 		</div>
-		<div class="mt-3">
-			<showcase-map />
-		</div>
-		<div class="mt-3">
-			<awesome-swiper />
-		</div>
+		<our-great-stuff />
 		<div class="mt-3">
 			<showcase-map />
 		</div>
@@ -88,7 +67,7 @@ export default {
 		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
-		AwesomeSwiper: () => import("@/components/showcase/AwesomeSwiper"),
+		OurGreatStuff: () => import("@/components/showcase/OurGreatStuff"),
 		ShowcaseMap: () => import("@/components/showcase/Map")
 	},
 	data: () => ({

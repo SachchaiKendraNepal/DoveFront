@@ -17,78 +17,58 @@
 			</v-list-item-content>
 			<span>
 				<v-avatar size="30"
-					color="grey"
+					color="grey lighten-2"
 					class="elevation-3"
 				>
 					<v-icon v-ripple
-						dark
-						class="pt-1"
-					>mdi-pin</v-icon>
+						color="grey darken-4"
+					>mdi-bullseye-arrow</v-icon>
 				</v-avatar>
 			</span>
 		</v-list-item>
-		<v-parallax
+		<v-img
 			class="ma-0 pa-0"
 			height="298"
 			width="300"
 			dark
 			src="https://linkpicture.com/q/mass_clapping.jpg"
 		>
-			<v-row
-				id="parallax-actions"
-				no-gutters
+			<v-card-actions class="ma-0 pa-1"
+				style="margin-top:260px !important"
 			>
-				<v-col cols="12"
-					class="ma-0 pa-0 d-flex justify-space-around"
-					style="height: 40px; margin-top: 30px !important;"
+				<v-btn
+					small
+					icon
 				>
-					<v-btn icon>
-						<v-icon
-							large
-							color="#cebfbf"
-						>
-							mdi-image
-						</v-icon>
-						<v-chip dense
-							class="ml-1"
-						>
-							5
-						</v-chip>
-					</v-btn>
-					<v-btn icon>
-						<v-icon
-							large
-							color="#cebfbf"
-						>
-							mdi-music
-						</v-icon>
-						<v-chip dense
-							class="ml-1"
-						>
-							5
-						</v-chip>
-					</v-btn>
-				</v-col>
-				<v-col cols="12"
-					class="ma-0 pa-0 d-flex justify-center"
-					style="height: 40px; margin-top: -120px !important;"
+					<v-icon v-ripple="true"
+						color="grey lighten-2"
+					>
+						mdi-heart
+					</v-icon>
+				</v-btn>
+				<v-btn small
+					icon
 				>
-					<v-btn icon>
-						<v-icon
-							large
-							color="#cebfbf"
-						>
-							mdi-video-box
-						</v-icon>
-						<v-chip dense
-							class="ml-2"
-						>
-							5
-						</v-chip>
-					</v-btn>
-				</v-col>
-			</v-row>
-		</v-parallax>
+					<v-icon color="grey lighten-2">
+						mdi-comment
+					</v-icon>
+				</v-btn>
+				<v-btn small
+					icon
+				>
+					<v-icon color="grey lighten-2">
+						mdi-share
+					</v-icon>
+				</v-btn>
+				<v-btn small
+					icon
+				>
+					<v-icon color="grey lighten-2">
+						mdi-bookmark
+					</v-icon>
+				</v-btn>
+			</v-card-actions>
+		</v-img>
 	</div>
 </template>
 <script>
