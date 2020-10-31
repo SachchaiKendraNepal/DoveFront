@@ -20,7 +20,6 @@
 		<v-row
 			align="center"
 			justify="center"
-			class="pa-6"
 		>
 			<v-col
 				cols="12"
@@ -28,6 +27,7 @@
 				lg="5"
 				md="5"
 				sm="5"
+				class="pa-0"
 			>
 				<v-row>
 					<v-col
@@ -51,6 +51,7 @@
 								? 'd-flex justify-end'
 								: 'd-flex justify-center'
 						"
+						class="pa-0"
 					>
 						<div class="text-right">
 							<p>
@@ -103,6 +104,7 @@
 				lg="5"
 				md="5"
 				sm="5"
+				class="pa-0"
 			>
 				<v-row>
 					<v-col cols="12" :class="
@@ -116,10 +118,11 @@
 						</v-avatar>
 					</v-col>
 					<v-col cols="12" :class="
-						$vuetify.breakpoint.smAndUp
-							? 'd-flex justify-start'
-							: 'd-flex justify-center'
-					"
+							$vuetify.breakpoint.smAndUp
+								? 'd-flex justify-start'
+								: 'd-flex justify-center'
+						"
+						class="pa-0"
 					>
 						<div>
 							<p>Mrs. KOCH XYZ</p>
