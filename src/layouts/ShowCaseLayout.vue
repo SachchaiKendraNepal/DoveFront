@@ -17,7 +17,9 @@
 		>
 			<kendra-info-box />
 		</v-row>
-		<v-divider inset />
+		<v-divider inset
+			class="my-2"
+		/>
 		<pin-bar
 			title="Pinned Articles"
 			icon="mdi-post"
@@ -36,7 +38,9 @@
 				</v-card>
 			</template>
 		</pin-bar>
-		<v-divider inset />
+		<v-divider inset
+			class="my-2"
+		/>
 		<v-row class="ma-0 pa-0">
 			<scatter />
 		</v-row>
