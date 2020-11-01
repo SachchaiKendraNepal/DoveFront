@@ -1,184 +1,186 @@
 <template>
-	<v-card
-		id="event-highlights-card"
-		max-width="1100"
-		class="mx-auto elevation-24"
-	>
-		<v-carousel
-			cycle
-			height="170"
-			:show-arrows="false"
-			hide-delimiters
+	<div class="events-highlights-wrapper">
+		<v-card
+			id="event-highlights-card"
+			max-width="1100"
+			class="mx-auto elevation-24"
 		>
-			<v-carousel-item
-				v-for="(event, index) in events"
-				:key="index"
+			<v-carousel
+				cycle
+				height="170"
+				:show-arrows="false"
+				hide-delimiters
 			>
-				<v-card
-					:color="colors[index]"
-					height="100%"
+				<v-carousel-item
+					v-for="(event, index) in events"
+					:key="index"
 				>
-					<v-row
-						no-gutters
-						class="fill-height px-2"
-						align="center"
-						justify="center"
+					<v-card
+						:color="colors[index]"
+						height="100%"
 					>
-						<v-col
-							id="avatar-column"
-							cols="3"
-							xl="2"
-							lg="2"
-							md="2"
-							sm="3"
-							class="ma-0 pa-0 d-flex justify-center"
+						<v-row
+							no-gutters
+							class="fill-height px-2"
+							align="center"
+							justify="center"
 						>
-							<v-avatar
-								id="date-avatar"
-								color="#e88c04"
-								class="elevation-12"
-								size="120"
+							<v-col
+								id="avatar-column"
+								cols="3"
+								xl="2"
+								lg="2"
+								md="2"
+								sm="3"
+								class="ma-0 pa-0 d-flex justify-center"
+							>
+								<v-avatar
+									id="date-avatar"
+									color="#e88c04"
+									class="elevation-12"
+									size="120"
+								>
+									<v-row
+										class="ma-0 pa-0"
+										justify="center"
+										align="center"
+									>
+										<v-col
+											id="date-column"
+											cols="12"
+											class="ma-0 pa-0 mt-1 pb-2"
+										>
+											<h1>
+												{{ event.start_date.day }}<sup>{{
+													getSuperScript(event.start_date.day)
+												}}</sup>
+											</h1>
+										</v-col>
+										<v-col cols="12"
+											class="ma-0 pa-0 pt-4 pb-4 month-column"
+										>
+											<h2>
+												{{ event.start_date.month }}
+											</h2>
+										</v-col>
+									</v-row>
+								</v-avatar>
+							</v-col>
+							<v-col
+								v-if="$vuetify.breakpoint.smAndUp"
+								class="ma-0 pa-0 d-flex justify-center"
+								cols="1"
+							>
+								<div id="divider" />
+							</v-col>
+							<v-col
+								id="event-column"
+								cols="10"
+								xl="9"
+								lg="9"
+								md="9"
+								sm="8"
+								class="ma-0 pa-0"
 							>
 								<v-row
-									class="ma-0 pa-0"
+									no-gutters
 									justify="center"
 									align="center"
+									class="px-2 pb-2"
 								>
 									<v-col
-										id="date-column"
-										cols="12"
-										class="ma-0 pa-0 mt-1 pb-2"
+										xl="6"
+										lg="6"
+										md="6"
+										sm="12"
+										class="ma-0 pa-0"
 									>
-										<h1>
-											{{ event.start_date.day }}<sup>{{
-												getSuperScript(event.start_date.day)
-											}}</sup>
-										</h1>
+										<p class="ma-0 pa-0"
+											:class="
+												$vuetify.breakpoint.smAndDown
+													? 'small-title'
+													: 'big-title'
+											"
+										>
+											<v-icon>mdi-calendar-star</v-icon>
+											{{ event.title }}
+										</p>
 									</v-col>
-									<v-col cols="12"
-										class="ma-0 pa-0 pt-4 pb-4 month-column"
+									<v-col
+										v-if="$vuetify.breakpoint.smAndUp"
+										xl="3"
+										lg="3"
+										md="3"
+										sm="6"
+										class="ma-0 pa-0 pt-3"
 									>
-										<h2>
-											{{ event.start_date.month }}
-										</h2>
+										<p class="subtitle-2 ma-0 pa-0 text-start">
+											<span><v-icon>mdi-sort-clock-descending</v-icon></span>
+											Friday 5:00 AM
+										</p>
+										<p class="subtitle-2 ma-0 pa-0">
+											<v-icon>mdi-sort-clock-ascending</v-icon>
+											Friday 8:00 PM
+										</p>
+									</v-col>
+									<v-col
+										v-if="$vuetify.breakpoint.smAndUp"
+										xl="3"
+										lg="3"
+										md="3"
+										sm="6"
+										class="ma-0 pa-0  pt-3"
+									>
+										<p class="ma-0 pa-0 subtitle-2 text-start">
+											<v-icon>mdi-home</v-icon>
+											Deep Housing
+										</p>
+										<p class="subtitle-2 ma-0 pa-0">
+											<v-icon>mdi-google-maps</v-icon>
+											Lamachaur-16, Pokhara
+										</p>
+									</v-col>
+									<v-col
+										v-if="$vuetify.breakpoint.smAndUp"
+										xl="12"
+										lg="12"
+										md="12"
+										sm="12"
+										class="ma-0 pa-0"
+									>
+										<p
+											class="subtitle-1 ma-0 pa-0 text-start"
+											:class="
+												$vuetify.breakpoint.mdAndUp
+													? 'mt-4'
+													: ''
+											"
+										>
+											<v-icon>mdi-card-text</v-icon>
+											{{ $vuetify.breakpoint.lgAndUp
+												? event.description.substring(0,200)
+												: $vuetify.breakpoint.md
+													? event.description.substring(0,140)
+													: event.description.substring(0,50)
+											}}
+											<span>...</span>
+											<span><v-btn
+												text
+												color="light-blue lighten-1"
+												class="float-right mr-6"
+											>
+												Read More
+											</v-btn></span>
+										</p>
 									</v-col>
 								</v-row>
-							</v-avatar>
-						</v-col>
-						<v-col
-							v-if="$vuetify.breakpoint.smAndUp"
-							class="ma-0 pa-0 d-flex justify-center"
-							cols="1"
-						>
-							<div id="divider" />
-						</v-col>
-						<v-col
-							id="event-column"
-							cols="10"
-							xl="9"
-							lg="9"
-							md="9"
-							sm="8"
-							class="ma-0 pa-0"
-						>
-							<v-row
-								no-gutters
-								justify="center"
-								align="center"
-								class="px-2 pb-2"
-							>
-								<v-col
-									xl="6"
-									lg="6"
-									md="6"
-									sm="12"
-									class="ma-0 pa-0"
-								>
-									<p class="ma-0 pa-0"
-										:class="
-											$vuetify.breakpoint.smAndDown
-												? 'small-title'
-												: 'big-title'
-										"
-									>
-										<v-icon>mdi-calendar-star</v-icon>
-										{{ event.title }}
-									</p>
-								</v-col>
-								<v-col
-									v-if="$vuetify.breakpoint.smAndUp"
-									xl="3"
-									lg="3"
-									md="3"
-									sm="6"
-									class="ma-0 pa-0 pt-3"
-								>
-									<p class="subtitle-2 ma-0 pa-0 text-start">
-										<span><v-icon>mdi-sort-clock-descending</v-icon></span>
-										Friday 5:00 AM
-									</p>
-									<p class="subtitle-2 ma-0 pa-0">
-										<v-icon>mdi-sort-clock-ascending</v-icon>
-										Friday 8:00 PM
-									</p>
-								</v-col>
-								<v-col
-									v-if="$vuetify.breakpoint.smAndUp"
-									xl="3"
-									lg="3"
-									md="3"
-									sm="6"
-									class="ma-0 pa-0  pt-3"
-								>
-									<p class="ma-0 pa-0 subtitle-2 text-start">
-										<v-icon>mdi-home</v-icon>
-										Deep Housing
-									</p>
-									<p class="subtitle-2 ma-0 pa-0">
-										<v-icon>mdi-google-maps</v-icon>
-										Lamachaur-16, Pokhara
-									</p>
-								</v-col>
-								<v-col
-									v-if="$vuetify.breakpoint.smAndUp"
-									xl="12"
-									lg="12"
-									md="12"
-									sm="12"
-									class="ma-0 pa-0"
-								>
-									<p
-										class="subtitle-1 ma-0 pa-0 text-start"
-										:class="
-											$vuetify.breakpoint.mdAndUp
-												? 'mt-4'
-												: ''
-										"
-									>
-										<v-icon>mdi-card-text</v-icon>
-										{{ $vuetify.breakpoint.lgAndUp
-											? event.description.substring(0,200)
-											: $vuetify.breakpoint.md
-												? event.description.substring(0,140)
-												: event.description.substring(0,50)
-										}}
-										<span>...</span>
-										<span><v-btn
-											text
-											color="light-blue lighten-1"
-											class="float-right mr-6"
-										>
-											Read More
-										</v-btn></span>
-									</p>
-								</v-col>
-							</v-row>
-						</v-col>
-					</v-row>
-				</v-card>
-			</v-carousel-item>
-		</v-carousel>
-	</v-card>
+							</v-col>
+						</v-row>
+					</v-card>
+				</v-carousel-item>
+			</v-carousel>
+		</v-card>
+	</div>
 </template>
 <script>
 export default {
@@ -321,6 +323,8 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.events-highlights-wrapper
+	margin: -80px 20px 0 20px
 #date-column
 	padding-top: 10px !important
 	h1

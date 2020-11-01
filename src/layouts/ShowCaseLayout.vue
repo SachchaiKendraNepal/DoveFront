@@ -7,9 +7,7 @@
 		<div class="slider-wrapper">
 			<show-case-slider />
 		</div>
-		<div class="events-highlights-wrapper">
-			<event-highlights />
-		</div>
+		<event-highlights />
 		<v-row
 			class="ma-0 pa-0"
 			justify="center"
@@ -18,7 +16,7 @@
 			<kendra-info-box />
 		</v-row>
 		<v-divider inset
-			class="my-2"
+			class="my-2 mb-10"
 		/>
 		<pin-bar
 			title="Pinned Articles"
@@ -39,7 +37,7 @@
 			</template>
 		</pin-bar>
 		<v-divider inset
-			class="my-2"
+			class="my-2 mt-8"
 		/>
 		<v-row class="ma-0 pa-0">
 			<scatter />
@@ -177,8 +175,6 @@ export default {
 <style lang="sass" scoped>
 .overline
 	font-size: 22px !important
-.events-highlights-wrapper
-	margin: -80px 20px 0 20px
 .slider-wrapper
 	background: #d9ecf3
 </style>
