@@ -25,38 +25,7 @@
 						class="pb-3"
 					>
 						<user-clip />
-						<v-card
-							class="mx-auto mt-3"
-							max-width="500"
-						>
-							<v-list color="blue darken-4"
-								dark
-							>
-								<v-list-group
-									v-for="item in items"
-									:key="item.title"
-									v-model="item.active"
-									active-class="light-blue--text"
-									:prepend-icon="item.action"
-									no-action
-								>
-									<template #activator>
-										<v-list-item-content>
-											<v-list-item-title v-text="item.title" />
-										</v-list-item-content>
-									</template>
-
-									<v-list-item
-										v-for="child in item.items"
-										:key="child.title"
-									>
-										<v-list-item-content>
-											<v-list-item-title v-text="child.title" />
-										</v-list-item-content>
-									</v-list-item>
-								</v-list-group>
-							</v-list>
-						</v-card>
+						<quick-links />
 					</v-sheet>
 				</v-col>
 
@@ -86,6 +55,9 @@
 								<add-post-box />
 								<article-post :post="articlePost" />
 								<article-post :post="articlePost" />
+								<multimedia :post="multimediaPost" />
+								<article-post :post="articlePost" />
+								<multimedia :post="multimediaPost" />
 							</v-col>
 							<v-col
 								class="ma-0 pa-0 px-4"
@@ -95,6 +67,8 @@
 							>
 								<article-post :post="articlePost" />
 								<multimedia :post="multimediaPost" />
+								<multimedia :post="multimediaPost" />
+								<article-post :post="articlePost" />
 								<multimedia :post="multimediaPost" />
 							</v-col>
 						</v-row>
@@ -112,7 +86,8 @@ export default {
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home_layout/AddPostBox"),
-		UserClip: () => import("@/views/home_layout/UserClip")
+		UserClip: () => import("@/views/home_layout/UserClip"),
+		QuickLinks: () => import("@/components/home/QuickLinks")
 	},
 	data: () => ({
 		loading: false,
@@ -128,48 +103,6 @@ export default {
 			author: "Kiran Parajuli",
 			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
 		},
-		items: [
-			{
-				action: "mdi-ticket",
-				items: [{ title: "List Item" }],
-				title: "Attractions",
-			},
-			{
-				action: "mdi-silverware-fork-knife",
-				active: false,
-				items: [
-					{ title: "Breakfast & brunch" },
-					{ title: "New American" },
-					{ title: "Sushi" },
-				],
-				title: "Dining",
-			},
-			{
-				action: "mdi-school",
-				items: [{ title: "List Item" }],
-				title: "Education",
-			},
-			{
-				action: "mdi-run",
-				items: [{ title: "List Item" }],
-				title: "Family",
-			},
-			{
-				action: "mdi-bottle-tonic-plus",
-				items: [{ title: "List Item" }],
-				title: "Health",
-			},
-			{
-				action: "mdi-content-cut",
-				items: [{ title: "List Item" }],
-				title: "Office",
-			},
-			{
-				action: "mdi-tag",
-				items: [{ title: "List Item" }],
-				title: "Promotions",
-			},
-		],
 	})
 }
 </script>
