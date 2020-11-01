@@ -28,6 +28,7 @@
 					<v-list-item
 						v-else
 						:key="index"
+						class="pl-3 pr-1 comment-item"
 					>
 						<v-list-item-avatar>
 							<v-img :src="item.avatar" />
@@ -39,7 +40,14 @@
 								{{ item.comment }}
 							</p>
 						</v-list-item-content>
-						<v-list-item-action>
+						<v-list-item-action class="comment-actions">
+							<v-btn icon>
+								<v-icon small
+									color="blue darken-1"
+								>
+									mdi-pencil
+								</v-icon>
+							</v-btn>
 							<v-btn icon>
 								<v-icon small
 									color="red darken-1"
@@ -120,7 +128,8 @@ export default {
 		const commentToolbarHeight = 40
 		$(document).ready(function () {
 			const commentPostBox = $("#post-comment-from-detail").css("height")
-			const topSectionHeight = $("#magic").height() + commentToolbarHeight + parseInt(commentPostBox)
+			const magicBoxHeight = $("#magic").height()
+			const topSectionHeight = magicBoxHeight + commentToolbarHeight + parseInt(commentPostBox)
 			$(".scrollable-y-comments").height($(window).height() - topSectionHeight)
 		})
 		$(window).resize(function () {
