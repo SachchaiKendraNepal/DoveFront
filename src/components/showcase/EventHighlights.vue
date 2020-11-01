@@ -329,6 +329,9 @@ export default {
 	padding-top: 10px !important
 	h1
 		padding-left: 15px
+#avatar-column
+	@media only screen and (max-width: 600px)
+		padding-top: 5px !important
 .month-column
 	background: #228396
 	border-color: #228396
