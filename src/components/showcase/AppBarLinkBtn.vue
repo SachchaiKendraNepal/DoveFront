@@ -1,20 +1,26 @@
 <template>
-	<v-btn depressed
-		color="transparent"
+	<v-item
+		v-slot="{ active, toggle }"
 	>
-		<v-icon
-			v-if="$vuetify.breakpoint.smAndDown"
-			size="22"
-			color="rgb(20 2 52)"
+		<v-btn
+			class="ma-1 link-button"
+			depressed
+			color="transparent"
+			@click="toggle"
 		>
-			{{ icon }}
-		</v-icon>
-		<span
-			v-if="$vuetify.breakpoint.mdAndUp"
-			class="pt-1 pl-1"
-			style="color:#FF9800"
-		>{{ text }}</span>
-	</v-btn>
+			<v-icon
+				size="22"
+				:color="active ? 'teal darken-2' : 'black'"
+			>
+				{{ icon }}
+			</v-icon>
+			<span
+				v-if="$vuetify.breakpoint.mdAndUp"
+				class="pt-1 pl-1 link-text"
+				:class="active ? 'active-link-text': 'non-active-link-text'"
+			>{{ text }}</span>
+		</v-btn>
+	</v-item>
 </template>
 <script>
 export default {
@@ -31,3 +37,13 @@ export default {
 	}
 }
 </script>
+<style lang="sass" scoped>
+.link-text
+	font-size: 14px
+.active-link-text
+	color: green
+	border-bottom: 10px dotted forestgreen
+.non-active-link-text
+	color: black
+
+</style>

@@ -1,121 +1,140 @@
 <template>
-	<v-app-bar
-		id="showcase-nav-bar"
-		fixed
-		height="135"
-	>
-		<div class="social-networks text-center">
-			<v-icon
-				v-ripple
-				color="#3a80ec"
-				size="20"
-			>
-				mdi-facebook
-			</v-icon>
-			<v-icon
-				v-ripple
-				color="#f71701"
-				size="20"
-			>
-				mdi-youtube
-			</v-icon>
-			<v-icon
-				v-ripple
-				size="20"
-				color="#bb2d71"
-			>
-				mdi-instagram
-			</v-icon>
-			<v-icon
-				v-ripple
-				color="rgb(62 161 242)"
-				size="20"
-			>
-				mdi-twitter
-			</v-icon>
-		</div>
-		<v-spacer />
-		<div class="links text-center">
-			<link-button
-				icon="mdi-home"
-				text="HOME"
-			/>
-			<link-button
-				icon="mdi-home-group"
-				text="BRANCHES"
-			/>
-			<link-button
-				icon="mdi-calendar-multiple"
-				text="EVENTS"
-			/>
-			<link-button
-				icon="mdi-video-vintage"
-				text="GALLERY"
-			/>
-		</div>
-		<v-avatar
-			size="130"
-			class="logo"
+	<div class="navbar elevation-4">
+		<div id="top-nav-row"
+			class="d-flex align-center pa-2  px-sm-5 px-md-6 px-lg-8 px-xl-16"
 		>
-			<v-img
-				:src="logo"
-				alt="SacchaiLogo"
-			/>
-		</v-avatar>
-		<div class="links text-center">
-			<link-button
-				icon="mdi-face-agent"
-				text="SERVICES"
-			/>
-			<link-button
-				icon="mdi-information"
-				text="ABOUT US"
-			/>
-			<link-button
-				icon="mdi-google-maps"
-				text="MAPS"
-			/>
-			<link-button
-				icon="mdi-phone"
-				text="CONTACT US"
-			/>
+			<div class="social-networks text-center">
+				<v-icon
+					v-ripple
+					color="#3a80ec"
+					size="20"
+				>
+					mdi-facebook
+				</v-icon>
+				<v-icon
+					v-ripple
+					color="#f71701"
+					size="20"
+				>
+					mdi-youtube
+				</v-icon>
+				<v-icon
+					v-ripple
+					size="20"
+					color="#bb2d71"
+				>
+					mdi-instagram
+				</v-icon>
+				<v-icon
+					v-ripple
+					color="rgb(62 161 242)"
+					size="20"
+				>
+					mdi-twitter
+				</v-icon>
+			</div>
+			<v-spacer />
+			<div class="auth-actions">
+				<v-btn
+					id="register-button"
+					v-bind="size"
+					depressed
+					color="success"
+				>
+					<v-icon v-if="$vuetify.breakpoint.mdAndDown"
+						:v-bind="size + 5"
+					>
+						mdi-account-plus
+					</v-icon>
+					<span v-if="$vuetify.breakpoint.lgAndUp"
+						class="overline"
+					>Register</span>
+				</v-btn>
+			</div>
 		</div>
-		<v-spacer />
-		<v-btn
-			id="register-button"
-			large
-			depressed
-			color="success"
+		<v-item-group
+			id="middle-nav-row"
+			mandatory
+			class="d-flex justify-center"
 		>
-			<v-icon v-if="$vuetify.breakpoint.mdAndDown"
-				size="30"
-			>
-				mdi-account-circle
-			</v-icon>
-			<span v-if="$vuetify.breakpoint.lgAndUp"
-				class="overline"
-			>Register</span>
-		</v-btn>
-	</v-app-bar>
+			<div class="links text-center">
+				<link-button
+					icon="mdi-home"
+					text="HOME"
+				/>
+				<link-button
+					icon="mdi-home-group"
+					text="BRANCHES"
+				/>
+				<link-button
+					icon="mdi-calendar-multiple"
+					text="EVENTS"
+				/>
+				<link-button
+					icon="mdi-video-vintage"
+					text="GALLERY"
+				/>
+			</div>
+			<div class="logo">
+				<v-avatar
+					size="130"
+					class="logo-avatar"
+				>
+					<v-img
+						:src="logo"
+						alt="SacchaiLogo"
+					/>
+				</v-avatar>
+			</div>
+			<div class="links text-center">
+				<link-button
+					icon="mdi-face-agent"
+					text="SERVICES"
+				/>
+				<link-button
+					icon="mdi-information"
+					text="ABOUT US"
+				/>
+				<link-button
+					icon="mdi-google-maps"
+					text="MAPS"
+				/>
+				<link-button
+					icon="mdi-phone"
+					text="CONTACT US"
+				/>
+			</div>
+		</v-item-group>
+	</div>
 </template>
 <script>
-import LinkButton from "@/components/showcase/AppBarLinkBtn"
-import $ from "jquery";
+import $ from "jquery"
 
 export default {
-	name: "ShowCaseAppBar",
+	name: "ShowCaseBarComponent",
 	components: {
-		LinkButton
+		LinkButton: () => import("@/components/showcase/AppBarLinkBtn")
 	},
 	data: () => ({
 		logo: require("@/assets/showcase_logo_v1.png"),
-
 	}),
+	computed: {
+		size() {
+			const size = {
+				xs: "x-small",
+				sm: "small",
+				md: "medium",
+				lg: "medium",
+				xl: "medium",
+			}[this.$vuetify.breakpoint.name]
+			return size ? {[size]: true} : {}
+		}
+	},
 	mounted: function () {
 		$(document).ready(() => {
 			const scrollTop = $(window).scrollTop()
-			if(scrollTop === 0) {
-				$("#showcase-nav-bar").css({
+			if (scrollTop === 0) {
+				$(".navbar").css({
 					background: "rgb(255,255,255, 0)"
 				})
 			}
@@ -123,30 +142,64 @@ export default {
 		$(window).scroll(function () {
 			console.log("here")
 			const scrollTop = $(this).scrollTop()
-			$("#showcase-nav-bar").css({
+			$(".navbar").css({
 				background: function () {
 					const elementHeight = $(this).height();
-					return "rgb(230,230,230," +  (1 - (elementHeight - scrollTop) / elementHeight).toString()
+					return "rgb(160,209,248," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
 				}
 			})
 		})
-	},
+	}
 }
 </script>
 <style lang="sass" scoped>
-#showcase-nav-bar
-	top:0
-	border-radius: 0
+/* The navigation bar */
+.navbar
+	overflow: hidden
+	background-color: #333
+	position: fixed /* Set the navbar to fixed position */
+	top: 0 /* Position the navbar at the top of the page */
+	width: 100% /* Full width */
 	z-index: 100
-	.social-networks
-		::v-deep.v-icon
-			padding: 6px
-			cursor: pointer
-	#register-button:hover
-		background-color: #d7f1d7 !important
-		border: 2px solid green !important
-		::v-deep.v-icon
-			color: #067206 !important
-		span
-			color: #067206 !important
+
+	#top-nav-row
+		padding: 2px 0
+		background: transparent
+
+	#middle-nav-row
+		.logo-avatar
+			margin-top: -45px
+			transition: .6s
+			@media only screen and (min-width: 253px) and (max-width: 400px)
+				margin-top: -20px
+			@media only screen and (min-width: 161px) and (max-width: 252px)
+				margin-top: 10px
+				height: 80px !important
+				min-width: 80px !important
+				width: 80px !important
+			@media only screen and (max-width: 160px)
+				margin-top: 40px
+				height: 50px !important
+				min-width: 50px !important
+				width: 50px !important
+
+
+/* Links inside the navbar */
+.navbar a
+	float: left
+	display: block
+	color: #f2f2f2
+	text-align: center
+	padding: 14px 16px
+	text-decoration: none
+
+/* Change background on mouse-over */
+.navbar a:hover
+	background: #ddd
+	color: black
+
+/* Main content */
+.main
+	margin-top: 30px /* Add a top margin to avoid content overlay */
+
 </style>
