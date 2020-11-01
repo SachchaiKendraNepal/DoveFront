@@ -106,14 +106,9 @@
 						solo
 						placeholder="Add a comment"
 						hide-details="auto"
+						append-icon="mdi-send"
+						clearable
 					/>
-					<v-btn
-						icon
-						color="blue darken-3"
-						class="font-weight-bold"
-					>
-						<v-icon>mdi-send</v-icon>
-					</v-btn>
 				</v-row>
 			</v-col>
 		</v-row>
