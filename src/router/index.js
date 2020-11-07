@@ -89,9 +89,14 @@ const routes = [
 				path: "reset-password",
 				name: "SACHCHAI RESET PASSWORD",
 				component: () => import("@/views/auth/ResetPassword")
-			}
-		]
-	}
+			},
+		],
+	},
+	{
+		path: "/register",
+		name: "SACHCHAI REGISTER",
+		component: () => import("@/views/auth/Register")
+	},
 ]
 
 const router = new VueRouter({
