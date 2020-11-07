@@ -40,6 +40,7 @@
 					v-bind="size"
 					depressed
 					color="success"
+					@click="routeToRegisterPage()"
 				>
 					<v-icon v-if="$vuetify.breakpoint.mdAndDown"
 						:v-bind="size + 5"
@@ -109,6 +110,7 @@
 </template>
 <script>
 import $ from "jquery"
+import router from "@/router";
 
 export default {
 	name: "ShowCaseBarComponent",
@@ -131,23 +133,34 @@ export default {
 		}
 	},
 	mounted: function () {
-		$(document).ready(() => {
-			const scrollTop = $(window).scrollTop()
-			if (scrollTop === 0) {
-				$(".navbar").css({
-					background: "rgb(255,255,255, 0)"
-				})
-			}
-		})
-		$(window).scroll(function () {
-			const scrollTop = $(this).scrollTop()
-			$(".navbar").css({
-				background: function () {
-					const elementHeight = $(this).height();
-					return "rgb(160,209,248," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
+		this.initBarTransparency()
+		this.initBarScrollColoring()
+	},
+	methods: {
+		routeToRegisterPage() {
+			router.push({name: "SACHCHAI REGISTER"})
+		},
+		initBarTransparency() {
+			$(document).ready(() => {
+				const scrollTop = $(window).scrollTop()
+				if (scrollTop === 0) {
+					$(".navbar").css({
+						background: "rgb(255,255,255, 0)"
+					})
 				}
 			})
-		})
+		},
+		initBarScrollColoring() {
+			$(window).scroll(function () {
+				const scrollTop = $(this).scrollTop()
+				$(".navbar").css({
+					background: function () {
+						const elementHeight = $(this).height();
+						return "rgb(160,209,248," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
+					}
+				})
+			})
+		}
 	}
 }
 </script>
@@ -200,4 +213,8 @@ export default {
 .main
 	margin-top: 30px /* Add a top margin to avoid content overlay */
 
+#register-button:hover
+	border: 2px solid #007e00 !important
+	background-color: transparent !important
+	color: #007e00 !important
 </style>
