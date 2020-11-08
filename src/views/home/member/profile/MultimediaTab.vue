@@ -127,6 +127,7 @@ export default {
 				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
 				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 				videoPosterTitle: "ALICE IN THE WONDERLAND",
+				duration: null
 			},
 			{
 				id: 2,
@@ -134,6 +135,7 @@ export default {
 				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
 				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 				videoPosterTitle: "ALICE IN THE WONDERLAND",
+				duration: null
 			},
 			{
 				id: 3,
@@ -141,6 +143,7 @@ export default {
 				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
 				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 				videoPosterTitle: "ALICE IN THE WONDERLAND",
+				duration: null
 			}
 		],
 	})
