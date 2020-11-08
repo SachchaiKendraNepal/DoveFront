@@ -101,7 +101,8 @@ export default {
 			id: 1,
 			title: "Alice in the Wonderland",
 			author: "Kiran Parajuli",
-			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
+			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland" +
+				" from her dreams where she is reunited with her friends who make her realise her true destiny."
 		},
 	})
 }

@@ -31,7 +31,8 @@ export default {
 			videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 			videoPosterTitle: "ALICE IN THE WONDERLAND",
 			playing: false,
-			isLiked: false
+			isLiked: false,
+			duration: 1000
 		}
 	}
 }

@@ -46,7 +46,7 @@
 	</base-post-detail>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player";
+import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 // import $ from "jquery"
 

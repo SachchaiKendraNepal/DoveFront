@@ -10,7 +10,10 @@ import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 import "leaflet/dist/leaflet.css"
 import $ from "jquery"
-import "swiper/swiper-bundle.css";
+import "swiper/swiper-bundle.css"
+import VueBus from "vue-bus"
+
+Vue.use(VueBus)
 Vue.component(vuePlayer)
 Vue.component(APlayer)
 

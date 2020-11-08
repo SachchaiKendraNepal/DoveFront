@@ -134,7 +134,9 @@
 			<v-divider />
 
 			<v-card-text>
-				{{ new Date().getFullYear() }} — <strong>Sacchai Nepal</strong>
+				<div class="text-right">
+					{{ new Date().getFullYear() }} — <strong>Ishowiya Bhajan Mandal Sachchai Kendra Nepal</strong> - made with ❤️ by <strong>Kiran Parajuli</strong>.
+				</div>
 			</v-card-text>
 		</v-card>
 	</v-footer>
@@ -156,7 +158,7 @@ export default {
 		],
 		firstList: [
 			{text: "Home"},
-			{text: "Reading List"},
+			{text: "Maps"},
 			{text: "Bookmarks"},
 			{text: "Events"},
 			{text: "Videos"},
