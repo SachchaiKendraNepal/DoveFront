@@ -88,7 +88,7 @@ export default {
 	data: () => ({
 		my_item: 1,
 		my_items: [
-			{ text: "Profile", icon: "mdi-account-circle-outline" },
+			{ text: "Profile", icon: "mdi-account-circle-outline", to: "/home/profile"},
 			{ text: "Saved", icon: "mdi-bookmark-multiple" },
 			{ text: "My Posts", icon: "mdi-post-outline" }
 		],

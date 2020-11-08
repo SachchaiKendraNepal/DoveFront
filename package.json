@@ -46,6 +46,6 @@
     "vuetify-loader": "^1.3.0"
   },
   "engines": {
-    "node": ">=10 <13"
+    "node": ">=10"
   }
 }

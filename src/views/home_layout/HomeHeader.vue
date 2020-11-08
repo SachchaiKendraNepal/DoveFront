@@ -19,5 +19,6 @@ export default {
 
 <style lang="sass">
 #home-header
-	background-color: rgba(236, 230, 221, 0.91)
+	background-color: white
+	border-radius: 0
 </style>

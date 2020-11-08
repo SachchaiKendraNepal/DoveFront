@@ -24,6 +24,11 @@ const routes = [
 				component: () => import("@/views/home/Home")
 			},
 			{
+				path: "profile",
+				name: "SACHCHAI NEPAL PROFILE",
+				component: () => import("@/views/home/member/Profile")
+			},
+			{
 				path: "follower",
 				name: "SACHCHAI NEPAL FOLLOWERS",
 				component: () => import("@/views/home/member/Member")
