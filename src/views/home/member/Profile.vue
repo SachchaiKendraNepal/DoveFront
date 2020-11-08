@@ -99,17 +99,20 @@
 						</v-card>
 						<v-spacer />
 						<v-menu
-							max-width="180"
+							max-width="220"
 							rounded
 							bottom
-							nudge-left="150"
+							nudge-bottom="5"
+							nudge-left="160"
 							offset-y
 							transition="slide-y-transition"
 							close-on-click
-							close-delay="1"
+							close-on-content-click
+							internal-activator
 						>
 							<template #activator="{ on, attrs }">
 								<v-btn
+									id="profile-actions-btn"
 									class="action-dropdown mr-1"
 									color="grey darken-3"
 									icon
@@ -125,31 +128,24 @@
 								dense
 								rounded
 								color="red lighten-5"
-								class="ma-0 px-0 py-1"
 							>
-								<v-list-item-group
+								<v-list-item
 									v-for="(action, actionKey) in profileActionItems"
 									:key="actionKey"
+									@click.stop="handle_function_call(action.functionName)"
 								>
-									<v-list-item
-										class="px-2"
-										@click="1"
-									>
-										<v-list-item-icon style="min-width: 0;">
-											<v-icon medium
-												:color="action.color"
-											>
-												{{ action.icon }}
-											</v-icon>
-										</v-list-item-icon>
-										<v-list-item-title>{{ action.text }}</v-list-item-title>
-									</v-list-item>
-									<v-divider
-										v-if="actionKey < profileActionItems.length - 1"
-										:key="actionKey"
-									/>
-								</v-list-item-group>
+									<v-list-item-icon>
+										<v-icon medium
+											:color="action.color"
+										>
+											{{ action.icon }}
+										</v-icon>
+									</v-list-item-icon>
+									<v-list-item-title>{{ action.text }}</v-list-item-title>
+								</v-list-item>
 							</v-list>
+							<change-password-dialog />
+							<edit-profile-dialog />
 						</v-menu>
 					</v-toolbar>
 					<v-tabs
@@ -189,9 +185,11 @@ export default {
 		AboutTab: () => import("@/views/home/member/profile/AboutTab"),
 		PhotosTab: () => import("@/views/home/member/profile/PhotosTab"),
 		MultimediaTab: () => import("@/views/home/member/profile/MultimediaTab"),
+		ChangePasswordDialog: () => import("@/views/home/member/profile/ChangePassword"),
+		EditProfileDialog: () => import("@/views/home/member/profile/EditProfileDialog"),
 	},
 	data: () => ({
-		currentItem: "tab-Web",
+		currentItem: "tab-Posts",
 		profileTabItems: [
 			{icon: "mdi-post", text: "Posts"},
 			{icon: "mdi-information-variant", text: "About"},
@@ -199,11 +197,25 @@ export default {
 			{icon: "mdi-camcorder", text: "Multimedia"}
 		],
 		profileActionItems: [
-			{icon: "mdi-pencil", text: "Edit profile"},
-			{icon: "mdi-arrow-horizontal-lock", text: "Change password"},
-			{icon: "mdi-account-cog", text: "Settings"},
-		]
-	})
+			{icon: "mdi-pencil", text: "Edit profile", functionName: "openEditProfileDialog"},
+			{icon: "mdi-arrow-horizontal-lock", text: "Change password", functionName: "openChangePasswordDialog"},
+			{icon: "mdi-account-cog", text: "Settings", functionName: "openSettingsDialog"},
+		],
+	}),
+	methods: {
+		handle_function_call(function_name) {
+			this[function_name]()
+		},
+		openEditProfileDialog() {
+			this.$bus.emit("open-edit-profile-dialog")
+		},
+		openChangePasswordDialog() {
+			this.$bus.emit("open-change-password-dialog")
+		},
+		openSettingsDialog() {
+			console.log("here setting")
+		}
+	},
 }
 </script>
 <style lang="sass" scoped>
