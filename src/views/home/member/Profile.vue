@@ -54,7 +54,7 @@
 					<v-toolbar
 						max-width="1000"
 						color="transparent"
-						class="mx-auto elevation-0"
+						class="mx-auto elevation-0 "
 						:height="
 							$vuetify.breakpoint.mdAndUp
 								? 72
@@ -64,7 +64,7 @@
 					>
 						<v-app-bar-nav-icon class=" mx-1 mx-xl-0 mx-lg-0 mx-md-2">
 							<v-avatar color="grey lighten-2"
-								class="elevation-4"
+								class="elevation-4 mt-2 mt-md-0 mt-lg-0 mt-xl-0"
 								style="border: 2px solid #0077cd !important;"
 							>
 								<v-icon x-large
@@ -98,31 +98,59 @@
 							</v-tabs>
 						</v-card>
 						<v-spacer />
-						<v-btn
-							dark
-							depressed
-							color="blue darken-3"
-							class="mr-2"
+						<v-menu
+							max-width="180"
+							rounded
+							bottom
+							nudge-left="150"
+							offset-y
+							transition="slide-y-transition"
+							close-on-click
+							close-delay="1"
 						>
-							<v-icon
-								size="20"
+							<template #activator="{ on, attrs }">
+								<v-btn
+									class="action-dropdown mr-1"
+									color="grey darken-3"
+									icon
+									v-bind="attrs"
+									v-on="on"
+								>
+									<v-icon>
+										mdi-dots-vertical
+									</v-icon>
+								</v-btn>
+							</template>
+							<v-list
+								dense
+								rounded
+								color="red lighten-5"
+								class="ma-0 px-0 py-1"
 							>
-								mdi-pencil
-							</v-icon>
-							<div v-show="$vuetify.breakpoint.smAndUp"
-								class="ml-2"
-							>
-								Edit Profile
-							</div>
-						</v-btn>
-
-						<v-btn icon>
-							<v-icon>mdi-magnify</v-icon>
-						</v-btn>
-
-						<v-btn icon>
-							<v-icon>mdi-dots-vertical</v-icon>
-						</v-btn>
+								<v-list-item-group
+									v-for="(action, actionKey) in profileActionItems"
+									:key="actionKey"
+								>
+									<v-list-item
+										class="px-2"
+										@click="1"
+									>
+										<v-list-item-icon style="min-width: 0;">
+											<v-icon medium
+												:color="action.color"
+											>
+												{{ action.icon }}
+											</v-icon>
+										</v-list-item-icon>
+										<v-list-item-title>{{ action.text }}</v-list-item-title>
+									</v-list-item>
+									<v-divider
+										v-if="actionKey < profileActionItems.length - 1"
+										:key="actionKey"
+									/>
+								</v-list-item-group>
+							</v-list>
+						</v-menu>
 					</v-toolbar>
 					<v-tabs
 						v-show="$vuetify.breakpoint.smAndDown"
@@ -169,6 +197,11 @@ export default {
 			{icon: "mdi-information-variant", text: "About"},
 			{icon: "mdi-folder-multiple-image", text: "Photos"},
 			{icon: "mdi-camcorder", text: "Multimedia"}
+		],
+		profileActionItems: [
+			{icon: "mdi-pencil", text: "Edit profile"},
+			{icon: "mdi-arrow-horizontal-lock", text: "Change password"},
+			{icon: "mdi-account-cog", text: "Settings"},
 		]
 	})
 }
