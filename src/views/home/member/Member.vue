@@ -25,15 +25,16 @@
 					</v-icon>
 				</v-avatar>
 				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
-					Sachchai Members
+					Sachchai Followers
 				</v-toolbar-title>
 				<v-divider
-					class="mx-4"
+					class="mx-4 search-follower"
 					inset
 					vertical
 				/>
 				<v-text-field
 					v-model="search"
+					class="search-follower"
 					solo
 					dense
 					hide-details
@@ -45,432 +46,24 @@
 				/>
 				<v-spacer />
 				<v-divider
-					class="mx-4"
+					class="mx-4 search-follower"
 					inset
 					vertical
 				/>
-				<v-dialog
-					v-model="dialog"
-					max-width="550px"
+				<v-btn
+					dark
+					color="primary"
+					@click.stop="openAddFollowerFormDialog"
 				>
-					<template #activator="{ on, attrs }">
-						<v-btn
-							dark
-							v-bind="attrs"
-							color="primary"
-							v-on="on"
-						>
-							<v-icon
-								dark
-								:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-							>
-								mdi-plus-circle
-							</v-icon>
-							<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
-						</v-btn>
-					</template>
-					<v-card color="rgb(251 250 241)">
-						<v-card-title>
-							<v-icon
-								size="40"
-								class="mr-4"
-							>
-								{{ formIcon }}
-							</v-icon>
-							<span class="headline">{{ formTitle }}</span>
-						</v-card-title>
-						<v-divider />
-						<v-card-text>
-							<v-container>
-								<v-row>
-									<v-col
-										v-show="editedIndex !== -1 || viewIndex !== -1"
-										cols="12"
-										sm="4"
-										md="4"
-										lg="4"
-										xl="4"
-										class="text-center"
-									>
-										<v-avatar
-											size="150"
-											class="mt-2"
-										>
-											<v-img :src="editedItem.image" />
-										</v-avatar>
-									</v-col>
-									<v-col
-										v-show="editedIndex !== -1 || viewIndex !== -1"
-										cols="12"
-										sm="8"
-										md="8"
-										lg="8"
-										xl="8"
-									>
-										<v-card
-											id="short-member-detail"
-											flat
-											class="mx-auto"
-											max-width="450"
-											tile
-										>
-											<v-list-item>
-												<v-list-item-content>
-													<p class="headline">
-														<span
-															id="follower-full-name-display"
-															class="mr-2"
-															@click="routeToMemberDetailPage(editedItem.id)"
-														>
-															{{ editedItem.f_name }} {{ editedItem.l_name }}
-														</span>
-														<v-tooltip bottom>
-															<template #activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-bind="attrs"
-																	color="green darken-1"
-																	v-on="on"
-																>
-																	mdi-check-decagram
-																</v-icon>
-															</template>
-															<span>Approved</span>
-														</v-tooltip>
-														<v-tooltip bottom>
-															<template #activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	v-bind="attrs"
-																	color="black lighten-2"
-																	v-on="on"
-																>
-																	mdi-account-cowboy-hat
-																</v-icon>
-															</template>
-															<span>Super User</span>
-														</v-tooltip>
-														<v-tooltip bottom>
-															<template #activator="{ on, attrs }">
-																<v-icon
-																	v-ripple
-																	size="26"
-																	v-bind="attrs"
-																	color="orange darken-2"
-																	v-on="on"
-																>
-																	mdi-account-tie
-																</v-icon>
-															</template>
-															<span>Staff Member</span>
-														</v-tooltip>
-													</p>
-													<v-divider />
-													<p>
-														<v-icon class="small-detail-icon">
-															mdi-account-key
-														</v-icon>
-														<b>Role assigned:</b>
-														<span class="px-1">
-															<v-chip
-																small
-																class="ma-2"
-																color="primary"
-																text-color="white"
-															>
-																MAINTAINER
-																<v-icon right>mdi-hammer</v-icon>
-															</v-chip>
-														</span>
-													</p>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-shape-plus
-														</v-icon>
-														<b>Date joined:</b>
-														<span class="px-1">{{ editedItem.date_joined }}</span>
-													</p>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-account-check
-														</v-icon>
-														<b>Approved by:</b>
-														<span class="px-1"> Kiran Parajuli </span>
-													</p>
-													<p class="mb-0 mb-2">
-														<v-icon class="small-detail-icon">
-															mdi-check
-														</v-icon>
-														<b>Approved at:</b>
-														<span class="px-1">{{ editedItem.date_joined }}</span>
-													</p>
-													<p class="mb-0">
-														<v-icon class="small-detail-icon">
-															mdi-history
-														</v-icon>
-														<b>Last logged in:</b>
-														<span class="px-1">{{ editedItem.last_login }}</span>
-													</p>
-												</v-list-item-content>
-											</v-list-item>
-										</v-card>
-									</v-col>
-									<v-col
-										cols="12"
-										class="pl-0"
-									>
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">
-												mdi-account-circle
-											</v-icon>
-											Personal Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col
-										cols="12"
-										md="6"
-										class="pl-0 py-0"
-									>
-										<v-text-field
-											id="member-f_name"
-											v-model="editedItem.f_name"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="First Name"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-form-textbox"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										md="6"
-										class="px-0 py-0"
-									>
-										<v-text-field
-											id="member-l_name"
-											v-model="editedItem.l_name"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Last Name"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-form-textbox"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-text-field
-											id="member-username"
-											v-model="editedItem.username"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Username"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-card-account-details-outline"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-text-field
-											id="member-email"
-											v-model="editedItem.email"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											type="email"
-											label="Email"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-at"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-text-field
-											id="member-phone"
-											v-model="editedItem.phone"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Phone"
-											type="number"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-phone-classic"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-file-input
-											id="member-image-input"
-											v-model="editedItem.imageForUpload"
-											class="ma-0"
-											outlined
-											dense
-											chips
-											show-size
-											clearable
-											accept="image/*"
-											label="Profile Image"
-											:disabled="viewIndex !== -1"
-											prepend-icon=""
-											prepend-inner-icon="mdi-camera"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="pl-0"
-									>
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">
-												mdi-shield-key
-											</v-icon>
-											Permissions Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col
-										cols="12"
-										md="6"
-										lg="6"
-										xl="6"
-										class="ma-0 pa-0"
-									>
-										<v-checkbox
-											id="member-is-staff"
-											v-model="editedItem.is_staff"
-											label="Staff Status"
-											:disabled="viewIndex !== -1"
-											prepend-icon="mdi-account-tie"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										md="6"
-										lg="6"
-										xl="6"
-										class="ma-0 pa-0"
-									>
-										<v-checkbox
-											id="member-is-superuser"
-											v-model="editedItem.is_superuser"
-											label="Superuser status"
-											:disabled="viewIndex !== -1"
-											prepend-icon="mdi-account-cowboy-hat"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="pl-0"
-									>
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">
-												mdi-city-variant
-											</v-icon>
-											Branch Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-select
-											id="member-branch"
-											v-model="editedItem.branch"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Branch"
-											:items="branches"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-home-city"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="pl-0"
-									>
-										<p class="heading ma-0 pa-0">
-											<v-icon class="pb-1">
-												mdi-map-marker
-											</v-icon>
-											Location Information
-										</p>
-										<v-divider />
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-text-field
-											id="member-temporary-address"
-											v-model="editedItem.temporary_address"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Temporary Address"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-office-building-marker"
-										/>
-									</v-col>
-									<v-col
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<v-text-field
-											id="member-permanent-address"
-											v-model="editedItem.permanent_address"
-											class="ma-0"
-											outlined
-											dense
-											clearable
-											label="Permanent Address"
-											:disabled="viewIndex !== -1"
-											prepend-inner-icon="mdi-crosshairs-gps"
-										/>
-									</v-col>
-								</v-row>
-							</v-container>
-						</v-card-text>
-
-						<v-card-actions v-if="viewIndex === -1">
-							<v-spacer />
-							<v-btn
-								color="red lighten-5"
-								class="red--text"
-								depressed
-								@click="close"
-							>
-								Cancel
-							</v-btn>
-							<v-btn
-								color="blue lighten-5"
-								class="blue--text"
-								depressed
-								@click="save"
-							>
-								Save
-							</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-dialog>
+					<v-icon
+						dark
+						:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+					>
+						mdi-plus-circle
+					</v-icon>
+					<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
+				</v-btn>
+				<follower-form-dialog />
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -493,6 +86,7 @@
 		<template #item.is_superuser="{ item }">
 			<v-simple-checkbox
 				v-model="item.is_superuser"
+				color="primary"
 				disabled
 			/>
 		</template>
@@ -508,18 +102,9 @@
 			<v-icon
 				v-ripple
 				class="mr-2"
-				color="orange"
-				size="20"
-				@click="showItem(item)"
-			>
-				mdi-eye
-			</v-icon>
-			<v-icon
-				v-ripple
-				class="mr-2"
 				color="primary"
 				size="20"
-				@click="editItem(item)"
+				@click.stop="openEditFollowerFormDialog(item)"
 			>
 				mdi-pencil
 			</v-icon>
@@ -548,11 +133,12 @@ import router from "@/router";
 
 export default {
 	name: "MembersTable",
+	components: {
+		FollowerFormDialog: () => import("@/views/home/member/MemberFormDialog")
+	},
 	data: () => ({
-		branches: ["Polar Branch", "Seiko Branch", "Akiko Branch"],
 		isLoading: false,
 		search: "",
-		dialog: false,
 		headers: [
 			{
 				text: "PK",
@@ -569,47 +155,8 @@ export default {
 			{ text: "APPROVED STATUS", value: "is_approved" },
 			{ text: "DATE JOINED", value: "date_joined" }
 		],
-		members: [],
-		editedIndex: -1,
-		viewIndex: -1,
-		editedItem: {
-			id: "",
-			username: "",
-			email: "",
-			f_name: "",
-			l_name: "",
-			branch: "",
-			phone: Number,
-			temporary_address: "",
-			permanent_address: "",
-			is_superuser: false,
-			is_staff: false,
-			is_approved: false,
-			last_login: "",
-			imageForUpload: Image,
-			date_joined: "",
-			approved_at: ""
-		},
-		defaultItem: {},
-		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
+		members: []
 	}),
-
-	computed: {
-		formTitle() {
-			if (this.viewIndex !== -1) return "View Member Detail"
-			return this.editedIndex === -1 ? "New Member" : "Edit Member"
-		},
-		formIcon() {
-			if (this.viewIndex !== -1) return "mdi-account-circle"
-			return this.editedIndex === -1 ? "mdi-plus-circle" : "mdi-account-edit"
-		}
-	},
-
-	watch: {
-		dialog(val) {
-			val || this.close()
-		}
-	},
 
 	created() {
 		this.initialize()
@@ -698,39 +245,20 @@ export default {
 			]
 		},
 
-		editItem(item) {
-			this.editedIndex = this.members.indexOf(item)
-			this.editedItem = Object.assign({}, item)
-			this.dialog = true
+		openAddFollowerFormDialog() {
+			this.$bus.emit("open-follower-form-dialog-add-item")
 		},
 
-		showItem(item) {
-			this.viewIndex = this.members.indexOf(item)
-			this.editedItem = Object.assign({}, item)
-			this.dialog = true
+		openEditFollowerFormDialog(item) {
+			this.$bus.emit("open-follower-form-dialog-edit-item", {
+				editedIndex: this.members.indexOf(item),
+				editedItem: Object.assign({}, item),
+			})
 		},
 
 		deleteItem(item) {
 			const index = this.members.indexOf(item)
 			confirm("Are you sure you want to delete this member?") && this.members.splice(index, 1)
-		},
-
-		close() {
-			this.dialog = false
-			this.$nextTick(() => {
-				this.editedItem = Object.assign({}, this.defaultItem)
-				this.editedIndex = -1
-				this.viewIndex = -1
-			})
-		},
-
-		save() {
-			if (this.editedIndex > -1) {
-				Object.assign(this.members[this.editedIndex], this.editedItem)
-			} else {
-				this.members.push(this.editedItem)
-			}
-			this.close()
 		},
 
 		routeToMemberDetailPage(itemId) {
@@ -739,21 +267,9 @@ export default {
 	}
 }
 </script>
-
 <style lang="sass" scoped>
-.v-input--selection-controls
-	margin-top: 0
-
-#follower-full-name-display
-	cursor: pointer
-
-#short-member-detail
-	.small-detail-icon
-		margin-top: -4px
-		margin-right: 4px
-.follower-full-name
-	font-size: 18px
-	font-weight: 300
-	color: #474646
-	cursor: pointer
+.search-follower
+	display: block
+	@media only screen and (max-width: 315px)
+		display: none
 </style>

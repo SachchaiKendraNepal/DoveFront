@@ -91,6 +91,6 @@ export default {
 
 	.search-home-top
 		display: block
-		@media only screen and (max-width: 260px)
+		@media only screen and (max-width: 310px)
 			display: none
 </style>

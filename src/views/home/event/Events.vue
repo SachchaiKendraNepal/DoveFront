@@ -55,7 +55,7 @@
 				<v-btn
 					dark
 					color="primary"
-					@click.stop="openEventFormDialog"
+					@click.stop="openAddEventFormDialog"
 				>
 					<v-icon
 						dark
@@ -69,12 +69,12 @@
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.name="{ item }">
+		<template #item.title="{ item }">
 			<p
 				class="event-name cursor"
 				@click="routeToEventDetailPage(item.id)"
 			>
-				{{ item.name }}
+				{{ item.title }}
 			</p>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -85,7 +85,7 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_main="{ item }">
-			<v-checkbox
+			<v-simple-checkbox
 				v-model="item.is_main"
 				color="primary"
 				disabled
@@ -112,7 +112,7 @@
 				class="mr-2"
 				color="primary"
 				size="20"
-				@click="editItem(item)"
+				@click="openEditEventFormDialog(item)"
 			>
 				mdi-pencil
 			</v-icon>
@@ -673,12 +673,11 @@ export default {
 			]
 		},
 
-		openEventFormDialog() {
-			console.log("here")
+		openAddEventFormDialog() {
 			this.$bus.emit("open-event-form-dialog")
 		},
 
-		editItem(item) {
+		openEditEventFormDialog(item) {
 			this.$bus.emit("open-event-form-dialog-edit-item", {
 				editedIndex: this.events.indexOf(item),
 				editedItem: Object.assign({}, item),
@@ -691,6 +690,7 @@ export default {
 		},
 
 		routeToEventDetailPage(itemId) {
+			console.log(itemId)
 			router.push({name: "SACHCHAI NEPAL EVENT", params: { id: itemId }})
 		}
 	},

@@ -3,6 +3,8 @@
 		v-model="dialog"
 		fullscreen
 		hide-overlay
+		close-delay="1000"
+		open-delay="1000"
 		transition="dialog-bottom-transition"
 	>
 		<v-card
