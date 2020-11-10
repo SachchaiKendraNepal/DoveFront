@@ -19,7 +19,7 @@
 		<v-spacer />
 		<v-text-field
 			id="search"
-			class="mx-3"
+			class="mx-3 search-home-top"
 			solo
 			hide-details
 			append-icon="search"
@@ -88,4 +88,9 @@ export default {
 		margin-left: -78px !important
 		@media only screen and (max-width: 740px)
 			margin-left: 0 !important
+
+	.search-home-top
+		display: block
+		@media only screen and (max-width: 310px)
+			display: none
 </style>

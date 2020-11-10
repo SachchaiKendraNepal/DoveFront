@@ -1,5 +1,6 @@
 <template>
 	<v-footer
+		id="footer"
 		padless
 		elevation="3"
 	>
@@ -183,25 +184,26 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-#about-kendra
-	h4
-		font-size: 14px !important
-		font-weight: 450 !important
-		padding: 4px 0
-		color: #545454
-	h5
-		color: #545454
-		font-weight: normal
-		padding-top: 5px
-		padding-bottom: 10px
-	h6
-		color: #545454
-		font-weight: normal
-	#built-info
-		padding-bottom: 10px
-#org-title
-	font-size: 22px
-	padding-left: 10px
-	font-family: "Crimson Text", sans-serif
+#footer
+	#about-kendra
+		h4
+			font-size: 14px !important
+			font-weight: 450 !important
+			padding: 4px 0
+			color: #545454
+		h5
+			color: #545454
+			font-weight: normal
+			padding-top: 5px
+			padding-bottom: 10px
+		h6
+			color: #545454
+			font-weight: normal
+		#built-info
+			padding-bottom: 10px
+	#org-title
+		font-size: 22px
+		padding-left: 10px
+		font-family: "Crimson Text", sans-serif
 	font-weight: 600
 </style>
