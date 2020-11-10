@@ -13,13 +13,12 @@
 		>
 			<v-card-title>
 				<v-avatar
-					color="grey"
 					size="40"
-					class="mr-4 elevation-1"
+					class="mr-4 elevation-3"
 				>
 					<v-icon
+						dark
 						size="22"
-						color="grey darken-4"
 					>
 						{{ formIcon }}
 					</v-icon>
@@ -38,13 +37,12 @@
 			</v-card-title>
 			<v-card flat
 				max-width="800"
-				class="mx-auto"
-				color="transparent"
+				class="mx-auto" color="transparent"
 			>
 				<v-img
 					v-show="editedIndex !== -1"
-					:src="editedItem.banner"
-					height="300"
+					:src="editedItem.image"
+					height="350"
 					style="border-radius: 0 0 10px 10px"
 				/>
 				<v-list
@@ -55,9 +53,9 @@
 						<v-list-item-content>
 							<p
 								class="headline cursor"
-								@click="routeToEventDetailPage(editedItem.id)"
+								@click="routeToBranchDetailPage(editedItem.id)"
 							>
-								{{ editedItem.title }}
+								{{ editedItem.name }}
 								<v-tooltip bottom>
 									<template #activator="{ on, attrs }">
 										<v-icon
@@ -69,7 +67,7 @@
 											mdi-check-decagram
 										</v-icon>
 									</template>
-									<span>Sacchai Event</span>
+									<span>Sacchai Branch</span>
 								</v-tooltip>
 								<v-tooltip bottom>
 									<template #activator="{ on, attrs }">
@@ -82,20 +80,20 @@
 											mdi-map-marker-star
 										</v-icon>
 									</template>
-									<span>Main Event</span>
+									<span>Main Branch</span>
 								</v-tooltip>
 							</p>
-							<v-divider class="mb-4" />
-							<div class="mb-4">
+							<v-divider class="mb-2" />
+							<div class="mb-2">
 								<v-chip
 									label
 									color="blue lighten-5"
-									class="mr-2 mb-1"
+									class="mr-1 mb-1"
 								>
 									<v-icon left>
 										mdi-map-marker-star
 									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Main Event</b>
+									<b>Main Branch</b>
 									<v-icon right>
 										mdi-church
 									</v-icon>
@@ -111,27 +109,27 @@
 									>
 										mdi-dove
 									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Sacchai Event</b>
+									<b>Sacchai Branch</b>
 									<v-icon right>
 										mdi-city
 									</v-icon>
 								</v-chip>
 							</div>
-							<p class="mb-0 mb-4">
+							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
 									mdi-shape-plus
 								</v-icon>
 								<b>Date created:</b>
 								<span class="px-1">{{ editedItem.created_at }}</span>
 							</p>
-							<p class="mb-0 mb-4">
+							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
 									mdi-plus
 								</v-icon>
 								<b>Created by:</b>
 								<span class="px-1"> Kiran Parajuli </span>
 							</p>
-							<p class="mb-0 mb-4">
+							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
 									mdi-account-network
 								</v-icon>
@@ -148,38 +146,33 @@
 						</v-list-item-content>
 					</v-list-item>
 				</v-list>
-				<v-divider
-					v-show="editedIndex !== -1"
-					class="mt-3"
-				/>
-				<v-row class="ma-0 pa-0">
+				<v-row class="ma-0 pa-0 px-4">
 					<v-col
 						cols="12"
 						class="pl-0"
 					>
-						<p class="header ma-0 pa-0">
+						<p class="heading ma-0 pa-0">
 							<v-icon class="pb-1"
 								size="30"
 							>
-								mdi-calendar-text-outline
+								mdi-city-variant
 							</v-icon>
-							Event Information
+							Branch Information
 						</p>
-						<v-divider />
+						<v-divider class="pb-2" />
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
 						<v-text-field
-							id="event-title"
-							v-model="editedItem.title"
+							id="branch-name"
+							v-model="editedItem.name"
 							class="ma-0"
 							outlined
 							dense
-							counter="255"
-							label="Title"
 							clearable
+							label="Name"
 							prepend-inner-icon="mdi-form-textbox"
 						/>
 					</v-col>
@@ -187,78 +180,28 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-textarea
-							id="event-description"
-							v-model="editedItem.description"
-							auto-grow
-							class="ma-0 pa-0"
-							name="description"
-							label="Description"
-							outlined
-							clearable
-							counter="512"
-							prepend-inner-icon="mdi-script-text"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-organizer"
-							v-model="editedItem.organizer"
+						<v-text-field
+							id="branch-phone"
+							v-model="editedItem.phone"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
-							label="Organizer (Branch)"
-							:items="branches"
 							clearable
-							prepend-inner-icon="mdi-city"
+							label="Phone"
+							type="number"
+							hide-details="auto"
+							prepend-inner-icon="mdi-phone-classic"
 						/>
 					</v-col>
 					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-combobox
-							v-model="editedItem.contacts"
-							class="ma-0 pa-0"
-							:items="[]"
-							hide-selected
-							hint="Provide contacts of organizers"
-							label="Contacts"
-							multiple
-							small-chips
-							deletable-chips
-							type="number"
-							outlined
-							dense
-							clearable
-							prepend-inner-icon="mdi-phone-classic"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-content>
-										<v-list-item-title>
-											Type contact number and press <kbd>enter</kbd> to add a new one.
-										</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
-							</template>
-						</v-combobox>
-					</v-col>
-					<v-col
-						id="is-main-col"
 						cols="12"
 						class="ma-0 pa-0"
 					>
 						<v-checkbox
 							id="is_main"
 							v-model="editedItem.is_main"
-							label="Is Main Event?"
-							append-icon="mdi-calendar-star"
-							hide-details
+							label="Is Main Branch?"
+							append-icon="mdi-map-marker-star-outline"
 						/>
 					</v-col>
 					<v-col
@@ -271,92 +214,13 @@
 							class="ma-0"
 							outlined
 							dense
-							small-chips
+							chips
 							show-size
-							accept="image/*"
-							label="Banner Image"
 							clearable
-							multiple
+							accept="image/*"
+							label="Branch Image"
 							prepend-icon=""
 							prepend-inner-icon="mdi-camera"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="pl-0"
-					>
-						<p class="heading ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-calendar-clock
-							</v-icon>
-							Timeline Information
-						</p>
-						<v-divider />
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-menu
-							v-model="startDateMenu"
-							:nudge-bottom="50"
-							transition="scale-transition"
-							close-on-click
-							offset-overflow
-							max-width="290"
-						>
-							<template #activator="{ on, attrs }">
-								<v-text-field
-									dense
-									class="ma-0 pa-0"
-									prepend-inner-icon="mdi-calendar"
-									:value="computedDateFormattedMomentJs"
-									clearable
-									outlined
-									v-bind="attrs"
-									label="Start Date"
-									v-on="on"
-									@click:clear="editedItem.start_date = null"
-								/>
-							</template>
-							<v-date-picker
-								v-model="editedItem.start_date"
-								@change="startDateMenu = false"
-							/>
-						</v-menu>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							v-model="editedItem.duration"
-							clearable
-							dense
-							outlined
-							class="ma-0 pa-0"
-							label="Duration"
-							hint="This is the number of days the event will go on."
-							prepend-inner-icon="mdi-av-timer"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-time-of-day"
-							v-model="editedItem.timeOfDay"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							label="Time Of Day"
-							:items="timeOfDayOptions"
-							clearable
-							prepend-inner-icon="mdi-white-balance-sunny"
 						/>
 					</v-col>
 					<v-col
@@ -371,22 +235,21 @@
 							</v-icon>
 							Location Information
 						</p>
-						<v-divider />
+						<v-divider class="pb-2" />
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-country"
+						<v-select
+							id="branch-country"
 							v-model="editedItem.country"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
+							clearable
 							label="Country"
 							:items="countries"
-							clearable
 							prepend-inner-icon="mdi-web"
 						/>
 					</v-col>
@@ -394,16 +257,15 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-province"
+						<v-select
+							id="branch-province"
 							v-model="editedItem.province"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
+							clearable
 							label="Province"
 							:items="provinces"
-							clearable
 							prepend-inner-icon="mdi-office-building-marker-outline"
 						/>
 					</v-col>
@@ -411,16 +273,15 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-districts"
+						<v-select
+							id="branch-districts"
 							v-model="editedItem.district"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
+							clearable
 							:items="districts"
 							label="District"
-							clearable
 							prepend-inner-icon="mdi-map-marker-multiple-outline"
 						/>
 					</v-col>
@@ -429,16 +290,15 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-municipality"
+						<v-select
+							id="branch-municipality"
 							v-model="editedItem.municipality"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
+							clearable
 							label="Municipality"
 							:items="municipalities"
-							clearable
 							prepend-inner-icon="mdi-google-maps"
 						/>
 					</v-col>
@@ -447,16 +307,15 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-municipality-ward"
+						<v-select
+							id="branch-municipality-ward"
 							v-model="editedItem.municipality_ward"
 							class="ma-0"
-							allow-overflow
 							dense
 							outlined
+							clearable
 							label="Municipality Ward"
 							:items="municipality_wards"
-							clearable
 							prepend-inner-icon="mdi-numeric"
 						/>
 					</v-col>
@@ -465,16 +324,15 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-vdc"
+						<v-select
+							id="branch-vdc"
 							v-model="editedItem.vdc"
-							allow-overflow
 							class="ma-0"
 							dense
 							outlined
+							clearable
 							label="VDC"
 							:items="vdcs"
-							clearable
 							prepend-inner-icon="mdi-home-map-marker"
 						/>
 					</v-col>
@@ -483,34 +341,16 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-vdc-ward"
+						<v-select
+							id="branch-vdc-ward"
 							v-model="editedItem.vdc_ward"
-							allow-overflow
 							class="ma-0"
 							dense
 							outlined
+							clearable
 							label="VDC Ward"
 							:items="vdc_wards"
-							clearable
 							prepend-inner-icon="mdi-numeric"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							id="event-venue"
-							v-model="editedItem.venue"
-							class="ma-0"
-							dense
-							outlined
-							counter="255"
-							label="Venue"
-							clearable
-							prepend-inner-icon="mdi-home-roof"
-							hint="Where is the event going to be organized?"
 						/>
 					</v-col>
 					<v-col cols="12"
@@ -542,24 +382,17 @@
 	</v-dialog>
 </template>
 <script>
-import moment from "moment"
-import router from "@/router"
+import router from "@/router";
 
 export default {
-	name: "EventFormDialog",
+	name: "BranchFormDialog",
 	data: () => ({
 		dialog: false,
-		startDateMenu: false,
-		timeOfDayOptions: [
-			"Morning",
-			"Day",
-			"Evening"
-		],
 		countries: ["Nepal", "India", "Bhutan", "Pakistan", "Singapore", "HongKong"],
 		provinces: ["Bagmati Pradesh", "Gandaki Pradesh", "Uttar Pradesh", "Goa", "Province 1"],
 		districts: ["Kaski", "Kathmandu", "Humla", "Jhapa", "Chitwan", "Sarlahi", "Nepalgunj"],
-		municipalities: ["Pokhara", "Kathmandu", "Panchkhal", "Banepa"],
-		municipality_wards: ["Amarsingh", "Tinpiple", "Lamachaur", "Chaukot"],
+		municipalities: ["Pokhara-Lekhnath", "Kathmandu", "Panchkhal", "Banepa"],
+		municipality_wards: ["Amarsingh", "Tinpiple", "Chauthe", "Chaukot"],
 		vdcs: [
 			"Barai",
 			"Bargaun",
@@ -584,12 +417,10 @@ export default {
 			"mndkjf",
 			"woeik"
 		],
-		branches: ["Pokhara Kendra Branch", "Kathmandu Branch", "Amarsingh Branch", "Lekhnath Branch", "Palpa Branch"],
 		editedIndex: -1,
 		editedItem: {
 			id: "",
-			title: "",
-			description: "",
+			name: "",
 			country: "",
 			province: "",
 			district: "",
@@ -597,51 +428,35 @@ export default {
 			municipality_ward: "",
 			vdc: "",
 			vdc_ward: "",
-			venue: "",
-			organizer: "",
-			contacts: [],
-			start_date: null,
-			duration: null,
-			timeOfDay: "",
-			banner: "",
+			phone: Number,
 			is_main: false,
-			imageForUpload: [],
+			imageForUpload: []
 		},
 		defaultItem: {},
 		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
 	}),
 	computed: {
 		formTitle() {
-			return this.editedIndex === -1
-				? "New Event"
-				: "Edit Event"
+			return this.editedIndex === -1 ? "New Branch" : "Edit Branch"
 		},
 		formIcon() {
-			return this.editedIndex === -1
-				? "mdi-calendar-plus"
-				: "mdi-calendar-edit"
-		},
-		computedDateFormattedMomentJs() {
-			return this.editedItem.start_date
-				? moment(this.editedItem.start_date).format("dddd, MMMM Do YYYY")
-				: ""
+			return this.editedIndex === -1 ? "mdi-home-modern" : "mdi-home-edit"
 		}
 	},
-
 	created() {
-		this.$bus.on("open-event-form-dialog-add-item", this.openDialog)
-		this.$bus.on("open-event-form-dialog-edit-item", this.edit)
+		this.$bus.on("open-branch-form-dialog-add-item", this.openDialog)
+		this.$bus.on("open-branch-form-dialog-edit-item", this.openEditDialog)
 	},
 	beforeUnmount() {
-		this.$bus.off("open-event-form-dialog-add-item")
-		this.$bus.off("open-event-form-dialog-edit-item")
+		this.$bus.off("open-branch-form-dialog-add-item")
+		this.$bus.off("open-branch-form-dialog-edit-item")
 	},
 	methods: {
 		openDialog() {
 			this.dialog = true
 		},
 
-		edit(args) {
+		openEditDialog(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
 			this.openDialog()
@@ -657,46 +472,45 @@ export default {
 
 		save() {
 			if (this.editedIndex > -1) {
-				Object.assign(this.events[this.editedIndex], this.editedItem)
+				Object.assign(this.branches[this.editedIndex], this.editedItem)
 			} else {
-				this.events.push(this.editedItem)
+				this.branches.push(this.editedItem)
 			}
 			this.close()
 		},
-		routeToEventDetailPage(itemId) {
-			router.push({name: "SACHCHAI NEPAL EVENT", params: { id: itemId }})
+
+		routeToBranchDetailPage(itemId) {
+			router.push({name: "SACHCHAI NEPAL BRANCH", params: { id: itemId }})
 		}
-	}
+	},
 }
 </script>
 <style lang="sass" scoped>
 .zero-border-radius
 	border-radius: 0
-.v-input--selection-controls
-	margin-top: 0
-.small-detail-icon
-	margin-top: -4px
-	margin-right: 4px
-.v-card__title
-	background-color: #535151 !important
-.cursor
-	cursor: pointer
+
 .form-title
 	color: white
 	display: block
-	@media only screen and (max-width: 260px)
+	@media only screen and (max-width: 255px)
 		display: none
-#is-main-col
-	::v-deep.v-input--checkbox
-		margin: -5px 0 20px
-		padding: 10px 10px
-		border: 1px solid rgb(156 155 150)
-		border-radius: 3px
-	::v-deep.v-input--checkbox:hover
-		border: 1px solid black
-::v-deep.mx-calendar
+
+.v-input--selection-controls
+	margin-top: 0
+
+.small-detail-icon
+	margin-top: -4px
+	margin-right: 4px
+
+.v-card__title
+	background-color: #535151 !important
+
+.branch-name
 	margin: 0
-	padding: 3px
-	::v-deep.mx-calendar-header
-		background-color: blue
+	padding: 0
+	font-size: 18px
+	font-weight: 300
+
+.cursor
+	cursor: pointer
 </style>

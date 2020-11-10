@@ -674,7 +674,7 @@ export default {
 		},
 
 		openAddEventFormDialog() {
-			this.$bus.emit("open-event-form-dialog")
+			this.$bus.emit("open-event-form-dialog-add-item")
 		},
 
 		openEditEventFormDialog(item) {
