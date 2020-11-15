@@ -51,31 +51,27 @@
 					>
 						<v-col
 							cols="12"
-							sm="4"
-							md="4"
-							lg="4"
-							xl="4"
-							class="d-flex justify-center align-center"
 						>
-							<v-avatar
-								id="profile-img-avatar"
-								size="150"
-								class="mt-2"
-							>
-								<v-img :src="editedItem.image" />
-							</v-avatar>
+							<v-img
+								src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+								height="200"
+							/>
+							<div class="d-flex justify-center">
+								<v-avatar
+									id="profile-img-avatar"
+									size="180"
+								>
+									<v-img :src="editedItem.image" />
+								</v-avatar>
+							</div>
 						</v-col>
 						<v-col
 							cols="12"
-							sm="8"
-							md="8"
-							lg="8"
-							xl="8"
 						>
 							<v-card
 								id="short-member-detail"
 								flat
-								class="mx-auto my-auto"
+								class="mx-auto my-auto text-center"
 								tile
 							>
 								<v-list>
@@ -285,8 +281,8 @@
 								class="ma-0 pa-0"
 							>
 								<v-file-input
-									id="member-image-input"
-									v-model="editedItem.imageForUpload"
+									id="member-profile-image-input"
+									v-model="editedItem.imageForUploadProfile"
 									class="ma-0"
 									outlined
 									dense
@@ -297,6 +293,25 @@
 									label="Profile Image"
 									prepend-icon=""
 									prepend-inner-icon="mdi-camera"
+								/>
+							</v-col>
+							<v-col
+								cols="12"
+								class="ma-0 pa-0"
+							>
+								<v-file-input
+									id="member-cover-photo-input"
+									v-model="editedItem.imageForUploadCover"
+									class="ma-0"
+									outlined
+									dense
+									chips
+									show-size
+									clearable
+									accept="image/*"
+									label="Cover Photo"
+									prepend-icon=""
+									prepend-inner-icon="mdi-image-filter-black-white"
 								/>
 							</v-col>
 							<v-col
@@ -468,7 +483,8 @@ export default {
 			is_staff: false,
 			is_approved: false,
 			last_login: "",
-			imageForUpload: [],
+			imageForUploadProfile: [],
+			imageForUploadCover: [],
 			date_joined: "",
 			approved_at: ""
 		},
@@ -557,8 +573,13 @@ export default {
 
 	#profile-img-avatar
 		transition: all .5s
-		@media only screen and (max-width: 170px)
+		margin-top: -90px
+		border: 4px solid white
+		@media only screen and (max-width: 245px)
 			height: 100px !important
 			min-width: 100px !important
 			width: 100px !important
+			margin-top: -50px !important
+			border: 2px solid white !important
+
 </style>
