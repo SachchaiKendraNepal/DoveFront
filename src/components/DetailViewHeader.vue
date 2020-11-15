@@ -6,7 +6,9 @@
 		>
 			<slot name="topContent" />
 		</v-col>
-		<v-col cols="12">
+		<v-col cols="12"
+			class="pa-0"
+		>
 			<slot name="chips" />
 		</v-col>
 	</v-row>

@@ -19,13 +19,38 @@
 					</p>
 					<p>{{ branch.slogan }}</p>
 				</div>
+				<v-row class="ma-0 pa-0 px-2"
+					justify="space-between"
+				>
+					<v-btn
+						text
+						color="primary"
+						dark
+					>
+						<v-icon left>
+							mdi-post
+						</v-icon>
+						Posts
+					</v-btn>
+					<v-btn
+						class="ma-2"
+						text
+						dark
+						color="teal"
+					>
+						<v-icon left>
+							mdi-calendar-multiple
+						</v-icon>
+						Events
+					</v-btn>
+				</v-row>
 			</template>
 			<template #chips>
 				<div>
 					<v-chip
-						class="mr-2 mb-3"
 						label
 						color="blue lighten-4"
+						class="ma-2"
 					>
 						<p class="ma-0 pa-0 branch-counts">
 							123
@@ -40,8 +65,8 @@
 					</v-chip>
 					<v-chip
 						color="red lighten-4"
-						class="mr-2 mb-3"
 						label
+						class="ma-2"
 					>
 						<p class="ma-0 pa-0 branch-counts">
 							123
@@ -53,8 +78,8 @@
 					</v-chip>
 					<v-chip
 						color="green lighten-3"
-						class="mr-2 mb-3"
 						label
+						class="ma-2"
 					>
 						<p class="ma-0 pa-0 branch-counts">
 							123
@@ -65,20 +90,6 @@
 						</v-icon>
 					</v-chip>
 				</div>
-			</template>
-			<template #image>
-				<v-avatar
-					:size="
-						$vuetify.breakpoint.sm
-							? '135'
-							: '180'
-					"
-					color="grey"
-				>
-					<v-img
-						:src="branch.image"
-					/>
-				</v-avatar>
 			</template>
 		</detail-view-header>
 		<detail-view-explorer
@@ -139,6 +150,14 @@
 				</v-tab-item>
 				<v-tab-item>
 					<v-card
+						id="member-info-tab-content"
+						flat
+					>
+						Where are my members?
+					</v-card>
+				</v-tab-item>
+				<v-tab-item>
+					<v-card
 						id="branch-info-tab-content"
 						flat
 					>
@@ -163,31 +182,6 @@
 						</v-card-text>
 					</v-card>
 				</v-tab-item>
-				<v-tab-item>
-					<v-card
-						id="posts-info-tab-content"
-						flat
-					>
-						<v-row
-							justify="center"
-							align="center"
-							class="ma-0 pa-0"
-						>
-							<v-col class="pa-4 pt-0 pt-4 alice-blue">
-								<v-card
-									flat
-									class="ma-0 pa-0 center-align alice-blue"
-									max-width="500"
-								>
-									<FollowerArticle />
-									<FollowerMultimedia />
-									<FollowerArticle />
-									<FollowerMultimedia />
-								</v-card>
-							</v-col>
-						</v-row>
-					</v-card>
-				</v-tab-item>
 			</template>
 		</detail-view-explorer>
 	</v-card>
@@ -197,19 +191,31 @@
 export default {
 	name: "FollowerDetailView",
 	components: {
-		FollowerArticle: () => import("@/components/Article"),
-		FollowerMultimedia: () => import("@/components/Multimedia"),
+		// FollowerArticle: () => import("@/components/Article"),
+		// FollowerMultimedia: () => import("@/components/Multimedia"),
 		DetailViewHeader: () => import("@/components/DetailViewHeader"),
 		DetailViewExplorer: () => import("@/components/DetailViewExplorer")
 	},
 	data: () => ({
 		now: null,
 		tab: null,
+		articlePost: {
+			id: 1,
+			title: "Our Changing Planet",
+			author: "Kurt Wagner",
+			description: "Visit ten places on our planet that are undergoing the biggest changes today."
+		},
+		multimediaPost: {
+			id: 1,
+			title: "Alice in the Wonderland",
+			author: "Kiran Parajuli",
+			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland" +
+				" from her dreams where she is reunited with her friends who make her realise her true destiny."
+		},
 		profileTabItems: [
 			{ icon: "mdi-city-variant", title: "General", index: 0, id: "general-info-tab" },
+			{ icon: "mdi-account-tie", title: "Members", index: 4, id: "members-info-tab" },
 			{ icon: "mdi-google-maps", title: "Location", index: 1, id: "location-info-tab" },
-			{ icon: "mdi-post", title: "Posts", index: 2, id: "posts-info-tab" },
-			{ icon: "mdi-calendar-clock", title: "Events", index: 3, id: "branch-info-tab" }
 		],
 		generalInfoItems1: [
 			{ index: 0, icon: "mdi-card-account-details-outline", field: "name", displayFieldName: "Name" },
