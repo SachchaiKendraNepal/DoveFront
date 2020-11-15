@@ -98,6 +98,8 @@
 			<v-switch
 				v-model="item.is_approved"
 				color="primary"
+				hide-details="auto"
+				class="mt-0"
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -281,4 +283,5 @@ export default {
 	padding: 0
 	font-size: 18px
 	font-weight: 300
+	cursor: pointer
 </style>
