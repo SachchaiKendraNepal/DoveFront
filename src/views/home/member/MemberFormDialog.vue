@@ -11,7 +11,7 @@
 			class="zero-border-radius"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title>
+			<v-card-title class="sticky-dialog-top">
 				<v-avatar
 					color="grey darken-1"
 					size="40"
@@ -416,7 +416,7 @@
 								/>
 							</v-col>
 							<v-col cols="12"
-								class="pa-0"
+								class="pa-0 pb-16"
 							>
 								<v-card-actions class="pa-0">
 									<v-spacer />
@@ -528,6 +528,11 @@ export default {
 <style lang="sass" scoped>
 .zero-border-radius
 	border-radius: 0
+	.sticky-dialog-top
+		position: sticky
+		position: -webkit-sticky
+		top: 0
+		z-index: 200
 	.v-card__title
 		background-color: #535151 !important
 	.form-title

@@ -11,7 +11,7 @@
 			class="zero-border-radius"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title>
+			<v-card-title class="sticky-dialog-top">
 				<v-avatar
 					color="grey"
 					size="40"
@@ -670,6 +670,11 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.sticky-dialog-top
+	position: sticky
+	position: -webkit-sticky
+	top: 0
+	z-index: 200
 .zero-border-radius
 	border-radius: 0
 .v-input--selection-controls
