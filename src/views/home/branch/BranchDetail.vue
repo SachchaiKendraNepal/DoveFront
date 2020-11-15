@@ -6,13 +6,19 @@
 	>
 		<detail-view-header>
 			<template #topContent>
-				<div class="overline">
-					MAIN SUB-BRANCH INTERNATIONAL
+				<v-img
+					src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+					height="300"
+				/>
+				<div class="px-4">
+					<div class="overline">
+						MAIN SUB-BRANCH INTERNATIONAL
+					</div>
+					<p class="headline">
+						{{ branch.name }}
+					</p>
+					<p>{{ branch.slogan }}</p>
 				</div>
-				<p class="headline">
-					{{ branch.name }}
-				</p>
-				<p>{{ branch.slogan }}</p>
 			</template>
 			<template #chips>
 				<div>
@@ -90,8 +96,8 @@
 						<v-card-text class="mt-0 pa-0">
 							<v-list class="mt-0 pt-0 alice-blue">
 								<v-list-item
-									v-for="(item, index) in generalInfoItems1"
-									:key="index"
+									v-for="item in generalInfoItems1"
+									:key="item.index"
 									@click="1"
 								>
 									<v-icon class="mr-2">
@@ -115,8 +121,8 @@
 									</span>
 								</v-list-item>
 								<v-list-item
-									v-for="(item, index) in generalInfoItems2"
-									:key="index"
+									v-for="item in generalInfoItems2"
+									:key="item.index"
 									@click="1"
 								>
 									<v-icon class="mr-2">
@@ -141,8 +147,8 @@
 								class="ma-0 pa-0 alice-blue"
 							>
 								<v-list-item
-									v-for="(item, index) in locationInfoItems"
-									:key="index"
+									v-for="item in locationInfoItems"
+									:key="item.index"
 									@click="1"
 								>
 									<v-icon class="mr-2">
@@ -206,23 +212,23 @@ export default {
 			{ icon: "mdi-calendar-clock", title: "Events", index: 3, id: "branch-info-tab" }
 		],
 		generalInfoItems1: [
-			{ icon: "mdi-card-account-details-outline", field: "name", displayFieldName: "Name" },
-			{ icon: "mdi-phone-classic", field: "phone", displayFieldName: "Phone" },
+			{ index: 0, icon: "mdi-card-account-details-outline", field: "name", displayFieldName: "Name" },
+			{ index: 1, icon: "mdi-phone-classic", field: "phone", displayFieldName: "Phone" },
 		],
 		generalInfoItems2: [
-			{ icon: "mdi-account-tie-outline", field: "created_by", displayFieldName: "Created By" },
-			{ icon: "mdi-calendar-plus", field: "created_at", displayFieldName: "Date Created" },
-			{ icon: "mdi-account-tie-outline", field: "updated_by", displayFieldName: "Updated By" },
-			{ icon: "mdi-calendar-edit", field: "updated_at", displayFieldName: "Last Updated At" },
+			{ index: 2, icon: "mdi-account-tie-outline", field: "created_by", displayFieldName: "Created By" },
+			{ index: 3, icon: "mdi-calendar-plus", field: "created_at", displayFieldName: "Date Created" },
+			{ index: 4, icon: "mdi-account-tie-outline", field: "updated_by", displayFieldName: "Updated By" },
+			{ index: 5, icon: "mdi-calendar-edit", field: "updated_at", displayFieldName: "Last Updated At" },
 		],
 		locationInfoItems: [
-			{ icon: "mdi-web", field: "country", displayFieldName: "Country" },
-			{ icon: "mdi-office-building-marker-outline", field: "province", displayFieldName: "Province" },
-			{ icon: "mdi-map-marker-multiple-outline", field: "district", displayFieldName: "District" },
-			{ icon: "mdi-map-marker", field: "municipality", displayFieldName: "Municipality" },
-			{ icon: "mdi-numeric", field: "municipality_ward", displayFieldName: "Municipality Ward" },
-			{ icon: "mdi-home-map-marker", field: "vdc", displayFieldName: "VDC" },
-			{ icon: "mdi-numeric", field: "vdc_ward", displayFieldName: "VDC Ward" }
+			{ index: 6, icon: "mdi-web", field: "country", displayFieldName: "Country" },
+			{ index: 7, icon: "mdi-office-building-marker-outline", field: "province", displayFieldName: "Province" },
+			{ index: 8, icon: "mdi-map-marker-multiple-outline", field: "district", displayFieldName: "District" },
+			{ index: 9, icon: "mdi-map-marker", field: "municipality", displayFieldName: "Municipality" },
+			{ index: 10, icon: "mdi-numeric", field: "municipality_ward", displayFieldName: "Municipality Ward" },
+			{ index: 11, icon: "mdi-home-map-marker", field: "vdc", displayFieldName: "VDC" },
+			{ index: 12, icon: "mdi-numeric", field: "vdc_ward", displayFieldName: "VDC Ward" }
 		],
 		collapseOnScroll: true,
 		branch: {

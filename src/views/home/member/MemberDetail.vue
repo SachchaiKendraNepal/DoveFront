@@ -6,13 +6,31 @@
 	>
 		<detail-view-header>
 			<template #topContent>
-				<div class="overline">
-					FOLLOWER MEMBER
+				<v-img
+					src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+					height="200"
+				/>
+				<div class="d-flex justify-center">
+					<v-avatar
+						id="profile-img-avatar"
+						:size="
+							$vuetify.breakpoint.smAndUp
+								? '180'
+								: '135'
+						"
+					>
+						<v-img src="https://www.bigredcloud.com/wp-content/uploads/4-tips-for-taking-professional-profile-pictures.jpg" />
+					</v-avatar>
 				</div>
-				<p class="headline">
-					{{ follower.f_name }} {{ follower.l_name }}
-				</p>
-				<p>{{ follower.bio }}</p>
+				<div class="px-4">
+					<div class="overline">
+						FOLLOWER MEMBER
+					</div>
+					<p class="headline">
+						{{ follower.f_name }} {{ follower.l_name }}
+					</p>
+					<p>{{ follower.bio }}</p>
+				</div>
 			</template>
 			<template #chips>
 				<div>
@@ -69,20 +87,6 @@
 						</v-icon>
 					</v-chip>
 				</div>
-			</template>
-			<template #image>
-				<v-avatar
-					:size="
-						$vuetify.breakpoint.sm
-							? '135'
-							: '180'
-					"
-					color="grey"
-				>
-					<v-img
-						:src="follower.image"
-					/>
-				</v-avatar>
 			</template>
 		</detail-view-header>
 		<detail-view-explorer
@@ -347,4 +351,7 @@ export default {
 		margin-left: 80px !important
 #explore-card
 	border-radius: 0
+#profile-img-avatar
+	margin-top: -60px
+	border: 4px solid white
 </style>

@@ -1,25 +1,13 @@
 <template>
-	<v-row>
+	<v-row class="ma-0 pa-0">
 		<v-col
 			cols="12"
-			xl="9"
-			lg="9"
-			md="9"
-			sm="9"
-			class="pl-10"
+			class="pa-0"
 		>
 			<slot name="topContent" />
-			<slot name="chips" />
 		</v-col>
-		<v-col
-			cols="12"
-			xl="3"
-			lg="3"
-			md="3"
-			sm="3"
-			class="text-center"
-		>
-			<slot name="image" />
+		<v-col cols="12">
+			<slot name="chips" />
 		</v-col>
 	</v-row>
 </template>
