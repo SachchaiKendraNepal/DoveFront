@@ -12,7 +12,10 @@ import "leaflet/dist/leaflet.css"
 import $ from "jquery"
 import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
+import VueYoutube from "vue-youtube"
 
+
+Vue.use(VueYoutube)
 Vue.use(VueBus)
 Vue.component(vuePlayer)
 Vue.component(APlayer)
