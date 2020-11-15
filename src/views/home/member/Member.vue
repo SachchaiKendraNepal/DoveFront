@@ -1,14 +1,17 @@
 <template>
 	<v-data-table
 		id="member-d-table"
-		:loading="isLoading"
-		loading-text="Members Loading..."
+		v-model="selected"
+		multi-sort
+		show-select
 		calculate-widths
-		:headers="headers"
+		:single-select="false"
 		:items="members"
 		:search="search"
-		multi-sort
+		:headers="headers"
 		:items-per-page="12"
+		:loading="isLoading"
+		loading-text="Members Loading..."
 		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
 	>
 		<template #top>
@@ -138,6 +141,7 @@ export default {
 	},
 	data: () => ({
 		isLoading: false,
+		selected: [],
 		search: "",
 		headers: [
 			{
@@ -272,4 +276,9 @@ export default {
 	display: block
 	@media only screen and (max-width: 315px)
 		display: none
+.follower-full-name
+	margin: 0
+	padding: 0
+	font-size: 18px
+	font-weight: 300
 </style>

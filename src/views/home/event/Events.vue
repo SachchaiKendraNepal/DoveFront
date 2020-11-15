@@ -1,6 +1,7 @@
 <template>
 	<v-data-table
 		id="event-d-table"
+		v-model="selected"
 		:loading="isLoading"
 		loading-text="Events Loading..."
 		calculate-widths
@@ -8,6 +9,8 @@
 		:items="events"
 		:search="search"
 		multi-sort
+		show-select
+		:single-select="false"
 		:items-per-page="12"
 		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
 	>
@@ -79,7 +82,7 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.duration="{ item }">
-			<v-chip>
+			<v-chip :color="getDurationChipColor(item.duration)">
 				{{ item.duration }}
 			</v-chip>
 		</template>
@@ -146,6 +149,7 @@ export default {
 	},
 	data: () => ({
 		search: "",
+		selected: [],
 		isLoading: false,
 		dialog: false,
 		events: [],
@@ -171,6 +175,15 @@ export default {
 	},
 
 	methods: {
+		getDurationChipColor(value) {
+			if (value === 1) {
+				return "red lighten-2"
+			} else if (value === 2 || value === 3) {
+				return "orange"
+			} else if (value === 4 || value === 5) {
+				return "primary"
+			} else return ""
+		},
 		initialize() {
 			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
 			this.events = [
@@ -195,7 +208,7 @@ export default {
 					venue: "Deep Housing, Bagar",
 					contacts: [9845689652, 6158965],
 					start_date: now,
-					duration: 5,
+					duration: 1,
 					timeOfDay: "10AM - 5PM",
 					is_main: true,
 					created_by: "kiran589",

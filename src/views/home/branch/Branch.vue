@@ -1,6 +1,7 @@
 <template>
 	<v-data-table
 		id="branch-d-table"
+		v-model="selected"
 		:loading="isLoading"
 		loading-text="Branches Loading..."
 		calculate-widths
@@ -8,6 +9,8 @@
 		:items="branches"
 		:search="search"
 		multi-sort
+		show-select
+		:single-select="false"
 		:items-per-page="12"
 		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
 	>
@@ -138,6 +141,7 @@ export default {
 	},
 	data: () => ({
 		search: "",
+		selected: [],
 		isLoading: false,
 		headers: [
 			{
