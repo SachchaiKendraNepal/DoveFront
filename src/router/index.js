@@ -63,6 +63,11 @@ const routes = [
 				name: "SACHCHAI NEPAL EVENTS",
 				component: () => import("@/views/home/event/Events")
 			},
+			{
+				path: "/home/event/:id",
+				name: "SACHCHAI NEPAL EVENT",
+				component: () => import("@/views/home/event/EventDetail")
+			},
 		]
 	},
 	// Detail Views (Requires Full Page)
@@ -75,11 +80,6 @@ const routes = [
 		path: "/home/multimedia/:id",
 		name: "SACHCHAI NEPAL MULTIMEDIA",
 		component: () => import("@/views/home/multimedia/MultimediaDetail")
-	},
-	{
-		path: "/home/event/:id",
-		name: "SACHCHAI NEPAL EVENT",
-		component: () => import("@/views/home/event/EventDetail")
 	},
 	{
 		path: "/auth/",

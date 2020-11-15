@@ -44,8 +44,8 @@
 	</tab-item-card>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player";
-import APlayer from "vue-aplayer";
+import vuePlayer from "@algoz098/vue-player"
+import APlayer from "vue-aplayer"
 
 export default {
 	name: "ProfileMultimediaTabView",
