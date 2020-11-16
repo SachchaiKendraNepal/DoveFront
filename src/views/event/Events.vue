@@ -704,7 +704,7 @@ export default {
 
 		routeToEventDetailPage(itemId) {
 			console.log(itemId)
-			router.push({name: "SACHCHAI NEPAL EVENT", params: { id: itemId }})
+			router.push({name: "EVENT ADMINISTRATION", params: { id: itemId }})
 		}
 	},
 }

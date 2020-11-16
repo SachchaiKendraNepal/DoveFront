@@ -268,7 +268,7 @@ export default {
 		},
 
 		routeToMemberDetailPage(itemId) {
-			router.push({name: "SACHCHAI NEPAL FOLLOWER", params: { id: itemId }})
+			router.push({name: "MEMBER ADMINISTRATION", params: { id: itemId }})
 		}
 	}
 }

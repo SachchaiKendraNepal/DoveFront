@@ -472,7 +472,7 @@ export default {
 		},
 
 		routeToBranchDetailPage(itemId) {
-			router.push({name: "SACHCHAI NEPAL BRANCH", params: { id: itemId }})
+			router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})
 		}
 	}
 }
