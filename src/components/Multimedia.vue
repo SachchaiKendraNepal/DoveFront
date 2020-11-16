@@ -1,22 +1,22 @@
 <template>
 	<base-post-card :post="post">
 		<template #media>
-			<vue-player
-				v-model="playing"
-				:src="videoUrl"
-				:poster="videoPosterImageUrl"
-				:title="videoPosterTitle"
+			<youtube
+				ref="youtube"
+				class="pa-4"
+				:video-id="getId(videoUrl)"
+				:resize="true"
+				:resize-delay="100"
+				:fit-parent="true"
+				@playing="playing"
 			/>
 		</template>
 	</base-post-card>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player"
-
 export default {
 	name: "MultimediaComponent",
 	components: {
-		vuePlayer,
 		BasePostCard: () => import("@/components/post/_post")
 	},
 	props: {
@@ -27,12 +27,27 @@ export default {
 	},
 	data() {
 		return {
-			videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
+			videoUrl: "https://www.youtube.com/watch?v=6li2Kib4uI0&ab_channel=Sachhaikendranepal",
 			videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 			videoPosterTitle: "ALICE IN THE WONDERLAND",
-			playing: false,
 			isLiked: false,
 			duration: 1000
+		}
+	},
+	computed: {
+		player() {
+			return this.$refs.youtube.player
+		},
+	},
+	methods: {
+		playVideo() {
+			this.player.playVideo()
+		},
+		playing() {
+			console.log("\o/ we are watching!!!")
+		},
+		getId(url) {
+			return this.$youtube.getIdFromUrl(url)
 		}
 	}
 }

@@ -1,5 +1,22 @@
 <template>
 	<div id="event-detail-container">
+		<v-dialog
+			v-model="fullScreenDialog"
+			max-width="90vw"
+			max-height="90vh"
+		>
+			<v-row class="ma-0 pa-0"
+				justify="center" align="center"
+			>
+				<v-col cols="12">
+					<v-img :src="selectedImage"
+						max-width="100%"
+						max-height="80vh"
+						@click.stop="closeImageDialog"
+					/>
+				</v-col>
+			</v-row>
+		</v-dialog>
 		<v-row id="event-top-row"
 			class="ma-0 pa-0"
 		>
@@ -29,7 +46,11 @@
 				>
 					<v-card color="red"
 						height="25"
-					/>
+					>
+						<v-card-text class="date-month">
+							Nov
+						</v-card-text>
+					</v-card>
 					<v-card-text class="text-center display-3 pa-0 pt-1 text--darken-3 blue--text">
 						<b>15</b>
 					</v-card-text>
@@ -54,23 +75,37 @@
 						{{ event.venue }}
 					</v-card-subtitle>
 					<div class="d-flex justify-space-between pl-3 py-3">
-						<v-chip>
-							<v-icon left>
+						<v-chip color="pink lighten-4">
+							<v-icon color="pink"
+								left
+							>
 								mdi-hand-heart
 							</v-icon>
-							SATSANG
+							<b>Satsang</b>
 						</v-chip>
-						<v-chip>
-							<v-icon left>
+						<v-chip color="blue-grey lighten-3">
+							<v-icon color="blue-grey"
+								left
+							>
 								mdi-star-circle
 							</v-icon>
-							Interested
+							<b>Interested</b>
 						</v-chip>
-						<v-chip>
-							<v-icon left>
+						<v-chip color="green lighten-3">
+							<v-icon color="green"
+								left
+							>
 								mdi-check-circle
 							</v-icon>
-							Going
+							<b>Approve</b>
+						</v-chip>
+						<v-chip color="indigo lighten-3">
+							<v-icon color="indigo"
+								left
+							>
+								mdi-walk
+							</v-icon>
+							<b>Going</b>
 						</v-chip>
 						<v-tooltip bottom>
 							<template #activator="{ on, attrs }">
@@ -229,6 +264,7 @@
 										:src="`https://picsum.photos/500/300?image=${n * 5 + 10}`"
 										:lazy-src="`https://picsum.photos/10/6?image=${n * 5 + 10}`"
 										class="grey lighten-2"
+										@click.stop="zoomImage('https://i.pinimg.com/originals/ff/c4/3f/ffc43fa252e7a7bd99e8a70a1b2aa499.jpg')"
 									>
 										<template #placeholder>
 											<v-row
@@ -443,12 +479,13 @@ export default {
 				date: "Nov 2, 2020"
 			},
 		],
-		videoId: "lG0Ys-2d4MA",
 		urls: [
 			"https://www.youtube.com/watch?v=6li2Kib4uI0&ab_channel=Sachhaikendranepal",
 			"https://www.youtube.com/watch?v=AQbZmhg4aMs&ab_channel=Sachhaikendranepal",
 			"https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal"
-		]
+		],
+		selectedImage: null,
+		fullScreenDialog: false
 	}),
 	computed: {
 		player() {
@@ -464,7 +501,19 @@ export default {
 			]
 		}
 	},
+	mounted() {
+
+	},
 	methods: {
+		closeImageDialog() {
+			this.fullScreenDialog = false
+			this.selectedImage = null
+		},
+		zoomImage(url) {
+			console.log("Zoom", url)
+			this.fullScreenDialog=true
+			this.selectedImage = url
+		},
 		makeComment() {
 			if (this.myComment === null) return
 			console.log(this.myComment)
@@ -506,4 +555,12 @@ export default {
 	-webkit-line-clamp: unset !important
 .comment-date
 	font-size: 12px
+.date-month
+	margin: 0
+	padding: 1px 0 0 0
+	text-align: center
+	color: white !important
+	font-size: 24px
+	font-family: 'Lemonada', serif
+	font-weight: 600 !important
 </style>
