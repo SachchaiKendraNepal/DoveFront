@@ -102,6 +102,80 @@ const routes = [
 		name: "SACHCHAI REGISTER",
 		component: () => import("@/views/auth/Register")
 	},
+	// Settings Routes
+	{
+		path: "/admin",
+		component: () => import("@/layouts/Settings"),
+		children: [
+			{
+				path: "home",
+				name: "SACHCHAI KENDRA NEPAL ADMINISTRATION",
+				component: () => import("@/views/settings/Home")
+			},
+			{
+				path: "follower",
+				name: "FOLLOWERS ADMINISTRATION",
+				component: () => import("@/views/home/member/Member")
+			},
+			{
+				path: "follower/:id",
+				name: "FOLLOWER ADMINISTRATION",
+				component: () => import("@/views/home/member/MemberDetail")
+			},
+			{
+				path: "member",
+				name: "MEMBERS ADMINISTRATION",
+				component: () => import("@/views/home/member/Member")
+			},
+			{
+				path: "member/:id",
+				name: "MEMBER ADMINISTRATION",
+				component: () => import("@/views/home/member/MemberDetail")
+			},
+			{
+				path: "branch",
+				name: "BRANCHES ADMINISTRATION",
+				component: () => import("@/views/home/branch/Branch")
+			},
+			{
+				path: "branch/:id",
+				name: "BRANCH ADMINISTRATION",
+				component: () => import("@/views/home/branch/BranchDetail")
+			},
+			{
+				path: "article",
+				name: "ARTICLES ADMINISTRATION",
+				component: () => import("@/views/home/article/Articles")
+			},
+			// TODO create real
+			{
+				path: "pin",
+				name: "PINS ADMINISTRATION",
+				component: () => import("@/views/home/article/Articles")
+			},
+
+			{
+				path: "multimedia",
+				name: "MULTIMEDIA ADMINISTRATION",
+				component: () => import("@/views/home/multimedia/Multimedias")
+			},
+			{
+				path: "event",
+				name: "EVENTS ADMINISTRATION",
+				component: () => import("@/views/home/event/Events")
+			},
+			{
+				path: "event/:id",
+				name: "EVENT ADMINISTRATION",
+				component: () => import("@/views/home/event/EventDetail")
+			},
+			{
+				path: "showcase-image",
+				name: "SHOWCASE IMAGES ADMINISTRATION",
+				component: () => import("@/views/settings/ShowcaseImage")
+			},
+		]
+	},
 ]
 
 const router = new VueRouter({
