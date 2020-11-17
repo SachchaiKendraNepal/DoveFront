@@ -1,66 +1,55 @@
 <template>
 	<v-main class="grey lighten-3">
-		<v-container>
-			<v-row class="ma-0 pa-0 pt-3"
-				justify="center" align="start"
+		<v-container fluid>
+			<v-card
+				flat
+				color="transparent"
+				class="mx-auto"
+				max-width="1000"
 			>
-				<v-col
-					class="ma-0 pa-0 d-flex justify-center"
-					cols="12"
-					xl="3"
-					lg="3"
-					md="4"
-					sm="4"
-					xs="6"
-				>
-					<v-sheet
-						rounded="lg"
-						color="grey lighten-3"
-						width="85%"
-						class="pb-3"
-					>
-						<user-clip />
-						<quick-links />
-					</v-sheet>
-				</v-col>
-
-				<v-col
+				<v-row
 					class="ma-0 pa-0"
-					xl="9"
-					lg="9"
-					md="8"
-					sm="8"
-					xs="6"
+					align="start"
+					justify="center"
 				>
-					<v-sheet
-						color="grey lighten-3"
-						min-height="70vh"
-						rounded="lg"
+					<v-col
+						id="post-column"
+						class="ma-0"
+						cols="12"
+						xl="8"
+						lg="8"
+						md="8"
+						sm="8"
 					>
-						<v-row
-							align="start"
-							class="mx-4"
-						>
-							<v-col
-								id="post-column"
-								class="ma-0 pa-0 px-4"
-								cols="12"
-								xl="6"
-								lg="6"
-								style="overflow-y: auto; height: 88vh;"
-							>
-								<add-post-box />
-								<article-post :post="articlePost" />
-								<article-post :post="articlePost" />
-								<multimedia :post="multimediaPost" />
-								<article-post :post="articlePost" />
-								<multimedia :post="multimediaPost" />
-							</v-col>
-						</v-row>
-					</v-sheet>
-				</v-col>
-			</v-row>
+						<add-post-box />
+						<article-post :post="articlePost" />
+						<article-post :post="articlePost" />
+						<multimedia :post="multimediaPost" />
+						<article-post :post="articlePost" />
+						<multimedia :post="multimediaPost" />
+					</v-col>
+					<v-col
+						cols="12"
+						xl="4"
+						lg="4"
+						md="4"
+						sm="4"
+					>
+						<v-card>
+							<v-card-title>Ads One</v-card-title>
+							<v-card-subtitle>First Advertisement</v-card-subtitle>
+							<v-card-text>This is a first advertisement.</v-card-text>
+							<v-card-actions>
+								<v-btn depressed>
+									See More
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-card>
 		</v-container>
+		<home-footer />
 	</v-main>
 </template>
 
@@ -71,8 +60,7 @@ export default {
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home_layout/AddPostBox"),
-		UserClip: () => import("@/views/home_layout/UserClip"),
-		QuickLinks: () => import("@/components/home/QuickLinks")
+		HomeFooter: () => import("@/views/home_layout/Footer")
 	},
 	data: () => ({
 		loading: false,
@@ -97,6 +85,8 @@ export default {
 	position: sticky
 	top: 140px
 #post-column
+	overflow-y: auto
+	height: 88vh
 	-ms-overflow-style: none
 	scrollbar-width: none
 #post-column::-webkit-scrollbar
