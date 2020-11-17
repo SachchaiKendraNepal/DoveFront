@@ -1,15 +1,16 @@
 <template>
-	<div class="home-navbar">
+	<div class="feeds-wrapper">
 		<v-app-bar
-			color="aliceblue"
-			class="sacchai-home-toolbar-top"
+			color="#c4e4ff"
+			class="sacchai-home-toolbar-top elevation-0"
 			height="73"
+			fixed
 		>
 			<div class="left-float">
 				<v-avatar
 					class="cursor"
 					size="60"
-					@click.stop="homeDrawer=!(homeDrawer)"
+					@click.stop="toggleHomeDrawer()"
 				>
 					<v-img
 						:src="logo"
@@ -38,15 +39,17 @@
 					icons-and-text
 					background-color="transparent"
 					active-class="home-tab-active"
-					slider-color="grey darken-2"
+					slider-color="primary"
+					slider-size="3"
 				>
 					<v-tab
 						v-for="(tab, index) in homeTabItems"
 						:key="index"
-						:href="'#tab-' + tab.text"
+						:to="tab.to"
 					>
-						{{ tab.text }}
-						<v-icon>{{ tab.icon }}</v-icon>
+						<v-icon size="30">
+							{{ tab.icon }}
+						</v-icon>
 					</v-tab>
 				</v-tabs>
 			</v-card>
@@ -72,32 +75,36 @@
 				<profile-dropdown />
 			</div>
 		</v-app-bar>
-		<v-tabs
+		<v-card
 			v-show="$vuetify.breakpoint.smAndDown"
-			v-model="currentItem"
-			class="home-toolbar-tab"
-			icons-and-text
-			show-arrows
-			centered
-			center-active
-			background-color="aliceblue"
-			slider-color="primary"
+			class="bottom-tab-card"
+			flat
 		>
-			<v-tab
-				v-for="(tab, index) in homeTabItems"
-				:key="index"
-				:href="'#tab-' + tab.text"
+			<v-tabs
+				background-color="#c4e4ff"
+				centered
+				show-arrows
+				icons-and-text
+				slider-size="3"
+				active-class="home-tab-active-down"
+				slider-color="primary"
 			>
-				{{ tab.text }}
-				<v-icon>{{ tab.icon }}</v-icon>
-			</v-tab>
-		</v-tabs>
+				<v-tab
+					v-for="item in homeTabItems"
+					:key="item.text"
+					:to="item.to"
+				>
+					<v-icon size="30">
+						{{ item.icon }}
+					</v-icon>
+				</v-tab>
+			</v-tabs>
+		</v-card>
 		<v-navigation-drawer
 			:value="homeDrawer"
 			class="home-sidenav"
 			app
 			floating
-			color="#eeeeee"
 		>
 			<user-clip />
 			<v-list>
@@ -106,9 +113,13 @@
 					:key="item.title"
 					v-model="item.active"
 					active-class="darkblue--text"
-					:prepend-icon="item.action"
 					no-action
 				>
+					<template #prependIcon>
+						<v-icon :color="item.color">
+							{{ item.action }}
+						</v-icon>
+					</template>
 					<template #activator>
 						<v-list-item-content>
 							<v-list-item-title v-text="item.title" />
@@ -128,6 +139,21 @@
 				</v-list-group>
 			</v-list>
 		</v-navigation-drawer>
+		<v-main>
+			<v-container
+				fluid
+				class="home-router-container"
+			>
+				<v-row class="ma-0 pa-0">
+					<v-col class="pa-0">
+						<transition name="fade">
+							<router-view />
+						</transition>
+					</v-col>
+				</v-row>
+				<home-footer />
+			</v-container>
+		</v-main>
 	</div>
 </template>
 
@@ -140,20 +166,22 @@ export default {
 	components: {
 		ProfileDropdown,
 		UserClip: () => import("@/views/home_layout/UserClip"),
+		HomeFooter: () => import("@/views/home_layout/Footer")
 	},
 	data() {
 		return {
 			currentItem: "",
 			logo: require("@/assets/sacchai_logo.jpg"),
 			homeTabItems: [
-				{icon: "mdi-home", text: "Home"},
-				{icon: "mdi-folder-multiple-image", text: "Photos"},
-				{icon: "mdi-post", text: "Articles"},
-				{icon: "mdi-camcorder", text: "Multimedia"},
+				{icon: "mdi-home", text: "Home", to: "/home"},
+				{icon: "mdi-post", text: "Articles", to: "/home/article"},
+				{icon: "mdi-video-vintage", text: "Multimedia", to: "/home/multimedia"},
+				{icon: "mdi-calendar-clock", text: "Events", to: "/home/event"},
 			],
 			homeDrawer: true,
 			items: [
 				{
+					color: "grey darken-3",
 					action: "mdi-star-circle",
 					items: [
 						{ title: "My Profile", icon: "mdi-account-circle", to: "/home/profile" },
@@ -164,6 +192,7 @@ export default {
 					title: "My Links",
 				},
 				{
+					color: "indigo",
 					action: "mdi-city",
 					items: [
 						{ title: "Province", icon: "mdi-office-building-marker-outline" },
@@ -174,6 +203,7 @@ export default {
 					title: "Branch",
 				},
 				{
+					color: "red darken-1",
 					action: "mdi-calendar-clock",
 					active: false,
 					items: [
@@ -186,6 +216,7 @@ export default {
 					title: "Events",
 				},
 				{
+					color: "orange darken-2",
 					action: "mdi-post",
 					items: [
 						{ title: "Photos", icon: "mdi-image" }
@@ -193,6 +224,7 @@ export default {
 					title: "Articles",
 				},
 				{
+					color: "teal darken-2",
 					action: "mdi-video-vintage",
 					items: [
 						{ title: "Sounds", icon: "mdi-music-box" },
@@ -202,6 +234,7 @@ export default {
 					title: "Multimedia",
 				},
 				{
+					color: "blue darken-4",
 					action: "mdi-earth",
 					items: [
 						{ title: "Motivation", icon: "mdi-run" },
@@ -212,6 +245,7 @@ export default {
 					title: "Our Services",
 				},
 				{
+					color: "pink darken-1",
 					action: "mdi-google-maps",
 					items: [
 						{ title: "Branches", icon: "mdi-city" },
@@ -220,6 +254,7 @@ export default {
 					title: "Maps",
 				},
 				{
+					color: "purple darken-4",
 					action: "mdi-office-building",
 					items: [
 						{ title: "About Us", icon: "mdi-information" },
@@ -230,6 +265,7 @@ export default {
 					title: "Office",
 				},
 				{
+					color: "green darken-3",
 					action: "mdi-tag",
 					items: [{ title: "Our Partners", icon: "mdi-handshake" }],
 					title: "Promotions",
@@ -240,18 +276,17 @@ export default {
 	methods: {
 		routeToShowcase() {
 			router.push({name: "SACHCHAI SHOWCASE"})
+		},
+		toggleHomeDrawer() {
+			this.homeDrawer = !this.homeDrawer
 		}
 	},
 }
 </script>
 
 <style lang="sass" scoped>
-.home-navbar
-	overflow: hidden
-	position: fixed /* Set the navbar to fixed position */
-	top: 0 /* Position the navbar at the top of the page */
-	width: 100% /* Full width */
-	z-index: 100
+.feeds-wrapper
+	background-color: #edf6fd
 .sacchai-home-toolbar-top
 	border-radius: 0
 	margin: 0
@@ -259,7 +294,6 @@ export default {
 	height: 72px
 	display: flex
 	align-items: center
-	background-color: aliceblue
 	.left-float
 		position: fixed
 		left: 16px
@@ -309,12 +343,28 @@ export default {
 		.search-home-top
 			margin-left: 15px
 .home-sidenav
-	transition: all .5s
+	background: linear-gradient(180deg, rgb(237,246,253), rgb(202,215,231), rgb(207,212,218))
+	transition: all 1s
 	margin-top: 73px
 	@media only screen and (max-width: 960px)
-		margin-top: 145px
+		margin-top: 0
 .cursor
 	cursor: pointer
 .home-tab-active
-	color: darkslategrey
+	color: #3b78f2
+.bottom-tab-card
+	border-radius: 0
+	position: fixed
+	top: 72px
+	width: 100vw
+	z-index: 2
+.home-tab-active-down
+	color: #3b78f2
+.home-router-container
+	transition: all .3s
+	padding: 0
+	background: aliceblue
+	margin-top: 73px
+	@media only screen and (max-width: 960px)
+		margin-top: 145px
 </style>
