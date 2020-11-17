@@ -174,6 +174,16 @@ const routes = [
 				name: "SHOWCASE IMAGES ADMINISTRATION",
 				component: () => import("@/views/settings/ShowcaseImage")
 			},
+			{
+				path: "ad",
+				name: "ADS ADMINISTRATION",
+				component: () => import("@/views/ads/Ads")
+			},
+			{
+				path: "ad/:id",
+				name: "AD ADMINISTRATION",
+				component: () => import("@/views/ads/AdDetail")
+			},
 		]
 	},
 ]
