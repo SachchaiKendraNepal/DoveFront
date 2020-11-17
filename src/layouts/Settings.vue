@@ -117,9 +117,9 @@ export default {
 				{ title: "Multimedias", icon: "mdi-video-vintage", to: "/admin/multimedia" },
 				{ title: "Articles", icon: "mdi-post", to: "/admin/article" },
 				{ title: "Pins", icon: "mdi-pin", to: "/admin/pin" },
-				{ title: "Showcase Images", icon: "mdi-image", to: "showcase-image" },
-				{ title: "Events", icon: "mdi-calendar-multiple", to: "event" },
-				{ title: "Ads", icon: "mdi-cash-usd", to: "event/ad" }
+				{ title: "Showcase Images", icon: "mdi-image", to: "/admin/showcase-image" },
+				{ title: "Events", icon: "mdi-calendar-multiple", to: "/admin/event" },
+				{ title: "Ads", icon: "mdi-cash-usd", to: "/admin/ad" }
 			],
 		}
 	},
