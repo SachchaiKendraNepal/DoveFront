@@ -3,8 +3,13 @@
 		id="home-layout"
 		class="d-flex flex-column"
 	>
-		<home-header />
-		<home-footer />
+		<tool-bar />
+		<scroll-up />
+		<div class="home-router-container">
+			<transition name="fade">
+				<router-view />
+			</transition>
+		</div>
 	</div>
 </template>
 
@@ -12,8 +17,8 @@
 export default {
 	name: "SacchaiHomeLayout",
 	components: {
-		HomeHeader: () => import("@/views/home_layout/HomeHeader"),
-		HomeFooter: () => import("@/views/home_layout/Footer")
+		ToolBar: () => import("@/views/home_layout/ToolBar"),
+		ScrollUp: () => import("@/components/ScrollTop")
 	}
 }
 </script>
@@ -21,4 +26,9 @@ export default {
 <style lang="sass">
 #home-layout
 	height: 100%
+.home-router-container
+	transition: all .5s
+	margin-top: 72px
+	@media only screen and (max-width: 960px)
+		margin-top: 144px
 </style>
