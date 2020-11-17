@@ -161,23 +161,13 @@
 								slider-color="red"
 								active-class="event-detail-active-tab"
 							>
-								<v-tab href="#tab-about">
-									About
-									<v-icon>mdi-information</v-icon>
-								</v-tab>
-
-								<v-tab href="#tab-discussion">
-									Discussions
-									<v-icon>mdi-account-multiple</v-icon>
-								</v-tab>
-
-								<v-tab href="#tab-photos">
-									Photos
-									<v-icon>mdi-image</v-icon>
-								</v-tab>
-								<v-tab href="#tab-multimedia">
-									Multimedia
-									<v-icon>mdi-camera</v-icon>
+								<v-tab
+									v-for="(item, index) in eventTabItems"
+									:key="index"
+									:href="'#tab-' + item.title"
+								>
+									{{ item.title }}
+									<v-icon>{{ item.icon }}</v-icon>
 								</v-tab>
 							</v-tabs>
 							<v-spacer />
@@ -217,23 +207,13 @@
 							slider-color="red"
 							active-class="event-detail-active-tab"
 						>
-							<v-tab href="#tab-about">
-								About
-								<v-icon>mdi-information</v-icon>
-							</v-tab>
-
-							<v-tab href="#tab-discussion">
-								Discussions
-								<v-icon>mdi-account-multiple</v-icon>
-							</v-tab>
-
-							<v-tab href="#tab-photos">
-								Photos
-								<v-icon>mdi-image</v-icon>
-							</v-tab>
-							<v-tab href="#tab-multimedia">
-								Multimedia
-								<v-icon>mdi-camera</v-icon>
+							<v-tab
+								v-for="(item, index) in eventTabItems"
+								:key="index"
+								:href="'#tab-' + item.title"
+							>
+								{{ item.title }}
+								<v-icon>{{ item.icon }}</v-icon>
 							</v-tab>
 						</v-tabs>
 					</v-card>
@@ -549,6 +529,12 @@ export default {
 			"https://www.youtube.com/watch?v=6li2Kib4uI0&ab_channel=Sachhaikendranepal",
 			"https://www.youtube.com/watch?v=AQbZmhg4aMs&ab_channel=Sachhaikendranepal",
 			"https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal"
+		],
+		eventTabItems: [
+			{ title: "about", icon: "mdi-information-variant" },
+			{ title: "discussion", icon: "mdi-account-multiple" },
+			{ title: "photos", icon: "mdi-image" },
+			{ title: "multimedia", icon: "mdi-video-vintage" },
 		],
 		selectedImage: null,
 		fullScreenDialog: false,
