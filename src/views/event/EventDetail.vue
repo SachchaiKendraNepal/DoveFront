@@ -140,16 +140,27 @@
 							color="transparent"
 							class="mx-auto elevation-0"
 						>
+							<v-avatar class="detail-toolbar-avatar"
+								color="primary"
+								size="42"
+							>
+								<v-icon color="white"
+									size="24"
+								>
+									mdi-calendar-clock
+								</v-icon>
+							</v-avatar>
+							<v-spacer />
 							<v-tabs
+								v-show="$vuetify.breakpoint.mdAndUp"
 								v-model="tab"
 								background-color="transparent"
 								centered
-								show-arrows
 								icons-and-text
 								slider-size="3"
+								slider-color="red"
+								active-class="event-detail-active-tab"
 							>
-								<v-tabs-slider />
-
 								<v-tab href="#tab-about">
 									About
 									<v-icon>mdi-information</v-icon>
@@ -169,7 +180,62 @@
 									<v-icon>mdi-camera</v-icon>
 								</v-tab>
 							</v-tabs>
+							<v-spacer />
+							<v-menu offset-y
+								nudge-left="30"
+								transition="slide-y-transition"
+							>
+								<template #activator="{ on, attrs }">
+									<v-btn
+										color="primary"
+										dark
+										v-bind="attrs"
+										icon
+										v-on="on"
+									>
+										<v-icon>mdi-dots-vertical</v-icon>
+									</v-btn>
+								</template>
+								<v-list>
+									<v-list-item
+										v-for="(item, index) in eventActions"
+										:key="index"
+									>
+										<v-list-item-title>{{ item.title }}</v-list-item-title>
+									</v-list-item>
+								</v-list>
+							</v-menu>
 						</v-toolbar>
+						<v-tabs
+							v-show="$vuetify.breakpoint.smAndDown"
+							v-model="tab"
+							background-color="transparent"
+							centered
+							show-arrows
+							icons-and-text
+							slider-size="3"
+							slider-color="red"
+							active-class="event-detail-active-tab"
+						>
+							<v-tab href="#tab-about">
+								About
+								<v-icon>mdi-information</v-icon>
+							</v-tab>
+
+							<v-tab href="#tab-discussion">
+								Discussions
+								<v-icon>mdi-account-multiple</v-icon>
+							</v-tab>
+
+							<v-tab href="#tab-photos">
+								Photos
+								<v-icon>mdi-image</v-icon>
+							</v-tab>
+							<v-tab href="#tab-multimedia">
+								Multimedia
+								<v-icon>mdi-camera</v-icon>
+							</v-tab>
+						</v-tabs>
 					</v-card>
 				</v-col>
 			</v-col>
@@ -485,7 +551,13 @@ export default {
 			"https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal"
 		],
 		selectedImage: null,
-		fullScreenDialog: false
+		fullScreenDialog: false,
+		eventActions: [
+			{ title: "Click Me" },
+			{ title: "Click Me" },
+			{ title: "Click Me" },
+			{ title: "Click Me 2" }
+		]
 	}),
 	computed: {
 		player() {
@@ -563,4 +635,6 @@ export default {
 	font-size: 24px
 	font-family: 'Lemonada', serif
 	font-weight: 600 !important
+.event-detail-active-tab
+	color: #fa3e3b
 </style>

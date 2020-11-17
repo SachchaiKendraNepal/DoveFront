@@ -1,8 +1,7 @@
 <template>
 	<div id="profile-container">
 		<v-row id="top-row">
-			<v-col
-				id="cover-column"
+			<v-col id="cover-column"
 				cols="12"
 				class="pa-0"
 			>
@@ -14,8 +13,7 @@
 					class="mx-auto"
 				/>
 			</v-col>
-			<v-col
-				id="profile-av-col"
+			<v-col id="profile-av-col"
 				cols="12"
 				class="pa-0 d-flex justify-center"
 			>
@@ -25,7 +23,9 @@
 					<v-img src="https://image.freepik.com/free-vector/beard-man-barber-shop-logo-vector-illustration_56473-434.jpg" />
 				</v-avatar>
 			</v-col>
-			<v-col cols="12">
+			<v-col id="top-info-column"
+				cols="12"
+			>
 				<div id="top-info"
 					class="mx-auto"
 				>
@@ -37,14 +37,16 @@
 					</p>
 				</div>
 			</v-col>
-			<v-col cols="12"
+			<v-col id="divider-column"
+				cols="12"
 				class="pa-0"
 			>
 				<div id="divider"
 					class="mx-auto"
 				/>
 			</v-col>
-			<v-col cols="12"
+			<v-col id="toolbar-column"
+				cols="12"
 				class="pa-0"
 			>
 				<v-card
