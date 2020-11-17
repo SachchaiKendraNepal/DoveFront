@@ -307,8 +307,6 @@ export default {
 	font-size: 18px
 	color: #f32828 !important
 	font-weight: 500
-.comment-date
-	font-size: 12px
 .date-month
 	margin: 0
 	padding: 1px 0 0 0

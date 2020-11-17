@@ -102,4 +102,6 @@ export default {
 	border-radius: 10px
 	padding: 10px 5px
 	-webkit-line-clamp: unset !important
+.comment-date
+	font-size: 12px
 </style>
