@@ -145,7 +145,7 @@ import router from "@/router";
 export default {
 	name: "EventsTableView",
 	components: {
-		EventFormDialog: () => import("@/views/home/event/EventFormDialog")
+		EventFormDialog: () => import("@/views/event/EventFormDialog")
 	},
 	data: () => ({
 		search: "",
@@ -704,7 +704,7 @@ export default {
 
 		routeToEventDetailPage(itemId) {
 			console.log(itemId)
-			router.push({name: "SACHCHAI NEPAL EVENT", params: { id: itemId }})
+			router.push({name: "EVENT ADMINISTRATION", params: { id: itemId }})
 		}
 	},
 }

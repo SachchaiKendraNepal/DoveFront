@@ -139,7 +139,7 @@ import router from "@/router";
 export default {
 	name: "MembersTable",
 	components: {
-		FollowerFormDialog: () => import("@/views/home/member/MemberFormDialog")
+		FollowerFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
 		isLoading: false,
@@ -268,7 +268,7 @@ export default {
 		},
 
 		routeToMemberDetailPage(itemId) {
-			router.push({name: "SACHCHAI NEPAL FOLLOWER", params: { id: itemId }})
+			router.push({name: "MEMBER ADMINISTRATION", params: { id: itemId }})
 		}
 	}
 }

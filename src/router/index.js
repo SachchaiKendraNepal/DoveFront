@@ -26,47 +26,47 @@ const routes = [
 			{
 				path: "profile",
 				name: "SACHCHAI NEPAL PROFILE",
-				component: () => import("@/views/home/member/Profile")
+				component: () => import("@/views/member/Profile")
 			},
 			{
 				path: "follower",
 				name: "SACHCHAI NEPAL FOLLOWERS",
-				component: () => import("@/views/home/member/Member")
+				component: () => import("@/views/member/Member")
 			},
 			{
 				path: "follower/:id",
 				name: "SACHCHAI NEPAL FOLLOWER",
-				component: () => import("@/views/home/member/MemberDetail")
+				component: () => import("@/views/member/MemberDetail")
 			},
 			{
 				path: "branch",
 				name: "SACHCHAI NEPAL BRANCHES",
-				component: () => import("@/views/home/branch/Branch")
+				component: () => import("@/views/branch/Branch")
 			},
 			{
 				path: "branch/:id",
 				name: "SACHCHAI NEPAL BRANCH",
-				component: () => import("@/views/home/branch/BranchDetail")
+				component: () => import("@/views/branch/BranchDetail")
 			},
 			{
 				path: "article",
 				name: "SACHCHAI NEPAL ARTICLES",
-				component: () => import("@/views/home/article/Articles")
+				component: () => import("@/views/article/Articles")
 			},
 			{
 				path: "multimedia",
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
-				component: () => import("@/views/home/multimedia/Multimedias")
+				component: () => import("@/views/multimedia/Multimedias")
 			},
 			{
 				path: "event",
 				name: "SACHCHAI NEPAL EVENTS",
-				component: () => import("@/views/home/event/Events")
+				component: () => import("@/views/event/Events")
 			},
 			{
 				path: "/home/event/:id",
 				name: "SACHCHAI NEPAL EVENT",
-				component: () => import("@/views/home/event/EventDetail")
+				component: () => import("@/views/event/EventDetail")
 			},
 		]
 	},
@@ -74,12 +74,12 @@ const routes = [
 	{
 		path: "/home/article/:id",
 		name: "SACHCHAI NEPAL ARTICLE",
-		component: () => import("@/views/home/article/ArticleDetail")
+		component: () => import("@/views/article/ArticleDetail")
 	},
 	{
 		path: "/home/multimedia/:id",
 		name: "SACHCHAI NEPAL MULTIMEDIA",
-		component: () => import("@/views/home/multimedia/MultimediaDetail")
+		component: () => import("@/views/multimedia/MultimediaDetail")
 	},
 	{
 		path: "/auth/",
@@ -101,6 +101,80 @@ const routes = [
 		path: "/register",
 		name: "SACHCHAI REGISTER",
 		component: () => import("@/views/auth/Register")
+	},
+	// Settings Routes
+	{
+		path: "/admin",
+		component: () => import("@/layouts/Settings"),
+		children: [
+			{
+				path: "home",
+				name: "SACHCHAI KENDRA NEPAL ADMINISTRATION",
+				component: () => import("@/views/settings/Home")
+			},
+			{
+				path: "follower",
+				name: "FOLLOWERS ADMINISTRATION",
+				component: () => import("@/views/member/Member")
+			},
+			{
+				path: "follower/:id",
+				name: "FOLLOWER ADMINISTRATION",
+				component: () => import("@/views/member/MemberDetail")
+			},
+			{
+				path: "member",
+				name: "MEMBERS ADMINISTRATION",
+				component: () => import("@/views/member/Member")
+			},
+			{
+				path: "member/:id",
+				name: "MEMBER ADMINISTRATION",
+				component: () => import("@/views/member/MemberDetail")
+			},
+			{
+				path: "branch",
+				name: "BRANCHES ADMINISTRATION",
+				component: () => import("@/views/branch/Branch")
+			},
+			{
+				path: "branch/:id",
+				name: "BRANCH ADMINISTRATION",
+				component: () => import("@/views/branch/BranchDetail")
+			},
+			{
+				path: "article",
+				name: "ARTICLES ADMINISTRATION",
+				component: () => import("@/views/article/Articles")
+			},
+			// TODO create real
+			{
+				path: "pin",
+				name: "PINS ADMINISTRATION",
+				component: () => import("@/views/article/Articles")
+			},
+
+			{
+				path: "multimedia",
+				name: "MULTIMEDIA ADMINISTRATION",
+				component: () => import("@/views/multimedia/Multimedias")
+			},
+			{
+				path: "event",
+				name: "EVENTS ADMINISTRATION",
+				component: () => import("@/views/event/Events")
+			},
+			{
+				path: "event/:id",
+				name: "EVENT ADMINISTRATION",
+				component: () => import("@/views/event/EventDetail")
+			},
+			{
+				path: "showcase-image",
+				name: "SHOWCASE IMAGES ADMINISTRATION",
+				component: () => import("@/views/settings/ShowcaseImage")
+			},
+		]
 	},
 ]
 

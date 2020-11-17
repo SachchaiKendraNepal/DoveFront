@@ -6,11 +6,6 @@
 			>
 				<v-col
 					class="ma-0 pa-0 d-flex justify-center"
-					:class="
-						$vuetify.breakpoint.smAndUp
-							? 'sticky'
-							: ''
-					"
 					cols="12"
 					xl="3"
 					lg="3"
@@ -47,26 +42,16 @@
 							class="mx-4"
 						>
 							<v-col
+								id="post-column"
 								class="ma-0 pa-0 px-4"
 								cols="12"
 								xl="6"
 								lg="6"
+								style="overflow-y: auto; height: 88vh;"
 							>
 								<add-post-box />
 								<article-post :post="articlePost" />
 								<article-post :post="articlePost" />
-								<multimedia :post="multimediaPost" />
-								<article-post :post="articlePost" />
-								<multimedia :post="multimediaPost" />
-							</v-col>
-							<v-col
-								class="ma-0 pa-0 px-4"
-								cols="12"
-								xl="6"
-								lg="6"
-							>
-								<article-post :post="articlePost" />
-								<multimedia :post="multimediaPost" />
 								<multimedia :post="multimediaPost" />
 								<article-post :post="articlePost" />
 								<multimedia :post="multimediaPost" />
@@ -111,4 +96,9 @@ export default {
 .sticky
 	position: sticky
 	top: 140px
+#post-column
+	-ms-overflow-style: none
+	scrollbar-width: none
+#post-column::-webkit-scrollbar
+	display: none
 </style>
