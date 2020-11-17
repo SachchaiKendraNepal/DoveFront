@@ -56,7 +56,7 @@
 				<v-btn
 					dark
 					color="primary"
-					@click="openAddEventFormDialog"
+					@click="openAddBranchFormDialog"
 				>
 					<v-icon
 						dark
@@ -455,7 +455,7 @@ export default {
 			]
 		},
 
-		openAddEventFormDialog() {
+		openAddBranchFormDialog() {
 			this.$bus.emit("open-branch-form-dialog-add-item")
 		},
 
