@@ -145,7 +145,7 @@ import router from "@/router";
 export default {
 	name: "EventsTableView",
 	components: {
-		EventFormDialog: () => import("@/views/home/event/EventFormDialog")
+		EventFormDialog: () => import("@/views/event/EventFormDialog")
 	},
 	data: () => ({
 		search: "",

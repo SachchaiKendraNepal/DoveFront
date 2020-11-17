@@ -137,7 +137,7 @@ import router from "@/router";
 export default {
 	name: "BranchTable",
 	components: {
-		BranchFormDialog: () => import("@/views/home/branch/BranchFormDialog")
+		BranchFormDialog: () => import("@/views/branch/BranchFormDialog")
 	},
 	data: () => ({
 		search: "",

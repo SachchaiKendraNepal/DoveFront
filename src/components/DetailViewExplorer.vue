@@ -9,7 +9,6 @@
 			dark
 			color="#1365a6"
 			elevate-on-scroll
-			scroll-target="#scrolling-techniques-7"
 		>
 			<v-icon
 				size="30"

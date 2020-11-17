@@ -17,16 +17,16 @@
 			Sachchai Nepal
 		</v-toolbar-title>
 		<v-spacer />
-		<v-text-field
-			id="search"
-			class="mx-3 search-home-top"
-			solo
-			hide-details
-			append-icon="search"
-			clearable
-			clear-icon="clear"
-			placeholder="Search Members, Branch, Articles, Multimedia..."
-		/>
+		<!--		<v-text-field-->
+		<!--			id="search"-->
+		<!--			class="mx-3 search-home-top"-->
+		<!--			solo-->
+		<!--			hide-details-->
+		<!--			append-icon="search"-->
+		<!--			clearable-->
+		<!--			clear-icon="clear"-->
+		<!--			placeholder="Search Members, Branch, Articles, Multimedia..."-->
+		<!--		/>-->
 		<v-spacer />
 		<v-tooltip bottom>
 			<template #activator="{ on, attrs }">

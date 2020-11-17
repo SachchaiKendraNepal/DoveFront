@@ -93,7 +93,7 @@ export default {
 			{ text: "My Posts", icon: "mdi-post-outline" }
 		],
 		cog_item: 1,
-		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true }],
+		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],
 		log_item: 1,
 		log_items: [{ text: "Log Out", icon: "mdi-logout", divider: true }]
 	})

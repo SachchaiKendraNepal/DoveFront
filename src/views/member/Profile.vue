@@ -181,12 +181,12 @@
 export default {
 	name: "ProfileView",
 	components: {
-		PostsTab: () => import("@/views/home/member/profile/PostsTab"),
-		AboutTab: () => import("@/views/home/member/profile/AboutTab"),
-		PhotosTab: () => import("@/views/home/member/profile/PhotosTab"),
-		MultimediaTab: () => import("@/views/home/member/profile/MultimediaTab"),
-		ChangePasswordDialog: () => import("@/views/home/member/profile/ChangePassword"),
-		EditProfileDialog: () => import("@/views/home/member/profile/EditProfileDialog"),
+		PostsTab: () => import("@/views/member/profile/PostsTab"),
+		AboutTab: () => import("@/views/member/profile/AboutTab"),
+		PhotosTab: () => import("@/views/member/profile/PhotosTab"),
+		MultimediaTab: () => import("@/views/member/profile/MultimediaTab"),
+		ChangePasswordDialog: () => import("@/views/member/profile/ChangePassword"),
+		EditProfileDialog: () => import("@/views/member/profile/EditProfileDialog"),
 	},
 	data: () => ({
 		currentItem: "tab-Posts",

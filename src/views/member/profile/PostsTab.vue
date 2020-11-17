@@ -27,8 +27,8 @@
 export default {
 	name: "ProfilePostsTabView",
 	components: {
-		IntroCard: () => import("@/views/home/member/profile/Intro"),
-		PeekPhotos: () => import("@/views/home/member/profile/PeekPhotos"),
+		IntroCard: () => import("@/views/member/profile/Intro"),
+		PeekPhotos: () => import("@/views/member/profile/PeekPhotos"),
 		TabItemCard: () => import("@/components/ProfileTabItem"),
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),

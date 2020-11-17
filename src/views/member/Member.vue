@@ -139,7 +139,7 @@ import router from "@/router";
 export default {
 	name: "MembersTable",
 	components: {
-		FollowerFormDialog: () => import("@/views/home/member/MemberFormDialog")
+		FollowerFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
 		isLoading: false,
