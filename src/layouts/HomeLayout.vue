@@ -182,7 +182,7 @@ export default {
 	.center-float
 		position: fixed
 		width: 100vw
-		left: 33.5%
+		left: 39.5%
 		@media only screen and (max-width: 1260px)
 			left: 45%
 	.right-float
