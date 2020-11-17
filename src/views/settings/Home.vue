@@ -17,6 +17,7 @@
 							lg="8"
 							md="8"
 							sm="8"
+							class="my-auto"
 							:class="
 								$vuetify.breakpoint.smAndUp
 									? ''
@@ -47,7 +48,7 @@
 							lg="4"
 							md="4"
 							sm="4"
-							class="text-center"
+							class="text-center my-auto"
 						>
 							<v-avatar
 								class="profile-avatar"
@@ -232,10 +233,14 @@ export default {
 	color: white
 	min-height: 100%
 .stat-summary
+	margin: 10px 0 0 15px
+	padding: 0
 	font-size: 22px
 	color: darkslategrey
 	font-family: "Chilanka", sans-serif
 	font-weight: bold
+	border-bottom: 1px solid grey
+	max-width: 1000px
 .profile-avatar
 	border: 4px solid gold
 </style>
