@@ -115,7 +115,7 @@ import router from "@/router";
 export default {
 	name: "ShowCaseBarComponent",
 	components: {
-		LinkButton: () => import("@/components/showcase/AppBarLinkBtn")
+		// LinkButton: () => import("@/components/showcase/AppBarLinkBtn")
 	},
 	data: () => ({
 		logo: require("@/assets/showcase_logo_v1.png"),

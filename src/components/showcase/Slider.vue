@@ -16,7 +16,8 @@
 				eager
 				:src="item.src"
 			>
-				<v-row class="fill-height"
+				<v-row
+					class="fill-height ma-0 pa-0"
 					justify="center" align="center"
 				>
 					<div class="display-1 text-center">
@@ -90,12 +91,21 @@ export default {
 	border-radius: 0!important
 .main
 	line-height: 60px
+	@media only screen and (max-width: 380px)
+		font-size: 40px !important
+		line-height: 40px !important
 .sub
-	line-height: 50px
+	line-height: 40px
 	letter-spacing: 0.20rem !important
+	display: block
+	@media only screen and (max-width: 380px)
+		display: none
 .context
 	font-size: 22px !important
 	font-weight: bold
-	line-height: 60px
+	line-height: 30px
 	letter-spacing: 0.12rem !important
+	display: block
+	@media only screen and (max-width: 380px)
+		display: none
 </style>

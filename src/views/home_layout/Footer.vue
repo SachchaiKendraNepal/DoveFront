@@ -36,21 +36,27 @@
 						<h4 class="flex text-start">
 							A very constructive and inclusive social network. Open source and radically transparent.
 						</h4>
-						<v-card-actions class="d-flex justify-center ma-0 pa-0">
-							<v-btn
+						<v-row class="ma-0 pa-0"
+							align-center
+						>
+							<v-card-actions
 								v-for="(item, index) in socialMediaButtonIcons"
 								:key="index"
-								class="mx-2"
-								icon
+								class="ma-0 pa-0"
 							>
-								<v-icon
-									size="24px"
-									:color="item.color"
+								<v-btn
+									class="mx-2"
+									icon
 								>
-									{{ item.icon }}
-								</v-icon>
-							</v-btn>
-						</v-card-actions>
+									<v-icon
+										size="24px"
+										:color="item.color"
+									>
+										{{ item.icon }}
+									</v-icon>
+								</v-btn>
+							</v-card-actions>
+						</v-row>
 						<h5 class="flex text-start">
 							SACHCHAI community copyright 2019 - 2020
 						</h5>
@@ -205,5 +211,8 @@ export default {
 		font-size: 22px
 		padding-left: 10px
 		font-family: "Crimson Text", sans-serif
-	font-weight: 600
+		font-weight: 600
+		display: block
+		@media only screen and (max-width: 190px)
+			display: none
 </style>

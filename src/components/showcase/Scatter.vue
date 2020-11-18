@@ -77,10 +77,8 @@
 		<v-col cols="12"
 			xl="6"
 			lg="6"
-			md="12"
-			sm="12"
 		>
-			<v-row no-gutters
+			<v-row class="ma-0 pa-0"
 				justify="center" align="center"
 			>
 				<about-us-preview />
@@ -100,10 +98,36 @@ export default {
 ::v-deep.v-image
 	border-radius: 5px
 .resize-scatter
+	transition: all .3s
 	margin-top: -45px
-	animation: slow
 	margin-bottom: -45px
 	z-index: 50
 #right-card
 	width: 100%
+.one
+	transition: all .3s
+	@media only screen and (max-width: 290px)
+		max-height: 140px !important
+		max-width: 150px !important
+.two
+	transition: all .3s
+	@media only screen and (max-width: 290px)
+		max-height: 140px !important
+		max-width: 150px !important
+.three
+	transition: all .3s
+	@media only screen and (max-width: 290px)
+		max-height: 140px !important
+		max-width: 150px !important
+
+.four
+	transition: all .3s
+	@media only screen and (max-width: 290px)
+		max-height: 140px !important
+		max-width: 150px !important
+.five
+	transition: all .3s
+	@media only screen and (max-width: 290px)
+		max-height: 140px !important
+		max-width: 150px !important
 </style>
