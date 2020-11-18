@@ -1,9 +1,9 @@
 <template>
 	<v-card
 		id="kendra-info-box"
-		class="my-4"
+		class="mx-auto"
 		flat
-		width="100%"
+		max-width="1100"
 	>
 		<v-card-subtitle
 			id="kendra_name"
@@ -18,6 +18,7 @@
 			हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
 		</v-card-subtitle>
 		<v-row
+			class="ma-0 pa-0"
 			align="center"
 			justify="center"
 		>
@@ -29,7 +30,7 @@
 				sm="5"
 				class="pa-0"
 			>
-				<v-row>
+				<v-row class="ma-0 pa-0">
 					<v-col
 						cols="12"
 						:class="
@@ -39,6 +40,7 @@
 						"
 					>
 						<v-avatar
+							class="resize-avatar"
 							size="200"
 						>
 							<v-img :src="chief" />
@@ -76,6 +78,7 @@
 				cols="2"
 			>
 				<v-row
+					class="ma-0 pa-0"
 					no-gutters
 				>
 					<v-col cols="12"
@@ -106,18 +109,24 @@
 				sm="5"
 				class="pa-0"
 			>
-				<v-row>
-					<v-col cols="12" :class="
-						$vuetify.breakpoint.smAndUp
-							? 'd-flex justify-start'
-							: 'd-flex justify-center'
-					"
+				<v-row class="ma-0 pa-0">
+					<v-col
+						cols="12"
+						:class="
+							$vuetify.breakpoint.smAndUp
+								? 'd-flex justify-start'
+								: 'd-flex justify-center'
+						"
 					>
-						<v-avatar size="200">
+						<v-avatar
+							class="resize-avatar"
+							size="200"
+						>
 							<v-img :src="viceChief" />
 						</v-avatar>
 					</v-col>
-					<v-col cols="12" :class="
+					<v-col cols="12"
+						:class="
 							$vuetify.breakpoint.smAndUp
 								? 'd-flex justify-start'
 								: 'd-flex justify-center'
@@ -157,12 +166,36 @@ export default {
 	//background-repeat: no-repeat
 	//background-position: center
 	//background-size: cover
-	#kendra_name
-		color: #2f2d2d
-		font-size: 55px
-		line-height: 55px
-	#kendra_motto
-		padding-top: 5px
-		font-size: 24px
-		line-height: 25px
+#kendra_name
+	color: #2f2d2d
+	font-size: 55px
+	line-height: 55px
+	transition: all .3s
+	@media only screen and (max-width: 445px) and (min-width: 291px)
+		font-size: 40px
+		line-height: 40px
+	@media only screen and (max-width: 290px)
+		font-size: 28px
+		line-height: 28px
+#kendra_motto
+	padding-top: 5px
+	font-size: 24px
+	line-height: 25px
+	transition: all .3s
+	@media only screen and (max-width: 445px) and (min-width: 291px)
+		font-size: 18px
+		line-height: 18px
+	@media only screen and (max-width: 290px)
+		font-size: 14px
+		line-height: 14px
+.resize-avatar
+	transition: all .3s
+	@media only screen and (max-width: 345px)
+		height: 150px !important
+		min-width: 150px !important
+		width: 150px !important
+	@media only screen and (max-width: 180px)
+		height: 100px !important
+		min-width: 100px !important
+		width: 100px !important
 </style>

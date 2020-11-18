@@ -2,6 +2,7 @@
 	<v-card id="right-card"
 		flat
 		outlined
+		color="transparent"
 	>
 		<v-card-text class="about-us">
 			<v-card-title class="text-uppercase overline">
@@ -19,7 +20,10 @@
 				color="#03A9F4"
 				class="py-8 mt-7"
 			>
-				MORE ABOUT US
+				<v-icon>mdi-alpha-a-box</v-icon>
+				<span v-show="$vuetify.breakpoint.smAndUp"
+					class="pl-3"
+				>MORE ABOUT US</span>
 			</v-btn>
 		</v-card-text>
 	</v-card>
@@ -54,4 +58,14 @@ export default {
 		line-height: 55px
 		text-align: left
 		color: black
+		transition: all .3s
+		@media only screen and (max-width: 680px) and (min-width: 561px)
+			font-size: 40px
+			line-height: 45px
+		@media only screen and (max-width: 560px) and (min-width: 321px)
+			font-size: 30px
+			line-height: 35px
+		@media only screen and (max-width: 320px)
+			font-size: 24px
+			line-height: 24px
 </style>

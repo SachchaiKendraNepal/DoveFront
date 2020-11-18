@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="start-post-card"
-		class="mx-auto mb-4"
+		class="mx-auto mb-4 elevation-2"
 		max-width="800"
 		outlined
 	>
@@ -92,13 +92,33 @@ export default {
 
 <style scoped lang="sass">
 #start-post-av
+	transition: all .3s
 	opacity: 0.7
+	@media only screen and (max-width: 225px)
+		height: 22px !important
+		min-width: 22px !important
+		width: 22px !important
 #start-a-post
+	transition: all .3s
 	font-size: 26px
 	font-weight: 400
 	font-family: "Acme", sans-serif
 	letter-spacing: 1px
 	color: #4f5151
+	visibility: visible
+	opacity: 1
+	@media only screen and (max-width: 225px)
+		visibility: visible
+		font-size: 16px
+		opacity: 1
+	@media only screen and (max-width: 160px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+#start-post-box
+	@media only screen and (max-width: 225px)
+		padding: 4px
+		margin: 0 !important
 #start-post-box:hover
 	background-color: #e3f0fc
 ::v-deep span.btn-text

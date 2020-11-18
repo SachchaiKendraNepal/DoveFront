@@ -1,133 +1,155 @@
 <template>
-	<div>
-		<div class="feeds-wrapper">
-			<v-app-bar
-				color="#c4e4ff"
-				class="sacchai-home-toolbar-top elevation-0"
-				height="73"
-				fixed
+	<v-card
+		class="overflow-hidden rounded-0"
+	>
+		<v-app-bar
+			id="home-app-bar"
+			color="deep-purple lighten-2"
+			dark
+			height="auto"
+			fixed
+		>
+			<v-app-bar-nav-icon @click.stop="toggleHomeDrawer()" />
+
+			<v-avatar
+				class="homo-logo elevation-4"
+				size="70"
 			>
-				<div class="left-float">
-					<v-avatar
-						class="cursor"
-						size="60"
-						@click.stop="toggleHomeDrawer()"
-					>
-						<v-img
-							:src="logo"
-							alt="SacchaiLogo"
-						/>
-					</v-avatar>
-					<div class="search-wrapper">
-						<v-text-field
-							id="search"
-							class="search-sachchai mx-6"
-							solo
-							hide-details
-							append-icon="search"
-							clearable
-							clear-icon="clear"
-							placeholder="Search Sachchai Kendra Nepal"
-						/>
-					</div>
-				</div>
-				<v-card class="center-float pa-0"
-					flat color="transparent"
-				>
-					<v-tabs
-						v-show="$vuetify.breakpoint.mdAndUp"
-						v-model="currentItem"
-						icons-and-text
-						background-color="transparent"
-						active-class="home-tab-active"
-						slider-color="primary"
-						slider-size="3"
-					>
-						<v-tab
-							v-for="(tab, index) in homeTabItems"
-							:key="index"
-							:to="tab.to"
-						>
-							<v-icon size="30">
-								{{ tab.icon }}
-							</v-icon>
-						</v-tab>
-					</v-tabs>
-				</v-card>
-				<div class="right-float">
-					<v-tooltip bottom>
-						<template #activator="{ on, attrs }">
-							<v-avatar
-								class="elevation-4 mx-2"
-								color="#0e7ed8"
-								v-bind="attrs"
-								v-on="on"
-								@click="routeToShowcase()"
-							>
-								<v-icon size="24"
-									color="grey lighten-3"
-								>
-									mdi-view-dashboard
-								</v-icon>
-							</v-avatar>
-						</template>
-						<span>Showcase</span>
-					</v-tooltip>
-					<profile-dropdown />
-				</div>
-			</v-app-bar>
-			<v-card
-				v-show="$vuetify.breakpoint.smAndDown"
-				class="bottom-tab-card"
-				flat
+				<span class="display-3">S</span>
+			</v-avatar>
+
+			<v-card max-width="500"
+				class="mr-sm-6 mr-md-6 mr-lg-6 mr-xl-6 search-sachchai"
+			>
+				<v-text-field
+					id="search"
+					solo
+					hide-details
+					append-icon="search"
+					clearable
+					clear-icon="clear"
+					placeholder="Search Sachchai Kendra Nepal"
+				/>
+			</v-card>
+
+			<v-spacer />
+
+			<v-card light
+				color="transparent"
+				class="ma-0 pa-0 top-tab-wrapper"
 			>
 				<v-tabs
-					background-color="#c4e4ff"
-					centered
-					show-arrows
+					v-model="currentItem"
 					icons-and-text
+					background-color="deep-purple lighten-1"
+					slider-color="white"
+					active-class="home-active-tab"
 					slider-size="3"
-					active-class="home-tab-active-down"
-					slider-color="primary"
 				>
 					<v-tab
-						v-for="item in homeTabItems"
-						:key="item.text"
-						:to="item.to"
+						v-for="(tab, index) in homeTabItems"
+						:key="index"
+						:to="tab.to"
 					>
 						<v-icon size="30">
-							{{ item.icon }}
+							{{ tab.icon }}
 						</v-icon>
 					</v-tab>
 				</v-tabs>
 			</v-card>
-			<v-navigation-drawer
-				:value="homeDrawer"
-				class="home-sidenav"
-				app
-				floating
+
+			<div class="d-flex align-center">
+				<v-tooltip bottom>
+					<template #activator="{ on, attrs }">
+						<v-avatar
+							class="to-showcase elevation-4 mx-2"
+							color="#0e7ed8"
+							v-bind="attrs"
+							v-on="on"
+							@click="routeToShowcase()"
+						>
+							<v-icon size="24"
+								color="grey lighten-3"
+							>
+								mdi-view-dashboard
+							</v-icon>
+						</v-avatar>
+					</template>
+					<span>Showcase</span>
+				</v-tooltip>
+				<profile-dropdown />
+			</div>
+		</v-app-bar>
+
+		<v-card
+			light
+			max-width="1000"
+			color="deep-purple lighten-4"
+			class="mx-auto rounded-t-0 aux-home-tab-card elevation-12"
+		>
+			<v-tabs
+				background-color="transparent"
+				centered
+				show-arrows
+				icons-and-text
+				slider-size="3"
+				active-class="home-tab-active-down"
+				slider-color="primary"
 			>
-				<user-clip />
-				<quick-links />
-			</v-navigation-drawer>
-			<v-main>
-				<v-container
-					fluid
-					class="home-router-container"
+				<v-tab
+					v-for="item in homeTabItems"
+					:key="item.text"
+					:to="item.to"
 				>
-					<v-row class="ma-0 pa-0">
-						<v-col class="pa-0">
-							<transition name="fade">
-								<router-view />
-							</transition>
-						</v-col>
-					</v-row>
-					<home-footer />
-				</v-container>
-			</v-main>
-		</div>
-		<scroll-up />
-	</div>
+					<v-icon size="30">
+						{{ item.icon }}
+					</v-icon>
+				</v-tab>
+			</v-tabs>
+		</v-card>
+
+		<v-navigation-drawer
+			v-model="homeDrawer"
+			app
+			floating
+			class="home-nav-drawer"
+		>
+			<v-card class="nav-action-card rounded-b-circle text-center"
+				color="light-blue lighten-5"
+			>
+				<v-btn
+					fab
+					height="30"
+					width="30"
+					class="my-2"
+					@click.stop="homeDrawer = false"
+				>
+					<v-icon size="20">
+						mdi-close
+					</v-icon>
+				</v-btn>
+			</v-card>
+			<user-clip />
+			<quick-links />
+		</v-navigation-drawer>
+
+		<v-main>
+			<v-container
+				fluid
+				class="home-router-container"
+			>
+				<v-row class="ma-0 pa-0">
+					<v-col class="pa-0">
+						<transition name="fade">
+							<router-view />
+						</transition>
+					</v-col>
+				</v-row>
+			</v-container>
+			<scroll-up />
+			<home-footer />
+		</v-main>
+	</v-card>
 </template>
 
 <script>
@@ -143,10 +165,12 @@ export default {
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
+		drawer: false,
+		group: null,
 		currentItem: "",
 		logo: require("@/assets/sacchai_logo.jpg"),
 		homeTabItems: [
-			{icon: "mdi-home", text: "Home", to: "/home"},
+			{icon: "mdi-home", text: "Home", to: "/home/feeds"},
 			{icon: "mdi-post", text: "Articles", to: "/home/article"},
 			{icon: "mdi-video-vintage", text: "Multimedia", to: "/home/multimedia"},
 			{icon: "mdi-calendar-clock", text: "Events", to: "/home/event"},
@@ -164,86 +188,96 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.feeds-wrapper
-	background-color: #edf6fd
-.sacchai-home-toolbar-top
-	border-radius: 0
-	margin: 0
-	padding: 0 16px
-	height: 72px
-	display: flex
-	align-items: center
-	.left-float
-		position: fixed
-		left: 16px
-		display: flex
-		justify-content: center
-		align-items: center
-	.center-float
-		position: fixed
-		width: 100vw
-		left: 39.5%
-		@media only screen and (max-width: 1260px)
-			left: 45%
-	.right-float
-		position: fixed
-		right: 16px
-		display: flex
-		justify-content: center
-		align-items: center
-
-	::v-deep .v-toolbar__title
-		padding-left: 8px
-		font-family: 'Fira Sans Condensed', sans-serif
-		font-size: 22px
-
-	.search-wrapper
-		transition: all .4s
-		max-width: 350px
-		display: block
-		@media only screen and (max-width: 550px)
-			max-width: 300px
-		@media only screen and (max-width: 500px)
-			max-width: 250px
-		@media only screen and (max-width: 445px)
-			max-width: 200px
-		@media only screen and (max-width: 445px)
-			max-width: 180px
-		@media only screen and (max-width: 370px)
-			max-width: 130px
-			.search-sachchai
-				margin: 0 8px !important
-		@media only screen and (max-width: 340px)
-			max-width: 100px
-			.search-sachchai
-				margin: 0 8px !important
-		@media only screen and (max-width: 310px)
-			display: none
-		.search-home-top
-			margin-left: 15px
-.home-sidenav
-	background: linear-gradient(180deg, rgb(237,246,253), rgb(202,215,231), rgb(207,212,218))
-	transition: all 1s
-	margin-top: 73px
-	@media only screen and (max-width: 960px)
-		margin-top: 0
-.cursor
-	cursor: pointer
-.home-tab-active
-	color: #3b78f2
-.bottom-tab-card
-	border-radius: 0
-	position: fixed
-	top: 72px
-	width: 100vw
-	z-index: 2
-.home-tab-active-down
-	color: #3b78f2
+.homo-logo
+	// visibility hidden but not occupying space :)
+	// love transition
+	transition: all .2s ease-in-out
+	visibility: visible
+	opacity: 1
+	margin: 0 10px 0 2px
+	@media only screen and (max-width: 360px)
+		height: 45px !important
+		min-width: 45px !important
+		width: 45px !important
+	@media only screen and (max-width: 310px)
+		visibility: hidden
+		opacity: 0
+		height: 0 !important
+		min-width: 0 !important
+		width: 0 !important
+		overflow: hidden
+.to-showcase
+	transition: all .2s ease-in-out
+	visibility: visible
+	opacity: 1
+	@media only screen and (max-width: 260px)
+		visibility: hidden
+		opacity: 0
+		height: 0 !important
+		min-width: 0 !important
+		width: 0 !important
+		overflow: hidden
+.search-sachchai
+	transition: all .2s ease-in-out
+	visibility: visible
+	opacity: 1
+	@media only screen and (max-width: 190px)
+		width: 0 !important
+		height: 0 !important
+		max-width: 0 !important
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+.top-tab-wrapper
+	transition: all .5s
+	visibility: visible
+	opacity: 1
+	@media only screen and (max-width: 730px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+		height: 0 !important
+		max-width: 0 !important
+.aux-home-tab-card
+	transition: all .5s
+	visibility: visible
+	opacity: 1
+	@media only screen and (max-width: 360px)
+		margin-top: 55px
+	@media only screen and (min-width: 360px) and (max-width: 730px)
+		margin-top: 74px
+	@media only screen and (min-width: 730px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+		height: 0 !important
+		max-width: 0 !important
 .home-router-container
-	transition: all .3s
-	padding: 0
-	background: aliceblue
-	margin-top: 73px
-	@media only screen and (max-width: 960px)
-		margin-top: 145px
+	padding-top: 0
+	margin-top: 80px
+	@media only screen and (max-width: 730px)
+		margin-top: 0
+::v-deep.v-tabs-bar__content
+	a
+		i
+			color: red !important
+.home-active-tab
+	i
+		color: aliceblue !important
+.home-nav-drawer
+	transition: all .4s
+	margin-top: 80px
+	border-right: 1px solid grey
+	@media only screen and (max-width: 1259px)
+		margin-top: 0
+.nav-action-card
+	transition: all .4s
+	visibility: visible
+	opacity: 1
+	@media only screen and (min-width: 1259px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+		height: 0 !important
+		max-width: 0 !important
 </style>
