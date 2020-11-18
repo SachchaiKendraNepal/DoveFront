@@ -19,7 +19,7 @@ const routes = [
 		component: HomeLayout,
 		children: [
 			{
-				path: "",
+				path: "feeds",
 				name: "SACHCHAI NEPAL HOME",
 				component: () => import("@/views/home/Home")
 			},
@@ -27,6 +27,11 @@ const routes = [
 				path: "profile",
 				name: "SACHCHAI NEPAL PROFILE",
 				component: () => import("@/views/member/Profile")
+			},
+			{
+				path: "my-posts",
+				name: "MY POSTS",
+				component: () => import("@/views/member/MyPosts")
 			},
 			{
 				path: "follower",

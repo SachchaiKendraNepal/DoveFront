@@ -21,54 +21,63 @@
 			{{ post.description }}
 		</v-card-text>
 
-		<v-card-actions class="post-actions my-0 pt-1 pb-0">
-			<v-btn
-				v-if="isLiked"
-				icon
-				@click="isLiked = false"
-			>
-				<v-icon>mdi-heart</v-icon>
-			</v-btn>
-			<v-btn
-				v-else
-				icon
-				@click="isLiked = true"
-			>
-				<v-icon>mdi-heart-outline</v-icon>
-			</v-btn>
-
-			<v-btn icon>
-				<v-icon>mdi-comment-outline</v-icon>
-			</v-btn>
-			<v-btn icon>
-				<v-icon>mdi-share-variant-outline</v-icon>
-			</v-btn>
-			<v-spacer />
-			<v-avatar
-				v-if="!isBookmarked"
-				v-ripple
-				tile
-				class="bookmark-avatar"
-				@click="isBookmarked = true"
-			>
-				<v-img
-					:src="bookmarkImage"
-					height="70"
-				/>
-			</v-avatar>
-			<v-avatar
-				v-else
-				v-ripple
-				tile
-				class="bookmark-avatar bookmarked"
-				@click="isBookmarked = false"
-			>
-				<v-img
-					:src="bookmarkedImage"
-					height="70"
-				/>
-			</v-avatar>
-		</v-card-actions>
+		<v-row class="ma-0 pa-0"
+			align="center"
+		>
+			<v-card-actions class="ma-0 pa-0">
+				<v-btn
+					v-if="isLiked"
+					icon
+					@click="isLiked = false"
+				>
+					<v-icon>mdi-heart</v-icon>
+				</v-btn>
+				<v-btn
+					v-else
+					icon
+					@click="isLiked = true"
+				>
+					<v-icon>mdi-heart-outline</v-icon>
+				</v-btn>
+			</v-card-actions>
+			<v-card-actions class="ma-0 pa-0">
+				<v-btn icon>
+					<v-icon>mdi-comment-outline</v-icon>
+				</v-btn>
+			</v-card-actions>
+			<v-card-actions class="ma-0 pa-0">
+				<v-btn icon>
+					<v-icon>mdi-share-variant-outline</v-icon>
+				</v-btn>
+			</v-card-actions>
+			<v-spacer class="post-action-spacer" />
+			<v-card-actions class="ma-0 pa-0">
+				<v-avatar
+					v-if="!isBookmarked"
+					v-ripple
+					tile
+					class="bookmark-avatar"
+					@click="isBookmarked = true"
+				>
+					<v-img
+						:src="bookmarkImage"
+						height="70"
+					/>
+				</v-avatar>
+				<v-avatar
+					v-else
+					v-ripple
+					tile
+					class="bookmark-avatar bookmarked"
+					@click="isBookmarked = false"
+				>
+					<v-img
+						:src="bookmarkedImage"
+						height="70"
+					/>
+				</v-avatar>
+			</v-card-actions>
+		</v-row>
 		<p class="mb-1 mx-4 love-count">
 			<span>{{ loveCount }}</span>&nbsp;Love Reacts
 			<v-icon size="20">
@@ -131,6 +140,10 @@ export default {
 .bookmark-avatar
 	cursor: pointer
 	opacity: .8
+.post-action-spacer
+	display: block
+	@media only screen and (max-width: 250px)
+		display: none
 .v-icon
 	color: #0e0d0d !important
 </style>
