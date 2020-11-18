@@ -42,7 +42,7 @@
 					v-model="currentItem"
 					icons-and-text
 					background-color="deep-purple lighten-1"
-					slider-color="grey darken-3"
+					slider-color="white"
 					active-class="home-active-tab"
 					slider-size="3"
 				>
@@ -85,7 +85,7 @@
 			light
 			max-width="1000"
 			color="deep-purple lighten-4"
-			class="mx-auto rounded-t-0 aux-home-tab-card"
+			class="mx-auto rounded-t-0 aux-home-tab-card elevation-12"
 		>
 			<v-tabs
 				background-color="transparent"
@@ -146,11 +146,10 @@
 					</v-col>
 				</v-row>
 			</v-container>
+			<scroll-up />
 			<home-footer />
 		</v-main>
 	</v-card>
-<!--		<scroll-up />-->
-<!--	</div>-->
 </template>
 
 <script>
@@ -163,7 +162,7 @@ export default {
 		UserClip: () => import("@/views/home_layout/UserClip"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
 		QuickLinks: () => import("@/views/home_layout/QuickLinks"),
-		// ScrollUp: () => import("@/components/ScrollTop")
+		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
 		drawer: false,

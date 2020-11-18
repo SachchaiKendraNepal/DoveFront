@@ -1,5 +1,5 @@
 <template>
-	<v-card class="mx-auto mb-4">
+	<v-card class="mx-auto mb-4 elevation-1">
 		<v-list-item>
 			<v-list-item-avatar>
 				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />

@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		id="start-post-card"
-		class="mx-auto mb-4"
+		class="mx-auto mb-4 elevation-2"
 		max-width="800"
 		outlined
 	>
