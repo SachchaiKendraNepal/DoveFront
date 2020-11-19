@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "node ghPageDeploy.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
@@ -36,6 +37,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^7.0.1",
+    "execa": "^4.1.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "node-sass": "^4.12.0",
