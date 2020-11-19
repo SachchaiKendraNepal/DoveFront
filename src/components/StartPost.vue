@@ -1,11 +1,10 @@
 <template>
+	<!--	TODO: make dark implementation-->
 	<v-card
 		light
 		max-width="650"
 	>
-		<v-toolbar
-			dark
-		>
+		<v-toolbar>
 			<v-avatar
 				class="elevation-3"
 				size="40"
@@ -32,7 +31,6 @@
 				</v-icon>
 			</v-avatar>
 		</v-toolbar>
-		<v-divider />
 		<v-row
 			id="post-detail-row"
 			class="mx-2 pa-0"
@@ -42,9 +40,10 @@
 			<v-col cols="2"
 				class="pr-0 mr-0"
 			>
-				<v-avatar>
+				<v-avatar class="elevation-4"
+					size="60"
+				>
 					<v-img
-						class="elevation-6"
 						src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
 					/>
 				</v-avatar>

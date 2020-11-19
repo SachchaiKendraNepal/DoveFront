@@ -171,7 +171,9 @@
 				</v-card>
 			</v-col>
 		</v-row>
-		<v-tabs-items v-model="currentItem">
+		<v-tabs-items
+			v-model="currentItem"
+		>
 			<posts-tab />
 			<about-tab />
 			<photos-tab />

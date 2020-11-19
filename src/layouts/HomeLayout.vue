@@ -255,6 +255,7 @@ export default {
 .home-router-container
 	padding-top: 0
 	margin-top: 80px
+	background-color: #f3edff
 	@media only screen and (max-width: 730px)
 		margin-top: 0
 ::v-deep.v-tabs-bar__content

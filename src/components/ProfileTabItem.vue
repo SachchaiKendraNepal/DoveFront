@@ -7,7 +7,7 @@
 			max-width="1000"
 			flat
 			class="mx-auto tab-item-card-wrapper"
-			color="white"
+			light
 		>
 			<slot name="content" />
 		</v-card>
@@ -26,7 +26,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .profile-tab-item
-	background-color: white
+	background-color: #f1ebfc // tab card ko margin le deko space
 	.tab-item-card-wrapper
 		border-radius: 0
 </style>

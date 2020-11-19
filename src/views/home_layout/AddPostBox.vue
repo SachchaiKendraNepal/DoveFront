@@ -1,6 +1,8 @@
 <template>
+	<!--	TODO: make dark implementation too -->
 	<v-card
 		id="start-post-card"
+		color="white"
 		class="mx-auto mb-4 elevation-2"
 		max-width="800"
 		outlined

@@ -1,7 +1,6 @@
 <template>
 	<v-card
 		flat
-		color="transparent"
 		class="mx-auto pa-0"
 		max-width="1000"
 	>
@@ -33,25 +32,18 @@
 				md="4"
 				sm="4"
 			>
-				<v-card>
-					<v-card-title>Ads One</v-card-title>
-					<v-card-subtitle>First Advertisement</v-card-subtitle>
-					<v-card-text>This is a first advertisement.</v-card-text>
-					<v-card-actions>
-						<v-btn depressed>
-							See More
-						</v-btn>
-					</v-card-actions>
-				</v-card>
+				<home-ads-column-view />
 			</v-col>
 		</v-row>
 	</v-card>
 </template>
 
 <script>
+import HomeAdsColumnView from "@/views/home/Ads";
 export default {
 	name: "HomeComponent",
 	components: {
+		HomeAdsColumnView,
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home_layout/AddPostBox")

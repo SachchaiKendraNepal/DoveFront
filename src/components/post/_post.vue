@@ -1,5 +1,9 @@
 <template>
-	<v-card class="mx-auto mb-4 elevation-1">
+	<!--	TODO: make dark implementation too -->
+	<v-card
+		color="white"
+		class="mx-auto mb-4 elevation-1"
+	>
 		<v-list-item>
 			<v-list-item-avatar>
 				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
@@ -144,6 +148,6 @@ export default {
 	display: block
 	@media only screen and (max-width: 250px)
 		display: none
-.v-icon
-	color: #0e0d0d !important
+//.v-icon
+//	color: #0e0d0d !important
 </style>
