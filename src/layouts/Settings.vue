@@ -11,8 +11,8 @@
 			<v-tooltip left>
 				<template #activator="{ on, attrs }">
 					<v-btn icon
-						to="/home"
 						v-bind="attrs"
+						@click="routeToFeedsPage"
 						v-on="on"
 					>
 						<v-icon>
@@ -24,7 +24,7 @@
 			</v-tooltip>
 		</v-app-bar>
 		<v-navigation-drawer
-			:value="drawer"
+			v-model="drawer"
 			app
 			floating
 			dark
@@ -38,14 +38,38 @@
 						height="100"
 						width="100%"
 						src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-					/>
+					>
+						<v-row class="ma-0 pa-0 setting-nav-action">
+							<v-toolbar class="text-center"
+								dense
+								color="transparent"
+								dark
+							>
+								<v-spacer />
+								<v-btn
+									color="grey lighten-2"
+									fab
+									height="30"
+									width="30"
+									class="my-2"
+									@click.stop="drawer = false"
+								>
+									<v-icon size="20"
+										color="grey darken-3"
+									>
+										mdi-close
+									</v-icon>
+								</v-btn>
+							</v-toolbar>
+						</v-row>
+					</v-img>
 				</v-col>
 				<v-col cols="12"
 					class="d-flex justify-center"
 				>
 					<v-avatar
 						size="120"
-						style="border: 4px solid white; margin-top: -70px"
+						style="border: 4px solid white; margin-top: -50px"
 					>
 						<v-img src="https://randomuser.me/api/portraits/women/85.jpg" />
 					</v-avatar>
@@ -85,8 +109,8 @@
 				class="pa-0"
 			>
 				<v-row class="ma-0 pa-0">
-					<v-col class="pt-0">
-						<transition name="fade">
+					<v-col class="pa-0">
+						<transition name="setting">
 							<router-view />
 						</transition>
 					</v-col>
@@ -123,8 +147,31 @@ export default {
 			],
 		}
 	},
+	methods: {
+		routeToFeedsPage() {
+			this.$router.push({name: "HOME"})
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
-
+.setting-enter-active, .setting-leave-active
+	transition: opacity .4s ease-in-out, transform .4s ease
+.setting-enter-active
+	transition-delay: .3s
+.setting-enter, .setting-leave-to
+	opacity: 0
+.setting-enter-to, .setting-leave
+	opacity: 1
+.setting-nav-action
+	transition: all .4s
+	visibility: visible
+	opacity: 1
+	@media only screen and (min-width: 1259px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+		height: 0 !important
+		max-width: 0 !important
+		width: 0 !important
 </style>
