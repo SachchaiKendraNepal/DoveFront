@@ -66,11 +66,11 @@ const routes = [
 			{
 				path: "event",
 				name: "SACHCHAI NEPAL EVENTS",
-				component: () => import("@/views/event/Events")
+				component: () => import("@/views/event/EventsHome")
 			},
 			{
 				path: "/home/event/:id",
-				name: "SACHCHAI NEPAL EVENT",
+				name: "EVENT DETAIL HOME",
 				component: () => import("@/views/event/EventDetail")
 			},
 		]
