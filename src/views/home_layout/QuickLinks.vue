@@ -63,7 +63,7 @@ export default {
 				action: "mdi-calendar-clock",
 				active: false,
 				items: [
-					{ title: "All Events", icon: "mdi-calendar-multiple" },
+					{ title: "All Events", icon: "mdi-calendar-multiple", to: "/home/event" },
 					{ title: "Satsang", icon: "mdi-heart" },
 					{ title: "Kendra Events", icon: "mdi-calendar-star" },
 					{ title: "Branch Events", icon: "mdi-calendar-text" },
