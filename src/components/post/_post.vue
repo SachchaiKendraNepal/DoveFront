@@ -32,6 +32,7 @@
 				<v-btn
 					v-if="isLiked"
 					icon
+					color="black"
 					@click="isLiked = false"
 				>
 					<v-icon>mdi-heart</v-icon>
@@ -39,18 +40,23 @@
 				<v-btn
 					v-else
 					icon
+					color="black"
 					@click="isLiked = true"
 				>
 					<v-icon>mdi-heart-outline</v-icon>
 				</v-btn>
 			</v-card-actions>
 			<v-card-actions class="ma-0 pa-0">
-				<v-btn icon>
+				<v-btn icon
+					color="black"
+				>
 					<v-icon>mdi-comment-outline</v-icon>
 				</v-btn>
 			</v-card-actions>
 			<v-card-actions class="ma-0 pa-0">
-				<v-btn icon>
+				<v-btn icon
+					color="black"
+				>
 					<v-icon>mdi-share-variant-outline</v-icon>
 				</v-btn>
 			</v-card-actions>
