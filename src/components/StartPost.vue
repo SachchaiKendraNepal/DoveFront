@@ -71,6 +71,19 @@
 				</v-list>
 			</v-col>
 			<v-col cols="12">
+				<v-text-field
+					id="title"
+					v-model="post.title"
+					class="ma-0 pa-0"
+					name="title"
+					placeholder="Give your activity a title, Kiran!"
+					label="Post Title"
+					outlined
+					hide-details="auto"
+					clearable
+				/>
+			</v-col>
+			<v-col cols="12">
 				<v-textarea
 					id="description"
 					v-model="post.description"
@@ -83,6 +96,37 @@
 					clearable
 				/>
 			</v-col>
+			<transition name="fade">
+				<v-col v-show="uploadVideo"
+					cols="12"
+				>
+					<v-combobox
+						v-model="post.videoUrl"
+						class="ma-0 pa-0"
+						:items="[]"
+						hide-selected
+						label="Video URL"
+						multiple
+						small-chips
+						deletable-chips
+						type="url"
+						outlined
+						clearable
+						prepend-inner-icon="mdi-video"
+						hide-details="auto"
+					>
+						<template #no-data>
+							<v-list-item>
+								<v-list-item-content>
+									<v-list-item-title>
+										Type <code>youtube</code> video url and press <kbd>enter</kbd> to add a new one.
+									</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+						</template>
+					</v-combobox>
+				</v-col>
+			</transition>
 		</v-row>
 		<v-row v-if="images.length > 0"
 			id="image-preview-pane"
@@ -127,7 +171,7 @@
 				</v-badge>
 			</v-col>
 		</v-row>
-		<v-row v-if="videos.length > 0"
+		<v-row v-if="post.videoUrl.length > 0"
 			id="video-preview-pane"
 			justify="space-around"
 			align="center"
@@ -141,8 +185,8 @@
 					VIDEO PREVIEW PANE
 				</p>
 			</v-col>
-			<v-col v-for="(item, index) in videoURLs" :key="index"
-				cols="3"
+			<v-col v-for="(item, index) in post.videoUrl" :key="index"
+				cols="4"
 				class="ma-2 d-flex justify-center"
 			>
 				<v-badge
@@ -160,10 +204,15 @@
 							mdi-close
 						</v-icon>
 					</template>
-					<vue-player
-						v-model="playing"
-						:src="item"
-						style="border-radius: 10px"
+					<youtube
+						ref="youtube"
+						class="pa-4"
+						:video-id="getId(item)"
+						:resize="true"
+						:resize-delay="1"
+						height="100"
+						width="200"
+						@playing="playing"
 					/>
 				</v-badge>
 			</v-col>
@@ -215,20 +264,24 @@
 			justify="center"
 			align="center"
 		>
-			<file-upload
-				v-model="files"
-				:multiple="true"
-				@input-file="inputFile"
-				@input-filter="inputFilter"
+			<v-col cols="12"
+				class="ma-0 pa-0"
 			>
-				<v-col class="ma-0 pa-0">
-					<p class="ma-0 pa-0 overline">
-						add to your post
-					</p>
-				</v-col>
-				<v-col>
+				<p class="ma-0 pa-0 pb-2 overline text-center">
+					add to your post
+				</p>
+			</v-col>
+			<v-col cols="12"
+				class="d-flex align-center justify-center"
+			>
+				<file-upload
+					v-model="files"
+					:multiple="true"
+					@input-file="inputFile"
+					@input-filter="inputFilter"
+				>
 					<v-btn
-						v-for="(item, index) in flexButtons"
+						v-for="(item, index) in flexButtonsFile"
 						:key="index"
 						fab x-small
 						dark
@@ -236,8 +289,30 @@
 					>
 						<v-icon>{{ item.icon }}</v-icon>
 					</v-btn>
-				</v-col>
-			</file-upload>
+				</file-upload>
+				<v-btn
+					fab x-small
+					dark
+					:color="flexButtonsVideo.color"
+					@click="uploadVideo = !(uploadVideo)"
+				>
+					<v-icon>{{ flexButtonsVideo.icon }}</v-icon>
+				</v-btn>
+				<v-btn
+					fab x-small
+					dark
+					:color="flexButtonsTag.color"
+				>
+					<v-icon>{{ flexButtonsTag.icon }}</v-icon>
+				</v-btn>
+				<v-btn
+					fab x-small
+					dark
+					:color="flexButtonsMap.color"
+				>
+					<v-icon>{{ flexButtonsMap.icon }}</v-icon>
+				</v-btn>
+			</v-col>
 		</v-row>
 		<v-card-actions class="pa-4">
 			<v-btn
@@ -254,22 +329,25 @@
 
 <script>
 const VueUploadComponent = require("vue-upload-component")
-import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 
 export default {
 	name: "StartAPostComponent",
-	components: {FileUpload: VueUploadComponent, vuePlayer, APlayer},
+	components: {FileUpload: VueUploadComponent, APlayer},
 	emits: ["close-dialog"],
 	data: () => ({
+		uploadVideo: false,
 		playing: false,
-		flexButtons: [
-			{icon: "mdi-camera", color: "#3aaada"},
-			{icon: "mdi-music", color: "#9896f2"},
-			{icon: "mdi-video", color: "#009688"},
-			{icon: "mdi-tag-faces", color: "blue"},
-			{icon: "mdi-google-maps", color: "red"},
+		flexButtonsFile: [
+			{icon: "mdi-camera", tooltip: "Upload photo", color: "#3aaada"},
+			{icon: "mdi-music", tooltip: "Upload audio", color: "#9896f2"},
 		],
+		flexButtonsVideo:
+			{icon: "mdi-video", tooltip: "Add video url", color: "#009688"},
+		flexButtonsTag:
+			{icon: "mdi-tag-faces", tooltip: "Not implemented", color: "blue"},
+		flexButtonsMap:
+			{icon: "mdi-google-maps", tooltip: "Not implemented", color: "red"},
 		videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 		files: [],
 		images: [],
@@ -279,7 +357,9 @@ export default {
 		audioURLs: [],
 		videoURLs: [],
 		post: {
-			description: ""
+			title: "",
+			description: "",
+			videoUrl: []
 		}
 	}),
 	methods: {
@@ -294,9 +374,6 @@ export default {
 			if (/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(latestFile.name)) {
 				this.imageURLs.push(latestUrl)
 				this.images.push(latestFile)
-			} else if (/\.(mp4)$/i.test(latestFile.name)) {
-				this.videoURLs.push(latestUrl)
-				this.videos.push(latestFile)
 			} else if (/\.(mp3)$/i.test(latestFile.name)) {
 				this.audioURLs.push({
 					title: "Kiran Parajuli",
@@ -337,12 +414,15 @@ export default {
 			this.imageURLs.splice(index, 1)
 		},
 		removeVideo(index) {
-			this.videos.splice(index, 1)
+			this.post.videoUrl.splice(index, 1)
 			this.videoURLs.splice(index, 1)
 		},
 		removeAudio(index) {
 			this.audios.splice(index, 1)
 			this.audioURLs.splice(index, 1)
+		},
+		getId(url) {
+			return this.$youtube.getIdFromUrl(url)
 		}
 	}
 }
