@@ -57,52 +57,66 @@
 						{{ event.duration }} days ●
 						{{ event.venue }}
 					</v-card-subtitle>
-					<div class="d-flex justify-space-between pl-3 py-3">
-						<v-btn rounded
-							color="pink lighten-4"
-						>
-							<v-icon color="pink">
-								mdi-hand-heart
-							</v-icon>
-							<span class="pl-3">Satsang</span>
-						</v-btn>
-						<v-btn rounded
-							color="blue-grey lighten-3"
-						>
-							<v-icon color="blue-grey">
-								mdi-star-circle
-							</v-icon>
-							<span class="pl-3">Interested</span>
-						</v-btn>
-						<v-btn rounded
-							color="green lighten-3"
-						>
-							<v-icon color="green">
-								mdi-check-circle
-							</v-icon>
-							<span class="pl-3">Approve</span>
-						</v-btn>
-						<v-btn rounded
-							color="indigo lighten-3"
-						>
-							<v-icon color="indigo">
-								mdi-walk
-							</v-icon>
-							<span class="pl-3">Going</span>
-						</v-btn>
-						<v-tooltip bottom>
-							<template #activator="{ on, attrs }">
-								<v-btn icon v-bind="attrs"
-									v-on="on"
-								>
-									<v-icon color="red darken-2">
-										mdi-delete
-									</v-icon>
-								</v-btn>
-							</template>
-							<span>Delete Event</span>
-						</v-tooltip>
-					</div>
+					<v-row class="ma-0 pa-0"
+						justify="center"
+						align="center"
+					>
+						<v-card-actions>
+							<v-btn rounded
+								color="pink lighten-4"
+							>
+								<v-icon color="pink">
+									mdi-hand-heart
+								</v-icon>
+								<span class="event-action-btn-text">Satsang</span>
+							</v-btn>
+						</v-card-actions>
+						<v-card-actions>
+							<v-btn rounded
+								color="blue-grey lighten-3"
+							>
+								<v-icon color="blue-grey">
+									mdi-star-circle
+								</v-icon>
+								<span class="event-action-btn-text">Interested</span>
+							</v-btn>
+						</v-card-actions>
+						<v-card-actions>
+							<v-btn rounded
+								color="green lighten-3"
+							>
+								<v-icon color="green">
+									mdi-check-circle
+								</v-icon>
+								<span class="event-action-btn-text">Approve</span>
+							</v-btn>
+						</v-card-actions>
+						<v-card-actions>
+							<v-btn rounded
+								color="indigo lighten-3"
+							>
+								<v-icon color="indigo">
+									mdi-walk
+								</v-icon>
+								<span class="event-action-btn-text">Going</span>
+							</v-btn>
+						</v-card-actions>
+						<v-spacer />
+						<v-card-actions>
+							<v-tooltip bottom>
+								<template #activator="{ on, attrs }">
+									<v-btn icon v-bind="attrs"
+										v-on="on"
+									>
+										<v-icon color="red darken-2">
+											mdi-delete
+										</v-icon>
+									</v-btn>
+								</template>
+								<span>Delete Event</span>
+							</v-tooltip>
+						</v-card-actions>
+					</v-row>
 				</v-card>
 				<v-col cols="12"
 					class="pa-0"
@@ -317,4 +331,15 @@ export default {
 	font-weight: 600 !important
 .event-detail-active-tab
 	color: #fa3e3b
+.event-action-btn-text
+	visibility: visible
+	opacity: 1
+	padding-left: 6px
+	transition: all .2s ease-in-out
+	@media only screen and (max-width: 642px)
+		visibility: hidden
+		opacity: 0
+		overflow: hidden
+		width: 0
+		padding: 0
 </style>
