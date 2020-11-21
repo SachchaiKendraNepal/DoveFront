@@ -136,7 +136,7 @@
 		<v-main>
 			<v-container
 				fluid
-				class="home-router-container"
+				class="home-router-container px-0"
 			>
 				<v-row class="ma-0 pa-0">
 					<v-col class="pa-0">
