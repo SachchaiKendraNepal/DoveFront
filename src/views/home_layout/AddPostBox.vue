@@ -7,40 +7,27 @@
 		max-width="800"
 		outlined
 	>
-		<v-dialog
-			v-model="dialog"
-			max-width="500"
+		<div
+			id="start-post-box"
+			class="d-flex align-center mx-4 mt-4 mb-1 pt-1 py-2"
+			@click.stop="openStartPostBoxDialog"
 		>
-			<template #activator="{ on, attrs }">
-				<!-- eslint-disable-next-line vue/no-unused-vars-->
-				<v-hover v-slot="{ hover }"
-					close-delay="1"
-				>
-					<div
-						id="start-post-box"
-						class="d-flex align-center mx-4 mt-4 mb-1 pt-1 py-2"
-						v-bind="attrs"
-						v-on="on"
-					>
-						<v-avatar
-							id="start-post-av"
-							tile
-							size="38"
-							class="mx-4"
-						>
-							<v-img :src="writePostIcon" />
-						</v-avatar>
-						<p
-							id="start-a-post"
-							class="pa-0 ma-0"
-						>
-							Start a post
-						</p>
-					</div>
-				</v-hover>
-			</template>
-			<start-post-box @close-dialog="closeDialog" />
-		</v-dialog>
+			<v-avatar
+				id="start-post-av"
+				tile
+				size="38"
+				class="mx-4"
+			>
+				<v-img :src="writePostIcon" />
+			</v-avatar>
+			<p
+				id="start-a-post"
+				class="pa-0 ma-0"
+			>
+				Start a post
+			</p>
+		</div>
+		<start-post-box />
 		<v-divider />
 		<v-row
 			id="start-post-actions"
@@ -85,9 +72,9 @@ export default {
 		writePostIcon: require("@/assets/write_post_icon.jpg")
 	}),
 	methods: {
-		closeDialog() {
-			this.dialog = false
-		}
+		openStartPostBoxDialog() {
+			this.$bus.emit("open-start-post-dialog")
+		},
 	}
 }
 </script>

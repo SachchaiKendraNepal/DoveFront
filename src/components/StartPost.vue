@@ -1,330 +1,334 @@
 <template>
 	<!--	TODO: make dark implementation-->
-	<v-card
-		light
-		max-width="650"
+	<v-dialog
+		v-model="dialog"
+		max-width="550"
 	>
-		<v-toolbar>
-			<v-avatar
-				class="elevation-3"
-				size="40"
-				tile
-			>
-				<v-icon size="30">
-					mdi-pencil-box
-				</v-icon>
-			</v-avatar>
-			<v-spacer />
-			<v-toolbar-title class="text-uppercase font-weight-bold">
-				start a post
-			</v-toolbar-title>
-			<v-spacer />
-			<v-avatar
-				v-ripple
-				class="elevation-3"
-				size="40"
-			>
-				<v-icon
-					@click="$emit('close-dialog')"
-				>
-					mdi-close-circle
-				</v-icon>
-			</v-avatar>
-		</v-toolbar>
-		<v-row
-			id="post-detail-row"
-			class="mx-2 pa-0"
-			justify="start"
-			align="center"
+		<v-card
+			light
 		>
-			<v-col cols="2"
-				class="pr-0 mr-0"
-			>
-				<v-avatar class="elevation-4"
-					size="60"
+			<v-toolbar>
+				<v-avatar
+					class="elevation-3"
+					size="40"
+					tile
 				>
-					<v-img
-						src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-					/>
+					<v-icon size="30">
+						mdi-pencil-box
+					</v-icon>
 				</v-avatar>
-			</v-col>
-			<v-col
-				cols="10"
-				class="pl-0 ml-0"
-			>
-				<v-list two-line>
-					<p class="ma-0 pa-0">
-						Kiran Parajuli
-					</p>
-					<v-chip
-						dense
-						label
-						style="font-size: 10px; font-weight: bold"
-					>
-						Member
-						<v-icon right
-							small
-						>
-							mdi-account-circle
-						</v-icon>
-					</v-chip>
-				</v-list>
-			</v-col>
-			<v-col cols="12">
-				<v-text-field
-					id="title"
-					v-model="post.title"
-					class="ma-0 pa-0"
-					name="title"
-					placeholder="Give your activity a title, Kiran!"
-					label="Post Title"
-					outlined
-					hide-details="auto"
-					clearable
-				/>
-			</v-col>
-			<v-col cols="12">
-				<v-textarea
-					id="description"
-					v-model="post.description"
-					class="ma-0 pa-0"
-					name="description"
-					placeholder="Write something about your activity, Kiran!"
-					label="Description"
-					outlined
-					hide-details="auto"
-					clearable
-				/>
-			</v-col>
-			<transition name="fade">
-				<v-col v-show="uploadVideo"
-					cols="12"
+				<v-spacer />
+				<v-toolbar-title class="text-uppercase font-weight-bold">
+					start a post
+				</v-toolbar-title>
+				<v-spacer />
+				<v-avatar
+					v-ripple
+					class="elevation-3"
+					size="40"
 				>
-					<v-combobox
-						v-model="post.videoUrl"
-						class="ma-0 pa-0"
-						:items="[]"
-						hide-selected
-						label="Video URL"
-						multiple
-						small-chips
-						deletable-chips
-						type="url"
-						outlined
-						clearable
-						prepend-inner-icon="mdi-video"
-						hide-details="auto"
+					<v-icon
+						@click="dialog = false"
 					>
-						<template #no-data>
-							<v-list-item>
-								<v-list-item-content>
-									<v-list-item-title>
-										Type <code>youtube</code> video url and press <kbd>enter</kbd> to add a new one.
-									</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</template>
-					</v-combobox>
-				</v-col>
-			</transition>
-		</v-row>
-		<v-row v-if="images.length > 0"
-			id="image-preview-pane"
-			no-gutters
-			justify="space-around"
-			align="center"
-			class="px-4 pb-3"
-		>
-			<v-col cols="12"
-				class="ma-0 pa-0"
+						mdi-close-circle
+					</v-icon>
+				</v-avatar>
+			</v-toolbar>
+			<v-row
+				id="post-detail-row"
+				class="mx-2 pa-0"
+				justify="start"
+				align="center"
 			>
-				<p class="ma-0 pa-0 subtitle-2">
-					<span><v-icon size="20"
-						class="mb-1"
-					>mdi-diamond-stone</v-icon></span>
-					IMAGE PREVIEW PANE
-				</p>
-			</v-col>
-			<v-col v-for="(file, index) in imageURLs"
-				:key="index"
-				class="d-flex justify-center py-2"
-				style="background-color: aliceblue"
-			>
-				<v-badge
-					bottom
-					overlap
-					color="grey darken-2"
-					offset-x="15"
-					offset-y="30"
+				<v-col cols="2"
+					class="pr-0 mr-0"
 				>
-					<template #badge>
-						<v-icon
-							x-small
-							@click="removeImage(index)"
-						>
-							mdi-close
-						</v-icon>
-					</template>
-					<v-avatar size="100">
-						<v-img :src="file" />
+					<v-avatar class="elevation-4"
+						size="60"
+					>
+						<v-img
+							src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+						/>
 					</v-avatar>
-				</v-badge>
-			</v-col>
-		</v-row>
-		<v-row v-if="post.videoUrl.length > 0"
-			id="video-preview-pane"
-			justify="space-around"
-			align="center"
-			class="ma-0 pa-0 mx-4 pb-3"
-		>
-			<v-col cols="12">
-				<p class="ma-0 pa-0 subtitle-2">
-					<span><v-icon size="20"
-						class="mb-1"
-					>mdi-movie</v-icon></span>
-					VIDEO PREVIEW PANE
-				</p>
-			</v-col>
-			<v-col v-for="(item, index) in post.videoUrl" :key="index"
-				cols="4"
-				class="ma-2 d-flex justify-center"
-			>
-				<v-badge
-					bottom
-					overlap
-					color="grey darken-2"
-					offset-x="0"
-					offset-y="2"
+				</v-col>
+				<v-col
+					cols="10"
+					class="pl-0 ml-0"
 				>
-					<template #badge>
-						<v-icon
-							x-small
-							@click="removeVideo(index)"
+					<v-list two-line>
+						<p class="ma-0 pa-0">
+							Kiran Parajuli
+						</p>
+						<v-chip
+							dense
+							label
+							style="font-size: 10px; font-weight: bold"
 						>
-							mdi-close
-						</v-icon>
-					</template>
-					<youtube
-						ref="youtube"
-						class="pa-4"
-						:video-id="getId(item)"
-						:resize="true"
-						:resize-delay="1"
-						height="100"
-						width="200"
-						@playing="playing"
+							Member
+							<v-icon right
+								small
+							>
+								mdi-account-circle
+							</v-icon>
+						</v-chip>
+					</v-list>
+				</v-col>
+				<v-col cols="12">
+					<v-text-field
+						id="title"
+						v-model="post.title"
+						class="ma-0 pa-0"
+						name="title"
+						placeholder="Give your activity a title, Kiran!"
+						label="Post Title"
+						outlined
+						hide-details="auto"
+						clearable
 					/>
-				</v-badge>
-			</v-col>
-		</v-row>
-		<v-row v-if="audios.length > 0"
-			id="audio-preview-pane"
-			justify="space-around"
-			align="center"
-			class="ma-0 pa-0 px-4 pb-3"
-		>
-			<v-col cols="12">
-				<p class="ma-0 pa-0 subtitle-2">
-					<span><v-icon size="20"
-						class="mb-1"
-					>mdi-music</v-icon></span>
-					AUDIO PREVIEW PANE
-				</p>
-			</v-col>
-			<v-col v-for="(item, index) in audioURLs" :key="index"
-				cols="3"
-				class="ma-2 d-flex justify-center"
-			>
-				<v-badge
-					bottom
-					overlap
-					color="grey darken-2"
-					offset-x="0"
-					offset-y="2"
-				>
-					<template #badge>
-						<v-icon
-							x-small
-							@click="removeAudio(index)"
+				</v-col>
+				<v-col cols="12">
+					<v-textarea
+						id="description"
+						v-model="post.description"
+						class="ma-0 pa-0"
+						name="description"
+						placeholder="Write something about your activity, Kiran!"
+						label="Description"
+						outlined
+						hide-details="auto"
+						clearable
+					/>
+				</v-col>
+				<transition name="fade">
+					<v-col v-show="uploadVideo"
+						cols="12"
+					>
+						<v-combobox
+							v-model="post.videoUrl"
+							class="ma-0 pa-0"
+							:items="[]"
+							hide-selected
+							label="Video URL"
+							multiple
+							small-chips
+							deletable-chips
+							type="url"
+							outlined
+							clearable
+							prepend-inner-icon="mdi-video"
+							hide-details="auto"
 						>
-							mdi-close
-						</v-icon>
-					</template>
-					<a-player
-						:music="item"
-						mini
-					/>
-				</v-badge>
-			</v-col>
-		</v-row>
-		<v-row
-			id="add-resources-row"
-			no-gutters
-			class="mx-5 pa-0"
-			justify="center"
-			align="center"
-		>
-			<v-col cols="12"
-				class="ma-0 pa-0"
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-content>
+										<v-list-item-title>
+											Type <code>youtube</code> video url and press <kbd>enter</kbd> to add a new one.
+										</v-list-item-title>
+									</v-list-item-content>
+								</v-list-item>
+							</template>
+						</v-combobox>
+					</v-col>
+				</transition>
+			</v-row>
+			<v-row v-if="images.length > 0"
+				id="image-preview-pane"
+				no-gutters
+				justify="space-around"
+				align="center"
+				class="px-4 pb-3"
 			>
-				<p class="ma-0 pa-0 pb-2 overline text-center">
-					add to your post
-				</p>
-			</v-col>
-			<v-col cols="12"
-				class="d-flex align-center justify-center"
-			>
-				<file-upload
-					v-model="files"
-					:multiple="true"
-					@input-file="inputFile"
-					@input-filter="inputFilter"
+				<v-col cols="12"
+					class="ma-0 pa-0"
 				>
+					<p class="ma-0 pa-0 subtitle-2">
+						<span><v-icon size="20"
+							class="mb-1"
+						>mdi-diamond-stone</v-icon></span>
+						IMAGE PREVIEW PANE
+					</p>
+				</v-col>
+				<v-col v-for="(file, index) in imageURLs"
+					:key="index"
+					class="d-flex justify-center py-2"
+					style="background-color: aliceblue"
+				>
+					<v-badge
+						bottom
+						overlap
+						color="grey darken-2"
+						offset-x="15"
+						offset-y="30"
+					>
+						<template #badge>
+							<v-icon
+								x-small
+								@click="removeImage(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<v-avatar size="100">
+							<v-img :src="file" />
+						</v-avatar>
+					</v-badge>
+				</v-col>
+			</v-row>
+			<v-row v-if="post.videoUrl.length > 0"
+				id="video-preview-pane"
+				justify="space-around"
+				align="center"
+				class="ma-0 pa-0 mx-4 pb-3"
+			>
+				<v-col cols="12">
+					<p class="ma-0 pa-0 subtitle-2">
+						<span><v-icon size="20"
+							class="mb-1"
+						>mdi-movie</v-icon></span>
+						VIDEO PREVIEW PANE
+					</p>
+				</v-col>
+				<v-col v-for="(item, index) in post.videoUrl" :key="index"
+					cols="4"
+					class="ma-2 d-flex justify-center"
+				>
+					<v-badge
+						bottom
+						overlap
+						color="grey darken-2"
+						offset-x="0"
+						offset-y="2"
+					>
+						<template #badge>
+							<v-icon
+								x-small
+								@click="removeVideo(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<youtube
+							ref="youtube"
+							class="pa-4"
+							:video-id="getId(item)"
+							:resize="true"
+							:resize-delay="1"
+							height="130"
+							width="200"
+							@playing="playing"
+						/>
+					</v-badge>
+				</v-col>
+			</v-row>
+			<v-row v-if="audios.length > 0"
+				id="audio-preview-pane"
+				justify="space-around"
+				align="center"
+				class="ma-0 pa-0 px-4 pb-3"
+			>
+				<v-col cols="12">
+					<p class="ma-0 pa-0 subtitle-2">
+						<span><v-icon size="20"
+							class="mb-1"
+						>mdi-music</v-icon></span>
+						AUDIO PREVIEW PANE
+					</p>
+				</v-col>
+				<v-col v-for="(item, index) in audioURLs" :key="index"
+					cols="3"
+					class="ma-2 d-flex justify-center"
+				>
+					<v-badge
+						bottom
+						overlap
+						color="grey darken-2"
+						offset-x="0"
+						offset-y="2"
+					>
+						<template #badge>
+							<v-icon
+								x-small
+								@click="removeAudio(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<a-player
+							:music="item"
+							mini
+						/>
+					</v-badge>
+				</v-col>
+			</v-row>
+			<v-row
+				id="add-resources-row"
+				no-gutters
+				class="mx-5 pa-0"
+				justify="center"
+				align="center"
+			>
+				<v-col cols="12"
+					class="ma-0 pa-0"
+				>
+					<p class="ma-0 pa-0 pb-2 overline text-center">
+						add to your post
+					</p>
+				</v-col>
+				<v-col cols="12"
+					class="d-flex align-center justify-center"
+				>
+					<file-upload
+						v-model="files"
+						:multiple="true"
+						@input-file="inputFile"
+						@input-filter="inputFilter"
+					>
+						<v-btn
+							v-for="(item, index) in flexButtonsFile"
+							:key="index"
+							fab x-small
+							dark
+							:color="item.color"
+						>
+							<v-icon>{{ item.icon }}</v-icon>
+						</v-btn>
+					</file-upload>
 					<v-btn
-						v-for="(item, index) in flexButtonsFile"
-						:key="index"
 						fab x-small
 						dark
-						:color="item.color"
+						:color="flexButtonsVideo.color"
+						@click="uploadVideo = !(uploadVideo)"
 					>
-						<v-icon>{{ item.icon }}</v-icon>
+						<v-icon>{{ flexButtonsVideo.icon }}</v-icon>
 					</v-btn>
-				</file-upload>
+					<v-btn
+						fab x-small
+						dark
+						:color="flexButtonsTag.color"
+					>
+						<v-icon>{{ flexButtonsTag.icon }}</v-icon>
+					</v-btn>
+					<v-btn
+						fab x-small
+						dark
+						:color="flexButtonsMap.color"
+					>
+						<v-icon>{{ flexButtonsMap.icon }}</v-icon>
+					</v-btn>
+				</v-col>
+			</v-row>
+			<v-card-actions class="pa-4">
 				<v-btn
-					fab x-small
+					id="post-submit"
+					block
 					dark
-					:color="flexButtonsVideo.color"
-					@click="uploadVideo = !(uploadVideo)"
+					color="#288dba"
 				>
-					<v-icon>{{ flexButtonsVideo.icon }}</v-icon>
+					POST
 				</v-btn>
-				<v-btn
-					fab x-small
-					dark
-					:color="flexButtonsTag.color"
-				>
-					<v-icon>{{ flexButtonsTag.icon }}</v-icon>
-				</v-btn>
-				<v-btn
-					fab x-small
-					dark
-					:color="flexButtonsMap.color"
-				>
-					<v-icon>{{ flexButtonsMap.icon }}</v-icon>
-				</v-btn>
-			</v-col>
-		</v-row>
-		<v-card-actions class="pa-4">
-			<v-btn
-				id="post-submit"
-				block
-				dark
-				color="#288dba"
-			>
-				POST
-			</v-btn>
-		</v-card-actions>
-	</v-card>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>
 
 <script>
@@ -336,6 +340,7 @@ export default {
 	components: {FileUpload: VueUploadComponent, APlayer},
 	emits: ["close-dialog"],
 	data: () => ({
+		dialog: false,
 		uploadVideo: false,
 		playing: false,
 		flexButtonsFile: [
@@ -362,6 +367,12 @@ export default {
 			videoUrl: []
 		}
 	}),
+	created() {
+		this.$bus.on("open-start-post-dialog", this.openDialog)
+	},
+	beforeUnmount() {
+		this.$bus.off("open-start-post-dialog")
+	},
 	methods: {
 		/**
 		 * Has changed
@@ -423,7 +434,13 @@ export default {
 		},
 		getId(url) {
 			return this.$youtube.getIdFromUrl(url)
-		}
+		},
+		closeDialog() {
+			this.dialog = false
+		},
+		openDialog() {
+			this.dialog = true
+		},
 	}
 }
 </script>
