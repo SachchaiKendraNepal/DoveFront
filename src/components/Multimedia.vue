@@ -6,7 +6,7 @@
 				class="pa-4"
 				:video-id="getId(videoUrl)"
 				:resize="true"
-				:resize-delay="100"
+				:resize-delay="1"
 				:fit-parent="true"
 				@playing="playing"
 			/>
