@@ -1,7 +1,7 @@
 <template>
 	<div class="mt-4">
-		<v-parallax
-			:src="mapInfoParallaxImage"
+		<v-card
+			class="find-us-card"
 			height="600"
 		>
 			<v-row
@@ -64,7 +64,7 @@
 					/>
 				</v-col>
 			</v-row>
-		</v-parallax>
+		</v-card>
 	</div>
 </template>
 
@@ -85,6 +85,9 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+.find-us-card
+	border-radius: 0
+	background: black url("https://i.ibb.co/FWywJZj/kaudada-group.jpg") no-repeat fixed center
 #find-us-row
 	margin: 0
 	padding: 0

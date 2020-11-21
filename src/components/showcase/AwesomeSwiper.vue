@@ -3,8 +3,7 @@
 		<v-card
 			id="bg-card"
 			height="400"
-			max-width="100vw"
-			color="orange darken-2"
+			color="transparent"
 			class="mt-3"
 		>
 			<h1
@@ -285,6 +284,7 @@ export default {
 <style lang="sass" scoped>
 #bg-card
 	border-radius: 0
+	background: black url("https://i.ibb.co/M2mpjQF/IMG-8842.jpg") no-repeat fixed center
 	#sermons
 		color: white
 		letter-spacing: 2px !important

@@ -25,7 +25,7 @@
 					class="d-flex justify-center"
 				>
 					<v-img class="one" max-width="280"
-						max-height="160" src="https://img.gurugamer.com/resize/740x-/2020/02/27/pubg-mobile-wallpaper-hd-download-for-phones-aabb.jpg"
+						max-height="160" src="https://i.ibb.co/zbHLf1W/IMG-8855.jpg"
 					/>
 				</v-col>
 				<v-col cols="12"
@@ -36,7 +36,7 @@
 					class="d-flex justify-center"
 				>
 					<v-img class="two" max-width="280"
-						max-height="160" src="https://cdn.pixabay.com/photo/2018/10/30/16/06/water-lily-3784022__340.jpg"
+						max-height="160" src="https://i.ibb.co/GJD0DZZ/IMG-8869.jpg"
 					/>
 				</v-col>
 				<v-col cols="12"
@@ -47,7 +47,7 @@
 					"
 				>
 					<v-img class="three" max-width="280"
-						max-height="160" src="https://wallpapercave.com/wp/wp2960860.jpg"
+						max-height="160" src="https://i.ibb.co/92FcbRP/IMG-8862.jpg"
 					/>
 				</v-col>
 				<v-col cols="12"
@@ -58,7 +58,7 @@
 					class="d-flex justify-center"
 				>
 					<v-img class="four" max-width="280"
-						max-height="160" src="https://www.setaswall.com/wp-content/uploads/2018/11/PUBG-Phone-Wallpaper-02-1080x2340-340x550.jpg"
+						max-height="160" src="https://i.ibb.co/QPSBWvh/IMG-8851.jpg"
 					/>
 				</v-col>
 				<v-col cols="12"
@@ -69,7 +69,7 @@
 					class="d-flex justify-center"
 				>
 					<v-img class="five" max-width="280"
-						max-height="160" src="https://wallpapercave.com/wp/wp2960860.jpg"
+						max-height="160" src="https://i.ibb.co/L5hzY2v/IMG-8830.jpg"
 					/>
 				</v-col>
 			</v-row>
@@ -91,7 +91,10 @@ export default {
 	name: "ScatterComponent",
 	components: {
 		AboutUsPreview: () => import("@/components/showcase/AboutUsPreview")
-	}
+	},
+	data: () => ({
+		// photoTwo: require("@/assets/IMG_8842.JPG")
+	})
 }
 </script>
 <style lang="sass" scoped>

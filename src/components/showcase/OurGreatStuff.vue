@@ -2,9 +2,10 @@
 	<v-row justify="center"
 		class="ma-0 pa-0"
 	>
-		<v-img
-			src="@/assets/mountain.jpg"
-			max-height="500"
+		<v-card
+			class="stuff-card"
+			height="500"
+			width="100vw"
 			gradient="to top right, rgba(100,115,201,.22), rgba(25,32,72,.6)"
 		>
 			<v-row
@@ -48,7 +49,7 @@
 					</div>
 				</div>
 			</v-row>
-		</v-img>
+		</v-card>
 	</v-row>
 </template>
 <script>
@@ -66,6 +67,11 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.stuff-card
+	margin: 0
+	padding: 0
+	border-radius: 0
+	background: linear-gradient(rgba(115, 139, 169, 0.5), rgba(148, 119, 165, .2)), url("https://i.ibb.co/m07knhH/mountain.jpg") no-repeat fixed center
 #stuff-content
 	h1
 		margin-top: -120px

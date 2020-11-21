@@ -110,7 +110,7 @@ export default {
 		return {
 			overlay: false,
 			loginPage: {
-				image: require("@/assets/mountain.jpg"),
+				image: "https://i.ibb.co/HgJLWqX/IMG-8845.jpg",
 				pageIcon: "mdi-login-variant",
 				title: "Log in to proceed",
 				subtitle: "Let's begin an amazing journey with <b>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</b>."

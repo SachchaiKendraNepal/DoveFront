@@ -84,21 +84,16 @@
 						<v-card-subtitle>
 							<v-icon size="16">
 								mdi-account-circle
-							</v-icon> {{ item.created_by }} ●
+							</v-icon> {{ item.created_by }}
 							<v-icon size="16">
 								mdi-city
-							</v-icon> Pokhara Kendra Branch ●
+							</v-icon> Pokhara Kendra Branch
 							<v-icon size="16">
 								mdi-clock
 							</v-icon> {{ item.created_at }}
 						</v-card-subtitle>
 						<v-card-text class="py-0 pb-2">
-							{{ $vuetify.breakpoint.lgAndUp
-								? item.description.substring(0,200)
-								: $vuetify.breakpoint.md
-									? item.description.substring(0,140)
-									: item.description.substring(0,50)
-							}}
+							{{ item.description.substring(0,140) }}
 							<span>...</span>
 						</v-card-text>
 

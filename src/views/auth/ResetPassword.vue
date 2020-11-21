@@ -1,5 +1,6 @@
 <template>
 	<auth-component
+		height="35vh"
 		:top-image="resetPwPage.image"
 		:page-icon="resetPwPage.pageIcon"
 		:title="resetPwPage.title"

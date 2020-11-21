@@ -62,8 +62,9 @@
 		>
 			<v-img
 				class="top-image"
-				max-height="335"
+				:height="height"
 				:src="topImage"
+				aspect-ratio="1.7"
 			/>
 
 			<div class="d-flex justify-start align-center pl-4 pt-4">
@@ -99,6 +100,11 @@
 export default {
 	name: "AuthComponent",
 	props: {
+		height: {
+			type: String,
+			required: false,
+			default: "60vh"
+		},
 		topImage: {
 			type: String,
 			required: true

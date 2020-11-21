@@ -309,7 +309,7 @@ export default {
 		margin-top: -150px !important
 
 .pin-bg-card
-	background: black url("https://htmlcolors.com/gradients-images/24-green-gradient.jpg") no-repeat fixed center
+	background: black url("https://i.ibb.co/g3Nd2sW/24-green-gradient.jpg") no-repeat fixed center
 
 .swiper-container
 	width: 100%
