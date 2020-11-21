@@ -16,15 +16,14 @@
 					md="6"
 					sm="6"
 				>
-					<p
+					<div
 						id="find-us-title"
-						class="ma-0 pa-0"
+						class="ma-0 pa-0 d-flex justify-start"
 					>
-						<v-avatar
-							id="find-us-av"
-							size="65"
+						<v-avatar v-show="$vuetify.breakpoint.smAndUp"
+							class="mr-2 find-us-av"
+							size="60"
 							color="white"
-							class="elevation-12"
 						>
 							<v-icon x-large
 								color="blue darken-2"
@@ -33,7 +32,7 @@
 							</v-icon>
 						</v-avatar>
 						{{ mapInfo.title }}
-					</p>
+					</div>
 					<p id="find-us-subtitle"
 						class="subtitle-2"
 					>
@@ -136,10 +135,6 @@ export default {
 	@media only screen and (max-width: 300px)
 		font-size: 35px
 		line-height: 35px
-	#find-us-av
-		display: block
-		@media only screen and (max-width: 220px)
-			display: none
 #find-us-subtitle
 	color: #e9e7e7
 	font-size: 18px !important
