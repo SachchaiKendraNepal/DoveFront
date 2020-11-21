@@ -18,7 +18,9 @@
 				<span class="display-3">S</span>
 			</v-avatar>
 
-			<v-card max-width="500"
+			<v-card
+				v-if="$route.name !== 'SACHCHAI NEPAL EVENTS'"
+				max-width="500"
 				class="mr-sm-6 mr-md-6 mr-lg-6 mr-xl-6 search-sachchai"
 			>
 				<v-text-field

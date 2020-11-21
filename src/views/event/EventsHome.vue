@@ -3,7 +3,9 @@
 		<v-col cols="12"
 			class="ma-0 pa-0"
 		>
-			<v-toolbar color="#9e9e9e">
+			<v-toolbar color="transparent"
+				height="60"
+			>
 				<v-app-bar-nav-icon><v-icon>mdi-calendar-clock</v-icon></v-app-bar-nav-icon>
 				<v-spacer />
 				<v-card class="ma-0 pa-0 mx-4"
@@ -11,13 +13,14 @@
 				>
 					<v-text-field
 						v-model="searchEvents"
-						outlined
+						dark
+						solo
 						dense
 						hide-details
 						label="Search events"
+						prepend-inner-icon="mdi-calendar-search"
 					/>
 				</v-card>
-				<v-spacer />
 				<v-menu offset-y>
 					<template #activator="{ on, attrs }">
 						<v-btn
