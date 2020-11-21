@@ -19,7 +19,7 @@
 			</v-avatar>
 
 			<v-card
-				v-if="$route.name !== 'SACHCHAI NEPAL EVENTS'"
+				v-if="$route.name !== 'SACHCHAI NEPAL EVENTS' && $route.name !== 'SACHCHAI NEPAL BRANCHES'"
 				max-width="500"
 				class="mr-sm-6 mr-md-6 mr-lg-6 mr-xl-6 search-sachchai"
 			>
