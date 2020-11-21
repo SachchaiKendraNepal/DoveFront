@@ -84,7 +84,7 @@
 			<v-container fluid
 				class="pa-0"
 			>
-				<v-row>
+				<v-row class="ma-0 pa-0">
 					<v-col class="pt-0">
 						<transition name="fade">
 							<router-view />
