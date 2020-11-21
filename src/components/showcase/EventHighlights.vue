@@ -271,7 +271,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .events-highlights-wrapper
-	margin: -70px 20px 10px 20px
+	margin: -90px 20px 10px 20px
 #avatar-column
 	@media only screen and (max-width: 600px)
 		padding-top: 5px !important

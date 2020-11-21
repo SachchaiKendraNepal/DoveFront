@@ -1,6 +1,7 @@
 <template>
 	<v-card
 		flat
+		color="transparent"
 		class="mx-auto pa-0"
 		max-width="1000"
 	>

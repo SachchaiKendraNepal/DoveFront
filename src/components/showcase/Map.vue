@@ -1,123 +1,77 @@
 <template>
-	<v-parallax
-		:src="mapInfoParallaxImage"
-		height="500"
-	>
-		<v-row
-			id="find-us-row"
-			align="start"
+	<div class="mt-4">
+		<v-parallax
+			:src="mapInfoParallaxImage"
+			height="600"
 		>
-			<v-col
-				cols="12"
-				xl="4"
-				lg="4"
-				md="6"
-				sm="6"
+			<v-row
+				id="find-us-row"
+				class="ma-0 pa-0 mt-4"
+				align="start"
 			>
-				<p
-					id="find-us-title"
-					class="ma-0 pa-0"
+				<v-col
+					cols="12"
+					xl="4"
+					lg="4"
+					md="6"
+					sm="6"
 				>
-					<v-avatar size="65"
-						color="white"
-						class="elevation-12"
+					<p
+						id="find-us-title"
+						class="ma-0 pa-0"
 					>
-						<v-icon x-large
-							color="blue darken-2"
+						<v-avatar
+							id="find-us-av"
+							size="65"
+							color="white"
+							class="elevation-12"
 						>
-							mdi-map-legend
-						</v-icon>
-					</v-avatar>
-					{{ mapInfo.title }}
-				</p>
-				<p id="find-us-subtitle"
-					class="subtitle-2"
-				>
-					{{ mapInfo.description }}
-				</p>
-				<v-btn
-					id="view-branch-maps"
-					depressed
-					x-large
-					class="py-8"
-				>
-					<v-icon>mdi-home-map-marker</v-icon>
-					<span>View Branches</span>
-				</v-btn>
-			</v-col>
-			<v-col
-				id="map-column"
-				class="d-flex justify-end"
-				cols="12"
-				xl="8"
-				lg="8"
-				md="6"
-				sm="6"
-			>
-				<l-map
-					id="map-box"
-					:zoom="zoom"
-					:center="center"
-				>
-					<l-control-layers position="topright" />
-					<l-tile-layer
-						v-for="tileProvider in tileProviders"
-						:key="tileProvider.name"
-						:name="tileProvider.name"
-						:visible="tileProvider.visible"
-						:url="tileProvider.url"
-						:attribution="tileProvider.attribution"
-						layer-type="base"
-					/>
-					<l-marker :lat-lng="[28.251877, 83.981037]">
-						<l-icon :icon-anchor="staticAnchor">
-							<v-icon v-ripple
-								color="red"
-								x-large
+							<v-icon x-large
+								color="blue darken-2"
 							>
-								mdi-google-maps
+								mdi-map-legend
 							</v-icon>
-						</l-icon>
-						<l-tooltip>
-							<div class="text-center">
-								<p class="ma-0 pa-0">
-									{{ kendraLocationInfo.name }}
-								</p>
-								<p class="ma-0 pa-0">
-									{{ kendraLocationInfo.location }}
-								</p>
-							</div>
-						</l-tooltip>
-					</l-marker>
-				</l-map>
-			</v-col>
-		</v-row>
-	</v-parallax>
+						</v-avatar>
+						{{ mapInfo.title }}
+					</p>
+					<p id="find-us-subtitle"
+						class="subtitle-2"
+					>
+						{{ mapInfo.description }}
+					</p>
+					<v-btn
+						id="view-branch-maps"
+						depressed
+						x-large
+						class="py-8"
+					>
+						<v-icon>mdi-home-map-marker</v-icon>
+						<span v-show="$vuetify.breakpoint.smAndUp">View Branches</span>
+					</v-btn>
+				</v-col>
+				<v-col
+					id="map-column"
+					class="d-flex justify-end"
+					cols="12"
+					xl="8"
+					lg="8"
+					md="6"
+					sm="6"
+				>
+					<iframe
+						id="branch-iframe"
+						src="https://www.google.com/maps/d/embed?mid=1gQSVr7mErgYHo00oSpVGv5oIdklxJqPc"
+						width="640" height="430"
+					/>
+				</v-col>
+			</v-row>
+		</v-parallax>
+	</div>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LIcon, LTooltip, LControlLayers } from "vue2-leaflet"
-import { latLng } from "leaflet"
-import "leaflet/dist/leaflet.css"
-import { Icon } from "leaflet";
-
-delete Icon.Default.prototype._getIconUrl;
-Icon.Default.mergeOptions({
-	iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-	iconUrl: require("leaflet/dist/images/marker-icon.png"),
-	shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-})
-
 export default {
 	name: "ShowcaseMapComponent",
-	components: {
-		LMap,
-		LTileLayer,
-		LMarker,
-		LIcon,
-		LTooltip,
-		LControlLayers
-	},
 	data() {
 		return {
 			mapInfoParallaxImage: require("@/assets/kaudada_group.jpg"),
@@ -125,37 +79,10 @@ export default {
 				title: "Find us!",
 				description: "We provide a very nice map navigation system where" +
 					" you can find all of our branches locations."
-			},
-			kendraLocationInfo: {
-				name: "Sachchai Kendra Nepal",
-				location: "Lamachaur-16, Pokhara"
-			},
-			url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-			zoom: 14,
-			center: latLng(28.251877, 83.981037),
-			attribution:
-				"&copy; Kiran Parajuli",
-			staticAnchor: [16, 37],
-			tileProviders: [
-				{
-					name: "OpenStreetMap",
-					visible: true,
-					attribution:
-						"&copy; With 💖 <a target=\"_blank\">Kiran Parajuli</a>",
-					url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-				},
-				{
-					name: "OpenTopoMap",
-					visible: false,
-					url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-					attribution:
-						"Map data: &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>, <a href=\"http://viewfinderpanoramas.org\">SRTM</a> | Map style: &copy; <a href=\"https://opentopomap.org\">OpenTopoMap</a> (<a href=\"https://creativecommons.org/licenses/by-sa/3.0/\">CC-BY-SA</a>)",
-				},
-			],
+			}
 		}
 	},
-	methods: {}
-};
+}
 </script>
 
 <style lang="sass" scoped>
@@ -168,22 +95,26 @@ export default {
 	border: 3px solid white
 	border-radius: 10px
 #map-column
-	margin-top: 20px
 	transition: all 1s
 	-webkit-transition: all 1s
-	display: block
-	@media only screen and (max-width: 600px)
-		#map-box
-			height: 200px
+	@media only screen and (max-width: 335px)
+		display: flex
+		justify-content: center
+	#branch-iframe
+		@media only screen and (max-width: 600px) and (min-width: 361px)
+			height: 320px
+		@media only screen and (max-width: 360px) and (min-width: 336px)
+			width: 300px
+			height: 250px
+		@media only screen and (max-width: 335px) and (min-width: 236px)
 			width: 200px
-			display: block
-#map-column
-	@media only screen and (max-width: 369px)
-		display: none !important
-#view-branch-maps
-	span
-		@media only screen and (max-width: 275px)
-			display: none !important
+			height: 250px
+		@media only screen and (max-width: 235px) and (min-width: 191px)
+			width: 150px
+			height: 250px
+		@media only screen and (max-width: 190px)
+			width: 100px
+			height: 250px
 #find-us
 	::v-deep.v-parallax
 		border-radius: 10px
@@ -197,11 +128,24 @@ export default {
 			transition: all 1s
 			-webkit-transition: all 1s
 #find-us-title
+	transition: all .2s
 	font-family: 'Lemonada', cursive !important
 	font-size: 50px
+	line-height: 50px
 	font-weight: 700
+	@media only screen and (max-width: 300px)
+		font-size: 35px
+		line-height: 35px
+	#find-us-av
+		display: block
+		@media only screen and (max-width: 220px)
+			display: none
 #find-us-subtitle
 	color: #e9e7e7
 	font-size: 18px !important
+	line-height: 20px
 	font-weight: bold
+	display: block
+	@media only screen and (max-width: 335px)
+		display: none
 </style>

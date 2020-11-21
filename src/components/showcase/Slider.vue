@@ -1,72 +1,42 @@
 <template>
-	<v-card :loading="loading">
-		<v-carousel
-			class="not-round"
-			cycle
-			height="100vh"
-			width="100vw"
-			hide-delimiter-background
-			:show-arrows="false"
-			vertical-delimiters=""
-			dark
-		>
-			<v-carousel-item
-				v-for="(item,i) in items"
-				:key="i"
-				eager
-				:src="item.src"
+	<div class="carousel">
+		<div class="carousel-cell">
+			<v-img class="carousel-image"
+				:src="items[0].src"
+				dark
 			>
-				<v-row
-					class="fill-height ma-0 pa-0"
-					justify="center" align="center"
-				>
-					<div class="display-1 text-center">
-						<p class="text-uppercase overline context">
-							Sachchai kendra nepal presents
-						</p>
-						<h1 class="mb-4 main">
-							ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल
-						</h1>
-						<h6 class="sub mb-4">
-							हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
-						</h6>
-						<v-tooltip bottom>
-							<template #activator="{on, attrs}">
-								<v-btn x-large
-									color="black"
-									class="py-8 px-12"
-									v-bind="attrs"
-									v-on="on"
-									@click="routeToFeedsPage()"
-								>
-									<span v-if="$vuetify.breakpoint.smAndUp"
-										style="font-size: 18px"
-									>Explore</span>
-									<v-icon right
-										large
-										:class="
-											$vuetify.breakpoint.smAndUp
-												? 'ml-4'
-												: ''
-										"
-									>
-										mdi-arrow-right-circle
-									</v-icon>
-								</v-btn>
-							</template>
-							<span>Explore More</span>
-						</v-tooltip>
-					</div>
-				</v-row>
-			</v-carousel-item>
-		</v-carousel>
-	</v-card>
+				<slider-image-content />
+			</v-img>
+		</div>
+		<div class="carousel-cell">
+			<v-img class="carousel-image"
+				:src="items[1].src"
+				dark
+			>
+				<slider-image-content />
+			</v-img>
+		</div>
+		<div class="carousel-cell">
+			<v-img class="carousel-image"
+				:src="items[2].src"
+				dark
+			>
+				<slider-image-content />
+			</v-img>
+		</div>
+	</div>
 </template>
 <script>
-import router from "@/router";
+import router from "@/router"
+import $ from "jquery"
+const jQueryBridget = require("jquery-bridget");
+const Flickity = require("flickity")
 
 export default {
 	name: "ShowCaseSliderComponent",
+	components: {
+		SliderImageContent: () => import("@/views/showcase/SliderImageContent")
+	},
 	data: () => ({
 		loading: false,
 		groupMembers: null,
@@ -79,33 +49,47 @@ export default {
 			{src: "https://cdn.wallpapersafari.com/10/51/h6L8oM.jpg"},
 		],
 	}),
+	mounted() {
+		jQueryBridget("flickity", Flickity, $)
+		this.initFlickity()
+	},
 	methods: {
-		routeToFeedsPage() {
-			router.push({name: "SACHCHAI NEPAL HOME"})
+		initFlickity() {
+			$(document).ready(function () {
+				$(".carousel").flickity({
+					draggable: false,
+					wrapAround: true,
+					autoPlay: 4000,
+					pauseAutoPlayOnHover: false,
+					imagesLoaded: true,
+					cellSelector: ".carousel-cell",
+					contain: true,
+					prevNextButtons: false,
+					selectedAttraction: 0.01,
+					friction: 0.25,
+				})
+			})
 		}
 	}
 }
 </script>
-<style lang="sass" scoped>
-.not-round
-	border-radius: 0!important
-.main
-	line-height: 60px
-	@media only screen and (max-width: 380px)
-		font-size: 40px !important
-		line-height: 40px !important
-.sub
-	line-height: 40px
-	letter-spacing: 0.20rem !important
-	display: block
-	@media only screen and (max-width: 380px)
-		display: none
-.context
-	font-size: 22px !important
-	font-weight: bold
-	line-height: 30px
-	letter-spacing: 0.12rem !important
-	display: block
-	@media only screen and (max-width: 380px)
-		display: none
+
+<style scoped>
+
+* { box-sizing: border-box; }
+
+.carousel {
+	background: #EEE;
+}
+
+.carousel-cell {
+	display: block;
+	height: 100vh;
+	width: 100vw;
+}
+.carousel-image {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
 </style>

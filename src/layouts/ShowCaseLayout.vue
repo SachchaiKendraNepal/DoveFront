@@ -100,9 +100,7 @@
 		<services-peek />
 		<our-great-stuff />
 		<awesome-swiper />
-		<div class="mt-3">
-			<showcase-map />
-		</div>
+		<showcase-map />
 		<scroll-top
 			color="grey darken-4"
 		/>

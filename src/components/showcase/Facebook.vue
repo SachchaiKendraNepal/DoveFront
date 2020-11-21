@@ -5,13 +5,10 @@
 		</div>
 		<div class="facebook-container">
 			<div class="fb-page"
-				data-href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086"
-				data-tabs="timeline"
-				data-width="300"
+				data-href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086" data-tabs="timeline"
 				data-height="350"
-				data-small-header="false"
-				data-adapt-container-width="true"
-				data-hide-cover="false" data-show-facepile="true"
+				data-small-header="false" data-adapt-container-width="true"
+				data-hide-cover="false" data-show-facepile="false"
 			>
 				<blockquote cite="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086"
 					class="fb-xfbml-parse-ignore"
@@ -44,8 +41,11 @@ export default {
 		@media only screen and (max-width: 600px)
 			padding: 0 0 10px 20px
 	.facebook-container
-		margin: 5px
+		margin-top: 5px
+		display: block
 		@media only screen and (max-width: 600px)
 			padding: 0 20px
+		@media only screen and (max-width: 200px)
+			display: none
 
 </style>
