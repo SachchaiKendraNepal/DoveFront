@@ -46,7 +46,7 @@ const routes = [
 			{
 				path: "branch",
 				name: "SACHCHAI NEPAL BRANCHES",
-				component: () => import("@/views/branch/Branch")
+				component: () => import("@/views/branch/BranchesHome")
 			},
 			{
 				path: "branch/:id",
@@ -69,9 +69,19 @@ const routes = [
 				component: () => import("@/views/event/EventsHome")
 			},
 			{
-				path: "/home/event/:id",
+				path: "event/:id",
 				name: "EVENT DETAIL HOME",
 				component: () => import("@/views/event/EventDetail")
+			},
+			{
+				path: "map/branch",
+				name: "BRANCHES MAP",
+				component: () => import("@/views/map/Branch")
+			},
+			{
+				path: "map/kendra",
+				name: "KENDRA MAP",
+				component: () => import("@/views/map/Kendra")
 			},
 		]
 	},
