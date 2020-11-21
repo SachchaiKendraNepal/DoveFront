@@ -27,7 +27,6 @@
 	</div>
 </template>
 <script>
-import router from "@/router"
 import $ from "jquery"
 const jQueryBridget = require("jquery-bridget");
 const Flickity = require("flickity")

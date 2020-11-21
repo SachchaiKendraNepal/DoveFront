@@ -72,27 +72,7 @@
 		</div>
 		<event-highlights />
 		<kendra-info-box />
-		<v-divider inset
-			class="my-2 mb-10"
-		/>
-		<pin-bar
-			title="Pinned Articles"
-			icon="mdi-post"
-			toolbar-color="success"
-		>
-			<template #items>
-				<v-card
-					v-for="(item, index) in pinnedArticles"
-					:key="index"
-					class="swiper-slide"
-					dark
-				>
-					<pinned-post :post="item"
-						:is-article="true"
-					/>
-				</v-card>
-			</template>
-		</pin-bar>
+		<pin-bar />
 		<v-divider inset
 			class="my-2 mt-8"
 		/>
@@ -123,7 +103,6 @@ export default {
 		EventHighlights: () => import("@/components/showcase/EventHighlights"),
 		KendraInfoBox: () => import("@/components/showcase/KendraInfo"),
 		PinBar: () => import("@/components/showcase/PinnedBar"),
-		PinnedPost: () => import("@/components/showcase/PinnedPost"),
 		Scatter: () => import("@/components/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
 		OurGreatStuff: () => import("@/components/showcase/OurGreatStuff"),
@@ -131,101 +110,7 @@ export default {
 		AwesomeSwiper: () => import("@/components/showcase/AwesomeSwiper")
 	},
 	data: () => ({
-		logo: require("@/assets/showcase_logo_v1.png"),
-		pinnedArticles: [
-			{
-				id: 1,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 2,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 3,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 4,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 5,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 6,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 7,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 8,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 9,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-		],
-		pinnedMultimedias: [
-			{
-				id: 1,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 2,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 3,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 4,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 5,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 6,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 7,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 8,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 9,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-		]
+		logo: require("@/assets/showcase_logo_v1.png")
 	}),
 	computed: {
 		size() {

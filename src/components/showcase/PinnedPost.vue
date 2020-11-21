@@ -29,7 +29,6 @@
 		<v-img
 			class="ma-0 pa-0"
 			height="298"
-			width="300"
 			dark
 			src="https://linkpicture.com/q/mass_clapping.jpg"
 		>

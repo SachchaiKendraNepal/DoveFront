@@ -71,9 +71,6 @@
 					</v-card-text>
 				</v-card>
 			</div>
-			<!-- If we need pagination -->
-			<div class="swiper-pagination" />
-
 			<!-- If we need navigation buttons -->
 			<div class="swiper-button-prev" />
 			<div class="swiper-button-next" />
@@ -267,14 +264,6 @@ export default {
 			},
 			grabCursor: true,
 			speed: 700,
-
-			// If we need pagination
-			pagination: {
-				el: ".swiper-pagination",
-				dynamicBullets: true,
-				dynamicMainBullets: 1,
-				clickable: true
-			},
 
 			// Navigation arrows
 			navigation: {

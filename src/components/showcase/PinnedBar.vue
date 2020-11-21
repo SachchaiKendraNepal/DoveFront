@@ -6,32 +6,22 @@
 	>
 		<v-col
 			class="ma-0 pa-0"
-			cols="12"
-			xl="4"
-			lg="4"
-			md="4"
-			sm="6"
-			xs="6"
 		>
 			<v-card
 				flat
-				max-height="400"
-				color="rgb(217 236 244)"
-				class="px-xl-16 px-lg-16 px-md-6"
+				class="pin-bg-card py-6 rounded-0"
+				height="450"
 			>
 				<v-row no-gutters
-					justify="start" align="center"
+					justify="center" align="center"
 				>
 					<v-col
 						cols="12"
-						xl="3"
-						lg="3"
-						md="4"
-						sm="4"
-						xs="4"
-						class="text-center"
+						class="text-center pb-4"
 					>
-						<v-avatar size="90"
+						<v-avatar
+							color="white"
+							size="90"
 							class="elevation-14"
 						>
 							<v-icon
@@ -44,51 +34,67 @@
 					</v-col>
 					<v-col
 						cols="12"
-						xl="9"
-						lg="9"
-						md="8"
-						sm="8"
-						xs="8"
 					>
 						<v-card-text class="pin-header py-0">
 							Become a part of something great
 						</v-card-text>
 					</v-col>
-				</v-row>
-				<v-card-text v-show="$vuetify.breakpoint.smAndUp"
-					class="subtitle-1"
-				>
-					We provide a nice feeds management for our followers.
-					We can post our thoughts, events or any inspirations as Sachchai Nepal Post.
-				</v-card-text>
-				<v-card-text class="subtitle-2 text-center">
-					See our top pinned items here. <v-icon large>
-						mdi-arrow-right
-					</v-icon>
-				</v-card-text>
-				<v-card-actions>
-					<v-btn large
-						text
-						color="blue darken-1"
+					<v-col v-show="$vuetify.breakpoint.mdAndUp"
+						cols="12"
 					>
-						<v-icon>mdi-plus</v-icon>Explore All
-					</v-btn>
-				</v-card-actions>
+						<v-card-text
+							class="subtitle-1 d-flex justify-center pb-0"
+						>
+							We provide a nice feeds management for our followers.
+							We can post our thoughts, events or any inspirations as Sachchai Nepal Post.
+						</v-card-text>
+					</v-col>
+					<v-col v-show="$vuetify.breakpoint.smAndUp"
+						cols="12"
+					>
+						<v-card-text
+							class="subtitle-2 d-flex justify-center"
+						>
+							See our top pinned items here. <v-icon large>
+								mdi-arrow-right
+							</v-icon>
+						</v-card-text>
+					</v-col>
+					<v-col cols="12">
+						<v-card-actions class="py-0 d-flex justify-center mt-4 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0">
+							<v-btn large
+								outlined
+								elevation="4"
+							>
+								<v-icon>mdi-eye-circle</v-icon>
+								<span v-show="$vuetify.breakpoint.smAndUp"
+									class="ml-4"
+								>Explore All</span>
+							</v-btn>
+						</v-card-actions>
+					</v-col>
+				</v-row>
 			</v-card>
 		</v-col>
 		<v-col
 			cols="12"
-			xl="8"
-			lg="8"
-			md="8"
-			sm="6"
-			xs="6"
-			class="ma-0 pa-0"
+			class="ma-0 pa-0 pin-column"
 		>
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<slot name="items" />
+					<v-card
+						v-for="(item, index) in pinnedArticles"
+						:key="index"
+						class="swiper-slide"
+						dark
+					>
+						<pinned-post :post="item"
+							:is-article="true"
+						/>
+					</v-card>
 				</div>
+				<!-- If we need pagination -->
+				<div class="swiper-pagination" />
 				<div class="swiper-button-prev" />
 				<div class="swiper-button-next" />
 			</div>
@@ -99,12 +105,107 @@
 import Swiper, { Navigation, Pagination } from "swiper"
 
 export default {
-	name: "PinnedBarComponent",
-	props: {
-		title: {type: String, required: true},
-		icon: {type: String, required: true},
-		toolbarColor: {type: String, required: true}
+	name: "PinnedBarView",
+	components: {
+		PinnedPost: () => import("@/components/showcase/PinnedPost"),
+
 	},
+	data: () => ({
+		pinnedArticles: [
+			{
+				id: 1,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 2,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 3,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+			{
+				id: 4,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 5,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 6,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+			{
+				id: 7,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 8,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 9,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+		],
+		pinnedMultimedias: [
+			{
+				id: 1,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 2,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 3,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+			{
+				id: 4,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 5,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 6,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+			{
+				id: 7,
+				title: "How beautiful is nature?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 8,
+				title: "How much is enough?",
+				uploaded_by: "Kiran Parajuli",
+			},
+			{
+				id: 9,
+				title: "Peace of mind is always important",
+				uploaded_by: "James H. Lewandowski",
+			},
+		]
+	}),
 	mounted() {
 		this.initSwiper()
 	},
@@ -125,46 +226,28 @@ export default {
 				centerInsufficientSlides: true,
 				slidesOffsetBefore: 10,
 				slidesOffsetAfter: 10,
+				spaceBetween: 25,
 				breakpoints: {
-					115: {
+					250: {
 						slidesPerView: 1,
-						spaceBetween: 25,
 					},
-					325: {
-						slidesPerView: 2,
-						spaceBetween: 25,
+					500: {
+						slidesPerView: 2
 					},
-					600: {
-						slidesPerView: 1,
-						spaceBetween: 25,
-					},
-					634: {
-						slidesPerView: 2,
-						spaceBetween: 25,
-					},
-					960: {
+					750: {
 						slidesPerView: 3,
-						spaceBetween: 25,
 					},
-					1270: {
+					1000: {
 						slidesPerView: 4,
-						spaceBetween: 25,
 					},
-					1700: {
+					1250: {
 						slidesPerView: 5,
-						spaceBetween: 25,
 					},
-					2000: {
-						slidesPerView: 6,
-						spaceBetween: 25,
+					1500: {
+						slidesPerView: 6
 					},
-					2400: {
-						slidesPerView: 7,
-						spaceBetween: 25,
-					},
-					3010: {
-						slidesPerView: 8,
-						spaceBetween:25
+					1600: {
+						slidesPerView: 7
 					}
 				},
 				grabCursor: true,
@@ -173,12 +256,61 @@ export default {
 					nextEl: ".swiper-button-next",
 					prevEl: ".swiper-button-prev",
 				},
+				pagination: {
+					el: ".swiper-pagination",
+					dynamicBullets: false,
+					clickable: true,
+					type: "bullets"
+				},
 			})
 		}
 	}
 }
 </script>
+<style>
+.swiper-pagination {
+	bottom: -5px !important;
+}
+.swiper-pagination-bullet {
+	background-color: white;
+	width: 12px !important;
+	height: 12px !important;
+	opacity: .4;
+	transition: all .2s;
+}
+.swiper-pagination-bullet-active {
+	background-color: white !important;
+	opacity: 1;
+}
+</style>
 <style lang="sass" scoped>
+.pin-column
+	transition: all .2s
+	margin-top: -80px !important
+	@media only screen and (max-width: 1390px)  and (min-width: 960px)
+		margin-top: -100px !important
+		@media only screen and (max-width: 994px)
+			margin-top: -80px !important
+	@media only screen and (max-width: 959px)
+		margin-top: -150px !important
+	@media only screen and (max-width: 355px)
+		margin-top: -100px !important
+	@media only screen and (max-width: 305px)
+		margin-top: -50px !important
+	@media only screen and (max-width: 299px)
+		margin-top: -180px !important
+	@media only screen and (max-width: 245px)
+		margin-top: -150px !important
+	@media only screen and (max-width: 214px)
+		margin-top: -110px !important
+	@media only screen and (max-width: 140px)
+		margin-top: -70px !important
+	@media only screen and (max-width: 137px)
+		margin-top: -150px !important
+
+.pin-bg-card
+	background: black url("https://htmlcolors.com/gradients-images/24-green-gradient.jpg") no-repeat fixed center
+
 .swiper-container
 	width: 100%
 	height: 356px
@@ -187,19 +319,21 @@ export default {
 .pin-header
 	text-align: center
 	font-family: "Acme", sans-serif
-	@media only screen and (min-width:1390px)
+	@media only screen and (min-width: 1390px)
 		font-size: 52px
 		line-height: 52px
-	@media only screen and (min-width:1119px) and (max-width: 1389px)
+	@media only screen and (min-width: 1119px) and (max-width: 1389px)
 		font-size: 48px
 		line-height: 40px
-	@media only screen and (min-width:600px) and (max-width: 1118px)
+	@media only screen and (min-width: 600px) and (max-width: 1118px)
 		font-size: 32px
 		line-height: 32px
-	@media only screen and (min-width:300px) and (max-width: 599px)
+	@media only screen and (min-width: 300px) and (max-width: 599px)
 		font-size: 48px
 		line-height: 48px
-	@media only screen and (max-width:299px)
+	@media only screen and (max-width: 299px)
 		font-size: 32px
 		line-height: 32px
+	@media only screen and (max-width: 137px)
+		display: none
 </style>
