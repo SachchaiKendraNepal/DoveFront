@@ -56,7 +56,7 @@ export default {
 	}),
 	methods: {
 		routeToFeedsPage() {
-			router.push({name: "SACHCHAI NEPAL HOME"})
+			router.push({name: "HOME"})
 		},
 	}
 }

@@ -20,7 +20,7 @@ const routes = [
 		children: [
 			{
 				path: "feeds",
-				name: "SACHCHAI NEPAL HOME",
+				name: "HOME",
 				component: () => import("@/views/home/Home")
 			},
 			{

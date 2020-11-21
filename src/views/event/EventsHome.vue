@@ -83,16 +83,29 @@
 						/>
 						<v-card-subtitle>
 							<v-icon size="16">
-								mdi-pencil
-							</v-icon> {{ item.created_by }}
+								mdi-account-circle
+							</v-icon> {{ item.created_by }} ●
+							<v-icon size="16">
+								mdi-city
+							</v-icon> Pokhara Kendra Branch ●
+							<v-icon size="16">
+								mdi-clock
+							</v-icon> {{ item.created_at }}
 						</v-card-subtitle>
-						<v-card-subtitle class="py-0 pb-2"
-							v-text="item.description"
-						/>
+						<v-card-text class="py-0 pb-2">
+							{{ $vuetify.breakpoint.lgAndUp
+								? item.description.substring(0,200)
+								: $vuetify.breakpoint.md
+									? item.description.substring(0,140)
+									: item.description.substring(0,50)
+							}}
+							<span>...</span>
+						</v-card-text>
 
 						<v-row class="ma-0 pa-0">
-							<v-col>
+							<v-col class="pa-0">
 								<v-list two-line
+									class="pa-0"
 									color="transparent"
 								>
 									<v-list-item>
@@ -106,20 +119,12 @@
 											</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon><v-icon>mdi-clock</v-icon></v-list-item-icon>
-										<v-list-item-content>
-											<v-list-item-title>Event Time</v-list-item-title>
-											<v-list-item-subtitle>
-												{{ item.timeOfDay }}
-											</v-list-item-subtitle>
-										</v-list-item-content>
-									</v-list-item>
 								</v-list>
 							</v-col>
-							<v-col>
+							<v-col class="pa-0">
 								<v-list two-line
 									color="transparent"
+									class="pa-0"
 								>
 									<v-list-item>
 										<v-list-item-icon><v-icon>mdi-google-maps</v-icon></v-list-item-icon>
@@ -132,19 +137,11 @@
 											</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon><v-icon>mdi-home-circle</v-icon></v-list-item-icon>
-										<v-list-item-content>
-											<v-list-item-title>Venue</v-list-item-title>
-											<v-list-item-subtitle>
-												{{ item.venue }}
-											</v-list-item-subtitle>
-										</v-list-item-content>
-									</v-list-item>
 								</v-list>
 							</v-col>
-							<v-col>
+							<v-col class="pa-0">
 								<v-list two-line
+									class="pa-0"
 									color="transparent"
 								>
 									<v-list-item>
@@ -153,15 +150,6 @@
 											<v-list-item-title>Type</v-list-item-title>
 											<v-list-item-subtitle>
 												Satsang
-											</v-list-item-subtitle>
-										</v-list-item-content>
-									</v-list-item>
-									<v-list-item>
-										<v-list-item-icon><v-icon>mdi-city</v-icon></v-list-item-icon>
-										<v-list-item-content>
-											<v-list-item-title>Organizer</v-list-item-title>
-											<v-list-item-subtitle>
-												Pokhara Kendra Branch
 											</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
@@ -824,4 +812,7 @@ export default {
 		width: 0
 		margin: 0
 		overflow: hidden
+::v-deep.v-list-item__content
+	padding: 0
+	margin-top: -10px
 </style>
