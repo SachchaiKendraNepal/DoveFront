@@ -92,20 +92,20 @@ const routes = [
 		children: [
 			{
 				path: "login",
-				name: "SACHCHAI LOGIN",
+				name: "LOG IN",
 				component: () => import("@/views/auth/Login")
 			},
 			{
 				path: "reset-password",
-				name: "SACHCHAI RESET PASSWORD",
+				name: "FORGET PASSWORD",
 				component: () => import("@/views/auth/ResetPassword")
 			},
+			{
+				path: "register",
+				name: "REGISTER",
+				component: () => import("@/views/auth/Register")
+			},
 		],
-	},
-	{
-		path: "/register",
-		name: "SACHCHAI REGISTER",
-		component: () => import("@/views/auth/Register")
 	},
 	// Settings Routes
 	{

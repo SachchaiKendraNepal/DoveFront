@@ -1,81 +1,17 @@
 <template>
-	<div class="register-container">
-		<v-card
-			:loading="loading"
-			class="mx-auto my-auto"
-			max-width="700"
-		>
-			<v-toolbar
-				class="elevation-12"
-				color="orange lighten-3"
-			>
-				<v-btn icon
-					@click="$router.go(-1)"
-				>
-					<v-icon>mdi-arrow-left</v-icon>
-				</v-btn>
-				<v-spacer />
-				<v-menu offset-y>
-					<template #activator="{ on, attrs }">
-						<v-btn
-							color="primary"
-							dark
-							v-bind="attrs"
-							v-on="on"
-						>
-							<div v-show="$vuetify.breakpoint.smAndUp">
-								Already a follower
-							</div>
-							<v-icon>mdi-help</v-icon>
-						</v-btn>
-					</template>
-					<v-list>
-						<v-list-item
-							v-for="(item, index) in items"
-							:key="index"
-							:to="item.to"
-						>
-							<v-list-item-title>{{ item.title }}</v-list-item-title>
-						</v-list-item>
-					</v-list>
-				</v-menu>
-			</v-toolbar>
-			<v-progress-linear
-				:active="loading"
-				:indeterminate="loading"
-				absolute
-				bottom
-				color="grey darken-2"
-			/>
-
-			<v-img
-				height="350"
-				src="@/assets/inaguration.jpg"
-			/>
-
-			<div id=""
-				class="d-flex justify-start align-center pl-4 pt-4"
-			>
-				<v-avatar
-					id="logo"
-					tile
-					size="50"
-				>
-					<v-img src="@/assets/dove-solid.svg" />
-				</v-avatar>
-				<span id="org-title">Become a follower</span>
-			</div>
-
-			<v-card-text>
-				<div class="subtitle-2">
-					Let's begin an amazing journey with <b>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</b>.
-				</div>
-			</v-card-text>
-			<v-divider class="mb-4" />
+	<auth-component
+		:top-image="registerPage.image"
+		:page-avatar="registerPage.avatar"
+		:title="registerPage.title"
+		:subtitle="registerPage.subtitle"
+		menu-title="Already a follower"
+		:menu-items="items"
+	>
+		<template #form>
 			<v-form v-model="valid">
 				<v-row justify="center"
 					align="center"
-					class="px-6 px-sm-16 px-md-16 px-lg-16 px-xs-16"
+					class="ma-0 pa-0 px-6 px-sm-16 px-md-16 px-lg-16 px-xs-16"
 				>
 					<v-col
 						cols="12"
@@ -152,19 +88,11 @@
 					</v-col>
 				</v-row>
 
-				<v-divider class="mx-4" />
-
-				<v-card-text>
-					<div id="register-terms">
-						By clicking <code>Register</code>, you agree to our <code>Terms</code>, <code>Data Policy</code> and <code>Cookies Policy</code>.
-						You may receive <i>Email Notifications</i> from us and can opt out any time.
-					</div>
-				</v-card-text>
 				<v-card-actions class="d-flex justify-center">
 					<v-btn
 						dark
 						depressed
-						x-large
+						large
 						color="primary"
 						class="px-xl-12 px-lg-8 px-md-6 px-sm-2 px-xs-0"
 						@click="registerFollower()"
@@ -172,21 +100,36 @@
 						REGISTER
 					</v-btn>
 				</v-card-actions>
+				<v-divider class="mx-4" />
+				<v-card-text>
+					<div id="register-terms">
+						By clicking <code>Register</code>, you agree to our <code>Terms</code>, <code>Data Policy</code> and <code>Cookies Policy</code>.
+						You may receive <i>Email Notifications</i> from us and can opt out any time.
+					</div>
+				</v-card-text>
 			</v-form>
-		</v-card>
-	</div>
+		</template>
+	</auth-component>
 </template>
 <script>
 export default {
+	components: {
+		AuthComponent: () => import("@/components/AuthComponent")
+	},
 	data: () => ({
+		registerPage: {
+			image: require("@/assets/inaguration.jpg"),
+			avatar: require("@/assets/dove-solid.svg"),
+			title: "Become a follower",
+			subtitle: "Let's begin an amazing journey with <b>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</b>."
+		},
 		loading: false,
 		valid: false,
-		selection: 1,
 		items: [
-			{ title: "Sign in",  to: "/auth/login"},
-			{ title: "Forget password?", to: "/auth/reset-password"},
-			{ title: "Feed page", to: "/home" },
-			{ title: "Showcase", to: "/" },
+			{ icon: "mdi-login-variant", title: "Sign in",  to: "/auth/login"},
+			{ icon: "mdi-lock-question", title: "Forget password?", to: "/auth/reset-password"},
+			{ icon: "mdi-post", title: "Feed page", to: "/home" },
+			{ icon: "mdi-view-dashboard", title: "Showcase", to: "/" },
 		],
 		follower: {
 			f_name: "",
@@ -208,25 +151,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.register-container
-	height: 100%
-	background: linear-gradient(45deg, rgb(37, 158, 239), rgb(184, 204, 234), rgb(16, 123, 207))
-	padding: 20px 0
 #register-terms
 	font-size: 10px
-#org-title
-	font-size: 48px
-	padding-left: 10px
-	transition: all .5s
-	font-family: "Abril Fatface", cursive
-	@media only screen and (max-width: 500px)
-		font-size: 32px
-	@media only screen and (max-width: 320px)
-		font-size: 20px
-#logo
-	transition: all .5s
-	@media only screen and (max-width:320px)
-		height: 30px !important
-		min-width: 30px !important
-		width: 30px !important
 </style>
