@@ -130,7 +130,7 @@ export default {
 	},
 	methods: {
 		routeToRegisterPage() {
-			router.push({name: "SACHCHAI REGISTER"})
+			router.push({name: "REGISTER"})
 		},
 		initBarTransparency() {
 			$(document).ready(() => {

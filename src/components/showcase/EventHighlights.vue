@@ -273,9 +273,13 @@ export default {
 .events-highlights-wrapper
 	margin: -90px 20px 10px 20px
 #avatar-column
+	transition: all .2s
+	border-right: 3px solid white
 	@media only screen and (max-width: 600px)
 		padding-top: 5px !important
+		border-right: none
 	#date-avatar
+		transition: all .2s
 		@media only screen and (max-width: 375px)
 			height: 80px !important
 			min-width: 80px !important
