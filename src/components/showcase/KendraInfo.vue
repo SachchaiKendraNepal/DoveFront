@@ -149,7 +149,7 @@
 export default {
 	data: () => ({
 		chief: require("@/assets/KendraPramukh.jpg"),
-		viceChief: require("@/assets/KendraSahaPramukh.jpg")
+		viceChief: "https://i.ibb.co/2S8CkRZ/IMG-8841-2.jpg"
 	}),
 }
 </script>

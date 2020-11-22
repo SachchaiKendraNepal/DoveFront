@@ -51,6 +51,9 @@
 					<v-card-title class="event-title">
 						{{ event.title }}
 					</v-card-title>
+					<v-card-subtitle>
+						{{ event.description.substr(0, 150) }} <span>...</span> <span><i>See more in <code>about</code> section.</i></span>
+					</v-card-subtitle>
 					<v-card-subtitle class="event-subtitle">
 						{{ event.start_date }} ●
 						{{ event.timeOfDay }} ●

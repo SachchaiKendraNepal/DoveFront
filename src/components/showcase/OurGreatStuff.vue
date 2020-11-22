@@ -21,32 +21,40 @@
 					<h4 class="display-1">
 						"We are committed to our Mother Nature, The Earth and the Great Universe."
 					</h4>
-					<div class="d-flex justify-center">
-						<v-btn
-							v-bind="size"
-							class="ma-2"
-							fab
-							color="#ff525200"
-						>
-							<v-icon>mdi-video</v-icon>
-						</v-btn>
-						<v-btn
-							v-bind="size"
-							class="ma-2"
-							fab
-							color="#ff525200"
-						>
-							<v-icon>mdi-headphones</v-icon>
-						</v-btn>
-						<v-btn
-							v-bind="size"
-							class="ma-2"
-							fab
-							color="#ff525200"
-						>
-							<v-icon>mdi-music</v-icon>
-						</v-btn>
-					</div>
+					<v-row justify="center"
+						align="center" class="ma-0 pa-0"
+					>
+						<v-card-actions class="ma-0 pa-0">
+							<v-btn
+								v-bind="size"
+								class="ma-2"
+								fab
+								color="#ff525200"
+							>
+								<v-icon>mdi-video</v-icon>
+							</v-btn>
+						</v-card-actions>
+						<v-card-actions class="ma-0 pa-0">
+							<v-btn
+								v-bind="size"
+								class="ma-2"
+								fab
+								color="#ff525200"
+							>
+								<v-icon>mdi-headphones</v-icon>
+							</v-btn>
+						</v-card-actions>
+						<v-card-actions class="ma-0 pa-0">
+							<v-btn
+								v-bind="size"
+								class="ma-2"
+								fab
+								color="#ff525200"
+							>
+								<v-icon>mdi-music</v-icon>
+							</v-btn>
+						</v-card-actions>
+					</v-row>
 				</div>
 			</v-row>
 		</v-card>

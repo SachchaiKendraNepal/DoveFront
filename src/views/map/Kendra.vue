@@ -1,7 +1,9 @@
 <template>
 	<v-card
-		class="ma-0 pa-8"
-		width="80vw"
+		flat
+		color="transparent"
+		class="ma-0 py-2 px-2 px-md-8 px-lg-12 px-xl-16"
+		width="100vw"
 		height="80vh"
 	>
 		<iframe

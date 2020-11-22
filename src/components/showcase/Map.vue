@@ -40,6 +40,13 @@
 					</p>
 					<v-btn
 						id="view-branch-maps"
+						min-width="16"
+						max-width="200"
+						:min-height="
+							$vuetify.breakpoint.width < 100
+								? 16
+								: 50
+						"
 						depressed
 						x-large
 						class="py-8"

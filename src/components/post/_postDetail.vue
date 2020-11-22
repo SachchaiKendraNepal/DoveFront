@@ -24,7 +24,6 @@
 				xl="9"
 				md="9"
 				lg="9"
-				sm="9"
 				class="ma-0 pa-0"
 			>
 				<slot name="imageCarousel" />
@@ -33,7 +32,6 @@
 			</v-col>
 			<v-col
 				cols="12"
-				sm="3"
 				md="3"
 				lg="3"
 				xl="3"

@@ -115,8 +115,8 @@ export default {
 	computed: {
 		size() {
 			const size = {
-				xs: "small",
-				sm: "small",
+				xs: "medium",
+				sm: "medium",
 				md: "medium",
 				lg: "medium",
 				xl: "medium",
@@ -164,6 +164,14 @@ export default {
 	font-size: 22px !important
 .slider-wrapper
 	background: #d9ecf4
+.home-app-bar
+	z-index: 100
+#register-button
+	min-width: 70px
+	margin: 0 5px
+	@media only screen and (max-width: 190px)
+		margin: 0
+		min-width: 5px
 #register-button:hover
 	border: 2px solid #007e00 !important
 	background-color: transparent !important

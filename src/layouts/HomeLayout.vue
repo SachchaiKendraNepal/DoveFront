@@ -254,9 +254,9 @@ export default {
 	opacity: 1
 	@media only screen and (max-width: 360px)
 		margin-top: 55px
-	@media only screen and (min-width: 360px) and (max-width: 730px)
+	@media only screen and (min-width: 361px) and (max-width: 730px)
 		margin-top: 74px
-	@media only screen and (min-width: 730px)
+	@media only screen and (min-width: 731px)
 		visibility: hidden
 		opacity: 0
 		overflow: hidden

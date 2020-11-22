@@ -11,7 +11,7 @@
 			</v-toolbar>
 		</div>
 		<div class="ma-0 pa-0 scrollable-y-comments">
-			<v-list three-line>
+			<v-list two-line>
 				<template v-for="(item, index) in comments">
 					<v-subheader
 						v-if="item.header"
@@ -36,9 +36,9 @@
 
 						<v-list-item-content>
 							<v-list-item-title>{{ item.writer }}</v-list-item-title>
-							<p class="comment-text-box mb-0">
+							<v-list-item-subtitle class="comment">
 								{{ item.comment }}
-							</p>
+							</v-list-item-subtitle>
 						</v-list-item-content>
 						<v-list-item-action class="comment-actions">
 							<v-btn icon>
@@ -84,7 +84,9 @@ export default {
 			{
 				avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
 				writer: "K.P. Oli",
-				comment: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+				comment: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" +
+					"I'll be in your neighborhood doing errands this weekend. Do you want to hang out?" +
+					"I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
 			},
 			{ divider: true, inset: true },
 			{
@@ -141,6 +143,11 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.comment
+	background-color: #d9ebfa
+	border-radius: 10px
+	padding: 10px 5px
+	-webkit-line-clamp: unset !important
 .comment-text-box
 	background-color: #d2e4f5
 	border-radius: 10px
@@ -151,4 +158,8 @@ export default {
 	overflow-y: auto
 ::v-deep .v-subheader
 	height: 15px
+.wrap-text
+	-webkit-line-clamp: unset !important
+::v-deep.v-list-item__title
+	white-space: normal
 </style>

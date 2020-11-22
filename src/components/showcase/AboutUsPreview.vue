@@ -15,10 +15,16 @@
 			<p>
 				{{ aboutUs.description }}
 			</p>
-			<v-btn x-large
+			<v-btn
+				min-width="16"
+				max-width="200"
+				:min-height="
+					$vuetify.breakpoint.width < 100
+						? 16
+						: 50
+				"
 				dark
 				color="#03A9F4"
-				class="py-8 mt-7"
 			>
 				<v-icon>mdi-alpha-a-box</v-icon>
 				<span v-show="$vuetify.breakpoint.smAndUp"

@@ -7,10 +7,10 @@
 			<p class="text-uppercase overline context">
 				{{ item.context }}
 			</p>
-			<h1 class="mb-4 main">
+			<h1 class="main">
 				{{ item.title }}
 			</h1>
-			<h6 class="sub mb-4">
+			<h6 class="sub">
 				{{ item.subtitle }}
 			</h6>
 			<v-tooltip bottom>
@@ -63,25 +63,70 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.not-round
-	border-radius: 0!important
 .main
-	line-height: 60px
-	@media only screen and (max-width: 380px)
-		font-size: 40px !important
-		line-height: 40px !important
+	transition: all .3s
+	color: white
+	@media only screen and (min-width: 1201px)
+		font-size: 5rem !important
+		line-height: 5.3rem !important
+	@media only screen and (max-width: 1200px) and (min-width: 601px)
+		font-size: 3.5rem !important
+		line-height: 3.9rem !important
+	@media only screen and (max-width: 600px) and (min-width: 381px)
+		font-size: 2.9rem !important
+		line-height: 3.1rem !important
+	@media only screen and (max-width: 380px) and (min-width: 241px)
+		font-size: 2.7rem !important
+		line-height: 3.2rem !important
+		margin-bottom: 15px
+	@media only screen and (max-width: 240px)
+		font-size: 2.5rem !important
+		line-height: 2.8rem !important
+		margin-bottom: 10px
 .sub
-	line-height: 40px
-	letter-spacing: 0.20rem !important
-	display: block
+	transition: all .5s ease-in-out
+	opacity: 1
+	visibility: visible
+	margin: 20px 0
+	letter-spacing: .2rem !important
+	@media only screen and (min-width: 1201px)
+		font-size: 1.5rem !important
+		line-height: 1.9rem !important
+	@media only screen and (max-width: 1200px) and (min-width: 601px)
+		font-size: 1.2rem !important
+		line-height: 1.4rem !important
+	@media only screen and (max-width: 600px) and (min-width: 381px)
+		font-size: 1rem !important
+		line-height: 1.5rem !important
 	@media only screen and (max-width: 380px)
-		display: none
+		margin: 0
+		opacity: 0
+		visibility: hidden
+		overflow: hidden
+		min-width: 0
+		height: 0
 .context
-	font-size: 22px !important
+	transition: all .5s
+	opacity: 1
+	visibility: visible
 	font-weight: bold
-	line-height: 30px
 	letter-spacing: 0.12rem !important
-	display: block
+	@media only screen and (min-width: 1201px)
+		font-size: 1.7rem !important
+		line-height: 2.0rem !important
+		margin-bottom: 50px
+	@media only screen and (max-width: 1200px) and (min-width: 601px)
+		margin: 20px 0
+		font-size: 1.2rem !important
+		line-height: 1.1rem !important
+	@media only screen and (max-width: 600px) and (min-width: 381px)
+		margin: 20px 0
+		font-size: .8rem !important
+		line-height: 1.2rem !important
 	@media only screen and (max-width: 380px)
-		display: none
+		opacity: 0
+		visibility: hidden
+		overflow: hidden
+		min-width: 0
+		height: 0
 </style>

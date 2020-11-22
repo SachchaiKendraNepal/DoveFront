@@ -272,6 +272,8 @@ export default {
 <style lang="sass" scoped>
 .events-highlights-wrapper
 	margin: -90px 20px 10px 20px
+	@media only screen and (max-width: 600px)
+		margin: -70px 10px 10px 10px
 #avatar-column
 	transition: all .2s
 	border-right: 3px solid white

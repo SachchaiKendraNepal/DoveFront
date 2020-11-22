@@ -4,7 +4,7 @@
 			flat
 			outlined
 			max-width="1200"
-			class="mx-auto pa-4"
+			class="mx-auto"
 			color="transparent"
 		>
 			<v-card-title class="overline text-uppercase pt-0">
@@ -20,13 +20,13 @@
 			<v-row
 				id="services-row"
 				align="center"
-				class="text-center"
+				class="text-center ma-0-0"
 			>
 				<v-col
 					v-for="(item, index) in items"
 					:id="item.id"
 					:key="index"
-					class="peek-card"
+					class="peek-card ma-0 pa-1 pa-md-3 pa-lg-4 pa-xl-6"
 					cols="12"
 					xl="4" lg="4"
 					md="4" sm="4"
@@ -81,7 +81,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .peek-services-wrapper
-	padding: 0 12px
+	padding: 0
 #peek-services-card
 	background: aliceblue
 	::v-deep .v-card__title
@@ -97,8 +97,10 @@ export default {
 			width: 60em
 	.quote
 		margin: 0
-		padding: 20px
+		padding: 20px 80px 0 80px !important
+
 		font-size: 45px
+		line-height: 50px
 		font-family: 'Acme', sans-serif
 		font-weight: 600
 		letter-spacing: 1px
@@ -106,10 +108,12 @@ export default {
 		transition: all .3s
 		@media only screen and (max-width: 895px) and (min-width: 436px)
 			font-size: 35px
-			line-height: 35px
+			line-height: 40px
+			padding: 20px 40px 0px 40px !important
 		@media only screen and (max-width: 435px)
 			font-size: 26px
 			line-height: 26px
+			padding: 15px !important
 	.quoter
 		margin: 0
 		font-size: 30px
@@ -119,9 +123,11 @@ export default {
 		@media only screen and (max-width: 895px) and (min-width: 436px)
 			font-size: 25px
 			line-height: 25px
+			padding: 20px 0
 		@media only screen and (max-width: 435px)
 			font-size: 18px
 			line-height: 18px
+			padding-bottom: 10px
 	::v-deep.v-avatar
 		transition: ease-in-out .2s
 		backface-visibility: hidden !important
@@ -129,10 +135,14 @@ export default {
 			height: 140px !important
 			min-width: 140px !important
 			width: 140px !important
-		@media only screen and (max-width: 210px)
+		@media only screen and (max-width: 210px)  and (min-width: 136px)
 			height: 90px !important
 			min-width: 90px !important
 			width: 90px !important
+		@media only screen and (max-width: 135px)
+			height: 50px !important
+			min-width: 50px !important
+			width: 50px !important
 	::v-deep.v-avatar:hover
 		transition: ease-in-out .2s
 		backface-visibility: hidden !important
