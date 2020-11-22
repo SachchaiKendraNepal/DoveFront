@@ -40,10 +40,20 @@
 				justify="start"
 				align="center"
 			>
-				<v-col cols="2"
-					class="pr-0 mr-0"
+				<v-col
+					cols="2"
+					class="pa-0 d-flex av-col"
+					:class="
+						$vuetify.breakpoint.width < 524 && $vuetify.breakpoint.width > 315
+							? 'pl-3'
+							: $vuetify.breakpoint.width < 315 && $vuetify.breakpoint.width > 237
+								? 'pl-3'
+								: $vuetify.breakpoint.width < 236 && $vuetify.breakpoint.width > 100
+									? 'pl-4'
+									: 'justify-center'
+					"
 				>
-					<v-avatar class="elevation-4"
+					<v-avatar id="av" class="elevation-4"
 						size="60"
 					>
 						<v-img
@@ -52,25 +62,43 @@
 					</v-avatar>
 				</v-col>
 				<v-col
+					v-if="$vuetify.breakpoint.width > 180"
 					cols="10"
-					class="pl-0 ml-0"
+					class="pa-0 d-flex"
+					:class="
+						$vuetify.breakpoint.width < 524 && $vuetify.breakpoint.width > 461
+							? 'justify-start pl-3'
+							:	$vuetify.breakpoint.width < 460 && $vuetify.breakpoint.width > 333
+								? 'justify-start pl-8'
+								: $vuetify.breakpoint.width < 334
+									? 'pl-12'
+									: 'justify-start'
+					"
 				>
 					<v-list two-line>
-						<p class="ma-0 pa-0">
-							Kiran Parajuli
-						</p>
-						<v-chip
-							dense
-							label
-							style="font-size: 10px; font-weight: bold"
-						>
-							Member
-							<v-icon right
-								small
-							>
-								mdi-account-circle
-							</v-icon>
-						</v-chip>
+						<v-list-item class="text-start pa-0">
+							<v-list-item-content class="pa-0">
+								<v-list-item-title
+									style="white-space: normal;"
+								>
+									Kiran Parajuli
+								</v-list-item-title>
+								<v-list-item-subtitle v-show="$vuetify.breakpoint.width > 235">
+									<v-chip
+										dense
+										label
+										style="font-size: 10px; font-weight: bold"
+									>
+										Member
+										<v-icon right
+											small
+										>
+											mdi-account-circle
+										</v-icon>
+									</v-chip>
+								</v-list-item-subtitle>
+							</v-list-item-content>
+						</v-list-item>
 					</v-list>
 				</v-col>
 				<v-col cols="12">
@@ -270,22 +298,33 @@
 				<v-col cols="12"
 					class="ma-0 pa-0"
 				>
-					<p class="ma-0 pa-0 pb-2 overline text-center">
+					<p class="ma-0 pa-0 pb-sm-2 pb-md-2 overline text-center">
 						add to your post
 					</p>
 				</v-col>
 				<v-col cols="12"
-					class="d-flex align-center justify-center"
+					xl="6"
+					lg="6"
+					md="6"
+					sm="6"
+					class="d-flex align-center"
+					:class="
+						$vuetify.breakpoint.smAndUp
+							? 'justify-end'
+							: 'justify-center'
+					"
 				>
 					<file-upload
 						v-model="files"
 						:multiple="true"
+						class="cursor-pointer"
 						@input-file="inputFile"
 						@input-filter="inputFilter"
 					>
 						<v-btn
 							v-for="(item, index) in flexButtonsFile"
 							:key="index"
+							class="mx-2 mb-2 mb-sm-0 mb-md-0 mb-lg-0 mb-xl-0"
 							fab x-small
 							dark
 							:color="item.color"
@@ -293,7 +332,21 @@
 							<v-icon>{{ item.icon }}</v-icon>
 						</v-btn>
 					</file-upload>
+				</v-col>
+				<v-col cols="12"
+					xl="6"
+					lg="6"
+					md="6"
+					sm="6"
+					class="d-flex align-center"
+					:class="
+						$vuetify.breakpoint.smAndUp
+							? 'justify-start'
+							: 'justify-center'
+					"
+				>
 					<v-btn
+						class="mx-2"
 						fab x-small
 						dark
 						:color="flexButtonsVideo.color"
@@ -301,14 +354,15 @@
 					>
 						<v-icon>{{ flexButtonsVideo.icon }}</v-icon>
 					</v-btn>
+					<!--					<v-btn-->
+					<!--						fab x-small-->
+					<!--						dark-->
+					<!--						:color="flexButtonsTag.color"-->
+					<!--					>-->
+					<!--						<v-icon>{{ flexButtonsTag.icon }}</v-icon>-->
+					<!--					</v-btn>-->
 					<v-btn
-						fab x-small
-						dark
-						:color="flexButtonsTag.color"
-					>
-						<v-icon>{{ flexButtonsTag.icon }}</v-icon>
-					</v-btn>
-					<v-btn
+						class="mx-2"
 						fab x-small
 						dark
 						:color="flexButtonsMap.color"
@@ -472,4 +526,13 @@ export default {
 		margin-left: 4px
 ::v-deep .size-124
 	font-size: 24px !important
+#av
+	@media only screen and (max-width: 236px)
+		height: 45px !important
+		min-width: 45px !important
+		width: 45px !important
+	@media only screen and (max-width: 180px)
+		margin: 10px 0 5px 0
+.cursor-pointer
+	cursor: pointer !important
 </style>
