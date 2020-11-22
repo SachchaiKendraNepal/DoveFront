@@ -7,11 +7,12 @@
 			height="auto"
 			scroll-target="#scrolling-techniques-5"
 			scroll-threshold="500"
+			color="rgb(126 206 216)"
 		>
 			<div class="social-networks text-center">
 				<v-icon
 					v-ripple
-					color="#3a80ec"
+					color="rgb(25 55 103)"
 					size="20"
 				>
 					mdi-facebook
@@ -29,13 +30,6 @@
 					color="#bb2d71"
 				>
 					mdi-instagram
-				</v-icon>
-				<v-icon
-					v-ripple
-					color="rgb(62 161 242)"
-					size="20"
-				>
-					mdi-twitter
 				</v-icon>
 			</div>
 			<v-spacer />
@@ -57,6 +51,7 @@
 				v-bind="size"
 				depressed
 				color="success"
+				class="elevation-4"
 				@click="routeToRegisterPage()"
 			>
 				<v-icon v-if="$vuetify.breakpoint.mdAndDown"
@@ -149,7 +144,7 @@ export default {
 				$(".home-app-bar").css({
 					backgroundColor: function () {
 						const elementHeight = $(this).height();
-						return "rgb(245,245,245," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
+						return "rgb(10,158,177," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
 					}
 				})
 			})
@@ -173,9 +168,9 @@ export default {
 		margin: 0
 		min-width: 5px
 #register-button:hover
-	border: 2px solid #007e00 !important
-	background-color: transparent !important
-	color: #007e00 !important
+	border: 2px solid #45ae59 !important
+	background-color: white !important
+	color: #45ae59 !important
 .logo-avatar
 	transition: all .3s
 	visibility: visible

@@ -43,9 +43,7 @@
 						outlined
 						max-width="450"
 					>
-						<v-card-text>
-							{{ item.description }}
-						</v-card-text>
+						<v-card-text v-html="getPeekDescription(item.description)" />
 					</v-card>
 				</v-col>
 			</v-row>
@@ -76,7 +74,13 @@ export default {
 				image: "https://cdn.dribbble.com/users/1738860/screenshots/5554042/meditation_4x.png?compress=1&resize=400x300"
 			}
 		]
-	})
+	}),
+	methods: {
+		getPeekDescription(text) {
+			if (this.$vuetify.breakpoint.width > 400) return text
+			else return text.toString().substr(0, 100) + "<span>...</span><br/><a href='#' class='see-more'>See More</a>"
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
@@ -99,34 +103,43 @@ export default {
 		margin: 0
 		padding: 20px 80px 0 80px !important
 
-		font-size: 45px
-		line-height: 50px
+		font-size: 3rem
+		line-height: 3.3rem
 		font-family: 'Acme', sans-serif
 		font-weight: 600
 		letter-spacing: 1px
 		text-align: center
 		transition: all .3s
 		@media only screen and (max-width: 895px) and (min-width: 436px)
-			font-size: 35px
-			line-height: 40px
-			padding: 20px 40px 0px 40px !important
-		@media only screen and (max-width: 435px)
-			font-size: 26px
-			line-height: 26px
+			font-size: 2.4rem
+			line-height: 2.6rem
+			padding: 20px 40px 0 40px !important
+		@media only screen and (max-width: 435px) and (min-width: 185px)
+			font-size: 1.5rem
+			line-height: 1.6rem
+			padding: 15px !important
+		@media only screen and (max-width: 184px)
+			font-size: 1.1rem
+			line-height: 1.3rem
 			padding: 15px !important
 	.quoter
 		margin: 0
-		font-size: 30px
+		font-size: 1.9rem
+		line-height: 1.9rem
 		font-family: 'Lobster Two', cursive
 		font-weight: 500
 		transition: all .3s
 		@media only screen and (max-width: 895px) and (min-width: 436px)
-			font-size: 25px
-			line-height: 25px
+			font-size: 1.5rem
+			line-height: 1.5rem
 			padding: 20px 0
-		@media only screen and (max-width: 435px)
-			font-size: 18px
-			line-height: 18px
+		@media only screen and (max-width: 435px) and (min-width: 185px)
+			font-size: 1.2rem
+			line-height: 1.2rem
+			padding-bottom: 10px
+		@media only screen and (max-width: 184px)
+			font-size: 1rem
+			line-height: 1rem
 			padding-bottom: 10px
 	::v-deep.v-avatar
 		transition: ease-in-out .2s

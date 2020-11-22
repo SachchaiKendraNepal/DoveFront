@@ -284,7 +284,7 @@ export default {
 <style lang="sass" scoped>
 #bg-card
 	border-radius: 0
-	background: black url("https://i.ibb.co/M2mpjQF/IMG-8842.jpg") no-repeat fixed center
+	background: linear-gradient(rgba(0,0,0, 50%), rgba(0,0,0, 70%), rgba(0,0,0, 30%)), url("https://i.ibb.co/M2mpjQF/IMG-8842.jpg") no-repeat fixed center
 	#sermons
 		color: white
 		letter-spacing: 2px !important
@@ -295,6 +295,28 @@ export default {
 			border-bottom: 3px dotted white
 	h1
 		color: white
+		font-size: 2.5rem
+		line-height: 3rem
+		@media only screen and (max-width: 1100px) and (min-width: 700px)
+			padding: 0 50px
+			font-size: 2rem
+			line-height: 2.3rem
+		@media only screen and (max-width: 699px) and (min-width: 600px)
+			padding: 0 50px
+			font-size: 1.8rem
+			line-height: 2.1rem
+		@media only screen and (max-width: 599px) and (min-width: 300px)
+			padding: 10px 40px
+			font-size: 1.6rem
+			line-height: 1.9rem
+		@media only screen and (max-width: 299px) and (min-width: 200px)
+			padding: 10px 20px
+			font-size: 1.2rem
+			line-height: 1.4rem
+		@media only screen and (max-width: 199px)
+			padding: 10px
+			font-size: 1rem
+			line-height: 1.2rem
 .swiper-container
 	margin-top: -200px
 	width: 100%

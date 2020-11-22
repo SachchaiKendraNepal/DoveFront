@@ -13,7 +13,7 @@
 			<v-img class="carousel-image"
 				:src="items[1].src"
 				dark
-				gradient="to down, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
+				gradient="to top right, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
 			>
 				<slider-image-content />
 			</v-img>
@@ -22,7 +22,7 @@
 			<v-img class="carousel-image"
 				:src="items[2].src"
 				dark
-				gradient=", rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
+				gradient="to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
 			>
 				<slider-image-content />
 			</v-img>

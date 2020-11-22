@@ -12,9 +12,7 @@
 			<p class="title-text">
 				{{ aboutUs.title }}
 			</p>
-			<p>
-				{{ aboutUs.description }}
-			</p>
+			<p v-html="getAboutUsText(aboutUs.description)" />
 			<v-btn
 				min-width="16"
 				max-width="200"
@@ -46,7 +44,13 @@ export default {
 				"ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
 				"in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
 		}
-	})
+	}),
+	methods: {
+		getAboutUsText(text) {
+			if (this.$vuetify.breakpoint.width > 400) return text
+			else return text.toString().substr(0, 100) + "<span>...</span>"
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
@@ -60,18 +64,21 @@ export default {
 	.title-text
 		margin: 0
 		padding: 40px 0
-		font-size: 50px
-		line-height: 55px
+		font-size: 3rem
+		line-height: 3.5rem
 		text-align: left
 		color: black
 		transition: all .3s
 		@media only screen and (max-width: 680px) and (min-width: 561px)
-			font-size: 40px
-			line-height: 45px
+			font-size: 2.5rem
+			line-height: 2.9rem
 		@media only screen and (max-width: 560px) and (min-width: 321px)
-			font-size: 30px
-			line-height: 35px
+			font-size: 1.9rem
+			line-height: 2.2rem
 		@media only screen and (max-width: 320px)
-			font-size: 24px
-			line-height: 24px
+			font-size: 1.4rem
+			line-height: 1.7rem
+		@media only screen and (max-width: 200px)
+			font-size: 1rem
+			line-height: 1.2rem
 </style>
