@@ -161,7 +161,6 @@ export default {
 			{color: "#3a80ec", icon: "mdi-facebook"},
 			{color: "#f71701", icon: "mdi-youtube"},
 			{color: "#bb2d71", icon: "mdi-instagram"},
-			{color: "rgb(62 161 242)", icon: "mdi-twitter"}
 		],
 		firstList: [
 			{text: "Home"},

@@ -3,9 +3,9 @@
 		<div id="comment-toolbar">
 			<v-toolbar
 				dark
-				height="40px"
+				height="50"
 			>
-				<v-toolbar-title style="font-size: medium">
+				<v-toolbar-title style="font-size: 16px">
 					Comments
 				</v-toolbar-title>
 			</v-toolbar>
@@ -42,14 +42,7 @@
 						</v-list-item-content>
 						<v-list-item-action class="comment-actions">
 							<v-btn icon>
-								<v-icon small
-									color="blue darken-1"
-								>
-									mdi-pencil
-								</v-icon>
-							</v-btn>
-							<v-btn icon>
-								<v-icon small
+								<v-icon
 									color="red darken-1"
 								>
 									mdi-delete
@@ -127,7 +120,7 @@ export default {
 		]
 	}),
 	mounted() {
-		const commentToolbarHeight = 40
+		const commentToolbarHeight = 50
 		$(document).ready(function () {
 			const commentPostBox = $("#post-comment-from-detail").css("height")
 			const magicBoxHeight = $("#magic").height()

@@ -1,10 +1,18 @@
 <template>
-	<v-row class="alice-blue ma-0 pa-0 py-2 px-2"
+	<v-row class="alice-blue ma-0 pa-2"
 		justify="space-around"
 		align="center"
 	>
-		<h4 class="pa-0 ma-0">
-			ADMIN ACTIONS:
+		<v-avatar size="30"
+			class="elevation-4 mx-2"
+			color="primary"
+		>
+			<v-icon color="white">
+				mdi-account-cog
+			</v-icon>
+		</v-avatar>
+		<h4 class="pa-0 ma-0 blue--text text--darken-2 mt-1">
+			ADMIN ACTIONS
 		</h4>
 		<v-spacer />
 		<v-tooltip bottom>

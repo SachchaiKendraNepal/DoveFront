@@ -79,9 +79,17 @@ export default {
 		font-size: 2.7rem !important
 		line-height: 3.2rem !important
 		margin-bottom: 15px
-	@media only screen and (max-width: 240px)
+	@media only screen and (max-width: 240px) and (min-width: 177px)
 		font-size: 2.5rem !important
 		line-height: 2.8rem !important
+		margin-bottom: 10px
+	@media only screen and (max-width: 176px) and (min-width: 126px)
+		font-size: 1.8rem !important
+		line-height: 2.1rem !important
+		margin-bottom: 10px
+	@media only screen and (max-width: 125px)
+		font-size: 1.4rem !important
+		line-height: 1.8rem !important
 		margin-bottom: 10px
 .sub
 	transition: all .5s ease-in-out

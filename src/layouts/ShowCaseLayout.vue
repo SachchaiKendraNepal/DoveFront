@@ -175,7 +175,7 @@ export default {
 	transition: all .3s
 	visibility: visible
 	opacity: 1
-	@media only screen and (max-width: 240px)
+	@media only screen and (max-width: 600px) and (min-width: 191px)
 		height: 50px !important
 		min-width: 50px !important
 		width: 50px !important

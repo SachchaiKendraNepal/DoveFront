@@ -22,8 +22,8 @@
 			<v-col
 				cols="12"
 				xl="9"
-				md="9"
 				lg="9"
+				md="8"
 				class="ma-0 pa-0"
 			>
 				<slot name="imageCarousel" />
@@ -32,18 +32,43 @@
 			</v-col>
 			<v-col
 				cols="12"
-				md="3"
-				lg="3"
 				xl="3"
+				lg="3"
+				md="4"
 				class="ma-0 pa-0"
 			>
 				<div id="magic">
 					<PostDetailAdminActionsComponent />
 					<v-divider />
 					<div id="postDetail">
-						<v-card-title class="ma-0 pa-0 mx-4 pt-1">
+						<v-card-title class="pt-0 grey--text text--darken-3">
 							{{ target.title }}
-							<span class="ml-2">
+						</v-card-title>
+						<v-card-subtitle class="post-auth-subtitle">
+							<span>
+								<v-icon size="16"
+									class="post-auth-icon"
+								>mdi-account-circle</v-icon>
+							</span>
+							{{ target.uploaded_by }}
+							<span>
+								<v-icon size="16"
+									class="post-auth-icon"
+								>mdi-calendar-plus</v-icon>
+							</span>
+							{{ target.uploaded_at }}
+							<span>
+								<v-icon size="16"
+									class="post-auth-icon"
+								>mdi-calendar-check</v-icon>
+							</span>
+							{{ target.approved_at }}
+						</v-card-subtitle>
+						<v-card-text class="py-0">
+							{{ target.description.substr(0,120) }}
+						</v-card-text>
+						<v-card-text class="py-0">
+							<span>
 								<IconWithTooltip
 									icon="mdi-check-decagram"
 									color="green darken-1"
@@ -67,26 +92,6 @@
 									tooltip="Article"
 								/>
 							</span>
-						</v-card-title>
-						<v-card-text class="py-1">
-							<span class="pr-1">
-								<v-icon size="20">mdi-account-circle</v-icon>
-							</span>
-							<b class="pr-4">Author</b>&nbsp;:&nbsp;{{ target.uploaded_by }}
-							<span>
-								<v-icon size="20">mdi-calendar-plus</v-icon>
-							</span>
-							<span class="mx-1">{{ target.uploaded_at }}</span>
-						</v-card-text>
-						<v-card-text class="py-1">
-							<span class="pr-1">
-								<v-icon size="20">mdi-account-reactivate</v-icon>
-							</span>
-							<b>Approver</b>&nbsp;:&nbsp;{{ target.approved_by }}
-							<span>
-								<v-icon size="20">mdi-calendar-check</v-icon>
-							</span>
-							<span class="mx-1">{{ target.approved_at }}</span>
 						</v-card-text>
 					</div>
 					<PostDetailActionsComponent />
@@ -104,9 +109,16 @@
 						solo
 						placeholder="Add a comment"
 						hide-details="auto"
-						append-icon="mdi-send"
 						clearable
-					/>
+					>
+						<template #append>
+							<v-icon class="send-icon-button"
+								color="primary"
+							>
+								mdi-send
+							</v-icon>
+						</template>
+					</v-text-field>
 				</v-row>
 			</v-col>
 		</v-row>
@@ -148,4 +160,11 @@ export default {
 .scrollable-y
 	height: 150px
 	overflow-y: auto
+.post-auth-icon
+	margin-top: -2px
+.post-auth-subtitle
+	font-size: 12px
+	padding-bottom: 5px
+.send-icon-button
+	transform: rotate(-60deg)
 </style>

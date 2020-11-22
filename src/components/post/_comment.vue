@@ -1,11 +1,10 @@
-<!---->
 <template>
-	<div class="comment-container">
+	<div class="comment-container mx-4">
 		<div class="comment-histories">
 			<template v-for="(item, index) in items">
 				<!-- eslint-disable-next-line vue/no-v-for-template-key-on-child-->
 				<p :key="index"
-					class="mx-4 my-0 last-comments"
+					class="my-0 last-comments"
 				>
 					<span class="commenter">{{ item.title }}: </span>
 					<span class="comment-history">{{ item.subtitle }}</span>
@@ -17,7 +16,7 @@
 					</v-icon>
 				</p>
 			</template>
-			<p class="mx-4 mb-0 last-commented-ago">
+			<p class="mb-0 last-commented-ago">
 				13 minutes ago
 				<v-icon size="16">
 					mdi-history
@@ -25,21 +24,22 @@
 			</p>
 		</div>
 		<v-divider class="my-2" />
-		<div class="comment-box d-flex justify-space-around ml-2">
+		<div class="comment-box pb-2">
 			<v-text-field
-				class="comment mb-2"
-				dense
+				class="comment"
 				outlined
+				dense
+				hide-details="auto"
 				placeholder="Add a comment"
-				hide-details
-			/>
-			<v-btn
-				text
-				color="blue darken-3"
-				class="font-weight-bold mt-1"
 			>
-				Post
-			</v-btn>
+				<template #append>
+					<v-icon class="send-icon-button"
+						color="primary"
+					>
+						mdi-send
+					</v-icon>
+				</template>
+			</v-text-field>
 		</div>
 	</div>
 </template>
@@ -71,4 +71,6 @@ export default {
 	.reply-comment
 		opacity: .8
 		cursor: pointer
+.send-icon-button
+	transform: rotate(-60deg) !important
 </style>

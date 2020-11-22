@@ -2,7 +2,7 @@
 	<!--	TODO: make dark implementation too -->
 	<v-card
 		color="white"
-		class="mx-auto elevation-1"
+		class="mb-2"
 	>
 		<v-list-item>
 			<v-list-item-avatar>
@@ -154,6 +154,4 @@ export default {
 	display: block
 	@media only screen and (max-width: 250px)
 		display: none
-//.v-icon
-//	color: #0e0d0d !important
 </style>
