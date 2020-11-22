@@ -7,11 +7,11 @@
 				</v-icon><span class="ml-2">Peek Photos</span>
 			</p>
 		</div>
-		<v-row class="ma-0 pa-0">
+		<v-row class="ma-0 pa-1">
 			<v-col
 				v-for="n in 9"
 				:key="n"
-				class="d-flex child-flex"
+				class="d-flex child-flex pa-1"
 				cols="4"
 			>
 				<v-img

@@ -1,7 +1,7 @@
 <template>
 	<tab-item-card value="tab-Posts">
 		<template #content>
-			<v-row class="pa-0 pt-lg-2 pt-xl-2 mx-3 mx-lg-0 mx-xl-0">
+			<v-row class="pa-0 ma-0">
 				<v-col
 					cols="12"
 					xl="4"
@@ -13,11 +13,26 @@
 				<v-col cols="12"
 					xl="8"
 					lg="8"
+					class="pa-2"
 				>
-					<article-post :post="articlePost" />
-					<multimedia :post="multimediaPost" />
-					<article-post :post="articlePost" />
-					<multimedia :post="multimediaPost" />
+					<div class="mb-2">
+						<article-post :post="articlePost" />
+					</div>
+					<div class="mb-2">
+						<article-post :post="articlePost" />
+					</div>
+					<div class="mb-2">
+						<article-post :post="articlePost" />
+					</div>
+					<div class="mb-2">
+						<multimedia :post="multimediaPost" />
+					</div>
+					<div class="mb-2">
+						<article-post :post="articlePost" />
+					</div>
+					<div class="mb-2">
+						<multimedia :post="multimediaPost" />
+					</div>
 				</v-col>
 			</v-row>
 		</template>

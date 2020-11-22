@@ -36,11 +36,14 @@
 
 			<v-avatar
 				size="100"
-				class="logo-avatar"
+				class="logo-avatar ma-0 pa-0"
 			>
 				<v-img
+					class="ma-0 pa-0"
 					:src="logo"
 					alt="SacchaiLogo"
+					width="107%"
+					height="107%"
 				/>
 			</v-avatar>
 
@@ -172,8 +175,10 @@ export default {
 	background-color: white !important
 	color: #45ae59 !important
 .logo-avatar
+	background-color: black
 	transition: all .3s
 	visibility: visible
+	border: none
 	opacity: 1
 	@media only screen and (max-width: 600px) and (min-width: 191px)
 		height: 50px !important

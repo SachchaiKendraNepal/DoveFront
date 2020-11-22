@@ -65,9 +65,10 @@
 						flat
 					>
 						<v-app-bar-nav-icon class=" mx-1 mx-xl-0 mx-lg-0 mx-md-2">
-							<v-avatar color="grey lighten-2"
+							<v-avatar
+								id="bird-avatar"
+								color="grey lighten-2"
 								class="elevation-4 mt-2 mt-md-0 mt-lg-0 mt-xl-0"
-								style="border: 2px solid #0077cd !important;"
 							>
 								<v-icon x-large
 									color="primary"
@@ -231,13 +232,39 @@ export default {
 		#cover-photo
 			border-radius: 0 0 10px 10px
 	#profile-av-col
+		transition: all .3s
 		margin-top: -170px
+		@media only screen and (max-width: 600px) and (min-width: 176px)
+			margin-top: -120px
+		@media only screen and (max-width: 175px) and (min-width: 111px)
+			margin-top: -60px
+		@media only screen and (max-width: 110px)
+			margin-top: -30px
 		#profile-avatar
+			background-color: white
+			transition: all .3s
 			border: 5px solid white
+			@media only screen and (max-width: 600px) and (min-width: 176px)
+				border: 4px solid white
+				height: 150px !important
+				min-width: 150px !important
+				width: 150px !important
+			@media only screen and (max-width: 175px) and (min-width: 111px)
+				border: 2px solid white
+				height: 100px !important
+				min-width: 100px !important
+				width: 100px !important
+			@media only screen and (max-width: 110px)
+				border: 2px solid white
+				height: 60px !important
+				min-width: 60px !important
+				width: 60px !important
 	#divider
 		border-bottom: 1px solid grey
 		max-width: 1000px
 	#top-info
 		text-align: center
 		max-width: 1000px
+#bird-avatar
+	border: 2px solid #0077cd !important
 </style>

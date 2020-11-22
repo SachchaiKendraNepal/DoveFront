@@ -1,18 +1,18 @@
 <template>
 	<tab-item-card value="tab-Photos">
 		<template #content>
-			<v-card class="my-4">
+			<v-card class="ma-2">
 				<v-card-title class="display-1">
 					Photos
 				</v-card-title>
 				<v-card-text class="headline pb-0">
 					This November
 				</v-card-text>
-				<v-row class="ma-0 pa-0">
+				<v-row class="ma-0 pa-0 px-1">
 					<v-col
 						v-for="n in 9"
 						:key="n"
-						class="d-flex child-flex"
+						class="d-flex child-flex pa-1"
 						cols="4"
 					>
 						<v-img
@@ -39,11 +39,11 @@
 				<v-card-text class="headline pb-0">
 					This Year 2020
 				</v-card-text>
-				<v-row class="ma-0 pa-0">
+				<v-row class="ma-0 pa-0 px-1">
 					<v-col
 						v-for="n in 9"
 						:key="n"
-						class="d-flex child-flex"
+						class="d-flex child-flex pa-1"
 						cols="4"
 					>
 						<v-img
