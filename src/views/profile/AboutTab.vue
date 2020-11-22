@@ -1,7 +1,8 @@
 <template>
-	<tab-item-card value="tab-About">
+	<tab-item-card>
 		<template #content>
 			<v-card id="about-follower-card"
+				class="ma-2"
 				color="transparent"
 			>
 				<v-tabs

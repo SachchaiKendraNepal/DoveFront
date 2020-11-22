@@ -1,5 +1,5 @@
 <template>
-	<tab-item-card value="tab-Multimedia">
+	<tab-item-card>
 		<template #content>
 			<v-card class="ma-2 pa-0">
 				<v-card-title class="headline">

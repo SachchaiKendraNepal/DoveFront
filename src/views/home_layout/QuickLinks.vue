@@ -40,9 +40,10 @@ export default {
 				color: "grey darken-3",
 				action: "mdi-star-circle",
 				items: [
-					{ title: "My Profile", icon: "mdi-account-circle", to: "/home/profile" },
-					{ title: "My Posts", icon: "mdi-post" },
-					{ title: "My Medias", icon: "mdi-video-vintage" },
+					{ title: "My Profile", icon: "mdi-account-circle", to: "/profile/about" },
+					{ title: "My Posts", icon: "mdi-post", to: "/profile/post" },
+					{ title: "My Photos", icon: "mdi-image", to: "/profile/photo" },
+					{ title: "My Medias", icon: "mdi-video-vintage", to: "/profile/multimedia" },
 					{ title: "My Bookmarks", icon: "mdi-bookmark" },
 				],
 				title: "My Links",
