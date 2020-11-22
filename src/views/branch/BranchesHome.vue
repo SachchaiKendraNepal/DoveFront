@@ -96,13 +96,7 @@
 							</v-icon> {{ item.created_at }}
 						</v-card-subtitle>
 						<v-card-text class="py-0 pb-2">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-							"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
-							"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-							"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
-							"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
-							"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
-							"mollit anim id est laborum.
+							{{ description_mock.substr(200) }}
 							<span>...</span>
 						</v-card-text>
 
@@ -126,7 +120,7 @@
 											<v-list-item-subtitle>Branch Vice Chief</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
-									<v-list-item>
+									<v-list-item v-show="$vuetify.breakpoint.xlOnly">
 										<v-list-item-icon><v-icon>mdi-account-hard-hat</v-icon></v-list-item-icon>
 										<v-list-item-content>
 											<v-list-item-title>50</v-list-item-title>
@@ -140,7 +134,7 @@
 											</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
-									<v-list-item>
+									<v-list-item v-show="$vuetify.breakpoint.xlOnly">
 										<v-list-item-icon><v-icon>mdi-account-hard-hat</v-icon></v-list-item-icon>
 										<v-list-item-content>
 											<v-list-item-title>50</v-list-item-title>
@@ -159,7 +153,7 @@
 									color="transparent"
 									class="pa-0"
 								>
-									<v-list-item>
+									<v-list-item v-show="$vuetify.breakpoint.xlOnly">
 										<v-list-item-icon><v-icon>mdi-office-building-marker</v-icon></v-list-item-icon>
 										<v-list-item-content>
 											<v-list-item-title>{{ item.province }}</v-list-item-title>
@@ -168,7 +162,7 @@
 											</v-list-item-subtitle>
 										</v-list-item-content>
 									</v-list-item>
-									<v-list-item>
+									<v-list-item v-show="$vuetify.breakpoint.xlOnly">
 										<v-list-item-icon><v-icon>mdi-map-marker-multiple</v-icon></v-list-item-icon>
 										<v-list-item-content>
 											<v-list-item-title>{{ item.district }}</v-list-item-title>
@@ -271,6 +265,13 @@
 export default {
 	name: "EventsHomeComponent",
 	data: () => ({
+		description_mock: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+			"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
+			"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
+			"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
+			"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
+			"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
+			"mollit anim id est laborum.",
 		searchEvents: "",
 		colors: [
 			"#F44336",

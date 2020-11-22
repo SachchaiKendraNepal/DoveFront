@@ -2,41 +2,17 @@
 	<v-row
 		justify="center"
 		align="center"
-		class="mx-4"
+		class="ma-0 pa-1"
 	>
 		<v-col
+			v-for="n in 10"
+			:key="n"
 			cols="12"
 			xl="3"
 			lg="4"
 			md="4"
 			sm="6"
-		>
-			<article-post :post="post" />
-		</v-col>
-		<v-col
-			cols="12"
-			xl="3"
-			lg="4"
-			md="4"
-			sm="6"
-		>
-			<article-post :post="post" />
-		</v-col>
-		<v-col
-			cols="12"
-			xl="3"
-			lg="4"
-			md="4"
-			sm="6"
-		>
-			<article-post :post="post" />
-		</v-col>
-		<v-col
-			cols="12"
-			xl="3"
-			lg="4"
-			md="4"
-			sm="6"
+			class="ma-0 pa-1"
 		>
 			<article-post :post="post" />
 		</v-col>

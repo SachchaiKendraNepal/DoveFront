@@ -3,7 +3,7 @@
 		<template #media>
 			<youtube
 				ref="youtube"
-				class="pa-4"
+				class="pa-0"
 				:video-id="getId(videoUrl)"
 				:resize="true"
 				:resize-delay="1"

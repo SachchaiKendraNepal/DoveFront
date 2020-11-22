@@ -2,7 +2,7 @@
 	<!--	TODO: make dark implementation too -->
 	<v-card
 		color="white"
-		class="mx-auto mb-4 elevation-1"
+		class="mx-auto elevation-1"
 	>
 		<v-list-item>
 			<v-list-item-avatar>
