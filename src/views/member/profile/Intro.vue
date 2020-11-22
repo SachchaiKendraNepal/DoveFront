@@ -26,11 +26,14 @@
 				:key="index"
 				@click="1"
 			>
+				<v-list-item-icon class="mx-0 mr-3">
+					<v-icon>
+						{{ item.icon }}
+					</v-icon>
+				</v-list-item-icon>
 				<v-list-item-content>
 					<v-list-item-subtitle>
-						<v-icon class="mr-2">
-							{{ item.icon }}
-						</v-icon>{{ item.detailKey }} <b>{{ item.value }}</b>
+						{{ item.detailKey }} <b>{{ item.value }}</b>
 					</v-list-item-subtitle>
 				</v-list-item-content>
 			</v-list-item>
@@ -61,4 +64,6 @@ export default {
 	position: -webkit-sticky
 	position: sticky
 	top: 145px
+::v-deep.v-list-item__subtitle
+	white-space: normal
 </style>

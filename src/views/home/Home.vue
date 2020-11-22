@@ -20,11 +20,24 @@
 				sm="8"
 			>
 				<add-post-box />
-				<article-post :post="articlePost" />
-				<article-post :post="articlePost" />
-				<multimedia :post="multimediaPost" />
-				<article-post :post="articlePost" />
-				<multimedia :post="multimediaPost" />
+				<div class="mb-2">
+					<article-post :post="articlePost" />
+				</div>
+				<div class="mb-2">
+					<article-post :post="articlePost" />
+				</div>
+				<div class="mb-2">
+					<article-post :post="articlePost" />
+				</div>
+				<div class="mb-2">
+					<multimedia :post="multimediaPost" />
+				</div>
+				<div class="mb-2">
+					<article-post :post="articlePost" />
+				</div>
+				<div class="mb-2">
+					<multimedia :post="multimediaPost" />
+				</div>
 			</v-col>
 			<v-col
 				cols="12"

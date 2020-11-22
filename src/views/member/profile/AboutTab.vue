@@ -2,7 +2,8 @@
 	<tab-item-card value="tab-About">
 		<template #content>
 			<v-card id="about-follower-card"
-				class="my-4"
+				class="mt-4"
+				color="transparent"
 			>
 				<v-tabs
 					id="about-tab"
@@ -29,15 +30,22 @@
 									:key="i"
 								>
 									<v-list-item>
-										<v-list-item-icon>
-											<v-icon color="indigo">
+										<v-list-item-icon v-show="
+											$vuetify.breakpoint.width > 405
+										"
+										>
+											<v-icon
+												color="indigo"
+											>
 												{{ item.icon }}
 											</v-icon>
 										</v-list-item-icon>
 
 										<v-list-item-content>
-											<v-list-item-title>{{ item.value }}</v-list-item-title>
-											<v-list-item-subtitle>{{ item.field }}</v-list-item-subtitle>
+											<v-list-item-title class="wrap-title">
+												{{ item.value }}
+											</v-list-item-title>
+											<v-list-item-subtitle v-html="item.field" />
 										</v-list-item-content>
 
 										<v-list-item-icon>
@@ -421,4 +429,8 @@ export default {
 	#about-tab
 		::v-deep.v-tab
 			min-width: 40px
+::v-deep.v-list-item__subtitle
+	white-space: normal
+::v-deep.v-list-item__title
+	white-space: normal
 </style>

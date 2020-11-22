@@ -2,7 +2,6 @@
 	<!--	TODO: make dark implementation too -->
 	<v-card
 		color="white"
-		class="mb-2"
 	>
 		<v-list-item>
 			<v-list-item-avatar>

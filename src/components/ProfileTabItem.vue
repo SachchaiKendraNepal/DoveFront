@@ -7,7 +7,7 @@
 			max-width="1000"
 			flat
 			class="mx-auto tab-item-card-wrapper"
-			light
+			color="transparent"
 		>
 			<slot name="content" />
 		</v-card>
