@@ -1,5 +1,5 @@
 <template>
-	<v-card class="stick mt-4">
+	<v-card class="ma-2">
 		<div class="peek-heading">
 			<p>
 				<v-icon color="white">

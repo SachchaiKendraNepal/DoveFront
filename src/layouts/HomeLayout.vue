@@ -167,9 +167,8 @@ export default {
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
-		drawer: false,
 		group: null,
-		currentItem: "",
+		currentItem: "Home",
 		logo: require("@/assets/sacchai_logo.jpg"),
 		homeTabItems: [
 			{icon: "mdi-home", text: "Home", to: "/home/feeds"},

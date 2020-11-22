@@ -1,7 +1,7 @@
 <template>
 	<tab-item-card value="tab-Multimedia">
 		<template #content>
-			<v-card class="my-4">
+			<v-card class="ma-2 pa-0">
 				<v-card-title class="headline">
 					My Sounds
 				</v-card-title>
@@ -19,23 +19,29 @@
 				<v-card-title class="headline pb-0">
 					My Videos
 				</v-card-title>
-				<v-row justify="start"
+				<v-row
+					justify="start"
 					align="center"
+					class="ma-0 pa-1"
 				>
 					<v-col
 						v-for="(item, keyring) in multimediaVideos"
 						:key="keyring"
 						cols="12"
-						xl="6"
-						lg="6"
-						md="6"
+						class="ma-0 pa-0"
+						xl="3"
+						lg="4"
+						md="4"
+						sm="6"
 					>
-						<vue-player
-							:v-model="item.playing"
-							:src="item.videoUrl"
-							:poster="item.videoPosterImageUrl"
-							:title="item.videoPosterTitle"
-							class="mx-4 my-3"
+						<youtube
+							ref="youtube"
+							class="pa-1"
+							:video-id="getId(item.videoUrl)"
+							:resize="true"
+							:resize-delay="1"
+							:fit-parent="true"
+							@playing="item.playing"
 						/>
 					</v-col>
 				</v-row>
@@ -44,14 +50,12 @@
 	</tab-item-card>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 
 export default {
 	name: "ProfileMultimediaTabView",
 	components: {
 		TabItemCard: () => import("@/components/ProfileTabItem"),
-		vuePlayer,
 		APlayer,
 	},
 	data: () => ({
@@ -124,28 +128,36 @@ export default {
 			{
 				id: 1,
 				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-				duration: null
+				videoUrl: "https://www.youtube.com/watch?v=gDFUYsXHiv0&ab_channel=Sachhaikendranepal",
 			},
 			{
 				id: 2,
 				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
+				videoUrl: "https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal",
 				duration: null
 			},
 			{
 				id: 3,
 				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-				duration: null
+				videoUrl: "https://www.youtube.com/watch?v=2m_K_ilFSTY&ab_channel=Sachhaikendranepal",
 			}
 		],
-	})
+	}),
+	computed: {
+		player() {
+			return this.$refs.youtube.player
+		},
+	},
+	methods: {
+		playVideo() {
+			this.player.playVideo()
+		},
+		playing() {
+			console.log("\o/ we are watching!!!")
+		},
+		getId(url) {
+			return this.$youtube.getIdFromUrl(url)
+		}
+	}
 }
 </script>

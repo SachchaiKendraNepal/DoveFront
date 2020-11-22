@@ -122,7 +122,7 @@
 				class="text-center"
 				cols="12"
 			>
-				©️ {{ new Date().getFullYear() }} — <strong>Ishowiya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
+				©️ {{ new Date().getFullYear() }} — <strong>Ishowriya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
 			</v-col>
 		</v-footer>
 	</div>

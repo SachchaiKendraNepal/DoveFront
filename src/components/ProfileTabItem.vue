@@ -1,27 +1,16 @@
 <template>
-	<v-tab-item
-		:value="value"
-		class="profile-tab-item"
+	<v-card
+		max-width="1000"
+		flat
+		class="mx-auto tab-item-card-wrapper"
+		color="transparent"
 	>
-		<v-card
-			max-width="1000"
-			flat
-			class="mx-auto tab-item-card-wrapper"
-			color="transparent"
-		>
-			<slot name="content" />
-		</v-card>
-	</v-tab-item>
+		<slot name="content" />
+	</v-card>
 </template>
 <script>
 export default {
 	name: "ProfileTabItemCardComponent",
-	props: {
-		value: {
-			type: String,
-			required: true
-		}
-	}
 }
 </script>
 <style lang="sass" scoped>

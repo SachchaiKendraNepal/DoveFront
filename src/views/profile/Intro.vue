@@ -1,5 +1,5 @@
 <template>
-	<v-card class="sticky">
+	<v-card class="ma-2 pa-0">
 		<div class="px-2"
 			style="background-color: darkgoldenrod"
 		>

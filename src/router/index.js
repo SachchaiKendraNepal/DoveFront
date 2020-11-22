@@ -24,11 +24,6 @@ const routes = [
 				component: () => import("@/views/home/Home")
 			},
 			{
-				path: "profile",
-				name: "SACHCHAI NEPAL PROFILE",
-				component: () => import("@/views/member/Profile")
-			},
-			{
 				path: "my-posts",
 				name: "MY POSTS",
 				component: () => import("@/views/member/MyPosts")
@@ -200,6 +195,33 @@ const routes = [
 				component: () => import("@/views/ads/AdDetail")
 			},
 		]
+	},
+	{
+		path: "/profile",
+		name: "FOLLOWER PROFILE",
+		component: () => import("@/layouts/ProfileLayout"),
+		children: [
+			{
+				path: "post",
+				name: "MY POST",
+				component: () => import("@/views/profile/PostsTab")
+			},
+			{
+				path: "about",
+				name: "ABOUT ME",
+				component: () => import("@/views/profile/AboutTab")
+			},
+			{
+				path: "photo",
+				name: "MY PHOTOS",
+				component: () => import("@/views/profile/PhotosTab")
+			},
+			{
+				path: "multimedia",
+				name: "MY MULTIMEDIA",
+				component: () => import("@/views/profile/MultimediaTab")
+			},
+		],
 	},
 ]
 

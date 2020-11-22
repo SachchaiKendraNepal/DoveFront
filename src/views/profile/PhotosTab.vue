@@ -1,7 +1,7 @@
 <template>
 	<tab-item-card value="tab-Photos">
 		<template #content>
-			<v-card class="ma-2">
+			<v-card class="ma-2 pa-0">
 				<v-card-title class="display-1">
 					Photos
 				</v-card-title>
