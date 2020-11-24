@@ -245,7 +245,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>branch</code> added yet.
+										No <code>branch</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -458,7 +458,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>country</code> added yet.
+										No <code>country</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -488,7 +488,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>provinces</code> added yet.
+										No <code>provinces</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -518,7 +518,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>district</code> added yet.
+										No <code>district</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -549,7 +549,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>municipality</code> added yet.
+										No <code>municipality</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -580,7 +580,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>municipality ward</code> added yet.
+										No <code>municipality ward</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -611,7 +611,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>vdc</code> added yet.
+										No <code>vdc</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
@@ -642,7 +642,7 @@
 							<template #no-data>
 								<v-list-item>
 									<v-list-item-title>
-										No <code>vdc ward</code> added yet.
+										No <code>vdc ward</code> found.
 									</v-list-item-title>
 								</v-list-item>
 							</template>
