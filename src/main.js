@@ -13,15 +13,21 @@ import $ from "jquery"
 import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
 import VueYoutube from "vue-youtube"
+import moment from "moment"
+import DatetimePicker from "vuetify-datetime-picker"
 
 
 Vue.use(VueYoutube)
 Vue.use(VueBus)
 Vue.component(vuePlayer)
+Vue.use(moment)
 Vue.component(APlayer)
+Vue.use(DatetimePicker)
+
 
 Vue.prototype.$api = api
 Vue.prototype.$jq = $
+Vue.prototype.$moment = moment
 
 Vue.config.productionTip = false
 
