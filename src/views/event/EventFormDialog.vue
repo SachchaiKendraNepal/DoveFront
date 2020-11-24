@@ -851,11 +851,9 @@ export default {
 		},
 
 		async save() {
-			console.log(this.editedItem)
 			if (this.editedIndex > -1) {
 				["country", "province", "district", "organizer", "vdc", "vdc_ward", "municipality", "municipality_ward"].forEach(model => {
 					if (this.editedItem[model] !== undefined && this.editedItem[model] !== null) {
-						console.log(model)
 						if (typeof this.editedItem[model] === "object") {
 							this.editedItem[model] = this.editedItem[model].id
 						}
@@ -903,8 +901,6 @@ export default {
 	position: -webkit-sticky
 	top: 0
 	z-index: 205
-.zero-border-radius
-	border-radius: 0
 .v-input--selection-controls
 	margin-top: 0
 .small-detail-icon
