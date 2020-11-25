@@ -180,28 +180,46 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-text-field
-							id="branch-phone"
-							v-model="editedItem.phone"
-							class="ma-0"
-							dense
-							outlined
-							clearable
-							label="Phone"
+						<v-combobox
+							v-model="editedItem.contacts"
+							class="ma-0 pa-0"
+							:items="[]"
+							hide-selected
+							hint="Add contact number and hit Enter to add a new one."
+							label="Contacts"
+							multiple
+							small-chips
+							deletable-chips
 							type="number"
-							hide-details="auto"
+							outlined
+							dense
+							attach=""
+							clearable
 							prepend-inner-icon="mdi-phone-classic"
 						/>
 					</v-col>
 					<v-col
 						cols="12"
-						class="ma-0 pa-0"
+						class="ma-0 pa-0 checkbox-input-column"
 					>
 						<v-checkbox
 							id="is_main"
 							v-model="editedItem.is_main"
 							label="Is Main Branch?"
 							append-icon="mdi-map-marker-star-outline"
+							hide-details="auto"
+						/>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0 checkbox-input-column"
+					>
+						<v-checkbox
+							id="is_approved"
+							v-model="editedItem.is_approved"
+							label="Approval Status"
+							append-icon="mdi-check-circle"
+							hide-details="auto"
 						/>
 					</v-col>
 					<v-col
@@ -214,12 +232,12 @@
 							class="ma-0"
 							outlined
 							dense
-							chips
+							small-chips
 							show-size
-							clearable
 							accept="image/*"
 							label="Branch Image"
-							prepend-icon=""
+							clearable
+							multiple
 							prepend-inner-icon="mdi-camera"
 						/>
 					</v-col>
@@ -238,120 +256,219 @@
 						<v-divider class="pb-2" />
 					</v-col>
 					<v-col
+						id="country-input-column"
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-country"
+						<v-autocomplete
+							id="event-country"
 							v-model="editedItem.country"
+							loading="countriesLoading"
 							class="ma-0"
+							allow-overflow
 							dense
-							outlined
-							clearable
-							label="Country"
+							cache-items
+							item-text="name"
+							item-value="id"
 							:items="countries"
+							attach=""
+							outlined
+							label="Country"
+							clearable
 							prepend-inner-icon="mdi-web"
-						/>
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>country</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-province"
+						<v-autocomplete
+							id="event-province"
 							v-model="editedItem.province"
+							loading="provincesLoading"
 							class="ma-0"
+							allow-overflow
 							dense
+							cache-items
 							outlined
-							clearable
+							attach=""
 							label="Province"
+							item-text="name"
+							item-value="id"
 							:items="provinces"
+							clearable
 							prepend-inner-icon="mdi-office-building-marker-outline"
-						/>
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>provinces</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-districts"
+						<v-autocomplete
+							id="event-districts"
 							v-model="editedItem.district"
+							loading="districtsLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
 							class="ma-0"
+							allow-overflow
 							dense
 							outlined
-							clearable
+							attach=""
 							:items="districts"
 							label="District"
+							clearable
 							prepend-inner-icon="mdi-map-marker-multiple-outline"
-						/>
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>district</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
-						v-if="!editedItem.vdc"
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-municipality"
+						<v-autocomplete
+							id="event-municipality"
 							v-model="editedItem.municipality"
+							loading="municipalitiesLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
 							class="ma-0"
+							allow-overflow
 							dense
 							outlined
-							clearable
+							attach=""
 							label="Municipality"
 							:items="municipalities"
+							clearable
 							prepend-inner-icon="mdi-google-maps"
-						/>
+							:disabled="editedItem.vdc > 0"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>municipality</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
-						v-if="editedItem.municipality"
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-municipality-ward"
+						<v-autocomplete
+							id="event-municipality-ward"
 							v-model="editedItem.municipality_ward"
+							loading="municipalityWardsLoading"
+							item-text="name"
+							item-value="id"
 							class="ma-0"
+							allow-overflow
+							cache-items
 							dense
 							outlined
 							clearable
+							attach=""
 							label="Municipality Ward"
 							:items="municipality_wards"
+							:disabled="editedItem.vdc > 0"
 							prepend-inner-icon="mdi-numeric"
-						/>
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>municipality ward</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
-						v-if="!editedItem.municipality"
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-select
-							id="branch-vdc"
+						<v-autocomplete
+							id="event-vdc"
 							v-model="editedItem.vdc"
+							loading="vdcsLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
+							allow-overflow
 							class="ma-0"
 							dense
+							attach=""
 							outlined
-							clearable
 							label="VDC"
 							:items="vdcs"
+							clearable
 							prepend-inner-icon="mdi-home-map-marker"
-						/>
+							:disabled="editedItem.municipality > 0"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>vdc</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col
-						v-if="editedItem.vdc"
 						cols="12"
-						class="ma-0 pa-0"
+						class="ma-0 pa-0 event-vdc-col"
 					>
-						<v-select
-							id="branch-vdc-ward"
+						<v-autocomplete
+							id="event-vdc-ward"
 							v-model="editedItem.vdc_ward"
+							loading="vdcWardsLoading"
+							item-text="name"
+							item-value="id"
 							class="ma-0"
+							allow-overflow
+							cache-items
 							dense
 							outlined
 							clearable
+							attach=""
 							label="VDC Ward"
 							:items="vdc_wards"
+							:disabled="editedItem.municipality > 0"
 							prepend-inner-icon="mdi-numeric"
-						/>
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>vdc ward</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
 					</v-col>
 					<v-col cols="12"
 						class="pb-16"
@@ -383,59 +500,52 @@
 </template>
 <script>
 import router from "@/router";
+import {mapGetters} from "vuex";
+import {cookEditData, getFormData} from "@/Helper";
 
 export default {
 	name: "BranchFormDialog",
 	data: () => ({
 		dialog: false,
-		countries: ["Nepal", "India", "Bhutan", "Pakistan", "Singapore", "HongKong"],
-		provinces: ["Bagmati Pradesh", "Gandaki Pradesh", "Uttar Pradesh", "Goa", "Province 1"],
-		districts: ["Kaski", "Kathmandu", "Humla", "Jhapa", "Chitwan", "Sarlahi", "Nepalgunj"],
-		municipalities: ["Pokhara-Lekhnath", "Kathmandu", "Panchkhal", "Banepa"],
-		municipality_wards: ["Amarsingh", "Tinpiple", "Chauthe", "Chaukot"],
-		vdcs: [
-			"Barai",
-			"Bargaun",
-			"Badalkot",
-			"Photu",
-			"Aaglung",
-			"Siddhara",
-			"Simalapani",
-			"Aruchaur",
-			"Arukharka",
-			"Armala",
-			"Deurali"
-		],
-		vdc_wards: [
-			"alskdf",
-			"sldkf",
-			"sldkf",
-			"sldkf",
-			"sldkfjs",
-			"sldkfs",
-			"owiek",
-			"mndkjf",
-			"woeik"
-		],
+		countriesLoading: false,
+		provincesLoading: false,
+		districtsLoading: false,
+		municipalitiesLoading: false,
+		municipalityWardsLoading: false,
+		branchesLoading: false,
+		vdcsLoading: false,
+		vdcWardsLoading: false,
 		editedIndex: -1,
 		editedItem: {
 			id: "",
+			image: "",
 			name: "",
 			country: "",
 			province: "",
 			district: "",
-			municipality: "",
-			municipality_ward: "",
-			vdc: "",
-			vdc_ward: "",
-			phone: Number,
+			municipality: null,
+			municipality_ward: null,
+			vdc: null,
+			vdc_ward: null,
+			contacts: [],
 			is_main: false,
+			is_approved: false,
 			imageForUpload: []
 		},
 		defaultItem: {},
 		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
 	}),
 	computed: {
+		...mapGetters({
+			countries: "location/allCountries",
+			provinces: "location/allProvinces",
+			districts: "location/allDistricts",
+			municipalities: "location/allMunicipalities",
+			municipality_wards: "location/allMunicipalityWards",
+			vdcs: "location/allVdcs",
+			vdc_wards: "location/allVdcWards",
+		}),
+
 		formTitle() {
 			return this.editedIndex === -1 ? "New Branch" : "Edit Branch"
 		},
@@ -443,15 +553,58 @@ export default {
 			return this.editedIndex === -1 ? "mdi-home-modern" : "mdi-home-edit"
 		}
 	},
-	created() {
+	async created() {
 		this.$bus.on("open-branch-form-dialog-add-item", this.openDialog)
 		this.$bus.on("open-branch-form-dialog-edit-item", this.openEditDialog)
+		await this.initCountries()
+		await this.initProvinces()
+		await this.initDistricts()
+		await this.initMunicipalities()
+		await this.initMunicipalityWards()
+		await this.initVdcs()
+		await this.initVdcWards()
 	},
 	beforeUnmount() {
 		this.$bus.off("open-branch-form-dialog-add-item")
 		this.$bus.off("open-branch-form-dialog-edit-item")
 	},
 	methods: {
+		async initCountries() {
+			this.countriesLoading = true
+			await this.$store.dispatch("location/getAllCountries")
+			this.countriesLoading = false
+		},
+		async initProvinces() {
+			this.provincesLoading = true
+			await this.$store.dispatch("location/getAllProvinces")
+			this.provincesLoading = false
+		},
+		async initDistricts() {
+			this.districtsLoading = true
+			await this.$store.dispatch("location/getAllDistricts")
+			this.districtsLoading = false
+		},
+		async initMunicipalities() {
+			this.municipalitiesLoading = true
+			await this.$store.dispatch("location/getAllMunicipalities")
+			this.municipalitiesLoading = false
+		},
+		async initMunicipalityWards() {
+			this.municipalityWardsLoading = true
+			await this.$store.dispatch("location/getAllMunicipalityWards")
+			this.municipalitiesLoading = false
+		},
+		async initVdcs() {
+			this.vdcsLoading = true
+			await this.$store.dispatch("location/getAllVdcs")
+			this.vdcsLoading = false
+		},
+		async initVdcWards() {
+			this.vdcWardsLoading = true
+			await this.$store.dispatch("location/getAllVdcWards")
+			this.vdcWardsLoading = false
+		},
+
 		openDialog() {
 			this.dialog = true
 		},
@@ -470,12 +623,36 @@ export default {
 			})
 		},
 
-		save() {
+		async save() {
 			if (this.editedIndex > -1) {
-				Object.assign(this.branches[this.editedIndex], this.editedItem)
+				// get id from objects
+				const body = cookEditData("branch", this.editedItem, "image")
+				// get form data
+				const branchData = getFormData(body)
+				await this.$store.dispatch(
+					"branch/update",
+					{
+						id: this.editedItem.id,
+						body: branchData
+					}
+				)
 			} else {
-				this.branches.push(this.editedItem)
+				// Remove unused municipality or vdc
+				if (this.editedItem.municipality > 0) {
+					delete this.editedItem.vdc
+					delete this.editedItem.vdc_ward
+				} else {
+					delete this.editedItem.municipality
+					delete this.editedItem.municipality_ward
+				}
+				// remove image from object if not added
+				if (this.editedItem.imageForUpload !== undefined) {
+					this.editedItem.image = this.editedItem.imageForUpload[0]
+				} else delete this.editedItem.image
+				const branchData = getFormData(this.editedItem)
+				await this.$store.dispatch("branch/create", branchData)
 			}
+			this.$bus.emit("reload-branches")
 			this.close()
 		},
 
@@ -519,4 +696,13 @@ export default {
 
 .cursor
 	cursor: pointer
+
+.checkbox-input-column
+	::v-deep.v-input--checkbox
+		margin: -5px 0 25px
+		padding: 10px 10px
+		border: 1px solid rgb(156 155 150) !important
+		border-radius: 3px
+	::v-deep.v-input--checkbox:hover
+		border: 1px solid black !important
 </style>

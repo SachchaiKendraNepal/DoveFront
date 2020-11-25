@@ -87,18 +87,33 @@
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.contacts="{ item }">
+			<template v-for="contact in item.contacts">
+				<!-- eslint-disable-next-line vue/no-v-for-template-key-on-child-->
+				<v-chip :key="contact"
+					class="contact-chip-item"
+				>
+					{{ contact }}
+				</v-chip>
+			</template>
+		</template>
+		<!--		 eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.location="{ item }">
 			<p
-				class="mb-0"
+				class="mb-0 location"
 			>
-				<span style="color: #545454">
-					{{ (item.vdc_ward) ? item.vdc_ward : item.municipality_ward }},&nbsp;
-					{{ (item.vdc) ? item.vdc : item.municipality }},&nbsp;
+				<span>
+					{{ (item.vdc_ward !== null) ? item.vdc_ward.name : item.municipality_ward.name }},&nbsp;
+					{{ (item.vdc !== null) ? item.vdc.name : item.municipality.name }},&nbsp;
 				</span>
-				<i>{{ item.district }},&nbsp;
-					{{ item.province }},&nbsp;</i>
-				<b>{{ item.country }}</b>
+				<i>{{ item.district.name }},&nbsp;
+					{{ item.province.name }},&nbsp;</i>
+				<b>{{ item.country.name }}</b>
 			</p>
+		</template>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.created_at="{ item }">
+			{{ $moment(item.created_at).fromNow() }}
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.actions="{ item }">
@@ -133,6 +148,7 @@
 
 <script>
 import router from "@/router";
+import {mapGetters} from "vuex";
 
 export default {
 	name: "BranchTable",
@@ -151,308 +167,33 @@ export default {
 			},
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
-			{ text: "PHONE", value: "phone" },
+			{ text: "CONTACTS", value: "contacts" },
 			{ text: "IS MAIN BRANCH", value: "is_main" },
 			{ text: "LOCATION", value: "location" },
 			{ text: "CREATED AT", value: "created_at" }
-		],
-		branches: [],
+		]
 	}),
 
+	computed: {
+		...mapGetters({
+			branches: "branch/allBranches"
+		})
+	},
+
 	created() {
+		this.$bus.on("reload-branches", this.initialize)
 		this.initialize()
+	},
+
+	beforeUnmount() {
+		this.$bus.off("reload-branches")
 	},
 
 	methods: {
 		initialize() {
-			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
-			this.branches = [
-				{
-					id: 1,
-					name: "Pokhara Branch",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara-Lekhnath",
-					municipality_ward: "Amarsingh",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9856325632,
-					is_main: false,
-					created_by: "kiran589",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 2,
-					name: "Kathmandu Branch",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Baneshowr",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9858325632,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 3,
-					name: "Humla Branch",
-					country: "Nepal",
-					province: "Province No. 1",
-					district: "Humla",
-					municipality: null,
-					municipality_ward: null,
-					vdc: "Aaglung",
-					vdc_ward: "sldkf",
-					phone: 9858325578,
-					is_main: false,
-					created_by: "raymz584",
-					created_at: now,
-					updated_by: "raymz584",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 4,
-					name: "Pokhara Branch",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara-Lekhnath",
-					municipality_ward: "Amarsingh",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9856325632,
-					is_main: false,
-					created_by: "kiran589",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 5,
-					name: "Kathmandu Branch",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Baneshowr",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9858325632,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 6,
-					name: "Humla Branch",
-					country: "Nepal",
-					province: "Province No. 1",
-					district: "Humla",
-					municipality: null,
-					municipality_ward: null,
-					vdc: "Aaglung",
-					vdc_ward: "sldkf",
-					phone: 9858325578,
-					is_main: false,
-					created_by: "raymz584",
-					created_at: now,
-					updated_by: "raymz584",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 7,
-					name: "Pokhara Branch",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara-Lekhnath",
-					municipality_ward: "Amarsingh",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9856325632,
-					is_main: false,
-					created_by: "kiran589",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 8,
-					name: "Kathmandu Branch",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Baneshowr",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9858325632,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 9,
-					name: "Humla Branch",
-					country: "Nepal",
-					province: "Province No. 1",
-					district: "Humla",
-					municipality: null,
-					municipality_ward: null,
-					vdc: "Aaglung",
-					vdc_ward: "sldkf",
-					phone: 9858325578,
-					is_main: false,
-					created_by: "raymz584",
-					created_at: now,
-					updated_by: "raymz584",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 10,
-					name: "Pokhara Branch",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara-Lekhnath",
-					municipality_ward: "Amarsingh",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9856325632,
-					is_main: false,
-					created_by: "kiran589",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 11,
-					name: "Kathmandu Branch",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Baneshowr",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9858325632,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 12,
-					name: "Humla Branch",
-					country: "Nepal",
-					province: "Province No. 1",
-					district: "Humla",
-					municipality: null,
-					municipality_ward: null,
-					vdc: "Aaglung",
-					vdc_ward: "sldkf",
-					phone: 9858325578,
-					is_main: false,
-					created_by: "raymz584",
-					created_at: now,
-					updated_by: "raymz584",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 13,
-					name: "Pokhara Branch",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara-Lekhnath",
-					municipality_ward: "Amarsingh",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9856325632,
-					is_main: false,
-					created_by: "kiran589",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 14,
-					name: "Kathmandu Branch",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Baneshowr",
-					vdc: null,
-					vdc_ward: null,
-					phone: 9858325632,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 15,
-					name: "Humla Branch",
-					country: "Nepal",
-					province: "Province No. 1",
-					district: "Humla",
-					municipality: null,
-					municipality_ward: null,
-					vdc: "Aaglung",
-					vdc_ward: "sldkf",
-					phone: 9858325578,
-					is_main: false,
-					created_by: "raymz584",
-					created_at: now,
-					updated_by: "raymz584",
-					updated_at: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				}
-			]
+			this.isLoading = true
+			this.$store.dispatch("branch/getAll")
+			this.isLoading = false
 		},
 
 		openAddBranchFormDialog() {
@@ -466,9 +207,17 @@ export default {
 			})
 		},
 
-		deleteItem(item) {
+		async deleteItem(item) {
 			const index = this.branches.indexOf(item)
-			confirm("Are you sure you want to delete this branch?") && this.branches.splice(index, 1)
+			const reaction = confirm(`Are you sure you want to delete branch "${item.name}"?`);
+			if (reaction === true) {
+				await this.$store.dispatch(
+					"branch/delete",
+					{
+						id: item.id,
+					})
+				this.branches.splice(index, 1)
+			}
 		},
 
 		routeToBranchDetailPage(itemId) {
@@ -491,4 +240,8 @@ export default {
 	display: block
 	@media only screen and (max-width: 315px)
 		display: none
+.contact-chip-item
+	font-size: 12px
+	height: 22px
+	margin: 2px
 </style>
