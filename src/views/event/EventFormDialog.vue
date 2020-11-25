@@ -434,6 +434,23 @@
 						<v-divider />
 					</v-col>
 					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-text-field
+							id="event-venue"
+							v-model="editedItem.venue"
+							class="ma-0"
+							dense
+							outlined
+							counter="255"
+							label="Venue"
+							clearable
+							prepend-inner-icon="mdi-home-roof"
+							hint="Where is the event going to be organized?"
+						/>
+					</v-col>
+					<v-col
 						id="country-input-column"
 						cols="12"
 						class="ma-0 pa-0"
@@ -648,23 +665,6 @@
 							</template>
 						</v-autocomplete>
 					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							id="event-venue"
-							v-model="editedItem.venue"
-							class="ma-0"
-							dense
-							outlined
-							counter="255"
-							label="Venue"
-							clearable
-							prepend-inner-icon="mdi-home-roof"
-							hint="Where is the event going to be organized?"
-						/>
-					</v-col>
 					<v-col cols="12"
 						class="pa-0 pb-16 text-center"
 					>
@@ -694,7 +694,7 @@
 import moment from "moment"
 import router from "@/router"
 import {mapGetters} from "vuex";
-import {getFormData} from "@/Helper"
+import {cookCreateData, cookEditData, getFormData} from "@/Helper"
 
 export default {
 	name: "EventFormDialog",
@@ -755,8 +755,7 @@ export default {
 			municipality_wards: "location/allMunicipalityWards",
 			vdcs: "location/allVdcs",
 			vdc_wards: "location/allVdcWards",
-			branches: "branch/allBranches",
-			lastCreatedEvent: "event/lastCreatedEvent"
+			branches: "branch/allBranches"
 		}),
 		formTitle() {
 			return this.editedIndex === -1
@@ -794,7 +793,7 @@ export default {
 	methods: {
 		async initBranches() {
 			this.branchesLoading = true
-			await this.$store.dispatch("branch/getAllBranches")
+			await this.$store.dispatch("branch/getAll")
 			this.branchesLoading = false
 		},
 		async initCountries() {
@@ -851,30 +850,11 @@ export default {
 		},
 
 		async save() {
+			const body = {}
+			// Lets update an event
 			if (this.editedIndex > -1) {
-				["country", "province", "district", "organizer", "vdc", "vdc_ward", "municipality", "municipality_ward"].forEach(model => {
-					if (this.editedItem[model] !== undefined && this.editedItem[model] !== null) {
-						if (typeof this.editedItem[model] === "object") {
-							this.editedItem[model] = this.editedItem[model].id
-						}
-					}
-				})
-				// get id from objects
-				if (this.editedItem.municipality > 0) {
-					delete this.editedItem.vdc
-					delete this.editedItem.vdc_ward
-				} else {
-					delete this.editedItem.municipality
-					delete this.editedItem.municipality_ward
-				}
-				// remove banner from object if not changed
-				if (this.editedItem.imageForUpload !== undefined) {
-					this.editedItem.banner = this.editedItem.imageForUpload[0]
-					delete this.editedItem.imageForUpload
-				} else delete this.editedItem.banner
-				// get form data
-				const eventData = getFormData(this.editedItem)
-				// send event put request
+				const body = cookEditData("event", this.editedItem, "banner")
+				const eventData = getFormData(body)
 				await this.$store.dispatch(
 					"event/update",
 					{
@@ -882,8 +862,11 @@ export default {
 						body: eventData
 					}
 				)
-			} else {
-				const eventData = getFormData(this.editedItem)
+			}
+			// Lets create an event
+			else {
+				const body = cookCreateData("banner", this.editedItem)
+				const eventData = getFormData(body)
 				await this.$store.dispatch("event/create", eventData)
 			}
 			this.$bus.emit("reload-events")
@@ -917,7 +900,7 @@ export default {
 		display: none
 #is-main-col
 	::v-deep.v-input--checkbox
-		margin: -5px 0 20px
+		margin: -5px 0 25px
 		padding: 10px 10px
 		border: 1px solid rgb(156 155 150)
 		border-radius: 3px

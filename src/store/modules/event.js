@@ -1,4 +1,7 @@
 import $api from "@/handler/axios"
+import urls from "@/urls.json"
+
+const eventUrl = urls.event
 
 export const SET_EVENTS = "SET_EVENTS"
 export const SET_EVENT = "SET_EVENT"
@@ -28,21 +31,20 @@ const getters = {
 
 const actions = {
 	async getAll({commit}) {
-		const response = await $api.get("/event/")
+		const response = await $api.get(eventUrl)
 		commit("SET_EVENTS", response)
 	},
 
 	async create({commit}, body) {
-		await $api.post("/event/", body)
+		await $api.post(eventUrl, body)
 	},
 
 	async update({commit}, payload) {
-		console.log(payload)
-		await $api.put("/event/" + payload.id + "/", payload.body)
+		await $api.put(eventUrl + payload.id + "/", payload.body)
 	},
 
 	async delete({commit}, payload) {
-		await $api.delete("/event/" + payload.id + "/")
+		await $api.delete(eventUrl + payload.id + "/")
 	}
 }
 

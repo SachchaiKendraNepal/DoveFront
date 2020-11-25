@@ -187,18 +187,13 @@ export default {
 		})
 	},
 	async created() {
-		this.$bus.on("reload-events", this.reloadEvents)
-		this.isLoading = true
+		this.$bus.on("reload-events", this.initialize)
 		await this.initialize()
-		this.isLoading = false
 	},
 	beforeUnmount() {
 		this.$bus.off("reload-events")
 	},
 	methods: {
-		reloadEvents() {
-			this.initialize()
-		},
 		getDurationChipColor(value) {
 			if (value === 1) {
 				return "red lighten-2"
@@ -209,7 +204,9 @@ export default {
 			} else return ""
 		},
 		initialize() {
+			this.isLoading = true
 			this.$store.dispatch("event/getAll")
+			this.isLoading = false
 		},
 
 		openAddEventFormDialog() {
