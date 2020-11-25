@@ -1,7 +1,7 @@
 <template>
 	<v-card max-width="1200"
 		flat
-		class="mx-auto mt-6"
+		class="mx-auto"
 	>
 		<v-row class="ma-0 pa-0">
 			<v-col cols="12">

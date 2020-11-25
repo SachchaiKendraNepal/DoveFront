@@ -2,12 +2,32 @@ import $api from "@/handler/axios"
 
 export const SET_USERS = "SET_USERS"
 export const SET_ROLES = "SET_ROLES"
+export const SET_REGISTER_FORM_ERRS = "SET_REGISTER_FORM_ERRS"
+
+const defaultRegisterErrors = {
+	first_name: null,
+	last_name: null,
+	username: null,
+	email: null,
+	contact: null,
+	password: null,
+	confirm_password: null,
+	birth_date: null,
+	current_city: null,
+	home_town: null,
+	country: null,
+	province: null,
+	district: null,
+}
 
 const state = {
 	users: {},
 	user: {},
 	roles: {},
-	message: "" // To catch error message
+	message: "", // To catch error message
+	registerFormErrors: {
+		... defaultRegisterErrors
+	}
 }
 const mutations = {
 	SET_CURRENT_USER(state, data) {
@@ -21,6 +41,9 @@ const mutations = {
 	},
 	[SET_ROLES](state, value) {
 		state.roles = value
+	},
+	[SET_REGISTER_FORM_ERRS](statue, value) {
+		state.registerFormErrors = value
 	}
 }
 
@@ -86,12 +109,24 @@ const actions = {
 	},
 	async getAllRoles({ commit }) {
 		// TODO: TBD
+	},
+	async registerUser({commit}, userData) {
+		try {
+			const resp = await $api.post("register-follower", userData)
+			return true
+		} catch (e) {
+			if (parseInt(e.response.status.toString()) === 400) {
+				commit("SET_REGISTER_FORM_ERRS", e.response.data)
+			}
+			return 500
+		}
 	}
 }
 
 const getters = {
 	users: (state) => state.users,
-	roles: (state) => state.roles
+	roles: (state) => state.roles,
+	registerFormErrors: (state) => state.registerFormErrors
 }
 
 export default {

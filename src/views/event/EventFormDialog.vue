@@ -40,6 +40,7 @@
 				/>
 				<v-spacer />
 				<v-avatar
+					class="cursor"
 					color="grey darken-3"
 					:size="
 						$vuetify.breakpoint.smAndUp
@@ -715,9 +716,8 @@ export default {
 			"Evening"
 		],
 		eventTypeOptions: [
-			"General",
 			"Satsang",
-			"Board Meet",
+			"Board Meeting",
 			"General Meeting",
 		],
 		editedIndex: -1,
@@ -879,6 +879,8 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.cursor
+	cursor: pointer
 .sticky-dialog-top
 	position: sticky
 	position: -webkit-sticky

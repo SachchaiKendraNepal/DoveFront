@@ -62,13 +62,12 @@ export default {
 					draggable: false,
 					wrapAround: true,
 					autoPlay: 4000,
-					pauseAutoPlayOnHover: false,
 					imagesLoaded: true,
 					cellSelector: ".carousel-cell",
 					contain: true,
 					prevNextButtons: false,
 					selectedAttraction: 0.01,
-					friction: 0.25,
+					friction: 0.15,
 				})
 			})
 		}

@@ -88,7 +88,7 @@
 	</div>
 </template>
 <script>
-import ShowCaseSlider from "@/components/showcase/Slider"
+import ShowCaseSlider from "@/views/home/showcase/Slider"
 import router from "@/router";
 import $ from "jquery";
 export default {
@@ -96,16 +96,16 @@ export default {
 	components: {
 		ShowCaseSlider,
 		ScrollTop: () => import("@/components/ScrollTop"),
-		ServicesPeek: () => import("@/components/showcase/PeekServices"),
+		ServicesPeek: () => import("@/views/home/showcase/PeekServices"),
 		// ShowcaseBar: () => import("@/components/showcase/ShowCaseBar"),
-		EventHighlights: () => import("@/components/showcase/EventHighlights"),
-		KendraInfoBox: () => import("@/components/showcase/KendraInfo"),
-		PinBar: () => import("@/components/showcase/PinnedBar"),
-		Scatter: () => import("@/components/showcase/Scatter"),
+		EventHighlights: () => import("@/views/home/showcase/EventHighlights"),
+		KendraInfoBox: () => import("@/views/home/showcase/KendraInfo"),
+		PinBar: () => import("@/views/home/showcase/PinnedBar"),
+		Scatter: () => import("@/views/home/showcase/Scatter"),
 		HomeFooter: () => import("@/views/home_layout/Footer"),
-		OurGreatStuff: () => import("@/components/showcase/OurGreatStuff"),
-		ShowcaseMap: () => import("@/components/showcase/Map"),
-		AwesomeSwiper: () => import("@/components/showcase/AwesomeSwiper")
+		OurGreatStuff: () => import("@/views/home/showcase/OurGreatStuff"),
+		ShowcaseMap: () => import("@/views/home/showcase/Map"),
+		AwesomeSwiper: () => import("@/views/home/showcase/AwesomeSwiper")
 	},
 	data: () => ({
 		logo: require("@/assets/showcase_logo_v1.png")

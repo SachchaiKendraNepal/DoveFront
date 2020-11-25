@@ -146,11 +146,6 @@ export default {
 		selected: [],
 		search: "",
 		headers: [
-			{
-				text: "PK",
-				align: "start",
-				value: "id"
-			},
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "FULL NAME", value: "full_name" },
 			{ text: "USERNAME", value: "username" },

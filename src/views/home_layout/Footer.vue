@@ -153,7 +153,7 @@
 export default {
 	name: "HomeFooter",
 	components: {
-		FacebookWidget: () => import("@/components/showcase/Facebook")
+		FacebookWidget: () => import("@/views/home/showcase/Facebook")
 	},
 	data: () => ({
 		logo: require("@/assets/sacchai_logo.jpg"),

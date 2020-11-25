@@ -160,11 +160,6 @@ export default {
 		selected: [],
 		isLoading: false,
 		headers: [
-			{
-				text: "PK",
-				align: "start",
-				value: "id"
-			},
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
 			{ text: "CONTACTS", value: "contacts" },

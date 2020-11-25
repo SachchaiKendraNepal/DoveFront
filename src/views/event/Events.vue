@@ -166,11 +166,6 @@ export default {
 		isLoading: false,
 		dialog: false,
 		headers: [
-			{
-				text: "PK",
-				align: "start",
-				value: "id"
-			},
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "TITLE", value: "title" },
 			{ text: "Organizer", value: "organizer" },

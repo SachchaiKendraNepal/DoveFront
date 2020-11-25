@@ -4,6 +4,8 @@ import user from "@/store/modules/user"
 import event from "@/store/modules/event"
 import location from "@/store/modules/location"
 import branch from "@/store/modules/branch"
+import article from "@/store/modules/article"
+import multimedia from "@/store/modules/multimedia"
 
 Vue.use(Vuex)
 
@@ -14,7 +16,9 @@ export default new Vuex.Store({
 		user,
 		event,
 		location,
-		branch
+		branch,
+		article,
+		multimedia
 	},
 	strict: debug
 })
