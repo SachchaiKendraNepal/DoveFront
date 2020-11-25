@@ -694,7 +694,7 @@
 import moment from "moment"
 import router from "@/router"
 import {mapGetters} from "vuex";
-import {cookEditData, getFormData} from "@/Helper"
+import {cookCreateData, cookEditData, getFormData} from "@/Helper"
 
 export default {
 	name: "EventFormDialog",
@@ -854,9 +854,7 @@ export default {
 			// Lets update an event
 			if (this.editedIndex > -1) {
 				const body = cookEditData("event", this.editedItem, "banner")
-				// get form data
 				const eventData = getFormData(body)
-				// send event put request
 				await this.$store.dispatch(
 					"event/update",
 					{
@@ -867,20 +865,8 @@ export default {
 			}
 			// Lets create an event
 			else {
-				// Remove unused municipality or vdc
-				if (this.editedItem.municipality > 0) {
-					delete this.editedItem.vdc
-					delete this.editedItem.vdc_ward
-				} else {
-					delete this.editedItem.municipality
-					delete this.editedItem.municipality_ward
-				}
-				// remove banner from object if not added
-				if (this.editedItem.imageForUpload !== undefined) {
-					this.editedItem.banner = this.editedItem.imageForUpload[0]
-				} else delete this.editedItem.banner
-
-				const eventData = getFormData(this.editedItem)
+				const body = cookCreateData("banner", this.editedItem)
+				const eventData = getFormData(body)
 				await this.$store.dispatch("event/create", eventData)
 			}
 			this.$bus.emit("reload-events")

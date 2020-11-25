@@ -40,7 +40,7 @@
 				class="mx-auto" color="transparent"
 			>
 				<v-img
-					v-show="editedIndex !== -1"
+					v-if="editedIndex !== -1"
 					:src="editedItem.image"
 					height="350"
 					style="border-radius: 0 0 10px 10px"
@@ -502,7 +502,7 @@
 <script>
 import router from "@/router";
 import {mapGetters} from "vuex";
-import {cookEditData, getFormData} from "@/Helper";
+import {cookCreateData, cookEditData, getFormData} from "@/Helper";
 
 export default {
 	name: "BranchFormDialog",
@@ -626,9 +626,7 @@ export default {
 
 		async save() {
 			if (this.editedIndex > -1) {
-				// get id from objects
 				const body = cookEditData("branch", this.editedItem, "image")
-				// get form data
 				const branchData = getFormData(body)
 				await this.$store.dispatch(
 					"branch/update",
@@ -638,19 +636,8 @@ export default {
 					}
 				)
 			} else {
-				// Remove unused municipality or vdc
-				if (this.editedItem.municipality > 0) {
-					delete this.editedItem.vdc
-					delete this.editedItem.vdc_ward
-				} else {
-					delete this.editedItem.municipality
-					delete this.editedItem.municipality_ward
-				}
-				// remove image from object if not added
-				if (this.editedItem.imageForUpload !== undefined) {
-					this.editedItem.image = this.editedItem.imageForUpload[0]
-				} else delete this.editedItem.image
-				const branchData = getFormData(this.editedItem)
+				const body = cookCreateData("image", this.editedItem)
+				const branchData = getFormData(body)
 				await this.$store.dispatch("branch/create", branchData)
 			}
 			this.$bus.emit("reload-branches")
