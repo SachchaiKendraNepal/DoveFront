@@ -238,6 +238,7 @@
 							label="Branch Image"
 							clearable
 							multiple
+							prepend-icon=""
 							prepend-inner-icon="mdi-camera"
 						/>
 					</v-col>
