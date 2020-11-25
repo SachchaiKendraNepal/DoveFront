@@ -7,7 +7,7 @@ const api = {
 			headers: {
 				"Content-Type": contentType || "application/json",
 				Accept: "application/json",
-				Authorization: null
+				Authorization: "Token e56cee33ea093d83ec13202b276f5905e750a69a"
 				// localStorage.getItem("access_token") === null
 				// 	? null
 				// 	: `Token ${localStorage.getItem("access_token")}`

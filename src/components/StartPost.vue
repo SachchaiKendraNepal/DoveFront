@@ -132,7 +132,7 @@
 						cols="12"
 					>
 						<v-combobox
-							v-model="post.videoUrl"
+							v-model="post.video_urls"
 							class="ma-0 pa-0"
 							:items="[]"
 							hide-selected
@@ -145,17 +145,8 @@
 							clearable
 							prepend-inner-icon="mdi-video"
 							hide-details="auto"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-content>
-										<v-list-item-title>
-											Type <code>youtube</code> video url and press <kbd>enter</kbd> to add a new one.
-										</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
-							</template>
-						</v-combobox>
+							hint="Type youtube video url and press enter to add a new one."
+						/>
 					</v-col>
 				</transition>
 			</v-row>
@@ -202,7 +193,7 @@
 					</v-badge>
 				</v-col>
 			</v-row>
-			<v-row v-if="post.videoUrl.length > 0"
+			<v-row v-if="post.video_urls.length > 0"
 				id="video-preview-pane"
 				justify="space-around"
 				align="center"
@@ -216,7 +207,7 @@
 						VIDEO PREVIEW PANE
 					</p>
 				</v-col>
-				<v-col v-for="(item, index) in post.videoUrl" :key="index"
+				<v-col v-for="(item, index) in post.video_urls" :key="index"
 					cols="4"
 					class="ma-2 d-flex justify-center"
 				>
@@ -377,6 +368,7 @@
 					block
 					dark
 					color="#288dba"
+					@click="makeMultimedia"
 				>
 					POST
 				</v-btn>
@@ -386,6 +378,8 @@
 </template>
 
 <script>
+import {getFormData} from "@/Helper";
+
 const VueUploadComponent = require("vue-upload-component")
 import APlayer from "vue-aplayer"
 
@@ -407,7 +401,6 @@ export default {
 			{icon: "mdi-tag-faces", tooltip: "Not implemented", color: "blue"},
 		flexButtonsMap:
 			{icon: "mdi-google-maps", tooltip: "Not implemented", color: "red"},
-		videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
 		files: [],
 		images: [],
 		audios: [],
@@ -418,7 +411,7 @@ export default {
 		post: {
 			title: "",
 			description: "",
-			videoUrl: []
+			video_urls: []
 		}
 	}),
 	created() {
@@ -459,8 +452,8 @@ export default {
 		inputFilter(newFile, oldFile, prevent) {
 			if (newFile && !oldFile) {
 				// Filter file extension
-				if (!/\.(jpeg|jpe|jpg|gif|png|webp|mp4|mp3)$/i.test(newFile.name)) {
-					alert("Unsupported file type selected. Please select valid image, audio or video file.")
+				if (!/\.(jpeg|jpe|jpg|gif|png|webp|mp3)$/i.test(newFile.name)) {
+					alert("Unsupported file type selected. Please select valid image or audio file.")
 					return prevent()
 				}
 			}
@@ -479,7 +472,7 @@ export default {
 			this.imageURLs.splice(index, 1)
 		},
 		removeVideo(index) {
-			this.post.videoUrl.splice(index, 1)
+			this.post.video_urls.splice(index, 1)
 			this.videoURLs.splice(index, 1)
 		},
 		removeAudio(index) {
@@ -494,7 +487,26 @@ export default {
 		},
 		openDialog() {
 			this.dialog = true
+			this.uploadVideo = false
 		},
+		async makeMultimedia() {
+			if (this.post.video_urls.length > 0) {
+				// create a multimedia
+				const body = getFormData({
+					...this.post,
+					audio: this.audios,
+					image: this.images
+				})
+				await this.$store.dispatch("multimedia/create", body)
+			} else {
+				const body = getFormData({
+					...this.post,
+					image: this.images
+				})
+				await this.$store.dispatch("article/create", body)
+			}
+			this.closeDialog()
+		}
 	}
 }
 </script>
