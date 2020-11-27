@@ -1,19 +1,59 @@
 <template>
 	<base-post-card :post="post">
 		<template #media>
-			<youtube
-				ref="youtube"
-				class="pa-0"
-				:video-id="getId(videoUrl)"
-				:resize="true"
-				:resize-delay="1"
-				:fit-parent="true"
-				@playing="playing"
-			/>
+			<v-row
+				class="ma-0 pa-0"
+			>
+				<v-col
+					v-for="(item,index) of post.video_urls.slice(0, 2)"
+					:key="item.id"
+					class="ma-0 pa-0"
+					cols="12"
+					:xl="
+						(post.video_urls.slice(0, 2).length === 1)
+							? '12'
+							: '6'
+					"
+					:lg="
+						(post.video_urls.slice(0, 2).length === 1)
+							? '12'
+							: '6'
+					"
+					:md="
+						(post.video_urls.slice(0, 2).length === 1)
+							? '12'
+							: '6'
+					"
+					:sm="
+						(post.video_urls.slice(0, 2).length === 1)
+							? '12'
+							: '6'
+					"
+					:class="
+						(post.video_urls.slice(0, 2).length === 1)
+							? ''
+							: (index === 1) && $vuetify.breakpoint.smAndUp
+								? 'pl-1'
+								: ''
+					"
+				>
+					<youtube
+						ref="youtube"
+						class="pa-0"
+						:video-id="getId(item)"
+						:resize="true"
+						:resize-delay="1"
+						:fit-parent="true"
+						@playing="playing"
+					/>
+				</v-col>
+			</v-row>
 		</template>
 	</base-post-card>
 </template>
 <script>
+const util = require("util")
+
 export default {
 	name: "MultimediaComponent",
 	components: {
@@ -27,11 +67,7 @@ export default {
 	},
 	data() {
 		return {
-			videoUrl: "https://www.youtube.com/watch?v=6li2Kib4uI0&ab_channel=Sachhaikendranepal",
-			videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-			videoPosterTitle: "ALICE IN THE WONDERLAND",
-			isLiked: false,
-			duration: 1000
+			isLiked: false
 		}
 	},
 	computed: {
@@ -44,7 +80,7 @@ export default {
 			this.player.playVideo()
 		},
 		playing() {
-			console.log("\o/ we are watching!!!")
+			// console.log("\o/ we are watching!!!")
 		},
 		getId(url) {
 			return this.$youtube.getIdFromUrl(url)

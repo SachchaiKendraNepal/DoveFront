@@ -12,7 +12,7 @@
 		>
 			<v-col
 				id="post-column"
-				class="ma-0"
+				class="ma-0 pa-0 pt-3"
 				cols="12"
 				xl="8"
 				lg="8"
@@ -20,24 +20,22 @@
 				sm="8"
 			>
 				<add-post-box />
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<multimedia :post="multimediaPost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<multimedia :post="multimediaPost" />
-				</div>
+				<template v-for="item of articles">
+					<!-- eslint-disable-next-line vue/no-v-for-template-key-on-child-->
+					<div :key="item.id"
+						class="mb-2"
+					>
+						<article-post :post="item" />
+					</div>
+				</template>
+				<template v-for="item of multimedia">
+					<!-- eslint-disable-next-line vue/no-v-for-template-key-on-child-->
+					<div :key="item.id"
+						class="mb-2"
+					>
+						<multimedia-post :post="item" />
+					</div>
+				</template>
 			</v-col>
 			<v-col
 				cols="12"
@@ -54,30 +52,44 @@
 
 <script>
 import HomeAdsColumnView from "@/views/home/Ads";
+import {mapGetters} from "vuex";
 export default {
 	name: "HomeComponent",
 	components: {
 		HomeAdsColumnView,
 		ArticlePost: () => import("@/components/Article"),
-		Multimedia: () => import("@/components/Multimedia"),
+		MultimediaPost: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home_layout/AddPostBox")
 	},
 	data: () => ({
 		loading: false,
-		articlePost: {
-			id: 1,
-			title: "Our Changing Planet",
-			author: "Kurt Wagner",
-			description: "Visit ten places on our planet that are undergoing the biggest changes today."
+	}),
+	computed: {
+		...mapGetters({
+			articles: "article/allArticles",
+			multimedia: "article/allMultimedia"
+		})
+	},
+	async created() {
+		this.$bus.on("reload-multimedia", this.initMultimedia)
+		this.$bus.on("reload-articles", this.initArticles)
+		this.loading = true
+		await this.initArticles()
+		await this.initMultimedia()
+		this.loading = false
+	},
+	beforeUnmount() {
+		this.$bus.off("reload-multimedia")
+		this.$bus.off("reload-articles")
+	},
+	methods: {
+		async initArticles() {
+			await this.$store.dispatch("article/getAll")
 		},
-		multimediaPost: {
-			id: 1,
-			title: "Alice in the Wonderland",
-			author: "Kiran Parajuli",
-			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland" +
-				" from her dreams where she is reunited with her friends who make her realise her true destiny."
-		},
-	})
+		async initMultimedia() {
+			await this.$store.dispatch("article/getAllM")
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

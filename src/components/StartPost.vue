@@ -498,12 +498,14 @@ export default {
 					image: this.images
 				})
 				await this.$store.dispatch("multimedia/create", body)
+				this.$bus.emit("reload-multimedia")
 			} else {
 				const body = getFormData({
 					...this.post,
 					image: this.images
 				})
 				await this.$store.dispatch("article/create", body)
+				this.$bus.emit("reload-articles")
 			}
 			this.closeDialog()
 		}

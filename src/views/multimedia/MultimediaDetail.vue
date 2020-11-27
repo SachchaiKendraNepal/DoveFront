@@ -7,22 +7,25 @@
 			<v-carousel height="77vh">
 				<v-carousel-item
 					v-for="item in multimediaImages"
-					:key="item.src"
-					:src="item.src"
+					:key="item.image"
+					:src="item.image"
 					reverse-transition="fade-transition"
 					transition="fade-transition"
 				/>
 				<v-carousel-item
-					v-for="item in multimediaVideos"
-					:key="item.src"
+					v-for="(item) in multimedia.video_urls"
+					:key="item"
 					reverse-transition="fade-transition"
 					transition="fade-transition"
 				>
-					<vue-player
-						:v-model="item.playing"
-						:src="item.videoUrl"
-						:poster="item.videoPosterImageUrl"
-						:title="item.videoPosterTitle"
+					<youtube
+						ref="youtube"
+						class="pa-0"
+						:video-id="getId(item)"
+						:resize="true"
+						:resize-delay="1"
+						:fit-parent="true"
+						@playing="playing"
 					/>
 				</v-carousel-item>
 			</v-carousel>
@@ -46,19 +49,20 @@
 	</base-post-detail>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player"
-import APlayer from "vue-aplayer"
-// import $ from "jquery"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "MultimediaDetailView",
 	components: {
-		vuePlayer,
-		APlayer,
 		BasePostDetail: () => import("@/components/post/_postDetail"),
 		CommentsDetail: () => import("@/components/post/CommentsDetail"),
+		APlayer: ()=> import("vue-aplayer"),
 	},
 	data: () => ({
+		isLiked: false,
+		now: null,
+		selection: 1,
+		loading: false,
 		list: [
 			{
 				title: "Sound Helix 1",
@@ -67,139 +71,48 @@ export default {
 				pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
 				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
 			},
-			{
-				title: "Sound Helix 2",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 3",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 1",
-				artist: "Kiran Parajuli",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-				pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 2",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 3",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 1",
-				artist: "Kiran Parajuli",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-				pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 2",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-			{
-				title: "Sound Helix 3",
-				artist: "John Doe",
-				src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-				pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
-				lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
-			},
-		],
-		videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-		videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-		videoPosterTitle: "ALICE IN THE WONDERLAND",
-		isLiked: false,
-		now: null,
-		selection: 1,
-		loading: false,
-		multimediaImages: [
-			{
-				id: 1,
-				src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-			},
-			{
-				id: 2,
-				src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
-			},
-			{
-				id: 3,
-				src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-			},
-			{
-				id: 4,
-				src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
-			},
-		],
-		multimediaVideos: [
-			{
-				id: 1,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-			},
-			{
-				id: 2,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-			},
-			{
-				id: 3,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-			}
-		],
-		multimedia: {
-			id: 1,
-			title: "How beautiful is nature?",
-			description: "Nature The word nature is a commonly used word." +
-				"This word is used in a variety of contexts. Perhaps the most important reference is the multiple " +
-				"species of plants, animals, wildlife, and all that the earth contains from topography such as " +
-				"mountains, valleys, beaches, and seas. , And forests. The beauty of nature The nature of man is " +
-				"characterized by its beauty resulting mainly from the wonderful diversity of living organisms that " +
-				"exist in various parts of the earth, as well as the unique terrain of mountains, water, plateaus and " +
-				"forests. Each of these features is distinguished by a special beauty that distinguishes it from Other " +
-				"terrain, and this great diversity gave people wide spaces to seek calm, tranquility, and tranquility.",
-			uploaded_by: "Kiran Parajuli",
-			uploaded_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			updated_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			is_approved: true,
-			approved_by: "Kiran Parajuli",
-			approved_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
-		},
+		]
 	}),
-	// mounted: function () {
-	// let height = $(window).height()
-	// $(".hero").attr("style", `height: ${height - 166 }px !important`)
-	// $(window).resize(function () {
-	// 	console.log("here")
-	// 	height = $(window).height()
-	// 	$(".hero").height(height - 166)
-	// })
-	// }
+	computed: {
+		...mapGetters({
+			multimedia: "article/multimedia",
+			multimediaImages: "article/detailImagesM",
+			multimediaAudios: "article/detailAudiosM"
+		}),
+		player() {
+			return this.$refs.youtube.player
+		},
+	},
+	async created() {
+		await this.getMultimediaArtifacts()
+	},
+	methods: {
+		async getMultimediaArtifacts() {
+			await this.$store.dispatch("article/getDetailM", {id: this.$route.params.id})
+			await this.$store.dispatch("article/getDetailImagesM", {id: this.$route.params.id})
+			await this.$store.dispatch("article/getDetailAudiosM", {id: this.$route.params.id})
+			console.log(this.multimediaImages)
+			console.log(this.multimediaAudios)
+			this.multimediaAudios.forEach(audio => {
+				this.list.push({
+					title: "Hero Audio",
+					artist: "Kiran Parajuli",
+					src: audio.audio,
+					pic: "https://unncdn.prixacdn.net/media/Shruti_sambeg_new.jpg",
+					lrc: "[00:00.00]lrc here\n[00:01.00]aplayer"
+				})
+			})
+		},
+		playVideo() {
+			this.player.playVideo()
+		},
+		playing() {
+			// console.log("\o/ we are watching!!!")
+		},
+		getId(url) {
+			return this.$youtube.getIdFromUrl(url)
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

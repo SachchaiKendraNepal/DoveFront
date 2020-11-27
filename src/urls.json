@@ -3,10 +3,13 @@
   "event": "/event/",
   "article": {
     "set": "/article/",
-    "createWithList": "/create-article"
+    "createWithList": "/create-article",
+    "imageList": "/article/%s/image"
   },
   "multimedia": {
     "set": "/multimedia/",
-    "createWithList": "/create-multimedia"
+    "createWithList": "/create-multimedia",
+    "imageList": "/multimedia/%s/image",
+    "audioList": "/multimedia/%s/audio"
   }
 }

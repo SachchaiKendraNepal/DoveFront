@@ -149,7 +149,14 @@
 				</v-row>
 			</v-container>
 			<scroll-up />
-			<home-footer />
+			<v-footer padless>
+				<v-col
+					class="text-center"
+					cols="12"
+				>
+					©️ {{ new Date().getFullYear() }} — <strong>Ishowriya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
+				</v-col>
+			</v-footer>
 		</v-main>
 	</v-card>
 </template>
@@ -162,7 +169,7 @@ export default {
 	components: {
 		ProfileDropdown: () => import("@/views/home_layout/ProfileDropdown"),
 		UserClip: () => import("@/views/home_layout/UserClip"),
-		HomeFooter: () => import("@/views/home_layout/Footer"),
+		// HomeFooter: () => import("@/views/home_layout/Footer"),
 		QuickLinks: () => import("@/views/home_layout/QuickLinks"),
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
