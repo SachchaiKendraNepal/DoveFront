@@ -4,12 +4,13 @@
 	>
 		<v-app-bar
 			id="home-app-bar"
-			color="#3095e6"
 			dark
-			height="auto"
 			fixed
+			height="auto"
+			color="rgb(43 112 167)"
 		>
 			<v-avatar
+				color="#1e6cab"
 				class="homo-logo elevation-4"
 				size="70"
 			>
@@ -20,7 +21,7 @@
 
 			<v-card
 				light
-				color="deep-purple lighten-4"
+				color="rgb(88 171 237)"
 				class="elevation-12 top-tab-wrapper"
 			>
 				<v-tabs
@@ -30,7 +31,7 @@
 					icons-and-text
 					slider-size="3"
 					active-class="profile-tab-active"
-					slider-color="#8e60e2"
+					slider-color="rgb(8 40 57)"
 				>
 					<v-tab
 						v-for="item in profileTabItems"
@@ -38,7 +39,9 @@
 						:to="item.to"
 					>
 						{{ item.text }}
-						<v-icon size="30">
+						<v-icon
+							size="30"
+						>
 							{{ item.icon }}
 						</v-icon>
 					</v-tab>
@@ -50,7 +53,7 @@
 					<template #activator="{ on, attrs }">
 						<v-avatar
 							class="bar-router-link elevation-4 mx-2"
-							color="#0e7ed8"
+							color="rgb(204 144 55)"
 							v-bind="attrs"
 							v-on="on"
 							@click="routeToShowcase()"
@@ -68,7 +71,7 @@
 					<template #activator="{ on, attrs }">
 						<v-avatar
 							class="bar-router-link elevation-4 mx-2"
-							color="#a22d5b"
+							color="rgb(40 132 123)"
 							v-bind="attrs"
 							v-on="on"
 							@click="routeToFeedsPage()"
@@ -436,7 +439,7 @@ export default {
 	@media only screen and (max-width: 200px)
 		margin-top: 38px
 .profile-tab-active
-	color: #8e60e2 !important
+	color: rgb(8 40 57) !important
 .profile-tab-active-down
-	color: whitesmoke !important
+	color: rgb(8 40 57) !important
 </style>
