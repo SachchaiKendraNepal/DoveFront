@@ -107,7 +107,7 @@ import Swiper, { Navigation, Pagination } from "swiper"
 export default {
 	name: "PinnedBarView",
 	components: {
-		PinnedPost: () => import("@/components/showcase/PinnedPost"),
+		PinnedPost: () => import("@/views/home/showcase/PinnedPost"),
 
 	},
 	data: () => ({

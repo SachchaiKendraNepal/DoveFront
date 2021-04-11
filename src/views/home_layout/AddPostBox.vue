@@ -18,7 +18,7 @@
 				size="38"
 				class="mx-4"
 			>
-				<v-img :src="writePostIcon" />
+				<v-img src="@/assets/dove-solid.svg" />
 			</v-avatar>
 			<p
 				id="start-a-post"

@@ -8,41 +8,65 @@
 		transition="dialog-bottom-transition"
 	>
 		<v-card
-			class="zero-border-radius"
+			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title class="sticky-dialog-top">
+			<v-toolbar
+				fixed
+				dark
+				height="auto"
+			>
 				<v-avatar
-					color="grey"
-					size="40"
-					class="mr-4 elevation-1"
+					:size="
+						$vuetify.breakpoint.smAndUp
+							? 35
+							: 25
+					"
+					color="grey darken-3"
+					class="elevation-4"
 				>
 					<v-icon
-						size="22"
-						color="grey darken-4"
+						:size="
+							$vuetify.breakpoint.smAndUp
+								? 22
+								: 16
+						"
 					>
 						{{ formIcon }}
 					</v-icon>
 				</v-avatar>
-				<span class="form-title">{{ formTitle }}</span>
+				<v-toolbar-title class="toolbar-title"
+					v-html="formTitle"
+				/>
 				<v-spacer />
-				<span>
-					<v-btn
-						icon
-						style="background: grey;"
-						@click="close"
+				<v-avatar
+					class="cursor"
+					color="grey darken-3"
+					:size="
+						$vuetify.breakpoint.smAndUp
+							? 30
+							: 25
+					"
+					@click="close"
+				>
+					<v-icon
+						:size="
+							$vuetify.breakpoint.smAndUp
+								? 22
+								: 16
+						"
 					>
-						<v-icon color="white">mdi-close</v-icon>
-					</v-btn>
-				</span>
-			</v-card-title>
+						mdi-close
+					</v-icon>
+				</v-avatar>
+			</v-toolbar>
 			<v-card flat
 				max-width="800"
-				class="mx-auto"
+				class="mx-auto px-2"
 				color="transparent"
 			>
 				<v-img
-					v-show="editedIndex !== -1"
+					v-if="editedIndex !== -1"
 					:src="editedItem.banner"
 					height="300"
 					style="border-radius: 0 0 10px 10px"
@@ -202,19 +226,63 @@
 					</v-col>
 					<v-col
 						cols="12"
-						class="ma-0 pa-0"
+						class="ma-0 pa-0 organizer-col"
 					>
 						<v-autocomplete
 							id="event-organizer"
 							v-model="editedItem.organizer"
 							class="ma-0"
 							allow-overflow
+							attach=""
 							dense
 							outlined
 							label="Organizer (Branch)"
+							item-text="name"
+							item-value="id"
 							:items="branches"
 							clearable
 							prepend-inner-icon="mdi-city"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>branch</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+							<template #item="{ item }">
+								<v-list-item-avatar>
+									<v-avatar size="24"
+										color="grey darken-2"
+										class="white--text"
+									>
+										{{ item.name.charAt(0) }}
+									</v-avatar>
+								</v-list-item-avatar>
+								<v-list-item-content>
+									<v-list-item-title
+										v-text="item.name"
+									/>
+								</v-list-item-content>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-type"
+							v-model="editedItem.type"
+							class="ma-0"
+							allow-overflow
+							attach=""
+							dense
+							outlined
+							label="Type of event"
+							:items="eventTypeOptions"
+							clearable
+							prepend-inner-icon="mdi-call-merge"
 						/>
 					</v-col>
 					<v-col
@@ -226,7 +294,7 @@
 							class="ma-0 pa-0"
 							:items="[]"
 							hide-selected
-							hint="Provide contacts of organizers"
+							hint="Add contact number and hit Enter to add a new one."
 							label="Contacts"
 							multiple
 							small-chips
@@ -234,19 +302,10 @@
 							type="number"
 							outlined
 							dense
+							attach=""
 							clearable
 							prepend-inner-icon="mdi-phone-classic"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-content>
-										<v-list-item-title>
-											Type contact number and press <kbd>enter</kbd> to add a new one.
-										</v-list-item-title>
-									</v-list-item-content>
-								</v-list-item>
-							</template>
-						</v-combobox>
+						/>
 					</v-col>
 					<v-col
 						id="is-main-col"
@@ -306,6 +365,7 @@
 							close-on-click
 							offset-overflow
 							max-width="290"
+							attach=""
 						>
 							<template #activator="{ on, attrs }">
 								<v-text-field
@@ -348,9 +408,10 @@
 					>
 						<v-autocomplete
 							id="event-time-of-day"
-							v-model="editedItem.timeOfDay"
+							v-model="editedItem.time_of_day"
 							class="ma-0"
 							allow-overflow
+							attach=""
 							dense
 							outlined
 							label="Time Of Day"
@@ -377,129 +438,6 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="event-country"
-							v-model="editedItem.country"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							label="Country"
-							:items="countries"
-							clearable
-							prepend-inner-icon="mdi-web"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-province"
-							v-model="editedItem.province"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							label="Province"
-							:items="provinces"
-							clearable
-							prepend-inner-icon="mdi-office-building-marker-outline"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-districts"
-							v-model="editedItem.district"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							:items="districts"
-							label="District"
-							clearable
-							prepend-inner-icon="mdi-map-marker-multiple-outline"
-						/>
-					</v-col>
-					<v-col
-						v-if="!editedItem.vdc"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-municipality"
-							v-model="editedItem.municipality"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							label="Municipality"
-							:items="municipalities"
-							clearable
-							prepend-inner-icon="mdi-google-maps"
-						/>
-					</v-col>
-					<v-col
-						v-if="editedItem.municipality"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-municipality-ward"
-							v-model="editedItem.municipality_ward"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							label="Municipality Ward"
-							:items="municipality_wards"
-							clearable
-							prepend-inner-icon="mdi-numeric"
-						/>
-					</v-col>
-					<v-col
-						v-if="!editedItem.municipality"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-vdc"
-							v-model="editedItem.vdc"
-							allow-overflow
-							class="ma-0"
-							dense
-							outlined
-							label="VDC"
-							:items="vdcs"
-							clearable
-							prepend-inner-icon="mdi-home-map-marker"
-						/>
-					</v-col>
-					<v-col
-						v-if="editedItem.vdc"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-vdc-ward"
-							v-model="editedItem.vdc_ward"
-							allow-overflow
-							class="ma-0"
-							dense
-							outlined
-							label="VDC Ward"
-							:items="vdc_wards"
-							clearable
-							prepend-inner-icon="mdi-numeric"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
 						<v-text-field
 							id="event-venue"
 							v-model="editedItem.venue"
@@ -513,28 +451,240 @@
 							hint="Where is the event going to be organized?"
 						/>
 					</v-col>
-					<v-col cols="12"
-						class="pb-16"
+					<v-col
+						id="country-input-column"
+						cols="12"
+						class="ma-0 pa-0"
 					>
-						<v-card-actions>
-							<v-spacer />
-							<v-btn
-								color="red lighten-5"
-								class="red--text"
-								depressed
-								@click="close"
-							>
-								Cancel
-							</v-btn>
-							<v-btn
-								color="blue lighten-5"
-								class="blue--text"
-								depressed
-								@click="save"
-							>
-								Save
-							</v-btn>
-						</v-card-actions>
+						<v-autocomplete
+							id="event-country"
+							v-model="editedItem.country"
+							loading="countriesLoading"
+							class="ma-0"
+							allow-overflow
+							dense
+							cache-items
+							item-text="name"
+							item-value="id"
+							:items="countries"
+							attach=""
+							outlined
+							label="Country"
+							clearable
+							prepend-inner-icon="mdi-web"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>country</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-province"
+							v-model="editedItem.province"
+							loading="provincesLoading"
+							class="ma-0"
+							allow-overflow
+							dense
+							cache-items
+							outlined
+							attach=""
+							label="Province"
+							item-text="name"
+							item-value="id"
+							:items="provinces"
+							clearable
+							prepend-inner-icon="mdi-office-building-marker-outline"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>provinces</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-districts"
+							v-model="editedItem.district"
+							loading="districtsLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
+							class="ma-0"
+							allow-overflow
+							dense
+							outlined
+							attach=""
+							:items="districts"
+							label="District"
+							clearable
+							prepend-inner-icon="mdi-map-marker-multiple-outline"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>district</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-municipality"
+							v-model="editedItem.municipality"
+							loading="municipalitiesLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
+							class="ma-0"
+							allow-overflow
+							dense
+							outlined
+							attach=""
+							label="Municipality"
+							:items="municipalities"
+							clearable
+							prepend-inner-icon="mdi-google-maps"
+							:disabled="editedItem.vdc > 0"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>municipality</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-municipality-ward"
+							v-model="editedItem.municipality_ward"
+							loading="municipalityWardsLoading"
+							item-text="name"
+							item-value="id"
+							class="ma-0"
+							allow-overflow
+							cache-items
+							dense
+							outlined
+							clearable
+							attach=""
+							label="Municipality Ward"
+							:items="municipality_wards"
+							:disabled="editedItem.vdc > 0"
+							prepend-inner-icon="mdi-numeric"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>municipality ward</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-autocomplete
+							id="event-vdc"
+							v-model="editedItem.vdc"
+							loading="vdcsLoading"
+							cache-items
+							item-text="name"
+							item-value="id"
+							allow-overflow
+							class="ma-0"
+							dense
+							attach=""
+							outlined
+							label="VDC"
+							:items="vdcs"
+							clearable
+							prepend-inner-icon="mdi-home-map-marker"
+							:disabled="editedItem.municipality > 0"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>vdc</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0 event-vdc-col"
+					>
+						<v-autocomplete
+							id="event-vdc-ward"
+							v-model="editedItem.vdc_ward"
+							loading="vdcWardsLoading"
+							item-text="name"
+							item-value="id"
+							class="ma-0"
+							allow-overflow
+							cache-items
+							dense
+							outlined
+							clearable
+							attach=""
+							label="VDC Ward"
+							:items="vdc_wards"
+							:disabled="editedItem.municipality > 0"
+							prepend-inner-icon="mdi-numeric"
+						>
+							<template #no-data>
+								<v-list-item>
+									<v-list-item-title>
+										No <code>vdc ward</code> found.
+									</v-list-item-title>
+								</v-list-item>
+							</template>
+						</v-autocomplete>
+					</v-col>
+					<v-col cols="12"
+						class="pa-0 pb-16 text-center"
+					>
+						<v-btn
+							color="red lighten-5"
+							class="red--text ma-1"
+							depressed
+							@click="close"
+						>
+							Cancel
+						</v-btn>
+						<v-btn
+							color="blue lighten-5"
+							class="blue--text ma-1"
+							depressed
+							@click="save"
+						>
+							Save
+						</v-btn>
 					</v-col>
 				</v-row>
 			</v-card>
@@ -544,47 +694,32 @@
 <script>
 import moment from "moment"
 import router from "@/router"
+import {mapGetters} from "vuex";
+import {cookCreateData, cookEditData, getFormData} from "@/Helper"
 
 export default {
 	name: "EventFormDialog",
 	data: () => ({
 		dialog: false,
 		startDateMenu: false,
+		countriesLoading: false,
+		provincesLoading: false,
+		districtsLoading: false,
+		municipalitiesLoading: false,
+		municipalityWardsLoading: false,
+		branchesLoading: false,
+		vdcsLoading: false,
+		vdcWardsLoading: false,
 		timeOfDayOptions: [
 			"Morning",
-			"Day",
+			"Afternoon",
 			"Evening"
 		],
-		countries: ["Nepal", "India", "Bhutan", "Pakistan", "Singapore", "HongKong"],
-		provinces: ["Bagmati Pradesh", "Gandaki Pradesh", "Uttar Pradesh", "Goa", "Province 1"],
-		districts: ["Kaski", "Kathmandu", "Humla", "Jhapa", "Chitwan", "Sarlahi", "Nepalgunj"],
-		municipalities: ["Pokhara", "Kathmandu", "Panchkhal", "Banepa"],
-		municipality_wards: ["Amarsingh", "Tinpiple", "Lamachaur", "Chaukot"],
-		vdcs: [
-			"Barai",
-			"Bargaun",
-			"Badalkot",
-			"Photu",
-			"Aaglung",
-			"Siddhara",
-			"Simalapani",
-			"Aruchaur",
-			"Arukharka",
-			"Armala",
-			"Deurali"
+		eventTypeOptions: [
+			"Satsang",
+			"Board Meeting",
+			"General Meeting",
 		],
-		vdc_wards: [
-			"alskdf",
-			"sldkf",
-			"sldkf",
-			"sldkf",
-			"sldkfjs",
-			"sldkfs",
-			"owiek",
-			"mndkjf",
-			"woeik"
-		],
-		branches: ["Pokhara Kendra Branch", "Kathmandu Branch", "Amarsingh Branch", "Lekhnath Branch", "Palpa Branch"],
 		editedIndex: -1,
 		editedItem: {
 			id: "",
@@ -593,24 +728,35 @@ export default {
 			country: "",
 			province: "",
 			district: "",
-			municipality: "",
-			municipality_ward: "",
-			vdc: "",
-			vdc_ward: "",
+			municipality: null,
+			municipality_ward: null,
+			vdc: null,
+			vdc_ward: null,
 			venue: "",
 			organizer: "",
 			contacts: [],
 			start_date: null,
 			duration: null,
-			timeOfDay: "",
+			time_of_day: "",
 			banner: "",
+			type: "",
 			is_main: false,
 			imageForUpload: [],
 		},
 		defaultItem: {},
-		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"]
+		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"],
 	}),
 	computed: {
+		...mapGetters({
+			countries: "location/allCountries",
+			provinces: "location/allProvinces",
+			districts: "location/allDistricts",
+			municipalities: "location/allMunicipalities",
+			municipality_wards: "location/allMunicipalityWards",
+			vdcs: "location/allVdcs",
+			vdc_wards: "location/allVdcWards",
+			branches: "branch/allBranches"
+		}),
 		formTitle() {
 			return this.editedIndex === -1
 				? "New Event"
@@ -628,15 +774,63 @@ export default {
 		}
 	},
 
-	created() {
+	async created() {
 		this.$bus.on("open-event-form-dialog-add-item", this.openDialog)
 		this.$bus.on("open-event-form-dialog-edit-item", this.edit)
+		await this.initCountries()
+		await this.initProvinces()
+		await this.initDistricts()
+		await this.initMunicipalities()
+		await this.initMunicipalityWards()
+		await this.initVdcs()
+		await this.initVdcWards()
+		await this.initBranches()
 	},
 	beforeUnmount() {
 		this.$bus.off("open-event-form-dialog-add-item")
 		this.$bus.off("open-event-form-dialog-edit-item")
 	},
 	methods: {
+		async initBranches() {
+			this.branchesLoading = true
+			await this.$store.dispatch("branch/getAll")
+			this.branchesLoading = false
+		},
+		async initCountries() {
+			this.countriesLoading = true
+			await this.$store.dispatch("location/getAllCountries")
+			this.countriesLoading = false
+		},
+		async initProvinces() {
+			this.provincesLoading = true
+			await this.$store.dispatch("location/getAllProvinces")
+			this.provincesLoading = false
+		},
+		async initDistricts() {
+			this.districtsLoading = true
+			await this.$store.dispatch("location/getAllDistricts")
+			this.districtsLoading = false
+		},
+		async initMunicipalities() {
+			this.municipalitiesLoading = true
+			await this.$store.dispatch("location/getAllMunicipalities")
+			this.municipalitiesLoading = false
+		},
+		async initMunicipalityWards() {
+			this.municipalityWardsLoading = true
+			await this.$store.dispatch("location/getAllMunicipalityWards")
+			this.municipalitiesLoading = false
+		},
+		async initVdcs() {
+			this.vdcsLoading = true
+			await this.$store.dispatch("location/getAllVdcs")
+			this.vdcsLoading = false
+		},
+		async initVdcWards() {
+			this.vdcWardsLoading = true
+			await this.$store.dispatch("location/getAllVdcWards")
+			this.vdcWardsLoading = false
+		},
 		openDialog() {
 			this.dialog = true
 		},
@@ -655,12 +849,27 @@ export default {
 			})
 		},
 
-		save() {
+		async save() {
+			const body = {}
+			// Lets update an event
 			if (this.editedIndex > -1) {
-				Object.assign(this.events[this.editedIndex], this.editedItem)
-			} else {
-				this.events.push(this.editedItem)
+				const body = cookEditData("event", this.editedItem, "banner")
+				const eventData = getFormData(body)
+				await this.$store.dispatch(
+					"event/update",
+					{
+						id: this.editedItem.id,
+						body: eventData
+					}
+				)
 			}
+			// Lets create an event
+			else {
+				const body = cookCreateData("banner", this.editedItem)
+				const eventData = getFormData(body)
+				await this.$store.dispatch("event/create", eventData)
+			}
+			this.$bus.emit("reload-events")
 			this.close()
 		},
 		routeToEventDetailPage(itemId) {
@@ -670,13 +879,13 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.cursor
+	cursor: pointer
 .sticky-dialog-top
 	position: sticky
 	position: -webkit-sticky
 	top: 0
-	z-index: 200
-.zero-border-radius
-	border-radius: 0
+	z-index: 205
 .v-input--selection-controls
 	margin-top: 0
 .small-detail-icon
@@ -693,7 +902,7 @@ export default {
 		display: none
 #is-main-col
 	::v-deep.v-input--checkbox
-		margin: -5px 0 20px
+		margin: -5px 0 25px
 		padding: 10px 10px
 		border: 1px solid rgb(156 155 150)
 		border-radius: 3px
@@ -704,4 +913,11 @@ export default {
 	padding: 3px
 	::v-deep.mx-calendar-header
 		background-color: blue
+::v-deep.v-autocomplete__content
+	z-index: 10 !important
+.toolbar-title
+	margin-left: 10px !important
+	@media only screen and (max-width: 600px)
+		margin-left: 5px !important
+		font-size: 14px !important
 </style>

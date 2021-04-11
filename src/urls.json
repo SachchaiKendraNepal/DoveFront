@@ -1,0 +1,12 @@
+{
+  "branch": "/branch/",
+  "event": "/event/",
+  "article": {
+    "set": "/article/",
+    "createWithList": "/create-article"
+  },
+  "multimedia": {
+    "set": "/multimedia/",
+    "createWithList": "/create-multimedia"
+  }
+}
