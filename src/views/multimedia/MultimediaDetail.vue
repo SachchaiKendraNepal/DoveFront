@@ -56,7 +56,7 @@ export default {
 		vuePlayer,
 		APlayer,
 		BasePostDetail: () => import("@/components/post/_postDetail"),
-		CommentsDetail: () => import("@/components/post/CommentsDetail"),
+		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
 	data: () => ({
 		list: [

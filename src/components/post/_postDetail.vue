@@ -125,8 +125,8 @@
 	</v-card>
 </template>
 <script>
-import PostDetailActionsComponent from "@/components/post/PostDetailActions"
-import PostDetailAdminActionsComponent from "@/components/post/PostDetailAdminActions"
+import PostDetailActionsComponent from "@/views/post/PostDetailActions"
+import PostDetailAdminActionsComponent from "@/views/post/PostDetailAdminActions"
 import IconWithTooltip from "@/components/IconWithTooltip"
 
 export default {

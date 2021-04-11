@@ -24,7 +24,7 @@ export default {
 	name: "ArticleDetailView",
 	components: {
 		BasePostDetail: () => import("@/components/post/_postDetail"),
-		CommentsDetail: () => import("@/components/post/CommentsDetail"),
+		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
 	data: () => ({
 		now: null,
