@@ -1,10 +1,34 @@
 <template>
-	<transition name="auth">
-		<router-view />
-	</transition>
+	<div>
+		<v-snackbar
+			v-model="snack"
+			top
+			right
+			:timeout="3000"
+			:color="snackColor"
+			class="home-snack"
+		>
+			{{ snackText }}
+
+			<template #action="{ attrs }">
+				<v-btn
+					v-bind="attrs"
+					text
+					@click="snack = false"
+				>
+					Close
+				</v-btn>
+			</template>
+		</v-snackbar>
+		<transition name="auth">
+			<router-view />
+		</transition>
+	</div>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
 	name: "KhelKudDashboardLayout",
 	components: {
@@ -12,7 +36,21 @@ export default {
 	},
 	data: () => ({
 		expandOnHover: false
-	})
+	}),
+	computed: {
+		...mapGetters({
+			snackText: "snack/snackText",
+			snackColor: "snack/snackColor"
+		}),
+		snack: {
+			get() {
+				return this.$store.state.snack.snack
+			},
+			set(v) {
+				this.$store.dispatch("snack/setSnackState", v)
+			}
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

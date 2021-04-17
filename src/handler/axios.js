@@ -8,9 +8,9 @@ const api = {
 				"Content-Type": contentType || "application/json",
 				Accept: "application/json",
 				Authorization:
-				localStorage.getItem("access_token") === null
+				typeof localStorage.getItem("sachchaiAccessToken") !== "string"
 					? null
-					: `Token ${localStorage.getItem("access_token")}`
+					: `Token ${localStorage.getItem("sachchaiAccessToken")}`
 			}
 		})
 	},

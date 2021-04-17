@@ -14,6 +14,7 @@ import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
 import VueYoutube from "vue-youtube"
 import moment from "moment"
+import helper from "@/Helper"
 
 
 Vue.use(VueYoutube)
@@ -26,6 +27,7 @@ Vue.component(APlayer)
 Vue.prototype.$api = api
 Vue.prototype.$jq = $
 Vue.prototype.$moment = moment
+Vue.prototype.$helper = helper
 
 Vue.config.productionTip = false
 

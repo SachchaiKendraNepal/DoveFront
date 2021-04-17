@@ -3,7 +3,8 @@
 		<template #activator="{ on, attrs }">
 			<v-btn
 				class="my-2"
-				depressed
+				:depressed="depressed"
+				:icon="iconTypeBtn"
 				v-bind="attrs"
 				v-on="on"
 			>
@@ -13,7 +14,9 @@
 				>
 					{{ icon }}
 				</v-icon>
-				<span class="btn-text">{{ text }}</span>
+				<span v-if="text"
+					class="btn-text"
+				>{{ text }}</span>
 			</v-btn>
 		</template>
 		<span>{{ tooltip }}</span>
@@ -29,19 +32,30 @@ export default {
 		},
 		text: {
 			type: String,
-			required: true
+			required: false,
+			default: null
 		},
 		size: {
 			type: String,
-			required: true
+			required: false,
+			default: "20"
 		},
 		color: {
 			type: String,
-			required: true
+			required: false,
+			default: "white"
 		},
 		tooltip: {
 			type: String,
 			required: true
+		},
+		depressed: {
+			type: Boolean,
+			default: true
+		},
+		iconTypeBtn: {
+			type: Boolean,
+			default: false
 		}
 	}
 }
