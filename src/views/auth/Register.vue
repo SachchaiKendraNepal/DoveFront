@@ -298,6 +298,7 @@ export default {
 		await this.initCountries()
 		await this.initProvinces()
 		await this.initDistricts()
+		await this.$store.dispatch("user/clearRegisterFormErrors")
 	},
 
 	methods: {
@@ -318,7 +319,7 @@ export default {
 		},
 		async registerFollower() {
 			this.loading = true
-			const state = await this.$store.dispatch("user/registerUser", this.follower)
+			const state = await this.$store.dispatch("user/registerFollower", this.follower)
 			this.loading = false
 			if (state) await this.$router.push({name: "LOG IN"})
 		},

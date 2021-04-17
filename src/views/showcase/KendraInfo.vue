@@ -1,9 +1,10 @@
 <template>
 	<v-card
 		id="kendra-info-box"
-		class="mx-auto"
+		class="mx-auto pt-16"
 		flat
 		max-width="1100"
+		height="100vh"
 	>
 		<v-card-subtitle
 			id="kendra_name"

@@ -24,18 +24,11 @@ const state = {
 	users: {},
 	user: {},
 	roles: {},
-	message: "", // To catch error message
 	registerFormErrors: {
 		... defaultRegisterErrors
 	}
 }
 const mutations = {
-	SET_CURRENT_USER(state, data) {
-		state.user = data
-	},
-	SET_MESSAGE(state, data) {
-		state.message = data
-	},
 	[SET_USERS](state, value) {
 		state.users = value
 	},
@@ -47,47 +40,64 @@ const mutations = {
 	}
 }
 
+const getters = {
+	users: (state) => state.users,
+	roles: (state) => state.roles,
+	registerFormErrors: (state) => state.registerFormErrors,
+}
+
 const actions = {
-	async loginUser({ commit }, user) {
+	clearRegisterFormErrors({ commit }) {
+		commit("SET_REGISTER_FORM_ERRS", { ...defaultRegisterErrors })
+	},
+	async login({ commit }, user) {
+		// always remove preserved/cached localStorage item at first
+		localStorage.removeItem("sachchaiAccessToken")
+		localStorage.removeItem("currentUser")
 		try {
-			// always remove preserved/cached localStorage item at first
-			localStorage.removeItem("access_token")
-			localStorage.removeItem("currentUser")
 			const response = await $api.post("login", user)
-			if (response.message === "success") {
-				// set current user
-				commit("SET_CURRENT_USER", response.user)
-				commit("SET_MESSAGE", "")
-				// save new access token at localStorage
-				localStorage.setItem("access_token", response.token)
+			if (response.token) {
 				// save currentUser at localStorage
-				localStorage.setItem("currentUser", JSON.stringify(response.user))
+				localStorage.setItem("currentUser", JSON.stringify(response.data))
+				// save new access token at localStorage
+				localStorage.setItem("sachchaiAccessToken", response.token)
+				return true
 			} else {
-				commit("SET_MESSAGE", response.message)
-				commit("SET_CURRENT_USER", {})
-				localStorage.removeItem("access_token")
+				localStorage.removeItem("sachchaiAccessToken")
+				return false
 			}
-			return response
 		} catch (e) {
-			throw e
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				return e.response.data.detail
+			}
+			return 500
 		}
 	},
-	async logoutUser({ commit }, username) {
-		const response = await $api.post("logout", username)
-		localStorage.removeItem("access_token")
-		localStorage.removeItem("currentUser")
-		commit("SET_CURRENT_USER", {})
-		commit("SET_MESSAGE", "")
+	async logout({ commit }, username) {
+		try {
+			const response = await $api.post("logout", { username: username })
+			localStorage.removeItem("sachchaiAccessToken")
+			localStorage.removeItem("currentUser")
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400) {
+				return `Username: ${e.response.data.username[0]}`
+			} else if (status === 404) return e.response.data.detail
+			return 500
+		}
+
 	},
-	async createUser({ commit }, userData) {
+	async create({ commit }, userData) {
 		const response = await $api.post("user", userData)
 		console.log(response)
 	},
-	async getUser({ commit }, userID) {
+	async get({ commit }, userID) {
 		const response = await $api.getWithPayload("user", userID)
 		console.log(response)
 	},
-	async getAllUsers({ commit }) {
+	async list({ commit }) {
 		try {
 			const response = await $api.get("user")
 			commit(SET_USERS, response)
@@ -96,7 +106,7 @@ const actions = {
 			throw e
 		}
 	},
-	async updateUser({ commit }, userData) {
+	async update({ commit }, userData) {
 		// TODO: TBD
 	},
 	changePassword({ commit }, changePwData) {
@@ -110,9 +120,9 @@ const actions = {
 	async getAllRoles({ commit }) {
 		// TODO: TBD
 	},
-	async registerUser({commit}, userData) {
+	async registerFollower({commit}, userData) {
 		try {
-			const resp = await $api.post("register-follower", userData)
+			await $api.post("register-follower", userData)
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
@@ -121,12 +131,6 @@ const actions = {
 			return 500
 		}
 	}
-}
-
-const getters = {
-	users: (state) => state.users,
-	roles: (state) => state.roles,
-	registerFormErrors: (state) => state.registerFormErrors
 }
 
 export default {

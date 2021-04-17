@@ -43,6 +43,7 @@
 							type="password"
 							prepend-inner-icon="mdi-lock-question"
 							background-color="white"
+							@keyup="submitIfEnterPressed"
 						/>
 					</v-col>
 					<v-col class="login-actions"
@@ -126,22 +127,28 @@ export default {
 		}
 	},
 	methods: {
+		submitIfEnterPressed: function (e) {
+			if (e.keyCode === 13) {
+				this.login()
+			}
+		},
 		async login() {
 			try {
 				this.overlay = true
-				// let response = await this.$store.dispatch("Member/login", this.user);
-				// if ("access_token" in response && response.access_token !== null) {
-				//   sessionStorage.setItem("selectedLocale", "en");
-				//   this.$i18n.locale = "en";
-				//   if (JSON.parse(localStorage.getItem("currentUser"))) {
-				//     // do something
-				//   }
-				// }
-				await this.$router.replace("/")
+				let response = await this.$store.dispatch("user/login", this.user)
+				if (response === true) await this.$router.push({name: "SACHCHAI SHOWCASE"})
+				else if (response === false) await this.openSnack("Login failed.")
+				else if (response === 500) await this.openSnack("Internal server error.")
+				else await this.openSnack(response)
 			} finally {
 				this.overlay = false
 			}
-		}
+		},
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
 	}
 }
 </script>

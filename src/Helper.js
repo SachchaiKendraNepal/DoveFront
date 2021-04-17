@@ -103,5 +103,12 @@ module.exports = {
 			}
 		}
 		return formData
+	},
+	getCurrentUser() {
+		return JSON.parse(localStorage.getItem("currentUser"))
+	},
+	isUserLoggedIn() {
+		const currentUser = this.getCurrentUser()
+		return typeof currentUser === "object";
 	}
 }

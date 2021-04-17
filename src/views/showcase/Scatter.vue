@@ -90,7 +90,7 @@
 export default {
 	name: "ScatterComponent",
 	components: {
-		AboutUsPreview: () => import("@/views/home/showcase/AboutUsPreview")
+		AboutUsPreview: () => import("@/views/showcase/AboutUsPreview")
 	},
 	data: () => ({
 		// photoTwo: require("@/assets/IMG_8842.JPG")
