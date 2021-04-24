@@ -15,6 +15,7 @@ import VueBus from "vue-bus"
 import VueYoutube from "vue-youtube"
 import moment from "moment"
 import helper from "@/Helper"
+import VueCoreVideoPlayer from "vue-core-video-player"
 
 
 Vue.use(VueYoutube)
@@ -22,6 +23,7 @@ Vue.use(VueBus)
 Vue.component(vuePlayer)
 Vue.use(moment)
 Vue.component(APlayer)
+Vue.use(VueCoreVideoPlayer)
 
 
 Vue.prototype.$api = api
