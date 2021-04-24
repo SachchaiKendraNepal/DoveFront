@@ -78,7 +78,7 @@
 <script>
 import router from "@/router";
 import $ from "jquery";
-import DepressedButtonComponent from "@/components/DerpressedButtonWithToolTip";
+import DepressedButtonComponent from "@/components/DepressedTooltipButton";
 
 export default {
 	name: "ShowCaseAppBarComponent",
