@@ -57,7 +57,7 @@ export default {
 	name: "AddPostBoxComponent",
 	components: {
 		StartPostBox: () => import("@/components/StartPost"),
-		DepressedButton: () => import("@/components/DerpressedButtonWithToolTip")
+		DepressedButton: () => import("@/components/DepressedTooltipButton")
 	},
 	emits: ["close-post-dialog"],
 	data: () => ({
