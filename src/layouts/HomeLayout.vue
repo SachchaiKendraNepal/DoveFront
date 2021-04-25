@@ -176,7 +176,7 @@ export default {
 			{icon: "mdi-video-vintage", text: "Multimedia", to: "/home/multimedia"},
 			{icon: "mdi-calendar-clock", text: "Events", to: "/home/event"},
 		],
-		homeDrawer: true
+		homeDrawer: false
 	}),
 	methods: {
 		routeToShowcase() {

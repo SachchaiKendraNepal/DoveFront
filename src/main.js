@@ -6,7 +6,6 @@ import vuetify from "./plugins/vuetify"
 import "roboto-fontface/css/roboto/roboto-fontface.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 import api from "@/handler/axios"
-import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 import "leaflet/dist/leaflet.css"
 import $ from "jquery"
@@ -20,7 +19,6 @@ import VueCoreVideoPlayer from "vue-core-video-player"
 
 Vue.use(VueYoutube)
 Vue.use(VueBus)
-Vue.component(vuePlayer)
 Vue.use(moment)
 Vue.component(APlayer)
 Vue.use(VueCoreVideoPlayer)

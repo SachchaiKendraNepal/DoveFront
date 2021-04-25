@@ -3,10 +3,18 @@
   "event": "/event/",
   "article": {
     "set": "/article/",
-    "createWithList": "/create-article"
+    "createWithList": "/create-article",
+    "toggleApproval": "/article/%s/toggle-approval",
+    "images": "/article/%s/image",
+    "toggleLove": "/article/%s/toggle-love"
   },
   "multimedia": {
     "set": "/multimedia/",
-    "createWithList": "/create-multimedia"
+    "createWithList": "/create-multimedia",
+    "toggleApproval": "/multimedia/%s/toggle-approval",
+    "images": "/multimedia/%s/image",
+    "audios": "/multimedia/%s/audio",
+    "videos": "/multimedia/%s/video",
+    "videoUrls": "/multimedia/%s/video-url"
   }
 }

@@ -1,6 +1,6 @@
 <template>
 	<v-card
-		:loading="loading"
+		v-if="target"
 		class="mx-auto"
 	>
 		<v-btn
@@ -50,7 +50,7 @@
 									class="post-auth-icon"
 								>mdi-account-circle</v-icon>
 							</span>
-							{{ target.uploaded_by }}
+							<span v-if="target.uploaded_by">{{ target.uploaded_by.username }}</span>
 							<span>
 								<v-icon size="16"
 									class="post-auth-icon"
@@ -64,7 +64,9 @@
 							</span>
 							{{ target.approved_at }}
 						</v-card-subtitle>
-						<v-card-text class="py-0">
+						<v-card-text v-if="target.description"
+							class="py-0"
+						>
 							{{ target.description.substr(0,120) }}
 						</v-card-text>
 						<v-card-text class="py-0">
@@ -148,10 +150,12 @@ export default {
 		}
 	},
 	data: () => ({
-		loading: false,
 		isFollower: false,
 		isMember: true
-	})
+	}),
+	created() {
+		console.log(this.target)
+	}
 }
 </script>
 <style lang="sass" scoped>

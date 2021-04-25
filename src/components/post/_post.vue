@@ -4,18 +4,36 @@
 		color="white"
 	>
 		<v-list-item>
-			<v-list-item-avatar>
-				<v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
+			<v-list-item-avatar size="54"
+				class="author-avatar"
+			>
+				<v-img contain
+					src="https://cdn.vuetifyjs.com/images/lists/1.jpg"
+				/>
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title
 					class="headline cursor"
-					@click="routeToPostDetail(post.id)"
+					@click="routeToPostDetail(post)"
 				>
 					{{ post.title }}
 				</v-list-item-title>
-				<v-list-item-subtitle>by&nbsp;{{ post.author }}</v-list-item-subtitle>
+				<v-list-item-subtitle v-if="post.uploaded_by">
+					<code>{{ post.uploaded_by.username }}</code>
+				</v-list-item-subtitle>
 			</v-list-item-content>
+			<v-list-item-action>
+				<v-icon v-if="!post.isArticle"
+					color="purple"
+				>
+					mdi-video
+				</v-icon>
+				<v-icon v-else
+					color="teal darken-2"
+				>
+					mdi-newspaper
+				</v-icon>
+			</v-list-item-action>
 		</v-list-item>
 
 		<slot name="media" />
@@ -24,7 +42,7 @@
 			{{ post.description }}
 		</v-card-text>
 
-		<v-row class="ma-0 pa-0"
+		<v-row class="ma-0 post-actions-row"
 			align="center"
 		>
 			<v-card-actions class="ma-0 pa-0">
@@ -124,9 +142,9 @@ export default {
 		bookmarkedImage: require("@/assets/bookmarked-ribbon.png")
 	}),
 	methods: {
-		routeToPostDetail(postId) {
-			if (this.isArticle) router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: postId }})
-			else router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: postId }})
+		routeToPostDetail(post) {
+			if (this.isArticle) router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: post.id }})
+			else router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: post.id }})
 		}
 	}
 }
@@ -146,6 +164,7 @@ export default {
 		zoom: 120%
 .headline
 	font-weight: 300
+	font-size: 1.4rem !important
 .bookmark-avatar
 	cursor: pointer
 	opacity: .8
@@ -153,4 +172,13 @@ export default {
 	display: block
 	@media only screen and (max-width: 250px)
 		display: none
+.author-avatar
+	background-color: goldenrod
+	border: 2px solid goldenrod
+</style>
+<style lang="scss">
+.post-actions-row {
+	height: 40px;
+	padding: 0 4px 0 8px !important;
+}
 </style>
