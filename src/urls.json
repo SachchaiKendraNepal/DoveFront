@@ -6,7 +6,9 @@
     "createWithList": "/create-article",
     "toggleApproval": "/article/%s/toggle-approval",
     "images": "/article/%s/image",
-    "toggleLove": "/article/%s/toggle-love"
+    "toggleLove": "/article/%s/toggle-love",
+    "toggleBookmark": "/article/%s/toggle-bookmark",
+    "extraStatus": "article-extra-status/%s"
   },
   "multimedia": {
     "set": "/multimedia/",
@@ -15,6 +17,9 @@
     "images": "/multimedia/%s/image",
     "audios": "/multimedia/%s/audio",
     "videos": "/multimedia/%s/video",
-    "videoUrls": "/multimedia/%s/video-url"
+    "videoUrls": "/multimedia/%s/video-url",
+    "toggleLove": "/multimedia/%s/toggle-love",
+    "toggleBookmark": "/multimedia/%s/toggle-bookmark",
+    "extraStatus": "multimedia-extra-status/%s"
   }
 }

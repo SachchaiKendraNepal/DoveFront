@@ -1,6 +1,7 @@
 <template>
 	<v-card
 		v-if="target"
+		:loading="loading"
 		class="mx-auto"
 	>
 		<v-btn
@@ -96,7 +97,9 @@
 							</span>
 						</v-card-text>
 					</div>
-					<PostDetailActionsComponent />
+					<PostDetailActionsComponent v-if="target" :target="target"
+						:is-article="isArticle"
+					/>
 					<v-divider />
 				</div>
 				<slot name="comments" />
@@ -127,20 +130,18 @@
 	</v-card>
 </template>
 <script>
-import PostDetailActionsComponent from "@/views/post/PostDetailActions"
-import PostDetailAdminActionsComponent from "@/views/post/PostDetailAdminActions"
-import IconWithTooltip from "@/components/IconWithTooltip"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "BasePostDetailComponent",
 	components: {
-		IconWithTooltip,
-		PostDetailAdminActionsComponent,
-		PostDetailActionsComponent
+		IconWithTooltip: () => import("@/components/IconWithTooltip"),
+		PostDetailAdminActionsComponent: () => import("@/views/post/PostDetailAdminActions"),
+		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
 	props: {
-		target: {
-			type: Object,
+		targetId: {
+			type: Number,
 			required: true
 		},
 		isArticle: {
@@ -150,11 +151,33 @@ export default {
 		}
 	},
 	data: () => ({
+		target: null,
+		loading: false,
 		isFollower: false,
 		isMember: true
 	}),
-	created() {
-		console.log(this.target)
+	computed: {
+		... mapGetters({
+			article: "article/articleDetail",
+			multimedia: "multimedia/multimediaDetail",
+		})
+	},
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			this.loading=true
+			if (this.isArticle) {
+				await this.$store.dispatch("article/getSingle", {id: this.targetId})
+				this.target=this.article
+			}
+			else {
+				await this.$store.dispatch("multimedia/getSingle", {id: this.targetId})
+				this.target=this.multimedia
+			}
+			this.loading=false
+		}
 	}
 }
 </script>

@@ -3,8 +3,8 @@
 		class="ma-0 pa-0 elevation-0"
 	>
 		<base-post-detail
-			v-if="article"
-			:target="article"
+			v-if="postId"
+			:target-id="postId"
 			:is-article="true"
 		>
 			<template #imageCarousel>
@@ -18,10 +18,10 @@
 					/>
 				</v-carousel>
 			</template>
-			<template v-if="article"
+			<template
 				#comments
 			>
-				<comments-detail :id="article.id" />
+				<comments-detail :id="postId" />
 			</template>
 		</base-post-detail>
 	</v-card>
@@ -36,11 +36,11 @@ export default {
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
 	data: () => ({
-		loading: false
+		loading: false,
+		postId: null,
 	}),
 	computed: {
 		... mapGetters({
-			article: "article/articleDetail",
 			articleImages: "article/allArticleImages"
 		})
 	},
@@ -50,9 +50,8 @@ export default {
 	methods: {
 		async init() {
 			this.loading=true
-			const postId = this.$route.params.id
-			await this.$store.dispatch("article/getSingle", {id: postId})
-			await this.$store.dispatch("article/fetchImagesForArticle", {id: postId})
+			this.postId = parseInt(this.$route.params.id)
+			await this.$store.dispatch("article/fetchImagesForArticle", {id: this.postId})
 			this.loading=false
 		}
 	}

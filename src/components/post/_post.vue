@@ -14,7 +14,7 @@
 			<v-list-item-content>
 				<v-list-item-title
 					class="headline cursor"
-					@click="routeToPostDetail(post)"
+					@click="routeToPostDetail"
 				>
 					{{ post.title }}
 				</v-list-item-title>
@@ -47,20 +47,16 @@
 		>
 			<v-card-actions class="ma-0 pa-0">
 				<v-btn
-					v-if="isLiked"
 					icon
 					color="black"
-					@click="isLiked = false"
+					@click="togglePostLoveStatus"
 				>
-					<v-icon>mdi-heart</v-icon>
-				</v-btn>
-				<v-btn
-					v-else
-					icon
-					color="black"
-					@click="isLiked = true"
-				>
-					<v-icon>mdi-heart-outline</v-icon>
+					<v-icon v-if="extraStatus.loved">
+						mdi-heart
+					</v-icon>
+					<v-icon v-else>
+						mdi-heart-outline
+					</v-icon>
 				</v-btn>
 			</v-card-actions>
 			<v-card-actions class="ma-0 pa-0">
@@ -80,33 +76,28 @@
 			<v-spacer class="post-action-spacer" />
 			<v-card-actions class="ma-0 pa-0">
 				<v-avatar
-					v-if="!isBookmarked"
 					v-ripple
 					tile
 					class="bookmark-avatar"
-					@click="isBookmarked = true"
+					@click="toggleBookmarkStatus"
 				>
 					<v-img
+						v-if="!extraStatus.bookmarked"
 						:src="bookmarkImage"
 						height="70"
 					/>
-				</v-avatar>
-				<v-avatar
-					v-else
-					v-ripple
-					tile
-					class="bookmark-avatar bookmarked"
-					@click="isBookmarked = false"
-				>
 					<v-img
+						v-else
 						:src="bookmarkedImage"
 						height="70"
 					/>
 				</v-avatar>
 			</v-card-actions>
 		</v-row>
-		<p class="mb-1 mx-4 love-count">
-			<span>{{ loveCount }}</span>&nbsp;Love Reacts
+		<p v-if="extraStatus.love_count > 0"
+			class="mb-1 mx-4 love-count"
+		>
+			<span>{{ extraStatus.love_count }}</span>&nbsp;Love Reacts
 			<v-icon size="20">
 				mdi-heart
 			</v-icon>
@@ -135,17 +126,45 @@ export default {
 		}
 	},
 	data: () => ({
-		loveCount: 15,
-		isLiked: false,
-		isBookmarked: false,
 		bookmarkImage: require("@/assets/bookmark-ribbon.png"),
-		bookmarkedImage: require("@/assets/bookmarked-ribbon.png")
-	}),
-	methods: {
-		routeToPostDetail(post) {
-			if (this.isArticle) router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: post.id }})
-			else router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: post.id }})
+		bookmarkedImage: require("@/assets/bookmarked-ribbon.png"),
+		extraStatus: {
+			loved: null,
+			bookmarked: null,
+			love_count: null
 		}
+	}),
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			if (this.isArticle) {
+				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: this.post.id})
+			} else {
+				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: this.post.id})
+			}
+		},
+		routeToPostDetail() {
+			if (this.isArticle) router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: this.post.id }})
+			else router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: this.post.id }})
+		},
+		async togglePostLoveStatus() {
+			if (this.isArticle) {
+				await this.$store.dispatch("article/toggleLoveStatus", {id: this.post.id})
+			} else {
+				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.post.id})
+			}
+			await this.init()
+		},
+		async toggleBookmarkStatus() {
+			if (this.isArticle) {
+				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.post.id})
+			} else {
+				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.post.id})
+			}
+			await this.init()
+		},
 	}
 }
 </script>

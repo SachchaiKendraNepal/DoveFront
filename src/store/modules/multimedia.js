@@ -1,5 +1,6 @@
 import $api from "@/handler/axios"
 import urls from "@/urls.json"
+import {SET_ARTICLE_EXTRA_STATUS} from "@/store/modules/article";
 
 const multimediaUrl = urls.multimedia
 const util = require("util")
@@ -11,6 +12,8 @@ export const SET_MULTIMEDIA_IMAGES = "SET_MULTIMEDIA_IMAGES"
 export const SET_MULTIMEDIA_SOUNDS = "SET_MULTIMEDIA_SOUNDS"
 export const SET_MULTIMEDIA_VIDEOS = "SET_MULTIMEDIA_VIDEOS"
 export const SET_MULTIMEDIA_VIDEO_URLS = "SET_MULTIMEDIA_VIDEO_URLS"
+export const SET_MULTIMEDIA_EXTRA_STATUS = "SET_MULTIMEDIA_EXTRA_STATUS"
+
 
 const defaultMultimediaPostCreationFormErrors = {
 	video: null,
@@ -30,7 +33,8 @@ const state = {
 	multimediaImages: {},
 	multimediaSounds: {},
 	multimediaVideos: {},
-	multimediaVideoUrls: {}
+	multimediaVideoUrls: {},
+	multimediaExtraStatus: {}
 }
 
 const mutations = {
@@ -54,6 +58,9 @@ const mutations = {
 	},
 	[SET_MULTIMEDIA_VIDEO_URLS](state, value) {
 		state.multimediaVideoUrls = value
+	},
+	[SET_MULTIMEDIA_EXTRA_STATUS](state, value) {
+		state.multimediaExtraStatus = value
 	}
 }
 
@@ -78,6 +85,9 @@ const getters = {
 	},
 	multimediaDetail: state => {
 		return state.multimedia
+	},
+	multimediaExtraStatusDetail: state => {
+		return state.multimediaExtraStatus
 	}
 }
 
@@ -172,7 +182,35 @@ const actions = {
 		} catch (e) {
 			return false
 		}
-	}
+	},
+
+	async fetchExtraStatus({commit}, {id: id}) {
+		try {
+			const response = await $api.get(util.format(multimediaUrl.extraStatus, id))
+			commit("SET_MULTIMEDIA_EXTRA_STATUS", response)
+			return response
+		} catch (e) {
+			return false
+		}
+	},
+
+	async toggleLoveStatus({}, {id: id}) {
+		try {
+			const response = await $api.post(util.format(multimediaUrl.toggleLove, id))
+			return !!response.success;
+		} catch (e) {
+			return false
+		}
+	},
+
+	async toggleBookmarkStatus({}, {id: id}) {
+		try {
+			const response = await $api.post(util.format(multimediaUrl.toggleBookmark, id))
+			return !!response.success;
+		} catch (e) {
+			return false
+		}
+	},
 }
 
 export default {

@@ -4,8 +4,8 @@
 		class="ma-0 pa-0 elevation-0"
 	>
 		<base-post-detail
-			v-if="multimedia"
-			:target="multimedia"
+			v-if="multimediaId"
+			:target-id="multimediaId"
 			:is-article="false"
 		>
 			<template #imageCarousel>
@@ -49,10 +49,8 @@
 					</v-carousel-item>
 				</v-carousel>
 			</template>
-			<template v-if="multimedia"
-				#comments
-			>
-				<comments-detail :id="multimedia.id" />
+			<template #comments>
+				<comments-detail :id="multimediaId" />
 			</template>
 		</base-post-detail>
 	</v-card>
@@ -69,12 +67,12 @@ export default {
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
 	data: () => ({
+		multimediaId: null,
 		loading: false,
 		playing: false,
 	}),
 	computed: {
 		... mapGetters({
-			multimedia: "multimedia/multimediaDetail",
 			multimediaImages: "multimedia/allMultimediaImages",
 			multimediaVideos: "multimedia/allMultimediaVideos",
 			multimediaVideoUrls: "multimedia/allMultimediaVideoUrls"
@@ -86,11 +84,10 @@ export default {
 	methods: {
 		async init() {
 			this.loading=true
-			const postId = this.$route.params.id
-			await this.$store.dispatch("multimedia/getSingle", {id: postId})
-			await this.$store.dispatch("multimedia/fetchImagesFor", {id: postId})
-			await this.$store.dispatch("multimedia/fetchVideosFor", {id: postId})
-			await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: postId})
+			this.multimediaId = parseInt(this.$route.params.id)
+			await this.$store.dispatch("multimedia/fetchImagesFor", {id: this.multimediaId})
+			await this.$store.dispatch("multimedia/fetchVideosFor", {id: this.multimediaId})
+			await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: this.multimediaId})
 			this.loading=false
 		},
 		getId(url) {

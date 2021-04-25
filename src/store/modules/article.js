@@ -8,6 +8,7 @@ export const SET_ARTICLES = "SET_ARTICLES"
 export const SET_ARTICLE = "SET_ARTICLE"
 export const SET_ARTICLE_POST_CREATION_FORM_ERRORS = "SET_ARTICLE_POST_CREATION_FORM_ERRORS"
 export const SET_ARTICLE_IMAGES = "SET_ARTICLE_IMAGES"
+export const SET_ARTICLE_EXTRA_STATUS = "SET_ARTICLE_EXTRA_STATUS"
 
 const defaultArticlePostCreationFormErrors = {
 	image: null,
@@ -21,7 +22,8 @@ const state = {
 	articlePostCreationFormErrors: {
 		... defaultArticlePostCreationFormErrors
 	},
-	articleImages: {}
+	articleImages: {},
+	articleExtraStatus: {}
 }
 
 const mutations = {
@@ -36,6 +38,9 @@ const mutations = {
 	},
 	[SET_ARTICLE_IMAGES](state, value) {
 		state.articleImages = value
+	},
+	[SET_ARTICLE_EXTRA_STATUS](state, value) {
+		state.articleExtraStatus = value
 	}
 }
 
@@ -51,6 +56,9 @@ const getters = {
 	},
 	allArticleImages: state => {
 		return state.articleImages.data
+	},
+	articleExtraStatusDetail: state => {
+		return state.articleExtraStatus
 	}
 }
 
@@ -116,7 +124,35 @@ const actions = {
 		} catch (e) {
 			return false
 		}
-	}
+	},
+
+	async fetchExtraStatus({commit}, {id: id}) {
+		try {
+			const response = await $api.get(util.format(articleUrl.extraStatus, id))
+			commit("SET_ARTICLE_EXTRA_STATUS", response)
+			return response
+		} catch (e) {
+			return false
+		}
+	},
+
+	async toggleLoveStatus({}, {id: id}) {
+		try {
+			const response = await $api.post(util.format(articleUrl.toggleLove, id))
+			return !!response.success;
+		} catch (e) {
+			return false
+		}
+	},
+
+	async toggleBookmarkStatus({}, {id: id}) {
+		try {
+			const response = await $api.post(util.format(articleUrl.toggleBookmark, id))
+			return !!response.success;
+		} catch (e) {
+			return false
+		}
+	},
 }
 
 export default {
