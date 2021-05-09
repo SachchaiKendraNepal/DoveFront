@@ -46,6 +46,7 @@
 					:color="item.color"
 					size="22"
 					:tooltip="item.text"
+					:is-disabled="true"
 				/>
 			</v-card-actions>
 		</v-row>

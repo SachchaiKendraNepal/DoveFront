@@ -54,7 +54,7 @@ export default {
 		HomeAdsColumnView,
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
-		AddPostBox: () => import("@/views/home_layout/AddPostBox")
+		AddPostBox: () => import("@/views/home/AddPostBox")
 	},
 	data: () => ({
 		loadingPosts: false,

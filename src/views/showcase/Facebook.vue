@@ -8,12 +8,12 @@
 				data-href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086" data-tabs="timeline"
 				data-height="350"
 				data-small-header="false" data-adapt-container-width="true"
-				data-hide-cover="false" data-show-facepile="false"
+				data-hide-cover="false" data-show-facepile="true"
 			>
 				<blockquote cite="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086"
 					class="fb-xfbml-parse-ignore"
 				>
-					<a href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086">Sachhaikendra Nepal</a>
+					<a href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086">Sachchai Kendra Nepal</a>
 				</blockquote>
 			</div>
 		</div>
@@ -33,8 +33,9 @@ export default {
 <style lang="sass" scoped>
 .sidebar-social-media
 	.sidebar-social-media-title
-		font-size: 16px
-		margin: 5px 0
+		color: white
+		font-size: 18px
+		margin: 0 0 15px 0
 		font-weight: 500
 		u
 			border-bottom: 5px dotted grey

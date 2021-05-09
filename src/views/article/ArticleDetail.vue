@@ -21,7 +21,9 @@
 			<template
 				#comments
 			>
-				<comments-detail :id="postId" />
+				<comments-detail :id="postId"
+					:is-article="true"
+				/>
 			</template>
 		</base-post-detail>
 	</v-card>

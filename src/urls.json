@@ -8,7 +8,8 @@
     "images": "/article/%s/image",
     "toggleLove": "/article/%s/toggle-love",
     "toggleBookmark": "/article/%s/toggle-bookmark",
-    "extraStatus": "article-extra-status/%s"
+    "extraStatus": "article-extra-status/%s",
+    "comment": "article/%s/comment"
   },
   "multimedia": {
     "set": "/multimedia/",
@@ -20,6 +21,8 @@
     "videoUrls": "/multimedia/%s/video-url",
     "toggleLove": "/multimedia/%s/toggle-love",
     "toggleBookmark": "/multimedia/%s/toggle-bookmark",
-    "extraStatus": "multimedia-extra-status/%s"
-  }
+    "extraStatus": "multimedia-extra-status/%s",
+    "comment": "multimedia/%s/comment"
+  },
+  "comment": "comment"
 }

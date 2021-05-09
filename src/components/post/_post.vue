@@ -23,7 +23,7 @@
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
-				<v-icon v-if="!post.isArticle"
+				<v-icon v-if="!isArticle"
 					color="purple"
 				>
 					mdi-video

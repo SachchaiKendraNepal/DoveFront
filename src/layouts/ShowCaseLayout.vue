@@ -1,12 +1,12 @@
 <template>
-	<div id="showcase-wrapper">
+	<v-card class="overflow-hidden rounded-0">
 		<v-snackbar
 			v-model="snack"
 			top
 			right
 			:timeout="3000"
 			:color="snackColor"
-			class="home-snack"
+			class="home-snack ma-0 pa-0"
 		>
 			{{ snackText }}
 
@@ -20,26 +20,24 @@
 				</v-btn>
 			</template>
 		</v-snackbar>
-		<show-case-app-bar />
+		<auth-panel />
+		<org-info-bar />
 		<router-view />
+		<home-footer />
 		<scroll-top
-			color="grey darken-4"
+			color="blue darken-3"
 		/>
-		<div class="mt-3">
-			<home-footer />
-		</div>
-	</div>
+	</v-card>
 </template>
 <script>
-import router from "@/router";
-import $ from "jquery";
 import {mapGetters} from "vuex";
 export default {
 	name: "ShowCaseLayout",
 	components: {
-		ShowCaseAppBar: () => import("@/views/showcase/AppBar"),
+		OrgInfoBar: () => import("@/views/showcase/OrgInfoBar"),
+		AuthPanel: () => import("@/views/showcase/AuthPanel"),
 		ScrollTop: () => import("@/components/ScrollTop"),
-		HomeFooter: () => import("@/views/home_layout/Footer")
+		HomeFooter: () => import("@/views/home/Footer")
 	},
 	computed: {
 		...mapGetters({
@@ -57,40 +55,11 @@ export default {
 	}
 }
 </script>
-<style lang="sass" scoped>
-#showcase-wrapper
-	background-color: #d9ecf4
-.overline
-	font-size: 22px !important
-.slider-wrapper
-	background: #d9ecf4
-.home-app-bar
-	z-index: 100
-#register-button
-	min-width: 70px
-	margin: 0 5px
-	@media only screen and (max-width: 190px)
-		margin: 0
-		min-width: 5px
-#register-button:hover
-	border: 2px solid #45ae59 !important
-	background-color: white !important
-	color: #45ae59 !important
-.logo-avatar
-	background-color: black
-	transition: all .3s
-	visibility: visible
-	border: none
-	opacity: 1
-	@media only screen and (max-width: 600px) and (min-width: 191px)
-		height: 50px !important
-		min-width: 50px !important
-		width: 50px !important
-	@media only screen and (max-width: 190px)
-		height: 0 !important
-		min-width: 0 !important
-		width: 0 !important
-		visibility: hidden
-		opacity: 0
-		overflow: hidden
+<style lang="scss">
+.showcase-blue-bg {
+	background-color: #006994 !important;
+}
+.showcase-blue-color {
+	color: #006994 !important;
+}
 </style>

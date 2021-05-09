@@ -1,40 +1,15 @@
 <template>
 	<v-app-bar
-		class="home-app-bar"
-		fixed
+		class="mx-auto elevation-0"
 		dark
 		height="auto"
-		scroll-threshold="500"
-		color="rgb(126 206 216)"
+		color="transparent"
+		max-width="800"
 	>
-		<div class="social-networks text-center">
-			<v-icon
-				v-ripple
-				color="rgb(25 55 103)"
-				size="20"
-			>
-				mdi-facebook
-			</v-icon>
-			<v-icon
-				v-ripple
-				color="#f71701"
-				size="20"
-			>
-				mdi-youtube
-			</v-icon>
-			<v-icon
-				v-ripple
-				size="20"
-				color="#bb2d71"
-			>
-				mdi-instagram
-			</v-icon>
-		</div>
-		<v-spacer />
-
 		<v-avatar
 			size="100"
 			class="logo-avatar ma-0 pa-0"
+			color="black"
 		>
 			<v-img
 				class="ma-0 pa-0"
@@ -71,6 +46,7 @@
 				:icon-type-btn="true"
 				icon="mdi-logout-variant"
 				tooltip="Logout"
+				color="blue darken-2"
 			/>
 		</div>
 	</v-app-bar>
@@ -98,10 +74,6 @@ export default {
 			return size ? {[size]: true} : {}
 		}
 	},
-	mounted: function () {
-		this.initBarTransparency()
-		this.initBarScrollColoring()
-	},
 	methods: {
 		async openSnack(text, color="error") {
 			await this.$store.dispatch("snack/setSnackState", true)
@@ -120,27 +92,6 @@ export default {
 		},
 		routeToRegisterPage() {
 			router.push({name: "REGISTER"})
-		},
-		initBarTransparency() {
-			$(document).ready(() => {
-				const scrollTop = $(window).scrollTop()
-				if (scrollTop === 0) {
-					$(".home-app-bar").css({
-						background: "rgb(255,255,255, 0)"
-					})
-				}
-			})
-		},
-		initBarScrollColoring() {
-			$(window).scroll(function () {
-				const scrollTop = $(this).scrollTop()
-				$(".home-app-bar").css({
-					backgroundColor: function () {
-						const elementHeight = $(this).height();
-						return "rgb(10,158,177," + (1 - (elementHeight - scrollTop) / elementHeight).toString()
-					}
-				})
-			})
 		}
 	}
 }

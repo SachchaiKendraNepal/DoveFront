@@ -9,15 +9,22 @@
 		>
 			<v-card
 				flat
-				class="pin-bg-card py-6 rounded-0"
-				height="450"
+				class="pin-bg-card rounded-0 fill-height"
+				min-height="800"
 			>
 				<v-row no-gutters
 					justify="center" align="center"
 				>
 					<v-col
 						cols="12"
-						class="text-center pb-4"
+					>
+						<v-card-text class="pin-header py-0 showcase-blue-color">
+							Become a part of something great!
+						</v-card-text>
+					</v-col>
+					<v-col
+						cols="12"
+						class="text-center py-4"
 					>
 						<v-avatar
 							color="white"
@@ -32,18 +39,11 @@
 							</v-icon>
 						</v-avatar>
 					</v-col>
-					<v-col
-						cols="12"
-					>
-						<v-card-text class="pin-header py-0">
-							Become a part of something great
-						</v-card-text>
-					</v-col>
 					<v-col v-show="$vuetify.breakpoint.mdAndUp"
 						cols="12"
 					>
 						<v-card-text
-							class="subtitle-1 d-flex justify-center pb-0"
+							class="subtitle-1 d-flex justify-center pb-0 grey--text text--darken-2 font-weight-bold"
 						>
 							We provide a nice feeds management for our followers.
 							We can post our thoughts, events or any inspirations as Sachchai Nepal Post.
@@ -52,19 +52,20 @@
 					<v-col v-show="$vuetify.breakpoint.smAndUp"
 						cols="12"
 					>
-						<v-card-text
-							class="subtitle-2 d-flex justify-center"
-						>
-							See our top pinned items here. <v-icon large>
-								mdi-arrow-right
-							</v-icon>
+						<v-card-text class="text-center blue--text text--darken-2">
+							<h3>
+								See our top pinned items here. <v-icon large>
+									mdi-arrow-right
+								</v-icon>
+							</h3>
 						</v-card-text>
 					</v-col>
 					<v-col cols="12">
 						<v-card-actions class="py-0 d-flex justify-center mt-4 mt-sm-0 mt-md-0 mt-lg-0 mt-xl-0">
 							<v-btn large
-								outlined
 								elevation="4"
+								dark
+								color="showcase-blue-bg"
 							>
 								<v-icon>mdi-eye-circle</v-icon>
 								<span v-show="$vuetify.breakpoint.smAndUp"
@@ -237,18 +238,6 @@ export default {
 					750: {
 						slidesPerView: 3,
 					},
-					1000: {
-						slidesPerView: 4,
-					},
-					1250: {
-						slidesPerView: 5,
-					},
-					1500: {
-						slidesPerView: 6
-					},
-					1600: {
-						slidesPerView: 7
-					}
 				},
 				grabCursor: true,
 				speed: 1500,
@@ -286,7 +275,7 @@ export default {
 <style lang="sass" scoped>
 .pin-column
 	transition: all .2s
-	margin-top: -80px !important
+	margin-top: -40px !important
 	@media only screen and (max-width: 1390px)  and (min-width: 960px)
 		margin-top: -100px !important
 		@media only screen and (max-width: 994px)
@@ -309,10 +298,14 @@ export default {
 		margin-top: -150px !important
 
 .pin-bg-card
-	background: black url("https://i.ibb.co/g3Nd2sW/24-green-gradient.jpg") no-repeat fixed center
+	display: flex
+	justify-content: center
+	align-items: center
+	background: #f1f1f2
 
 .swiper-container
-	width: 100%
+	margin: 0 auto
+	max-width: 1000px
 	height: 356px
 .overline
 	font-size: 14px !important
@@ -336,4 +329,8 @@ export default {
 		line-height: 32px
 	@media only screen and (max-width: 137px)
 		display: none
+.subtitle-1
+	max-width: 800px
+	margin: 0 auto
+	text-align: center
 </style>

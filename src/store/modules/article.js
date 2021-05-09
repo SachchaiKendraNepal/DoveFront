@@ -1,5 +1,6 @@
 import $api from "@/handler/axios"
 import urls from "@/urls.json"
+
 const util = require("util")
 
 const articleUrl = urls.article
@@ -153,6 +154,27 @@ const actions = {
 			return false
 		}
 	},
+
+	async fetchComments({}, {id: id}) {
+		try {
+			return await $api.get(util.format(articleUrl.comment, id))
+		} catch (e) {
+			return false
+		}
+	},
+
+	async postComment({}, {body: body}) {
+		try {
+			await $api.post(urls.comment, body)
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				return e.response.data
+			}
+			return 500
+		}
+	}
 }
 
 export default {

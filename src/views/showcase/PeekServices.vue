@@ -85,13 +85,13 @@ export default {
 </script>
 <style lang="sass" scoped>
 .peek-services-wrapper
-	padding: 0
+	padding: 80px 0
 #peek-services-card
 	background: aliceblue
 	::v-deep .v-card__title
 		font-size: 14px !important
 		color: #013045
-		padding: 10px 2px
+		padding: 2px
 	#services-row
 		margin: 0
 		padding: 0
@@ -101,7 +101,7 @@ export default {
 			width: 60em
 	.quote
 		margin: 0
-		padding: 20px 80px 0 80px !important
+		padding: 150px 80px 0 80px !important
 
 		font-size: 3rem
 		line-height: 3.3rem
@@ -113,7 +113,7 @@ export default {
 		@media only screen and (max-width: 895px) and (min-width: 436px)
 			font-size: 2.4rem
 			line-height: 2.6rem
-			padding: 20px 40px 0 40px !important
+			padding: 80px 40px 0 40px !important
 		@media only screen and (max-width: 435px) and (min-width: 185px)
 			font-size: 1.5rem
 			line-height: 1.6rem
@@ -124,6 +124,7 @@ export default {
 			padding: 15px !important
 	.quoter
 		margin: 0
+		padding: 15px 0
 		font-size: 1.9rem
 		line-height: 1.9rem
 		font-family: 'Lobster Two', cursive
@@ -165,7 +166,7 @@ export default {
 	.peek-card
 		.peek-title
 			margin: 0
-			padding: 5px 0 0 0
+			padding: 20px 0
 			font-family: 'Cinzel', serif
 			font-weight: 500
 			font-size: 24px

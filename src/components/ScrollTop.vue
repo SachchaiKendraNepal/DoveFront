@@ -15,7 +15,7 @@
 			:color="color"
 			@click="$vuetify.goTo(0)"
 		>
-			<v-icon size="30">
+			<v-icon size="20">
 				{{ icon }}
 			</v-icon>
 		</v-btn>
@@ -33,7 +33,7 @@ export default {
 		icon: {
 			type: String,
 			required: false,
-			default: "keyboard_arrow_up"
+			default: "mdi-arch"
 		}
 	},
 	data: () => ({

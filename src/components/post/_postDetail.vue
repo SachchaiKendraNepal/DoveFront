@@ -110,6 +110,7 @@
 					class="ma-0 pa-2 alice-blue"
 				>
 					<v-text-field
+						v-model="comment.comment"
 						class="comment mr-1"
 						solo
 						placeholder="Add a comment"
@@ -119,6 +120,7 @@
 						<template #append>
 							<v-icon class="send-icon-button"
 								color="primary"
+								@click="addCommentToPost"
 							>
 								mdi-send
 							</v-icon>
@@ -154,7 +156,12 @@ export default {
 		target: null,
 		loading: false,
 		isFollower: false,
-		isMember: true
+		isMember: true,
+		comment: {
+			comment: null,
+			article: null,
+			multimedia: null
+		}
 	}),
 	computed: {
 		... mapGetters({
@@ -177,6 +184,18 @@ export default {
 				this.target=this.multimedia
 			}
 			this.loading=false
+		},
+		async addCommentToPost() {
+			if (this.isArticle) {
+				this.comment.article = this.targetId
+			}
+			else {
+				this.comment.multimedia = this.targetId
+				delete this.comment.article
+			}
+			await this.$store.dispatch("article/postComment", {body: this.comment})
+			this.$bus.emit("refresh-comment-in-details-page")
+			this.comment.comment = ""
 		}
 	}
 }

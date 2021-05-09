@@ -15,7 +15,7 @@
 				class="homo-logo elevation-4"
 				size="70"
 			>
-				<span class="display-3">S</span>
+				<v-img :src="logo" />
 			</v-avatar>
 
 			<v-card
@@ -27,7 +27,7 @@
 					id="search"
 					solo
 					hide-details
-					append-icon="search"
+					append-icon="mdi-magnify"
 					clearable
 					clear-icon="clear"
 					placeholder="Search Sachchai Kendra Nepal"
@@ -160,16 +160,16 @@ import router from "@/router"
 export default {
 	name: "SacchaiHomeLayout",
 	components: {
-		ProfileDropdown: () => import("@/views/home_layout/ProfileDropdown"),
-		UserClip: () => import("@/views/home_layout/UserClip"),
-		HomeFooter: () => import("@/views/home_layout/Footer"),
-		QuickLinks: () => import("@/views/home_layout/QuickLinks"),
+		ProfileDropdown: () => import("@/views/home/ProfileDropdown"),
+		UserClip: () => import("@/views/home/UserClip"),
+		HomeFooter: () => import("@/views/home/Footer"),
+		QuickLinks: () => import("@/views/home/QuickLinks"),
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
 		group: null,
 		currentItem: "Home",
-		logo: require("@/assets/sacchai_logo.jpg"),
+		logo: require("@/assets/showcase_logo_v1.png"),
 		homeTabItems: [
 			{icon: "mdi-home", text: "Home", to: "/home/feeds"},
 			{icon: "mdi-post", text: "Articles", to: "/home/article"},

@@ -211,6 +211,14 @@ const actions = {
 			return false
 		}
 	},
+
+	async fetchComments({}, {id: id}) {
+		try {
+			return await $api.get(util.format(multimediaUrl.comment, id))
+		} catch (e) {
+			return false
+		}
+	}
 }
 
 export default {

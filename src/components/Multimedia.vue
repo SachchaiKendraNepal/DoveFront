@@ -33,15 +33,12 @@
 							reverse-transition="fade-transition"
 						>
 							<template #default>
-								<youtube
-									ref="youtube"
-									class="pa-0"
-									:video-id="getId(item.video_url)"
-									:resize="true"
-									:resize-delay="0"
-									:fit-parent="true"
-									@playing="playing"
-								/>
+								<div class="video-container">
+									<iframe :src="prepareEmbedUrl(item.video_url)"
+										frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+										allowfullscreen
+									/>
+								</div>
 							</template>
 						</v-carousel-item>
 					</v-carousel>
@@ -86,6 +83,9 @@ export default {
 		},
 		getId(url) {
 			return this.$youtube.getIdFromUrl(url)
+		},
+		prepareEmbedUrl(url) {
+			return `https://www.youtube.com/embed/${this.getId(url)}`
 		}
 	}
 }
@@ -102,5 +102,24 @@ export default {
 		height: 14px;
 		width: 14px;
 	}
+}
+.video-container {
+ overflow: hidden;
+ position: relative;
+ width:100%;
+}
+
+.video-container::after {
+	padding-top: 56.25%;
+	display: block;
+	content: '';
+}
+
+.video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 </style>

@@ -1,176 +1,94 @@
 <template>
-	<v-card
-		id="kendra-info-box"
-		class="mx-auto pt-16"
-		flat
-		max-width="1100"
-		height="100vh"
+	<v-card height="1000"
+		color="rgb(241 241 242)"
+		class="ma-4"
 	>
-		<v-card-subtitle
-			id="kendra_name"
-			class="text-center"
+		<v-row class="fill-height ma-0 pa-0 repeating-gradient"
+			align="center" justify="center"
 		>
-			ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल
-		</v-card-subtitle>
-		<v-card-subtitle
-			id="kendra_motto"
-			class="text-center"
-		>
-			हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
-		</v-card-subtitle>
-		<v-row
-			class="ma-0 pa-0"
-			align="center"
-			justify="center"
-		>
-			<v-col
-				cols="12"
-				xl="5"
-				lg="5"
-				md="5"
-				sm="5"
-				class="pa-0"
+			<v-card class="ma-auto elevation-0 rounded-0"
+				max-width="1000"
+				color="transparent"
 			>
-				<v-row class="ma-0 pa-0">
-					<v-col
-						cols="12"
-						:class="
-							$vuetify.breakpoint.smAndUp
-								? 'd-flex justify-end'
-								: 'd-flex justify-center'
-						"
-					>
-						<v-avatar
-							class="resize-avatar"
-							size="200"
-						>
-							<v-img :src="chief" />
-						</v-avatar>
-					</v-col>
-					<v-col
-						cols="12"
-						:class="
-							$vuetify.breakpoint.smAndUp
-								? 'd-flex justify-end'
-								: 'd-flex justify-center'
-						"
-						class="pa-0"
-					>
-						<div class="text-right">
-							<p>
-								Mr. ABCD XYZ
-							</p>
-							<p>
-								Sachchai Kendra Nepal
-							</p>
-							<p>
-								Pramukh
-							</p>
-							<p>
-								9843789563
-							</p>
-						</div>
-					</v-col>
-				</v-row>
-			</v-col>
-			<v-col
-				v-if="$vuetify.breakpoint.smAndUp"
-				class="ma-0 pa-0"
-				cols="2"
-			>
-				<v-row
-					class="ma-0 pa-0"
-					no-gutters
+				<v-card-subtitle
+					id="kendra_name"
+					class="text-center"
 				>
-					<v-col cols="12"
-						class="d-flex justify-center"
+					ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल
+				</v-card-subtitle>
+				<v-card-subtitle
+					id="kendra_motto"
+					class="text-center"
+				>
+					हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
+				</v-card-subtitle>
+				<v-row class="ma-0 pa-0"
+					justify="center" align="center"
+				>
+					<v-col v-for="(item, index) in kendra"
+						:key="index"
+						cols="12" xl="6"
+						lg="6" md="6"
+						sm="6"
 					>
-						<div
-							id="divider"
-							class="mx-2"
-						/>
-					</v-col>
-					<v-col cols="12"
-						class="d-flex justify-center mt-4"
-					>
-						<div>
-							<p><v-icon>mdi-account-circle</v-icon></p>
-							<p><v-icon>mdi-city</v-icon></p>
-							<p><v-icon>mdi-shield-key</v-icon></p>
-							<p><v-icon>mdi-phone</v-icon></p>
-						</div>
-					</v-col>
-				</v-row>
-			</v-col>
-			<v-col
-				cols="12"
-				xl="5"
-				lg="5"
-				md="5"
-				sm="5"
-				class="pa-0"
-			>
-				<v-row class="ma-0 pa-0">
-					<v-col
-						cols="12"
-						:class="
-							$vuetify.breakpoint.smAndUp
-								? 'd-flex justify-start'
-								: 'd-flex justify-center'
-						"
-					>
-						<v-avatar
-							class="resize-avatar"
-							size="200"
+						<v-card class="elevation-0 text-center"
+							color="transparent"
 						>
-							<v-img :src="viceChief" />
-						</v-avatar>
-					</v-col>
-					<v-col cols="12"
-						:class="
-							$vuetify.breakpoint.smAndUp
-								? 'd-flex justify-start'
-								: 'd-flex justify-center'
-						"
-						class="pa-0"
-					>
-						<div>
-							<p>Mrs. KOCH XYZ</p>
-							<p>Sachchai Kendra Nepal</p>
-							<p>Saha Pramukh</p>
-							<p>9843789563</p>
-						</div>
+							<v-avatar size="230"
+								class="rounded-circle resize-avatar"
+								:class="(item.position === 'Kendra Pramukh') ? 'pramukh' : 'saha-pramukh'"
+							>
+								<v-img :src="item.image" />
+							</v-avatar>
+							<div class="personal-info">
+								<div class="name">
+									{{ item.name }}
+								</div>
+								<div class="branch">
+									{{ item.branch }}
+								</div>
+								<div class="position">
+									{{ item.position }}
+								</div>
+								<div class="contact">
+									{{ item.contact }}
+								</div>
+							</div>
+						</v-card>
 					</v-col>
 				</v-row>
-			</v-col>
+			</v-card>
 		</v-row>
 	</v-card>
 </template>
 <script>
 export default {
 	data: () => ({
-		chief: require("@/assets/KendraPramukh.jpg"),
-		viceChief: "https://i.ibb.co/2S8CkRZ/IMG-8841-2.jpg"
+		kendra: [
+			{
+				image: require("@/assets/KendraPramukh.jpg"),
+				name: "Prakash Sir",
+				position: "Kendra Pramukh",
+				contact: "+977-9843565897",
+				branch: "Sachchai Kendra Nepal, Lamachaur"
+			},
+			{
+				image: "https://scontent.fpkr1-1.fna.fbcdn.net/v/t1.6435-9/89533997_2530166857234100_7226294179305881600_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=cdbe9c&_nc_ohc=kkYrz08l3vcAX96W0a6&_nc_ht=scontent.fpkr1-1.fna&oh=eb000522665afce42e583bc8aa20584a&oe=60B31CBD	",
+				name: "Sushila Maam",
+				position: "Kendra Saha Pramukh",
+				contact: "+977-9843565147",
+				branch: "Sachchai Kendra Nepal, Lamachaur"
+			}
+		]
 	}),
 }
 </script>
 <style lang="sass" scoped>
-#kendra-info-box
-	border-radius: 0 !important
-#divider
-	background-color: #020211
-	height: 200px
-	width: 3px
-::v-deep.v-card
-	background-color: #d9ecf3
-	//background-image: url("https://image.freepik.com/free-photo/blue-watercolor-texture-with-copyspace-right_24972-147.jpg")
-	//background-repeat: no-repeat
-	//background-position: center
-	//background-size: cover
 #kendra_name
 	color: #2f2d2d
 	font-size: 55px
 	line-height: 55px
+	font-weight: 500
 	transition: all .3s
 	@media only screen and (max-width: 445px) and (min-width: 291px)
 		font-size: 40px
@@ -199,4 +117,29 @@ export default {
 		height: 100px !important
 		min-width: 100px !important
 		width: 100px !important
+.personal-info
+	padding: 20px
+.name
+	text-transform: uppercase
+	font-size: 1.6rem
+.position
+	font-size: 1.1rem
+.contact
+	font-size: .875rem
+</style>
+<style lang="scss" scoped>
+.kendra-info-bg-img{
+	margin-top: -70px;
+}
+.repeating-gradient {
+	background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100px);
+}
+//.pramukh {
+//	border: 3px solid #1ecb1e;
+//	background: #1ecb1e;
+//}
+//.saha-pramukh {
+// border: 3px solid #ec47c4;
+//	background: #ec47c4;
+//}
 </style>
