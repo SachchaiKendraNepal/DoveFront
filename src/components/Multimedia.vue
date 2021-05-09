@@ -24,7 +24,9 @@
 							<template #default>
 								<video-player
 									:options="{
-										autoplay: true,
+										fluid: true,
+										fill: true,
+										autoplay: false,
 										controls: true,
 										sources: [
 											{
@@ -88,7 +90,7 @@ export default {
 			this.video_urls = await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: this.post.id})
 		},
 		getId(url) {
-			return this.$youtube.getIdFromUrl(url)
+			return this.$helper.getVideoIdFromYoutubeURL(url)
 		},
 		prepareEmbedUrl(url) {
 			return `https://www.youtube.com/embed/${this.getId(url)}`

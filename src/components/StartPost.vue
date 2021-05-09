@@ -253,15 +253,9 @@
 								mdi-close
 							</v-icon>
 						</template>
-						<youtube
-							ref="youtube"
-							class="pa-4"
-							:video-id="getId(item)"
-							:resize="true"
-							:resize-delay="1"
-							height="130"
-							width="200"
-							@playing="playing"
+						<iframe :src="prepareEmbedUrl(item)"
+							frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
 						/>
 					</v-badge>
 				</v-col>
@@ -299,7 +293,20 @@
 								mdi-close
 							</v-icon>
 						</template>
-						<vue-core-video-player :src="item.videoUrl" />
+						<video-player
+							:options="{
+								fluid: true,
+								fill: true,
+								autoplay: false,
+								controls: true,
+								sources: [
+									{
+										src: item.videoUrl,
+										type: 'video/mp4'
+									}
+								]
+							}"
+						/>
 					</v-badge>
 				</v-col>
 			</v-row>
@@ -398,13 +405,6 @@
 							: 'justify-center'
 					"
 				>
-					<!--					<v-btn-->
-					<!--						fab x-small-->
-					<!--						dark-->
-					<!--						:color="flexButtonsTag.color"-->
-					<!--					>-->
-					<!--						<v-icon>{{ flexButtonsTag.icon }}</v-icon>-->
-					<!--					</v-btn>-->
 					<v-btn
 						class="mx-2 mb-2 mb-sm-0 mb-md-0 mb-lg-0 mb-xl-0"
 						fab x-small
@@ -437,11 +437,14 @@ import {getFormData} from "@/Helper";
 const VueUploadComponent = require("vue-upload-component")
 import APlayer from "vue-aplayer"
 import {mapGetters} from "vuex";
-// import vuePlayer from "@algoz098/vue-player"
 
 export default {
 	name: "StartAPostComponent",
-	components: {FileUpload: VueUploadComponent, APlayer},
+	components: {
+		FileUpload: VueUploadComponent,
+		APlayer,
+		VideoPlayer: () => import("@/components/VideoPlayer")
+	},
 	emits: ["close-dialog"],
 	data: () => ({
 		files: [],
@@ -573,7 +576,10 @@ export default {
 			this.audioURLs.splice(index, 1)
 		},
 		getId(url) {
-			return this.$youtube.getIdFromUrl(url)
+			return this.$helper.getVideoIdFromYoutubeURL(url)
+		},
+		prepareEmbedUrl(url) {
+			return `https://www.youtube.com/embed/${this.getId(url)}`
 		},
 		closeDialog() {
 			this.resetPostForm()

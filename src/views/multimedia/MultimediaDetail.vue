@@ -46,6 +46,8 @@
 						<template #default>
 							<video-player
 								:options="{
+									fluid: true,
+									fill: true,
 									autoplay: true,
 									controls: true,
 									sources: [
@@ -116,7 +118,7 @@ export default {
 			this.loading=false
 		},
 		getId(url) {
-			return this.$youtube.getIdFromUrl(url)
+			return this.$helper.getVideoIdFromYoutubeURL(url)
 		},
 		prepareEmbedUrl(url) {
 			return `https://www.youtube.com/embed/${this.getId(url)}`
