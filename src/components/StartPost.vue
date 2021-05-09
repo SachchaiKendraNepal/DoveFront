@@ -689,7 +689,6 @@ export default {
 	color: white
 	font-size: .7rem
 	line-height: .7rem
-
-
-
+.image-preview
+	border-radius: 10px
 </style>
