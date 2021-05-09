@@ -22,8 +22,17 @@
 							reverse-transition="fade-transition"
 						>
 							<template #default>
-								<vue-player v-model="playing"
-									:src="item.video"
+								<video-player
+									:options="{
+										autoplay: true,
+										controls: true,
+										sources: [
+											{
+												src: item.video,
+												type: 'video/mp4'
+											}
+										]
+									}"
 								/>
 							</template>
 						</v-carousel-item>
@@ -48,11 +57,10 @@
 	</base-post-card>
 </template>
 <script>
-import vuePlayer  from "@algoz098/vue-player"
 export default {
 	name: "MultimediaComponent",
 	components: {
-		vuePlayer,
+		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostCard: () => import("@/components/post/_post")
 	},
 	props: {
@@ -63,8 +71,6 @@ export default {
 	},
 	data() {
 		return {
-			player: null,
-			playing: false,
 			images: {},
 			videos: {},
 			sounds: {},

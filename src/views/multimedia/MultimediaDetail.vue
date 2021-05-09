@@ -31,6 +31,7 @@
 					<v-carousel-item
 						v-for="item in multimediaImages"
 						:key="item.id + 5 * 7"
+						active-class="multimedia-active-image"
 						:src="item.image"
 						reverse-transition="fade-transition"
 						transition="fade-transition"
@@ -38,18 +39,28 @@
 					<v-carousel-item
 						v-for="item in multimediaVideos"
 						:key="item.id + 7 * 11"
+						active-class="multimedia-active-video"
 						reverse-transition="fade-transition"
 						transition="fade-transition"
 					>
 						<template #default>
-							<vue-player
-								:v-model="playing"
-								:src="item.video"
+							<video-player
+								:options="{
+									autoplay: true,
+									controls: true,
+									sources: [
+										{
+											src: item.video,
+											type: 'video/mp4'
+										}
+									]
+								}"
 							/>
 						</template>
 					</v-carousel-item>
 					<v-carousel-item v-for="(item) in multimediaVideoUrls"
 						:key="item.id + 11 * 13"
+						active-class="multimedia-active-video-url"
 						transition="fade-transition"
 						reverse-transition="fade-transition"
 					>
@@ -71,29 +82,28 @@
 	</v-card>
 </template>
 <script>
-import vuePlayer from "@algoz098/vue-player"
 import {mapGetters} from "vuex";
+
 
 export default {
 	name: "MultimediaDetailView",
 	components: {
-		vuePlayer,
+		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostDetail: () => import("@/components/post/_postDetail"),
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
 	data: () => ({
 		multimediaId: null,
 		loading: false,
-		playing: false,
 	}),
 	computed: {
 		... mapGetters({
 			multimediaImages: "multimedia/allMultimediaImages",
 			multimediaVideos: "multimedia/allMultimediaVideos",
 			multimediaVideoUrls: "multimedia/allMultimediaVideoUrls"
-		})
+		}),
 	},
-	async created() {
+	async mounted() {
 		await this.init()
 	},
 	methods: {

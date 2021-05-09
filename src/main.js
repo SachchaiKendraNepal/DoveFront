@@ -15,6 +15,7 @@ import VueYoutube from "vue-youtube"
 import moment from "moment"
 import helper from "@/Helper"
 import VueCoreVideoPlayer from "vue-core-video-player"
+import "video.js/dist/video-js.css"
 
 
 Vue.use(VueYoutube)
