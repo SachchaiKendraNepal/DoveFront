@@ -35,9 +35,9 @@
 						{{ formIcon }}
 					</v-icon>
 				</v-avatar>
-				<v-toolbar-title class="toolbar-title"
-					v-html="formTitle"
-				/>
+				<v-toolbar-title class="toolbar-title">
+					{{ formTitle }}
+				</v-toolbar-title>>
 				<v-spacer />
 				<v-avatar
 					class="cursor"

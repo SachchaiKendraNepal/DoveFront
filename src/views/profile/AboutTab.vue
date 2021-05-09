@@ -45,7 +45,7 @@
 											<v-list-item-title class="wrap-title">
 												{{ item.value }}
 											</v-list-item-title>
-											<v-list-item-subtitle v-html="item.field" />
+											<v-list-item-subtitle>{{ item.field }}</v-list-item-subtitle>
 										</v-list-item-content>
 
 										<v-list-item-icon>
@@ -233,13 +233,13 @@
 									lg="6"
 									md="6"
 								>
-									<vue-player
-										:v-model="item.playing"
-										:src="item.videoUrl"
-										:poster="item.videoPosterImageUrl"
-										:title="item.videoPosterTitle"
-										class="mx-4 my-3"
-									/>
+									<!--									<vue-player-->
+									<!--										:v-model="item.playing"-->
+									<!--										:src="item.videoUrl"-->
+									<!--										:poster="item.videoPosterImageUrl"-->
+									<!--										:title="item.videoPosterTitle"-->
+									<!--										class="mx-4 my-3"-->
+									<!--									/>-->
 								</v-col>
 							</v-row>
 						</v-card>
@@ -271,11 +271,9 @@
 </template>
 <script>
 import APlayer from "vue-aplayer"
-import vuePlayer from "@algoz098/vue-player"
 export default {
 	name: "ProfileAboutTabView",
 	components: {
-		vuePlayer,
 		APlayer,
 		TabItemCard: () => import("@/components/ProfileTabItem"),
 		ArticlePost: () => import("@/components/Article"),

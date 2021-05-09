@@ -11,18 +11,14 @@ import "leaflet/dist/leaflet.css"
 import $ from "jquery"
 import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
-import VueYoutube from "vue-youtube"
 import moment from "moment"
 import helper from "@/Helper"
-import VueCoreVideoPlayer from "vue-core-video-player"
 import "video.js/dist/video-js.css"
 
 
-Vue.use(VueYoutube)
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.component(APlayer)
-Vue.use(VueCoreVideoPlayer)
 
 
 Vue.prototype.$api = api

@@ -43,7 +43,7 @@
 						outlined
 						max-width="450"
 					>
-						<v-card-text v-html="getPeekDescription(item.description)" />
+						<v-card-text>{{ getPeekDescription(item.description) }}</v-card-text>
 					</v-card>
 				</v-col>
 			</v-row>
