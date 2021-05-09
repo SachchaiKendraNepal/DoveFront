@@ -5457,10 +5457,10 @@ jest-worker@^25.4.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-jquery-bridget@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/jquery-bridget/-/jquery-bridget-2.0.1.tgz#784d17a85e641780c5d89ac3f8a7eb47b0bce1fc"
-  integrity sha1-eE0XqF5kF4DF2JrD+KfrR7C84fw=
+jquery-bridget@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/jquery-bridget/-/jquery-bridget-3.0.0.tgz#639e6be08416178807dabc2bc5dadc0ff845e93f"
+  integrity sha512-UamdtgKjbmSUiLfUbJk+VA5q9fMRy4h2XYU1D1OlF2wzI1wIQyuIb7WTYtaMPYML2RgdAOTPyvQUmehWwoXazw==
   dependencies:
     jquery ">=1.4.2 <4"
 
