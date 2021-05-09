@@ -214,9 +214,10 @@
 								mdi-close
 							</v-icon>
 						</template>
-						<v-avatar size="100">
-							<v-img :src="file" />
-						</v-avatar>
+						<v-img :src="file" class="image-preview"
+							max-height="100" max-width="100"
+							contain
+						/>
 					</v-badge>
 				</v-col>
 			</v-row>
@@ -276,7 +277,7 @@
 				</v-col>
 				<v-col v-for="(item, index) in videoURLs" :key="index"
 					cols="4"
-					class="ma-2 d-flex justify-center"
+					class="ma-0 pa-0 d-flex justify-center align-start"
 				>
 					<v-badge
 						bottom
@@ -293,20 +294,11 @@
 								mdi-close
 							</v-icon>
 						</template>
-						<video-player
-							:options="{
-								fluid: true,
-								fill: true,
-								autoplay: false,
-								controls: true,
-								sources: [
-									{
-										src: item.videoUrl,
-										type: 'video/mp4'
-									}
-								]
-							}"
-						/>
+						<div>
+							<a :href="item.videoUrl"
+								target="_blank"
+							>{{ item.name }}</a>
+						</div>
 					</v-badge>
 				</v-col>
 			</v-row>
@@ -443,7 +435,7 @@ export default {
 	components: {
 		FileUpload: VueUploadComponent,
 		APlayer,
-		VideoPlayer: () => import("@/components/VideoPlayer")
+		// VideoPlayer: () => import("@/components/VideoPlayer")
 	},
 	emits: ["close-dialog"],
 	data: () => ({
@@ -530,6 +522,7 @@ export default {
 			} else if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
 				this.videoURLs.push({
 					playing: false,
+					name: latestFile.name,
 					videoUrl: latestUrl,
 				})
 				this.videos.push(latestFile)
