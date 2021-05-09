@@ -6,20 +6,17 @@ import vuetify from "./plugins/vuetify"
 import "roboto-fontface/css/roboto/roboto-fontface.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 import api from "@/handler/axios"
-import vuePlayer from "@algoz098/vue-player"
 import APlayer from "vue-aplayer"
 import "leaflet/dist/leaflet.css"
 import $ from "jquery"
 import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
-import VueYoutube from "vue-youtube"
 import moment from "moment"
 import helper from "@/Helper"
+import "video.js/dist/video-js.css"
 
 
-Vue.use(VueYoutube)
 Vue.use(VueBus)
-Vue.component(vuePlayer)
 Vue.use(moment)
 Vue.component(APlayer)
 

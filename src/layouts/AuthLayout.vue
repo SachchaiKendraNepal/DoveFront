@@ -30,7 +30,7 @@
 import { mapGetters } from "vuex"
 
 export default {
-	name: "KhelKudDashboardLayout",
+	name: "SachchaiNepalAuthLayout",
 	components: {
 		// maybe appbar
 	},

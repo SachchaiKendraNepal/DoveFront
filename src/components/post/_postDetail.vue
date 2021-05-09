@@ -1,5 +1,6 @@
 <template>
 	<v-card
+		v-if="target"
 		:loading="loading"
 		class="mx-auto"
 	>
@@ -50,7 +51,7 @@
 									class="post-auth-icon"
 								>mdi-account-circle</v-icon>
 							</span>
-							{{ target.uploaded_by }}
+							<span v-if="target.uploaded_by">{{ target.uploaded_by.username }}</span>
 							<span>
 								<v-icon size="16"
 									class="post-auth-icon"
@@ -64,7 +65,9 @@
 							</span>
 							{{ target.approved_at }}
 						</v-card-subtitle>
-						<v-card-text class="py-0">
+						<v-card-text v-if="target.description"
+							class="py-0"
+						>
 							{{ target.description.substr(0,120) }}
 						</v-card-text>
 						<v-card-text class="py-0">
@@ -94,7 +97,9 @@
 							</span>
 						</v-card-text>
 					</div>
-					<PostDetailActionsComponent />
+					<PostDetailActionsComponent v-if="target" :target="target"
+						:is-article="isArticle"
+					/>
 					<v-divider />
 				</div>
 				<slot name="comments" />
@@ -105,6 +110,7 @@
 					class="ma-0 pa-2 alice-blue"
 				>
 					<v-text-field
+						v-model="comment.comment"
 						class="comment mr-1"
 						solo
 						placeholder="Add a comment"
@@ -114,6 +120,7 @@
 						<template #append>
 							<v-icon class="send-icon-button"
 								color="primary"
+								@click="addCommentToPost"
 							>
 								mdi-send
 							</v-icon>
@@ -125,20 +132,18 @@
 	</v-card>
 </template>
 <script>
-import PostDetailActionsComponent from "@/views/post/PostDetailActions"
-import PostDetailAdminActionsComponent from "@/views/post/PostDetailAdminActions"
-import IconWithTooltip from "@/components/IconWithTooltip"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "BasePostDetailComponent",
 	components: {
-		IconWithTooltip,
-		PostDetailAdminActionsComponent,
-		PostDetailActionsComponent
+		IconWithTooltip: () => import("@/components/IconWithTooltip"),
+		PostDetailAdminActionsComponent: () => import("@/views/post/PostDetailAdminActions"),
+		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
 	props: {
-		target: {
-			type: Object,
+		targetId: {
+			type: Number,
 			required: true
 		},
 		isArticle: {
@@ -148,10 +153,51 @@ export default {
 		}
 	},
 	data: () => ({
+		target: null,
 		loading: false,
 		isFollower: false,
-		isMember: true
-	})
+		isMember: true,
+		comment: {
+			comment: null,
+			article: null,
+			multimedia: null
+		}
+	}),
+	computed: {
+		... mapGetters({
+			article: "article/articleDetail",
+			multimedia: "multimedia/multimediaDetail",
+		})
+	},
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			this.loading=true
+			if (this.isArticle) {
+				await this.$store.dispatch("article/getSingle", {id: this.targetId})
+				this.target=this.article
+			}
+			else {
+				await this.$store.dispatch("multimedia/getSingle", {id: this.targetId})
+				this.target=this.multimedia
+			}
+			this.loading=false
+		},
+		async addCommentToPost() {
+			if (this.isArticle) {
+				this.comment.article = this.targetId
+			}
+			else {
+				this.comment.multimedia = this.targetId
+				delete this.comment.article
+			}
+			await this.$store.dispatch("article/postComment", {body: this.comment})
+			this.$bus.emit("refresh-comment-in-details-page")
+			this.comment.comment = ""
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

@@ -2,7 +2,8 @@
 	<v-card id="right-card"
 		flat
 		outlined
-		color="transparent"
+		max-width="900"
+		class="pa-xl-16 pa-lg-16 pa-md-16 about-us"
 	>
 		<v-card-text class="about-us">
 			<v-card-title class="text-uppercase overline">
@@ -12,7 +13,7 @@
 			<p class="title-text">
 				{{ aboutUs.title }}
 			</p>
-			<p v-html="getAboutUsText(aboutUs.description)" />
+			<p>{{ getAboutUsText(aboutUs.description) }}</p>
 			<v-btn
 				min-width="16"
 				max-width="200"

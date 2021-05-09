@@ -6,6 +6,7 @@
 				:depressed="depressed"
 				:icon="iconTypeBtn"
 				v-bind="attrs"
+				:disabled="isDisabled"
 				v-on="on"
 			>
 				<v-icon
@@ -54,6 +55,10 @@ export default {
 			default: true
 		},
 		iconTypeBtn: {
+			type: Boolean,
+			default: false
+		},
+		isDisabled: {
 			type: Boolean,
 			default: false
 		}

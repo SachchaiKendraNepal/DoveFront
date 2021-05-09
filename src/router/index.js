@@ -29,34 +29,14 @@ const routes = [
 				component: () => import("@/views/member/MyPosts")
 			},
 			{
-				path: "follower",
-				name: "SACHCHAI NEPAL FOLLOWERS",
-				component: () => import("@/views/member/Member")
-			},
-			{
-				path: "follower/:id",
-				name: "SACHCHAI NEPAL FOLLOWER",
-				component: () => import("@/views/member/MemberDetail")
-			},
-			{
-				path: "branch",
-				name: "SACHCHAI NEPAL BRANCHES",
-				component: () => import("@/views/branch/BranchesHome")
-			},
-			{
-				path: "branch/:id",
-				name: "SACHCHAI NEPAL BRANCH",
-				component: () => import("@/views/branch/BranchDetail")
-			},
-			{
 				path: "article",
 				name: "SACHCHAI NEPAL ARTICLES",
-				component: () => import("@/views/article/Articles")
+				component: () => import("@/views/home/Articles")
 			},
 			{
 				path: "multimedia",
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
-				component: () => import("@/views/multimedia/Multimedias")
+				component: () => import("@/views/home/Multimedias")
 			},
 			{
 				path: "event",

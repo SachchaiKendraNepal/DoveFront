@@ -1,5 +1,6 @@
 <template>
 	<v-card
+		:loading="loadingPosts"
 		flat
 		color="transparent"
 		class="mx-auto pa-0"
@@ -20,23 +21,15 @@
 				sm="8"
 			>
 				<add-post-box />
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<multimedia :post="multimediaPost" />
-				</div>
-				<div class="mb-2">
-					<article-post :post="articlePost" />
-				</div>
-				<div class="mb-2">
-					<multimedia :post="multimediaPost" />
+				<div v-for="post in posts"
+					:key="post.id" class="mb-2"
+				>
+					<article-post v-if="post.isArticle"
+						:post="post"
+					/>
+					<multimedia v-else
+						:post="post"
+					/>
 				</div>
 			</v-col>
 			<v-col
@@ -54,30 +47,48 @@
 
 <script>
 import HomeAdsColumnView from "@/views/home/Ads";
+import {mapGetters} from "vuex";
 export default {
 	name: "HomeComponent",
 	components: {
 		HomeAdsColumnView,
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
-		AddPostBox: () => import("@/views/home_layout/AddPostBox")
+		AddPostBox: () => import("@/views/home/AddPostBox")
 	},
 	data: () => ({
-		loading: false,
-		articlePost: {
-			id: 1,
-			title: "Our Changing Planet",
-			author: "Kurt Wagner",
-			description: "Visit ten places on our planet that are undergoing the biggest changes today."
+		loadingPosts: false,
+		posts: []
+	}),
+	computed: {
+		...mapGetters({
+			articles: "article/allArticles",
+			multimedias: "multimedia/allMultimedias"
+		})
+	},
+	async created() {
+		await this.initialize()
+	},
+	methods: {
+		async initialize() {
+			this.loadingPosts = true
+			await this.$store.dispatch("article/getAllApproved")
+			await this.$store.dispatch("multimedia/getAllApproved")
+			this.sortPostsByUploadedDate()
+			this.loadingPosts = false
 		},
-		multimediaPost: {
-			id: 1,
-			title: "Alice in the Wonderland",
-			author: "Kiran Parajuli",
-			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland" +
-				" from her dreams where she is reunited with her friends who make her realise her true destiny."
-		},
-	})
+		sortPostsByUploadedDate() {
+			this.articles.forEach(article => {
+				article.isArticle = true
+			})
+			this.multimedias.forEach(media => {
+				media.isArticle = false
+			})
+			this.posts = this.posts.concat(this.articles)
+			this.posts = this.posts.concat(this.multimedias)
+			this.posts.sort((a, b) => (Date.parse(a.uploaded_at) < Date.parse(b.uploaded_at)) ? 1 : -1)
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

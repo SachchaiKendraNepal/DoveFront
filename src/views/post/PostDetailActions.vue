@@ -6,42 +6,22 @@
 		justify="space-around"
 	>
 		<v-tooltip
-			v-if="isLiked"
 			bottom
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
-
 					depressed
 					small
 					class="ma-2 py-6"
 					v-bind="attrs"
 					v-on="on"
-					@click="isLiked = false"
+					@click="togglePostLoveStatus"
 				>
-					<v-icon>
+					<v-icon v-if="extraStatus.loved">
 						mdi-heart
 					</v-icon>
-				</v-btn>
-			</template>
-			<span>Hate</span>
-		</v-tooltip>
-		<v-tooltip
-			v-else
-			bottom
-		>
-			<template #activator="{ on, attrs }">
-				<v-btn
-					v-if="!isLiked"
-					class="ma-2 py-6"
-					depressed
-					small
-					v-bind="attrs"
-					v-on="on"
-					@click="isLiked = true"
-				>
-					<v-icon>
-						mdi-heart-outline
+					<v-icon v-else>
+						mdi-heart-outlined
 					</v-icon>
 				</v-btn>
 			</template>
@@ -79,7 +59,6 @@
 			<span>Share</span>
 		</v-tooltip>
 		<v-tooltip
-			v-if="!isBookmarked"
 			bottom
 		>
 			<template #activator="{on, attrs}">
@@ -89,45 +68,70 @@
 					class="ma-2 py-6"
 					v-bind="attrs"
 					v-on="on"
-					@click="isBookmarked = true"
+					@click="toggleBookmarkStatus"
 				>
-					<v-icon>
+					<v-icon v-if="extraStatus.bookmarked">
+						mdi-bookmark
+					</v-icon>
+					<v-icon v-else>
 						mdi-bookmark-outline
 					</v-icon>
 				</v-btn>
 			</template>
 			<span>Bookmark</span>
 		</v-tooltip>
-		<v-tooltip
-			v-else
-			bottom
-		>
-			<template #activator="{ on, attrs }">
-				<v-btn
-					v-if="isBookmarked"
-					color="blue lighten-5"
-					depressed
-					small
-					class="ma-2 py-6"
-					v-bind="attrs"
-					v-on="on"
-					@click="isBookmarked = false"
-				>
-					<v-icon>
-						mdi-bookmark
-					</v-icon>
-				</v-btn>
-			</template>
-			<span>UnBookmark</span>
-		</v-tooltip>
 	</v-row>
 </template>
 <script>
 export default {
 	name: "PostDetailActionsComponent",
-	data: () => ({
-		isLiked: false,
-		isBookmarked: false,
-	})
+	props: {
+		target: {
+			type: Object,
+			required: true
+		},
+		isArticle: {
+			type: Boolean,
+			required: false,
+			default: false
+		}
+	},
+	data() {
+		return {
+			extraStatus: {
+				loved: null,
+				bookmarked: null,
+				love_count: null
+			}
+		}
+	},
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			if (this.isArticle) {
+				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: this.target.id})
+			} else {
+				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: this.target.id})
+			}
+		},
+		async togglePostLoveStatus() {
+			if (this.isArticle) {
+				await this.$store.dispatch("article/toggleLoveStatus", {id: this.post.id})
+			} else {
+				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.post.id})
+			}
+			await this.init()
+		},
+		async toggleBookmarkStatus() {
+			if (this.isArticle) {
+				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.post.id})
+			} else {
+				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.post.id})
+			}
+			await this.init()
+		},
+	}
 }
 </script>

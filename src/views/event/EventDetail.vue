@@ -308,7 +308,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 #event-top-row
-	background: linear-gradient(180deg, #ff0000, #eeaaaa, #efcece, #cee7f9)
+	background: linear-gradient(180deg, #9575cd, #eeaaaa, #efcece, #cee7f9)
 #event-banner
 	border-radius: 0 0 10px 10px
 #date-peek-box

@@ -4,10 +4,24 @@
 		:is-article="true"
 	>
 		<template #media>
-			<v-img
-				:src="image"
-				height="194"
-			/>
+			<v-row class="ma-0 pa-0">
+				<v-col cols="12"
+					class="py-0"
+				>
+					<v-carousel :show-arrows="false"
+						height="30vh"
+						vertical-delimiters="true"
+					>
+						<v-carousel-item
+							v-for="item in images.data"
+							:key="item.id"
+							:src="item.image"
+							transition="fade-transition"
+							reverse-transition="fade-transition"
+						/>
+					</v-carousel>
+				</v-col>
+			</v-row>
 		</template>
 	</base-post-card>
 </template>
@@ -25,8 +39,16 @@ export default {
 		}
 	},
 	data: () => ({
-		image: "https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
-	})
+		images: {}
+	}),
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			this.images = await this.$store.dispatch("article/fetchImagesForArticle", {id: this.post.id})
+		}
+	}
 };
 </script>
 
@@ -36,4 +58,15 @@ export default {
 
 .comment-history
 	font-size: 13px
+</style>
+<style lang="scss" scoped>
+::v-deep.v-carousel--vertical-delimiters .v-carousel__controls {
+	width: 30px;
+}
+::v-deep.v-item-group {
+	button {
+		height: 14px;
+		width: 14px;
+	}
+}
 </style>

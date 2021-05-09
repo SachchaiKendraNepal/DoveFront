@@ -1,45 +1,36 @@
 <template>
-	<div class="mt-4">
-		<v-card
-			class="find-us-card"
-			height="600"
+	<v-card
+		flat
+		class="ma-0 pa-0 rounded-0"
+		height="1000"
+	>
+		<v-row
+			class="ma-0 pa-0 fill-height"
+			align="center"
 		>
-			<v-row
-				id="find-us-row"
-				class="ma-0 pa-0 mt-4"
-				align="start"
+			<v-col
+				cols="12"
+				class="text-center"
 			>
-				<v-col
-					cols="12"
-					xl="4"
-					lg="4"
-					md="6"
-					sm="6"
-				>
-					<div
-						id="find-us-title"
-						class="ma-0 pa-0 d-flex justify-start"
+				<div class="ma-0 pa-0 find-us-title">
+					<v-avatar v-show="$vuetify.breakpoint.smAndUp"
+						class="mr-2 find-us-av"
+						size="60"
+						color="white"
 					>
-						<v-avatar v-show="$vuetify.breakpoint.smAndUp"
-							class="mr-2 find-us-av"
-							size="60"
-							color="white"
+						<v-icon x-large
+							color="blue darken-2"
 						>
-							<v-icon x-large
-								color="blue darken-2"
-							>
-								mdi-map-legend
-							</v-icon>
-						</v-avatar>
-						{{ mapInfo.title }}
-					</div>
-					<p id="find-us-subtitle"
-						class="subtitle-2"
-					>
-						{{ mapInfo.description }}
-					</p>
+							mdi-map-legend
+						</v-icon>
+					</v-avatar>
+					{{ mapInfo.title }}
+				</div>
+				<p class="subtitle-2 find-us-subtitle">
+					{{ mapInfo.description }}
+				</p>
+				<div class="">
 					<v-btn
-						id="view-branch-maps"
 						min-width="16"
 						max-width="200"
 						:min-height="
@@ -49,30 +40,26 @@
 						"
 						depressed
 						x-large
-						class="py-8"
+						class="py-8 "
 					>
 						<v-icon>mdi-home-map-marker</v-icon>
 						<span v-show="$vuetify.breakpoint.smAndUp">View Branches</span>
 					</v-btn>
-				</v-col>
-				<v-col
-					id="map-column"
-					class="d-flex justify-end"
-					cols="12"
-					xl="8"
-					lg="8"
-					md="6"
-					sm="6"
-				>
-					<iframe
-						id="branch-iframe"
-						src="https://www.google.com/maps/d/embed?mid=1gQSVr7mErgYHo00oSpVGv5oIdklxJqPc"
-						width="640" height="430"
-					/>
-				</v-col>
-			</v-row>
-		</v-card>
-	</div>
+				</div>
+			</v-col>
+			<v-col
+				id="map-column"
+				class="d-flex justify-center"
+				cols="12"
+			>
+				<iframe
+					id="branch-iframe"
+					src="https://www.google.com/maps/d/embed?mid=1gQSVr7mErgYHo00oSpVGv5oIdklxJqPc"
+					width="1000" height="600"
+				/>
+			</v-col>
+		</v-row>
+	</v-card>
 </template>
 
 <script>
@@ -82,7 +69,7 @@ export default {
 		return {
 			mapInfoParallaxImage: require("@/assets/kaudada_group.jpg"),
 			mapInfo: {
-				title: "Find us!",
+				title: "Find us on Google maps!",
 				description: "We provide a very nice map navigation system where" +
 					" you can find all of our branches locations."
 			}
@@ -94,7 +81,7 @@ export default {
 <style lang="sass" scoped>
 .find-us-card
 	border-radius: 0
-	background: black url("https://i.ibb.co/FWywJZj/kaudada-group.jpg") no-repeat fixed center
+	background: transparent
 #find-us-row
 	margin: 0
 	padding: 0
@@ -109,21 +96,6 @@ export default {
 	@media only screen and (max-width: 335px)
 		display: flex
 		justify-content: center
-	#branch-iframe
-		@media only screen and (max-width: 600px) and (min-width: 361px)
-			height: 320px
-		@media only screen and (max-width: 360px) and (min-width: 336px)
-			width: 300px
-			height: 250px
-		@media only screen and (max-width: 335px) and (min-width: 236px)
-			width: 200px
-			height: 250px
-		@media only screen and (max-width: 235px) and (min-width: 191px)
-			width: 150px
-			height: 250px
-		@media only screen and (max-width: 190px)
-			width: 100px
-			height: 250px
 #find-us
 	::v-deep.v-parallax
 		border-radius: 10px
@@ -136,7 +108,7 @@ export default {
 			opacity: 90%
 			transition: all 1s
 			-webkit-transition: all 1s
-#find-us-title
+.find-us-title
 	transition: all .2s
 	font-family: 'Lemonada', cursive !important
 	font-size: 50px
@@ -145,12 +117,10 @@ export default {
 	@media only screen and (max-width: 300px)
 		font-size: 35px
 		line-height: 35px
-#find-us-subtitle
-	color: #e9e7e7
+.find-us-subtitle
+	color: grey
 	font-size: 18px !important
 	line-height: 20px
 	font-weight: bold
 	display: block
-	@media only screen and (max-width: 335px)
-		display: none
 </style>

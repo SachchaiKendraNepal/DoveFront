@@ -4,7 +4,7 @@
 	>
 		<v-card
 			class="stuff-card"
-			height="500"
+			height="800"
 			width="100vw"
 			gradient="to top right, rgba(100,115,201,.22), rgba(25,32,72,.6)"
 		>
@@ -79,10 +79,10 @@ export default {
 	margin: 0
 	padding: 0
 	border-radius: 0
-	background: linear-gradient(rgba(115, 139, 169, 0.5), rgba(148, 119, 165, .2)), url("https://i.ibb.co/m07knhH/mountain.jpg") no-repeat fixed center
+	background: linear-gradient(rgba(115, 139, 169, 0.5), rgba(148, 119, 165, .2)), url("https://images.sadhguru.org/mahashivratri/wp-content/uploads/2020/02/Shiva-Wallpaper-Moon-on-his-head.jpg") no-repeat
+	background-size: 100%
 #stuff-content
 	h1
-		margin-top: -120px
 		text-align: center
 		font-size: 72px
 		background: -webkit-linear-gradient(#dfdff6, #f6dfeb, #afbecd)
@@ -112,7 +112,8 @@ export default {
 			-webkit-background-clip: text
 			-webkit-text-fill-color: transparent
 	h4
-		margin-top: 70px
+		margin: 0
+		padding: 20px 0
 		text-align: center
 		font-weight: 500
 		color: white
@@ -121,15 +122,18 @@ export default {
 		line-height: 20px
 		font-style: oblique
 		@media only screen and (max-width: 710px)
-			margin-top: 10px
+			margin: 0
+			padding: 10px 0
 			font-size: 16px !important
 			line-height: 16px
 		@media only screen and (max-width: 380px)
-			margin-top: 10px
+			margin: 0
+			padding: 10px 0
 			font-size: 14px !important
 			line-height: 14px
 		@media only screen and (max-width: 275px)
-			margin-top: 10px
+			margin: 0
+			padding: 10px 0
 			font-size: 10px !important
 			line-height: 10px
 

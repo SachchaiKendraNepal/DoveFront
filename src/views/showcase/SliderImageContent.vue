@@ -1,44 +1,48 @@
 <template>
 	<v-row
 		class="fill-height ma-0 pa-0"
-		justify="center" align="center"
+		justify="center" align="start"
 	>
-		<div class="display-1 text-center">
-			<p class="text-uppercase overline context">
+		<div class="text-start image-content">
+			<div class="text-uppercase context">
 				{{ item.context }}
-			</p>
-			<h1 class="main">
+			</div>
+			<div class="main">
 				{{ item.title }}
-			</h1>
-			<h6 class="sub">
+			</div>
+			<div class="sub">
 				{{ item.subtitle }}
-			</h6>
-			<v-tooltip bottom>
-				<template #activator="{on, attrs}">
-					<v-btn x-large
-						color="black"
-						class="py-8 px-12"
-						v-bind="attrs"
-						v-on="on"
-						@click="routeToFeedsPage()"
-					>
-						<span v-if="$vuetify.breakpoint.smAndUp"
-							style="font-size: 18px"
-						>Explore</span>
-						<v-icon right
-							large
-							:class="
-								$vuetify.breakpoint.smAndUp
-									? 'ml-4'
-									: ''
-							"
+			</div>
+			<div class="explore-btn">
+				<v-tooltip bottom>
+					<template #activator="{on, attrs}">
+						<v-btn
+							dark
+							class="showcase-blue-bg"
+							v-bind="attrs"
+							:height="($vuetify.breakpoint.smAndDown) ? 50 : 65"
+							:width="($vuetify.breakpoint.smAndDown) ? 120 : 200"
+							v-on="on"
+							@click="routeToFeedsPage()"
 						>
-							mdi-arrow-right-circle
-						</v-icon>
-					</v-btn>
-				</template>
-				<span>Explore More</span>
-			</v-tooltip>
+							<span v-if="$vuetify.breakpoint.smAndUp"
+								class="explore"
+							>Explore</span>
+							<v-icon right
+								size="24"
+								:class="
+									$vuetify.breakpoint.smAndUp
+										? 'ml-4'
+										: ''
+								"
+							>
+								mdi-arrow-right-circle
+							</v-icon>
+						</v-btn>
+					</template>
+					<span>Explore More</span>
+				</v-tooltip>
+			</div>
 		</div>
 	</v-row>
 </template>
@@ -62,79 +66,122 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.main
-	transition: all .3s
-	color: white
-	@media only screen and (min-width: 1201px)
-		font-size: 5rem !important
-		line-height: 5.3rem !important
-	@media only screen and (max-width: 1200px) and (min-width: 601px)
-		font-size: 3.5rem !important
-		line-height: 3.9rem !important
-	@media only screen and (max-width: 600px) and (min-width: 381px)
-		font-size: 2.9rem !important
-		line-height: 3.1rem !important
-	@media only screen and (max-width: 380px) and (min-width: 241px)
-		font-size: 2.7rem !important
-		line-height: 3.2rem !important
-		margin-bottom: 15px
-	@media only screen and (max-width: 240px) and (min-width: 177px)
-		font-size: 2.5rem !important
-		line-height: 2.8rem !important
-		margin-bottom: 10px
-	@media only screen and (max-width: 176px) and (min-width: 126px)
-		font-size: 1.8rem !important
-		line-height: 2.1rem !important
-		margin-bottom: 10px
-	@media only screen and (max-width: 125px)
-		font-size: 1.4rem !important
-		line-height: 1.8rem !important
-		margin-bottom: 10px
-.sub
-	transition: all .5s ease-in-out
-	opacity: 1
-	visibility: visible
-	margin: 20px 0
-	letter-spacing: .2rem !important
-	@media only screen and (min-width: 1201px)
-		font-size: 1.5rem !important
-		line-height: 1.9rem !important
-	@media only screen and (max-width: 1200px) and (min-width: 601px)
-		font-size: 1.2rem !important
-		line-height: 1.4rem !important
-	@media only screen and (max-width: 600px) and (min-width: 381px)
-		font-size: 1rem !important
-		line-height: 1.5rem !important
-	@media only screen and (max-width: 380px)
-		margin: 0
-		opacity: 0
-		visibility: hidden
-		overflow: hidden
-		min-width: 0
-		height: 0
-.context
-	transition: all .5s
-	opacity: 1
-	visibility: visible
-	font-weight: bold
-	letter-spacing: 0.12rem !important
-	@media only screen and (min-width: 1201px)
-		font-size: 1.7rem !important
-		line-height: 2.0rem !important
-		margin-bottom: 50px
-	@media only screen and (max-width: 1200px) and (min-width: 601px)
-		margin: 20px 0
-		font-size: 1.2rem !important
-		line-height: 1.1rem !important
-	@media only screen and (max-width: 600px) and (min-width: 381px)
-		margin: 20px 0
-		font-size: .8rem !important
-		line-height: 1.2rem !important
-	@media only screen and (max-width: 380px)
-		opacity: 0
-		visibility: hidden
-		overflow: hidden
-		min-width: 0
-		height: 0
+<style lang="scss" scoped>
+.image-content {
+	padding: 150px 10px 0;
+}
+.main {
+	font-size: 5.8rem;
+	line-height: 8rem;
+	font-weight: 800;
+}
+.sub {
+	font-size: 2.4rem;
+	line-height: 3rem;
+	font-weight: 600;
+}
+.context {
+ text-transform: capitalize;
+	font-size: 2.4rem;
+	line-height: 3rem;
+	font-weight: 500;
+}
+.explore-btn {
+	padding-top: 20px;
+	.explore {
+		font-size: 18px
+	}
+}
+@media only screen and (max-width: 1450px) and (min-width: 1220px) {
+	.main {
+		font-size: 5rem;
+		line-height: 8rem;
+		font-weight: 800;
+	}
+	.sub {
+		font-size: 2rem;
+		line-height: 3rem;
+		font-weight: 600;
+	}
+	.context {
+		text-transform: capitalize;
+		font-size: 2rem;
+		line-height: 3rem;
+		font-weight: 500;
+	}
+}
+@media only screen and (max-width: 1219px) and (min-width: 980px) {
+	.main {
+		font-size: 4rem;
+		line-height: 6rem;
+		font-weight: 800;
+	}
+	.sub {
+		font-size: 1.8rem;
+		line-height: 3rem;
+		font-weight: 600;
+	}
+	.context {
+		text-transform: capitalize;
+		font-size: 1.8rem;
+		line-height: 3rem;
+		font-weight: 500;
+	}
+}
+@media only screen and (max-width: 979px) and (min-width: 740px) {
+	.main {
+		font-size: 3rem;
+		line-height: 6rem;
+		font-weight: 800;
+	}
+	.sub {
+		font-size: 1.4rem;
+		line-height: 2.5rem;
+		font-weight: 600;
+	}
+	.context {
+		text-transform: capitalize;
+		font-size: 1.4rem;
+		line-height: 2.4rem;
+		font-weight: 500;
+	}
+}
+@media only screen and (max-width: 739px){
+	.main {
+		text-align: center;
+		font-size: 3rem;
+		line-height: 5rem;
+		font-weight: 800;
+	}
+	.sub {
+		text-align: center;
+		font-size: 1.4rem;
+		line-height: 2rem;
+		font-weight: 600;
+	}
+	.context {
+		text-align: center;
+		text-transform: capitalize;
+		font-size: 1.4rem;
+		line-height: 3rem;
+		font-weight: 500;
+	}
+	.explore-btn {
+		text-align: center;
+	}
+}
+@media only screen and (max-width: 380px){
+	.main {
+		font-size: 2.8rem;
+		line-height: 3.2rem;
+	}
+	.context {
+		font-size: 1.2rem;
+		line-height: 2rem;
+	}
+	.sub {
+		font-size: 1.2rem;
+		line-height: 2rem;
+	}
+}
 </style>

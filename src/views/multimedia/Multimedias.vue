@@ -2,38 +2,143 @@
 	<v-row
 		justify="center"
 		align="center"
-		class="ma-0 pa-1"
+		class="ma-0 pa-1 my-12"
 	>
-		<v-col
-			v-for="n in 10"
-			:key="n"
-			cols="12"
-			xl="3"
-			lg="4"
-			md="4"
-			sm="6"
-			class="ma-0 pa-1"
+		<v-data-table
+			:loading="loadingMultimedias"
+			loading-text="Fetching multimedias from server"
+			:headers="multimediaListHeaders"
+			:items="multimedias"
+			item-key="name"
+			class="elevation-1"
 		>
-			<multimedia-post :post="multimediaPost" />
-		</v-col>
+			<template #top>
+				<v-toolbar flat
+					color="grey lighten-2"
+				>
+					<v-app-bar-nav-icon>
+						<v-avatar class="nav-avatar elevation-4 ma-1"
+							size="38"
+						>
+							<v-icon class="mx-0">
+								mdi-video
+							</v-icon>
+						</v-avatar>
+					</v-app-bar-nav-icon>
+					<v-toolbar-title class="text-uppercase table-title mx-0 px-0">
+						Sachchai Nepal Multimedias
+					</v-toolbar-title>
+					<v-spacer />
+					<v-icon>mdi-star</v-icon>
+				</v-toolbar>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.approval_status="{ item }">
+				<v-switch v-model="item.is_approved"
+					color="grey darken-2"
+					disabled
+				/>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.actions="{ item }">
+				<v-icon
+					v-if="!item.is_approved"
+					small
+					color="green"
+					class="mr-2"
+					@click="updateMultimediaApproval(item)"
+				>
+					mdi-check
+				</v-icon>
+				<v-icon
+					v-if="item.is_approved"
+					small
+					color="red"
+					class="mr-2"
+					@click="updateMultimediaApproval(item)"
+				>
+					mdi-close
+				</v-icon>
+				<v-icon
+					color="blue"
+					small
+					class="mr-2"
+					@click="editMultimedia(item)"
+				>
+					mdi-pencil
+				</v-icon>
+				<v-icon
+					small
+					color="red"
+					@click="deleteMultimedia(item)"
+				>
+					mdi-delete
+				</v-icon>
+			</template>
+			<template #no-data>
+				<v-btn
+					color="primary"
+					@click="initialize"
+				>
+					Reset
+				</v-btn>
+			</template>
+		</v-data-table>
 	</v-row>
 </template>
 <script>
-import MultimediaPost from "@/components/Multimedia"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "MultimediaView",
-	components: {
-		MultimediaPost
-	},
-	data: () => ({
-		multimediaPost: {
-			id: 1,
-			title: "Alice in the Wonderland",
-			author: "Kiran Parajuli",
-			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland from her dreams where she is reunited with her friends who make her realise her true destiny."
+	data() {
+		return {
+			loadingMultimedias: false,
+			multimediaListHeaders: [
+				{ text: "ID", value: "id" },
+				{ text: "Title", value: "title" },
+				{ text: "Author", value: "uploaded_by.username" },
+				{ text: "Status", value: "approval_status" },
+				{ text: "Approver", value: "approved_by.username" },
+				{ text: "Created At", value: "uploaded_at" },
+				{ text: "Actions", value: "actions", sortable: false },
+			]
 		}
-	})
+	},
+	computed: {
+		... mapGetters({
+			multimedias: "multimedia/allMultimedias"
+		})
+	},
+	async created() {
+		await this.initialize()
+	},
+	methods: {
+		async initialize() {
+			this.loadingMultimedias = true
+			await this.$store.dispatch("multimedia/getAll")
+			this.loadingMultimedias = false
+		},
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+		async updateMultimediaApproval(item) {
+			const response = await this.$store.dispatch("multimedia/approve", {id: item.id})
+			if (response) {
+				await this.openSnack("Multimedia approval updated successfully.", "success")
+				await this.initialize()
+			}
+			else await this.openSnack("Multimedia approval update failed. Please try again.")
+		},
+		async editMultimedia(item) {
+
+		},
+		async deleteMultimedia(item) {
+
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

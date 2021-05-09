@@ -1,39 +1,28 @@
 <template>
-	<div class="carousel">
-		<div class="carousel-cell">
-			<v-img class="carousel-image"
-				:src="items[0].src"
-				dark
-				gradient="to top, rgb(0 0 0 / 10%), rgb(0 0 0 / 60%), rgb(0 0 0 / 40%)"
+	<div class="showcase-img-wrapper">
+		<v-img class="showcase-img"
+			:src="items[1].src"
+			dark
+			gradient="to top right, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
+			height="100vh"
+			width="100vw"
+			eager
+		>
+			<slider-image-content />
+		</v-img>
+		<div class="custom-shape-divider-bottom-1619957365">
+			<svg data-name="Layer 1"
+				xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
+				preserveAspectRatio="none"
 			>
-				<slider-image-content />
-			</v-img>
-		</div>
-		<div class="carousel-cell">
-			<v-img class="carousel-image"
-				:src="items[1].src"
-				dark
-				gradient="to top right, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
-			>
-				<slider-image-content />
-			</v-img>
-		</div>
-		<div class="carousel-cell">
-			<v-img class="carousel-image"
-				:src="items[2].src"
-				dark
-				gradient="to top, rgb(0 0 0 / 0%), rgb(0 0 0 / 60%), rgb(0 0 0 / 20%)"
-			>
-				<slider-image-content />
-			</v-img>
+				<path d="M1200 120L0 16.48 0 0 1200 0 1200 120z"
+					class="shape-fill"
+				/>
+			</svg>
 		</div>
 	</div>
 </template>
 <script>
-import $ from "jquery"
-const jQueryBridget = require("jquery-bridget");
-const Flickity = require("flickity")
-
 export default {
 	name: "ShowCaseSliderComponent",
 	components: {
@@ -41,56 +30,50 @@ export default {
 	},
 	data: () => ({
 		loading: false,
-		groupMembers: null,
-		leading: null,
-		clapping: null,
-		praying: null,
 		items: [
 			{src: "https://linkpicture.com/q/mass_clapping.jpg", text: "Kiran Parajuli"},
 			{src: "https://wallpaperaccess.com/full/19849.jpg"},
 			{src: "https://cdn.wallpapersafari.com/10/51/h6L8oM.jpg"},
 		],
-	}),
-	mounted() {
-		jQueryBridget("flickity", Flickity, $)
-		this.initFlickity()
-	},
-	methods: {
-		initFlickity() {
-			$(document).ready(function () {
-				$(".carousel").flickity({
-					draggable: false,
-					wrapAround: true,
-					autoPlay: 4000,
-					imagesLoaded: true,
-					cellSelector: ".carousel-cell",
-					contain: true,
-					prevNextButtons: false,
-					selectedAttraction: 0.01,
-					friction: 0.15,
-				})
-			})
-		}
-	}
+	})
 }
 </script>
 
-<style scoped>
-
-* { box-sizing: border-box; }
-
-.carousel {
-	background: #EEE;
-}
-
-.carousel-cell {
-	display: block;
+<style scoped lang="scss">
+.showcase-img-wrapper {
+	position: relative;
+	background-color: transparent;
 	height: 100vh;
 	width: 100vw;
+	overflow: hidden;
 }
-.carousel-image {
-	object-fit: cover;
+
+.custom-shape-divider-bottom-1619957365 {
+	position: absolute;
+	bottom: 0;
+	left: 0;
 	width: 100%;
-	height: 100%;
+	overflow: hidden;
+	line-height: 0;
+	transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1619957365 svg {
+	position: relative;
+	display: block;
+	width: calc(100% + 1.3px);
+	height: 150px;
+}
+
+.custom-shape-divider-bottom-1619957365 .shape-fill {
+	fill: #f1f1f2;
+}
+
+/** For mobile devices **/
+@media (max-width: 767px) {
+	.custom-shape-divider-bottom-1619957365 svg {
+		width: calc(138% + 1.3px);
+		height: 70px;
+	}
 }
 </style>

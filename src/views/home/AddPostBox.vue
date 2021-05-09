@@ -46,6 +46,7 @@
 					:color="item.color"
 					size="22"
 					:tooltip="item.text"
+					:is-disabled="true"
 				/>
 			</v-card-actions>
 		</v-row>
@@ -57,7 +58,7 @@ export default {
 	name: "AddPostBoxComponent",
 	components: {
 		StartPostBox: () => import("@/components/StartPost"),
-		DepressedButton: () => import("@/components/DerpressedButtonWithToolTip")
+		DepressedButton: () => import("@/components/DepressedTooltipButton")
 	},
 	emits: ["close-post-dialog"],
 	data: () => ({

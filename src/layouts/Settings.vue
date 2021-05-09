@@ -1,5 +1,25 @@
 <template>
 	<div id="settings">
+		<v-snackbar
+			v-model="snack"
+			top
+			right
+			:timeout="3000"
+			:color="snackColor"
+			class="home-snack"
+		>
+			{{ snackText }}
+
+			<template #action="{ attrs }">
+				<v-btn
+					v-bind="attrs"
+					text
+					@click="snack = false"
+				>
+					Close
+				</v-btn>
+			</template>
+		</v-snackbar>
 		<v-app-bar app
 			color="grey darken-4" dark
 		>
@@ -128,6 +148,8 @@
 	</div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
 	name: "SettingsLayout",
 	data() {
@@ -145,6 +167,20 @@ export default {
 				{ title: "Events", icon: "mdi-calendar-multiple", to: "/admin/event" },
 				{ title: "Ads", icon: "mdi-cash-usd", to: "/admin/ad" }
 			],
+		}
+	},
+	computed: {
+		...mapGetters({
+			snackText: "snack/snackText",
+			snackColor: "snack/snackColor"
+		}),
+		snack: {
+			get() {
+				return this.$store.state.snack.snack
+			},
+			set(v) {
+				this.$store.dispatch("snack/setSnackState", v)
+			}
 		}
 	},
 	methods: {

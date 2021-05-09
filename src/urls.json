@@ -3,10 +3,26 @@
   "event": "/event/",
   "article": {
     "set": "/article/",
-    "createWithList": "/create-article"
+    "createWithList": "/create-article",
+    "toggleApproval": "/article/%s/toggle-approval",
+    "images": "/article/%s/image",
+    "toggleLove": "/article/%s/toggle-love",
+    "toggleBookmark": "/article/%s/toggle-bookmark",
+    "extraStatus": "article-extra-status/%s",
+    "comment": "article/%s/comment"
   },
   "multimedia": {
     "set": "/multimedia/",
-    "createWithList": "/create-multimedia"
-  }
+    "createWithList": "/create-multimedia",
+    "toggleApproval": "/multimedia/%s/toggle-approval",
+    "images": "/multimedia/%s/image",
+    "audios": "/multimedia/%s/audio",
+    "videos": "/multimedia/%s/video",
+    "videoUrls": "/multimedia/%s/video-url",
+    "toggleLove": "/multimedia/%s/toggle-love",
+    "toggleBookmark": "/multimedia/%s/toggle-bookmark",
+    "extraStatus": "multimedia-extra-status/%s",
+    "comment": "multimedia/%s/comment"
+  },
+  "comment": "comment"
 }

@@ -3,13 +3,17 @@
 	<v-dialog
 		v-model="dialog"
 		max-width="550"
+		persistent
 	>
 		<v-card
 			light
 		>
-			<v-toolbar>
+			<v-toolbar color="#288dba"
+				dark
+				height="70"
+			>
 				<v-avatar
-					class="elevation-3"
+					class="elevation-3 start-post-av"
 					size="40"
 					tile
 				>
@@ -36,7 +40,7 @@
 			</v-toolbar>
 			<v-row
 				id="post-detail-row"
-				class="mx-2 pa-0"
+				class="mx-2 pa-0 py-2 pt-6"
 				justify="start"
 				align="center"
 			>
@@ -107,11 +111,12 @@
 						v-model="post.title"
 						class="ma-0 pa-0"
 						name="title"
-						placeholder="Give your activity a title, Kiran!"
-						label="Post Title"
 						outlined
-						hide-details="auto"
 						clearable
+						label="Post Title"
+						hide-details="auto"
+						placeholder="Give your activity a title, Kiran!"
+						:error-messages="postCreationFormErrors.title"
 					/>
 				</v-col>
 				<v-col cols="12">
@@ -120,11 +125,12 @@
 						v-model="post.description"
 						class="ma-0 pa-0"
 						name="description"
-						placeholder="Write something about your activity, Kiran!"
 						label="Description"
 						outlined
-						hide-details="auto"
 						clearable
+						hide-details="auto"
+						placeholder="Write something about your activity, Kiran!"
+						:error-messages="postCreationFormErrors.description"
 					/>
 				</v-col>
 				<transition name="fade">
@@ -132,24 +138,45 @@
 						cols="12"
 					>
 						<v-combobox
-							v-model="post.video_urls"
+							v-model="video_urls"
 							class="ma-0 pa-0"
 							:items="[]"
-							hide-selected
 							label="Video URL"
-							multiple
-							small-chips
-							deletable-chips
 							type="url"
-							outlined
 							clearable
-							prepend-inner-icon="mdi-video"
+							multiple
+							outlined
+							small-chips
+							hide-selected
+							deletable-chips
 							hide-details="auto"
+							prepend-inner-icon="mdi-video"
 							hint="Type youtube video url and press enter to add a new one."
+							:error-messages="postCreationFormErrors.video_url"
 						/>
 					</v-col>
 				</transition>
 			</v-row>
+			<v-scale-transition name="errMsgTransition">
+				<v-row
+					v-show="showPostCreationErrorMessage"
+					justify="center"
+					align="center" class="ma-0 pa-0 err-msg-row"
+				>
+					<v-col
+						cols="12"
+						class="pa-1 py-3"
+					>
+						<ul>
+							<li v-for="(msg, index) in postCreationErrorMessageArray"
+								:key="index"
+							>
+								{{ msg }}
+							</li>
+						</ul>
+					</v-col>
+				</v-row>
+			</v-scale-transition>
 			<v-row v-if="images.length > 0"
 				id="image-preview-pane"
 				no-gutters
@@ -193,7 +220,47 @@
 					</v-badge>
 				</v-col>
 			</v-row>
-			<v-row v-if="post.video_urls.length > 0"
+			<v-row v-if="video_urls.length > 0"
+				id="video-urls-preview-pane"
+				justify="space-around"
+				align="center"
+				class="ma-0 pa-0 mx-4 pb-3"
+			>
+				<v-col cols="12">
+					<p class="ma-0 pa-0 subtitle-2">
+						<span><v-icon size="20"
+							class="mb-1"
+						>mdi-movie</v-icon></span>
+						VIDEO URLS PREVIEW PANE
+					</p>
+				</v-col>
+				<v-col v-for="(item, index) in video_urls" :key="index"
+					cols="4"
+					class="ma-2 d-flex justify-center"
+				>
+					<v-badge
+						bottom
+						overlap
+						color="grey darken-2"
+						offset-x="0"
+						offset-y="2"
+					>
+						<template #badge>
+							<v-icon
+								x-small
+								@click="removeVideo_URL(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<iframe :src="prepareEmbedUrl(item)"
+							frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+						/>
+					</v-badge>
+				</v-col>
+			</v-row>
+			<v-row v-if="videos.length > 0"
 				id="video-preview-pane"
 				justify="space-around"
 				align="center"
@@ -207,7 +274,7 @@
 						VIDEO PREVIEW PANE
 					</p>
 				</v-col>
-				<v-col v-for="(item, index) in post.video_urls" :key="index"
+				<v-col v-for="(item, index) in videoURLs" :key="index"
 					cols="4"
 					class="ma-2 d-flex justify-center"
 				>
@@ -226,15 +293,19 @@
 								mdi-close
 							</v-icon>
 						</template>
-						<youtube
-							ref="youtube"
-							class="pa-4"
-							:video-id="getId(item)"
-							:resize="true"
-							:resize-delay="1"
-							height="130"
-							width="200"
-							@playing="playing"
+						<video-player
+							:options="{
+								fluid: true,
+								fill: true,
+								autoplay: false,
+								controls: true,
+								sources: [
+									{
+										src: item.videoUrl,
+										type: 'video/mp4'
+									}
+								]
+							}"
 						/>
 					</v-badge>
 				</v-col>
@@ -282,22 +353,20 @@
 			<v-row
 				id="add-resources-row"
 				no-gutters
-				class="mx-5 pa-0"
+				class="mx-5 mt-4 pa-0"
 				justify="center"
 				align="center"
 			>
-				<v-col cols="12"
-					class="ma-0 pa-0"
-				>
+				<v-col cols="12">
 					<p class="ma-0 pa-0 pb-sm-2 pb-md-2 overline text-center">
 						add to your post
 					</p>
 				</v-col>
 				<v-col cols="12"
-					xl="6"
-					lg="6"
-					md="6"
-					sm="6"
+					xl="7"
+					lg="7"
+					md="7"
+					sm="7"
 					class="d-flex align-center"
 					:class="
 						$vuetify.breakpoint.smAndUp
@@ -325,10 +394,10 @@
 					</file-upload>
 				</v-col>
 				<v-col cols="12"
-					xl="6"
-					lg="6"
-					md="6"
-					sm="6"
+					xl="5"
+					lg="5"
+					md="5"
+					sm="5"
 					class="d-flex align-center"
 					:class="
 						$vuetify.breakpoint.smAndUp
@@ -337,26 +406,11 @@
 					"
 				>
 					<v-btn
-						class="mx-2"
-						fab x-small
-						dark
-						:color="flexButtonsVideo.color"
-						@click="uploadVideo = !(uploadVideo)"
-					>
-						<v-icon>{{ flexButtonsVideo.icon }}</v-icon>
-					</v-btn>
-					<!--					<v-btn-->
-					<!--						fab x-small-->
-					<!--						dark-->
-					<!--						:color="flexButtonsTag.color"-->
-					<!--					>-->
-					<!--						<v-icon>{{ flexButtonsTag.icon }}</v-icon>-->
-					<!--					</v-btn>-->
-					<v-btn
-						class="mx-2"
+						class="mx-2 mb-2 mb-sm-0 mb-md-0 mb-lg-0 mb-xl-0"
 						fab x-small
 						dark
 						:color="flexButtonsMap.color"
+						@click="uploadVideo = !(uploadVideo)"
 					>
 						<v-icon>{{ flexButtonsMap.icon }}</v-icon>
 					</v-btn>
@@ -382,45 +436,78 @@ import {getFormData} from "@/Helper";
 
 const VueUploadComponent = require("vue-upload-component")
 import APlayer from "vue-aplayer"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "StartAPostComponent",
-	components: {FileUpload: VueUploadComponent, APlayer},
+	components: {
+		FileUpload: VueUploadComponent,
+		APlayer,
+		VideoPlayer: () => import("@/components/VideoPlayer")
+	},
 	emits: ["close-dialog"],
 	data: () => ({
+		files: [],
 		dialog: false,
 		uploadVideo: false,
 		playing: false,
+		showPostCreationErrorMessage: false,
+		postCreationErrorMessageArray: [],
 		flexButtonsFile: [
 			{icon: "mdi-camera", tooltip: "Upload photo", color: "#3aaada"},
 			{icon: "mdi-music", tooltip: "Upload audio", color: "#9896f2"},
-		],
-		flexButtonsVideo:
 			{icon: "mdi-video", tooltip: "Add video url", color: "#009688"},
+		],
 		flexButtonsTag:
 			{icon: "mdi-tag-faces", tooltip: "Not implemented", color: "blue"},
 		flexButtonsMap:
-			{icon: "mdi-google-maps", tooltip: "Not implemented", color: "red"},
-		files: [],
-		images: [],
-		audios: [],
-		videos: [],
-		imageURLs: [],
-		audioURLs: [],
-		videoURLs: [],
+			{icon: "mdi-youtube", tooltip: "Video URL", color: "red"},
+		// fields to prepare form data
 		post: {
 			title: "",
 			description: "",
-			video_urls: []
-		}
+		},
+		images: [],
+		audios: [],
+		videos: [],
+		video_urls: [],
+		// fields to show uploaded look on UI
+		imageURLs: [],
+		audioURLs: [],
+		videoURLs: [],
+		video_URLs: []
 	}),
-	created() {
+	computed: {
+		...mapGetters({
+			postCreationFormErrors: "multimedia/multimediaPostCreationFormErrors"
+		})
+	},
+	async created() {
 		this.$bus.on("open-start-post-dialog", this.openDialog)
+		await this.resetPostForm()
 	},
 	beforeUnmount() {
 		this.$bus.off("open-start-post-dialog")
 	},
 	methods: {
+		async resetPostForm() {
+			await this.$store.dispatch("multimedia/clearMultimediaPostCreationFormErrors")
+			this.showPostCreationErrorMessage = false
+			this.postCreationErrorMessageArray = []
+			this.post = {
+				title: "",
+				description: "",
+			}
+			this.images = []
+			this.audios = []
+			this.videos = []
+			this.video_urls = []
+			// fields to show uploaded look on UI
+			this.imageURLs = []
+			this.audioURLs = []
+			this.videoURLs = []
+			this.video_URLs = []
+		},
 		/**
 		 * Has changed
 		 * @return undefined
@@ -440,6 +527,12 @@ export default {
 					pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
 				})
 				this.audios.push(latestFile)
+			} else if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
+				this.videoURLs.push({
+					playing: false,
+					videoUrl: latestUrl,
+				})
+				this.videos.push(latestFile)
 			}
 		},
 		/**
@@ -452,7 +545,7 @@ export default {
 		inputFilter(newFile, oldFile, prevent) {
 			if (newFile && !oldFile) {
 				// Filter file extension
-				if (!/\.(jpeg|jpe|jpg|gif|png|webp|mp3)$/i.test(newFile.name)) {
+				if (!/\.(jpeg|jpe|jpg|gif|png|webp|mp3|webm|mp4|mpeg|flv)$/i.test(newFile.name)) {
 					alert("Unsupported file type selected. Please select valid image or audio file.")
 					return prevent()
 				}
@@ -465,47 +558,95 @@ export default {
 			}
 		},
 		clearFiles() {
-			console.log(this.files)
+			this.files = []
 		},
 		removeImage(index) {
 			this.images.splice(index, 1)
 			this.imageURLs.splice(index, 1)
 		},
+		removeVideo_URL(index) {
+			this.video_urls.splice(index, 1)
+		},
 		removeVideo(index) {
-			this.post.video_urls.splice(index, 1)
 			this.videoURLs.splice(index, 1)
+			this.videos.splice(index, 1)
 		},
 		removeAudio(index) {
 			this.audios.splice(index, 1)
 			this.audioURLs.splice(index, 1)
 		},
 		getId(url) {
-			return this.$youtube.getIdFromUrl(url)
+			return this.$helper.getVideoIdFromYoutubeURL(url)
+		},
+		prepareEmbedUrl(url) {
+			return `https://www.youtube.com/embed/${this.getId(url)}`
 		},
 		closeDialog() {
+			this.resetPostForm()
 			this.dialog = false
 		},
 		openDialog() {
 			this.dialog = true
 			this.uploadVideo = false
 		},
+		showPostCreationErrorInDialog(msgArray) {
+			this.showPostCreationErrorMessage = true
+
+			this.postCreationErrorMessageArray = msgArray
+		},
+		calculateNonFieldFormErrorMessages() {
+			let errMsgArray = []
+			if (Array.isArray(this.postCreationFormErrors.video)) {
+				this.postCreationFormErrors.video.forEach((msg) => {
+					errMsgArray.push(msg)
+				})
+			}
+			if (Array.isArray(this.postCreationFormErrors.audio)) {
+				this.postCreationFormErrors.audio.forEach((msg) => {
+					errMsgArray.push(msg)
+				})
+			}
+			if (Array.isArray(this.postCreationFormErrors.image)) {
+				this.postCreationFormErrors.image.forEach((msg) => {
+					errMsgArray.push(msg)
+				})
+			}
+
+			return errMsgArray
+		},
 		async makeMultimedia() {
-			if (this.post.video_urls.length > 0) {
+			let response
+			if (this.video_urls.length > 0 || this.videos.length > 0) {
 				// create a multimedia
-				const body = getFormData({
+				console.log("creating multimedia ...")
+				const body = await getFormData({
 					...this.post,
 					audio: this.audios,
-					image: this.images
+					image: this.images,
+					video: this.videos,
+					video_url: this.video_urls
 				})
-				await this.$store.dispatch("multimedia/create", body)
+				response = await this.$store.dispatch("multimedia/createMultimediaPost", body)
 			} else {
+				// create an article
+				console.log("creating article ...")
 				const body = getFormData({
 					...this.post,
 					image: this.images
 				})
-				await this.$store.dispatch("article/create", body)
+				response = await this.$store.dispatch("article/createArticlePost", body)
 			}
-			this.closeDialog()
+			if (response === true) {
+				this.closeDialog()
+				await this.resetPostForm()
+			}
+			else if (response === 500) {
+				this.showPostCreationErrorInDialog(["Internal server error. Please try again."])
+			}
+			else if (response === false) {
+				const errMsgArray = this.calculateNonFieldFormErrorMessages()
+				this.showPostCreationErrorInDialog(errMsgArray)
+			}
 		}
 	}
 }
@@ -547,4 +688,15 @@ export default {
 		margin: 10px 0 5px 0
 .cursor-pointer
 	cursor: pointer !important
+.start-post-av
+	border-radius: 4px !important
+.err-msg-row
+	margin: 0 3rem !important
+	background-color: red
+	color: white
+	font-size: .7rem
+	line-height: .7rem
+
+
+
 </style>
