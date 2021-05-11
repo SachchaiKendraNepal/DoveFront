@@ -238,8 +238,7 @@ export default {
 			} else return "Kiran Parajuli"
 		},
 		routeToEventDetail(eventId) {
-			console.log(eventId)
-			this.$router.push({name: "EVENT DETAIL HOME"})
+			this.$router.push({name: "EVENT DETAIL HOME", params: { id: eventId}})
 		},
 		getSuperScript(day) {
 			const rem = day % 10
