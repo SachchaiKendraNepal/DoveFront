@@ -12,7 +12,7 @@
 			<template #activator="{ attrs, on }">
 				<v-card
 					class="rounded-b-circle profile-card"
-					img="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
+					:img="getCurrentProfileImage"
 					height="45"
 					width="45"
 					v-bind="attrs"
@@ -95,6 +95,7 @@
 <script>
 export default {
 	data: () => ({
+		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
 		og_items: [
 			{ text: "Showcase", icon: "mdi-view-dashboard", to: "/"},
 			{ text: "Home", icon: "mdi-home", to: "/home/feeds" }
@@ -105,7 +106,16 @@ export default {
 		],
 		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],
 		log_items: [{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }]
-	})
+	}),
+	computed: {
+		getCurrentProfileImage() {
+			const currentUser = this.$helper.getCurrentUser()
+			if (currentUser && currentUser.profile["profile_images"].length > 0) {
+				return currentUser.profile["profile_images"][0].image
+			}
+			else return this.defaultProfileImage
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

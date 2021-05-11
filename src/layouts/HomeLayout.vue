@@ -263,6 +263,7 @@ export default {
 		max-width: 0 !important
 .home-router-container
 	padding-top: 0
+	padding-bottom: 0
 	margin-top: 80px
 	background-color: #f3edff
 	@media only screen and (max-width: 730px)
