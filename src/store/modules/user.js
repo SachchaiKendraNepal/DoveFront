@@ -85,6 +85,11 @@ const actions = {
 			if (status === 400) {
 				return `Username: ${e.response.data.username[0]}`
 			} else if (status === 404) return e.response.data.detail
+			else if (status === 401) {
+				localStorage.removeItem("sachchaiAccessToken")
+				localStorage.removeItem("currentUser")
+				return true
+			}
 			return 500
 		}
 
