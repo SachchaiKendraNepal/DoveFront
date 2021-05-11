@@ -40,7 +40,7 @@
 							</v-card-subtitle>
 
 							<div class="admin-welcome-text">
-								<i>Welcome Manager</i> <b>Sandra</b> !
+								<i>Welcome Manager</i> <b>{{ currentUser.first_name }}</b> !
 							</div>
 						</v-col>
 						<v-col cols="12"
@@ -54,7 +54,7 @@
 								class="profile-avatar"
 								size="130"
 							>
-								<v-img src="https://randomuser.me/api/portraits/women/85.jpg" />
+								<v-img :src="getCurrentProfileImage" />
 							</v-avatar>
 							<div class="text-center">
 								<v-chip
@@ -65,11 +65,6 @@
 									<v-icon>mdi-account-cog</v-icon>
 									<b>Admin</b>
 								</v-chip>
-								<!--								<v-chip class="ma-1"-->
-								<!--									dense-->
-								<!--								>-->
-								<!--									Member-->
-								<!--								</v-chip>-->
 							</div>
 						</v-col>
 					</v-row>
@@ -156,6 +151,8 @@ export default {
 		FollowerFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
+		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
+		currentUser: null,
 		items: [
 			{
 				color: "#1F7087",
@@ -210,6 +207,17 @@ export default {
 			},
 		],
 	}),
+	computed: {
+		getCurrentProfileImage() {
+			if (this.currentUser && this.currentUser.profile["profile_images"].length > 0) {
+				return this.currentUser.profile["profile_images"][0].image
+			}
+			else return this.defaultProfileImage
+		}
+	},
+	created() {
+		this.currentUser = this.$helper.getCurrentUser()
+	},
 	methods: {
 		handle_function_call(function_name) {
 			this[function_name]()
@@ -222,7 +230,7 @@ export default {
 		},
 		openAddFollowerFormDialog() {
 			this.$bus.emit("open-follower-form-dialog-add-item")
-		},
+		}
 	}
 }
 </script>

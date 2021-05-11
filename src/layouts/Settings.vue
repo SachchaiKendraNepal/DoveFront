@@ -91,7 +91,7 @@
 						size="120"
 						style="border: 4px solid white; margin-top: -50px"
 					>
-						<v-img src="https://randomuser.me/api/portraits/women/85.jpg" />
+						<v-img :src="getCurrentProfileImage" />
 					</v-avatar>
 				</v-col>
 			</v-row>
@@ -99,9 +99,9 @@
 				<v-list-item link>
 					<v-list-item-content class="py-0">
 						<v-list-item-title class="title">
-							Sandra Adams
+							{{ currentUser.first_name }} {{ currentUser.last_name }}
 						</v-list-item-title>
-						<v-list-item-subtitle>sandra_a88@gmail.com</v-list-item-subtitle>
+						<v-list-item-subtitle>{{ currentUser.email }}</v-list-item-subtitle>
 					</v-list-item-content>
 				</v-list-item>
 			</v-list>
@@ -142,7 +142,7 @@
 				class="text-center"
 				cols="12"
 			>
-				©️ {{ new Date().getFullYear() }} — <strong>Ishowriya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
+				©️ {{ new Date().getFullYear() }} — <strong>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
 			</v-col>
 		</v-footer>
 	</div>
@@ -155,6 +155,8 @@ export default {
 	data() {
 		return {
 			drawer: true,
+			currentUser: null,
+			defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
 			drawerItems: [
 				{ title: "Home", icon: "mdi-home", to: "/admin/home" },
 				{ title: "Followers", icon: "mdi-account-multiple", to: "/admin/follower" },
@@ -181,7 +183,16 @@ export default {
 			set(v) {
 				this.$store.dispatch("snack/setSnackState", v)
 			}
+		},
+		getCurrentProfileImage() {
+			if (this.currentUser && this.currentUser.profile["profile_images"].length > 0) {
+				return this.currentUser.profile["profile_images"][0].image
+			}
+			else return this.defaultProfileImage
 		}
+	},
+	created() {
+		this.currentUser = this.$helper.getCurrentUser()
 	},
 	methods: {
 		routeToFeedsPage() {
