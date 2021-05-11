@@ -6,6 +6,7 @@
 		:subtitle="loginPage.subtitle"
 		menu-title="Not a follower yet"
 		:menu-items="menuItems"
+		height="500"
 	>
 		<template #form>
 			<v-form
@@ -28,6 +29,8 @@
 							label="Username"
 							prepend-inner-icon="mdi-account-circle"
 							background-color="white"
+							type="text"
+							autocomplete="username"
 						/>
 					</v-col>
 					<v-col
@@ -43,6 +46,7 @@
 							type="password"
 							prepend-inner-icon="mdi-lock-question"
 							background-color="white"
+							autocomplete="new-password"
 							@keyup="submitIfEnterPressed"
 						/>
 					</v-col>

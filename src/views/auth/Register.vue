@@ -264,9 +264,7 @@ export default {
 		},
 		items: [
 			{ icon: "mdi-login-variant", title: "Sign in",  to: "/auth/login"},
-			{ icon: "mdi-lock-question", title: "Forget password?", to: "/auth/reset-password"},
-			{ icon: "mdi-post", title: "Feed page", to: "/home" },
-			{ icon: "mdi-view-dashboard", title: "Showcase", to: "/" },
+			{ icon: "mdi-lock-question", title: "Forget password?", to: "/auth/reset-password"}
 		],
 		follower: {
 			first_name: null,
