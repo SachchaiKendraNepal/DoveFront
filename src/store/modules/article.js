@@ -155,24 +155,20 @@ const actions = {
 		}
 	},
 
-	async fetchComments({}, {id: id}) {
+	async togglePinStatus({}, {id: id}) {
 		try {
-			return await $api.get(util.format(articleUrl.comment, id))
+			const response = await $api.post(util.format(articleUrl.togglePin, id))
+			return !!response.success;
 		} catch (e) {
 			return false
 		}
 	},
 
-	async postComment({}, {body: body}) {
+	async fetchComments({}, {id: id}) {
 		try {
-			await $api.post(urls.comment, body)
-			return true
+			return await $api.get(util.format(articleUrl.comment, id))
 		} catch (e) {
-			const status = parseInt(e.response.status.toString())
-			if (status === 400 || status === 404) {
-				return e.response.data
-			}
-			return 500
+			return false
 		}
 	}
 }

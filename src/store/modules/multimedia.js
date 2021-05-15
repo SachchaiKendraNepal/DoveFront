@@ -212,6 +212,15 @@ const actions = {
 		}
 	},
 
+	async togglePinStatus({}, {id: id}) {
+		try {
+			const response = await $api.post(util.format(multimediaUrl.togglePin, id))
+			return !!response.success;
+		} catch (e) {
+			return false
+		}
+	},
+
 	async fetchComments({}, {id: id}) {
 		try {
 			return await $api.get(util.format(multimediaUrl.comment, id))
