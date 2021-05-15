@@ -8,6 +8,7 @@
     "images": "/article/%s/image",
     "toggleLove": "/article/%s/toggle-love",
     "toggleBookmark": "/article/%s/toggle-bookmark",
+    "togglePin": "article/%s/toggle-pin-status",
     "extraStatus": "article-extra-status/%s",
     "comment": "article/%s/comment"
   },
@@ -21,8 +22,14 @@
     "videoUrls": "/multimedia/%s/video-url",
     "toggleLove": "/multimedia/%s/toggle-love",
     "toggleBookmark": "/multimedia/%s/toggle-bookmark",
+    "togglePin": "multimedia/%s/toggle-pin-status",
     "extraStatus": "multimedia-extra-status/%s",
     "comment": "multimedia/%s/comment"
   },
-  "comment": "comment"
+  "post": {
+    "comment": "comment",
+    "listLovedMedia": "loved-media",
+    "listBookmarkedMedia": "bookmarked-media",
+    "listPinnedMedia": "pinned-media"
+  }
 }
