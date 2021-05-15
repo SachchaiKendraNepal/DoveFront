@@ -188,12 +188,13 @@ export default {
 		async addCommentToPost() {
 			if (this.isArticle) {
 				this.comment.article = this.targetId
+				delete this.comment.multimedia
 			}
 			else {
 				this.comment.multimedia = this.targetId
 				delete this.comment.article
 			}
-			await this.$store.dispatch("article/postComment", {body: this.comment})
+			await this.$store.dispatch("post/postComment", {body: this.comment})
 			this.$bus.emit("refresh-comment-in-details-page")
 			this.comment.comment = ""
 		}
