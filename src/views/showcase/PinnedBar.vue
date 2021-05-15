@@ -8,6 +8,7 @@
 			class="ma-0 pa-0"
 		>
 			<v-card
+				:loading="loading"
 				flat
 				class="pin-bg-card rounded-0 fill-height"
 				min-height="800"
@@ -81,21 +82,38 @@
 			cols="12"
 			class="ma-0 pa-0 pin-column"
 		>
-			<div class="swiper-container">
+			<v-card v-if="pinnedMedias.length === 0"
+				flat color="transparent"
+				class="text-center"
+			>
+				<div class="grey--text">
+					No pins yet!
+				</div>
+			</v-card>
+			<div v-else
+				class="swiper-container"
+			>
 				<div class="swiper-wrapper">
 					<v-card
-						v-for="(item, index) in pinnedArticles"
-						:key="index"
+						v-for="(item,) in pinnedMedias.article"
+						:key="item.id"
 						class="swiper-slide"
 						dark
 					>
-						<pinned-post :post="item"
+						<pinned-post :post="item.article"
 							:is-article="true"
 						/>
 					</v-card>
+					<v-card
+						v-for="(item) in pinnedMedias.multimedia"
+						:key="item.id"
+						class="swiper-slide"
+						dark
+					>
+						<pinned-post :post="item.multimedia" />
+					</v-card>
 				</div>
 				<!-- If we need pagination -->
-				<div class="swiper-pagination" />
 				<div class="swiper-button-prev" />
 				<div class="swiper-button-next" />
 			</div>
@@ -104,118 +122,30 @@
 </template>
 <script>
 import Swiper, { Navigation, Pagination } from "swiper"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "PinnedBarView",
 	components: {
 		PinnedPost: () => import("@/views/showcase/PinnedPost"),
-
 	},
 	data: () => ({
-		pinnedArticles: [
-			{
-				id: 1,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 2,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 3,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 4,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 5,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 6,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 7,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 8,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 9,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-		],
-		pinnedMultimedias: [
-			{
-				id: 1,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 2,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 3,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 4,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 5,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 6,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-			{
-				id: 7,
-				title: "How beautiful is nature?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 8,
-				title: "How much is enough?",
-				uploaded_by: "Kiran Parajuli",
-			},
-			{
-				id: 9,
-				title: "Peace of mind is always important",
-				uploaded_by: "James H. Lewandowski",
-			},
-		]
+		loading: false,
+		pinItems: []
 	}),
-	mounted() {
-		this.initSwiper()
+	computed: {
+		...mapGetters({
+			pinnedMedias: "post/pinnedPostList"
+		})
+	},
+	async created() {
+		await this.init()
+		await this.initSwiper()
 	},
 	methods: {
-		onSwiper(swiper) {
-			// console.log(swiper)
-		},
-		onSlideChange() {
-			// console.log("slide change")
+		async init() {
+			await this.$store.dispatch("post/fetchPinnedPosts")
+			console.log(this.pinnedMedias)
 		},
 		initSwiper() {
 			Swiper.use([Navigation, Pagination]);
