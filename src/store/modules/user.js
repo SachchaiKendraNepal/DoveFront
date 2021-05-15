@@ -76,21 +76,21 @@ const actions = {
 	},
 	async logout({ commit }, username) {
 		try {
-			const response = await $api.post("logout", { username: username })
+			await $api.post("logout", { username: username })
 			localStorage.removeItem("sachchaiAccessToken")
 			localStorage.removeItem("currentUser")
 			return true
 		} catch (e) {
-			const status = parseInt(e.response.status.toString())
+			console.log(e)
+			const status = (e.response) ? parseInt(e.response.status.toString()) : "500"
 			if (status === 400) {
 				return `Username: ${e.response.data.username[0]}`
 			} else if (status === 404) return e.response.data.detail
-			else if (status === 401) {
+			else {
 				localStorage.removeItem("sachchaiAccessToken")
 				localStorage.removeItem("currentUser")
 				return true
 			}
-			return 500
 		}
 
 	},
