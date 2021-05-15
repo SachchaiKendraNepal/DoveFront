@@ -13,6 +13,9 @@ export default {
 }
 </script>
 <style lang="scss">
+.round-touch {
+	border-radius: 4px;
+}
 .quick-sand-font {
 	font-family: 'Quicksand', sans-serif;
 }
