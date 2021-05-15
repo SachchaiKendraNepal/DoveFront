@@ -21,7 +21,7 @@
 							class="showcase-blue-bg"
 							v-bind="attrs"
 							:height="($vuetify.breakpoint.smAndDown) ? 50 : 65"
-							:width="($vuetify.breakpoint.smAndDown) ? 120 : 200"
+							:width="($vuetify.breakpoint.smAndDown) ? 130 : 200"
 							v-on="on"
 							@click="routeToFeedsPage()"
 						>
@@ -31,7 +31,7 @@
 							<v-icon right
 								size="24"
 								:class="
-									$vuetify.breakpoint.smAndUp
+									$vuetify.breakpoint.mdAndUp
 										? 'ml-4'
 										: ''
 								"
