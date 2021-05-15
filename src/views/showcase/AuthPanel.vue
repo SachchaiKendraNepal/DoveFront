@@ -84,7 +84,6 @@ export default {
 					currentUser.username
 				)
 				if (isUserLoggedOut === true) await this.$router.push({name: "LOG IN"})
-				else if (isUserLoggedOut === 500) await this.openSnack("Internal Server Error. Try again.")
 				else await this.openSnack(isUserLoggedOut)
 			}
 		},
