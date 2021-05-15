@@ -61,7 +61,7 @@
 						size="60"
 					>
 						<v-img
-							src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+							:src="currentUser.profile['profile_images'][0].image"
 						/>
 					</v-avatar>
 				</v-col>
@@ -85,7 +85,7 @@
 								<v-list-item-title
 									style="white-space: normal;"
 								>
-									Kiran Parajuli
+									{{ currentUser.first_name }} {{ currentUser.last_name }}
 								</v-list-item-title>
 								<v-list-item-subtitle v-show="$vuetify.breakpoint.width > 235">
 									<v-chip
@@ -439,6 +439,7 @@ export default {
 	},
 	emits: ["close-dialog"],
 	data: () => ({
+		currentUser: null,
 		files: [],
 		dialog: false,
 		uploadVideo: false,
@@ -472,9 +473,10 @@ export default {
 	computed: {
 		...mapGetters({
 			postCreationFormErrors: "multimedia/multimediaPostCreationFormErrors"
-		})
+		}),
 	},
 	async created() {
+		this.currentUser = this.$helper.getCurrentUser()
 		this.$bus.on("open-start-post-dialog", this.openDialog)
 		await this.resetPostForm()
 	},
