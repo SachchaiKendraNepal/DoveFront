@@ -73,10 +73,6 @@ export default {
 			multimedia: null
 		},
 		latestCommentTime: null,
-		items: [
-			{ title: "kiran589", subtitle: "Wow, amazing!" },
-			{ title: "bot25", subtitle: "010110101" }
-		],
 		comments: null
 	}),
 	async created() {
@@ -85,22 +81,23 @@ export default {
 	methods: {
 		async init() {
 
-			let resp
+			let response
 			if (this.isArticle) {
-				resp = await this.$store.dispatch(
+				response = await this.$store.dispatch(
 					"article/fetchComments",
 					{id: this.postId}
 				)
 			} else {
-				resp = await this.$store.dispatch(
+				response = await this.$store.dispatch(
 					"multimedia/fetchComments",
 					{id: this.postId}
 				)
 			}
-			if (resp.data.length === 0) resp = []
-			else if (resp.data.length <= 2) resp = resp.data
-			else if (resp.data.length > 2) resp = resp.data.slice(0, 2)
-			this.comments = resp
+			// only show 2 comments in comment history
+			if (response.data.length === 0) response = []
+			else if (response.data.length <= 2) response = response.data
+			else if (response.data.length > 2) response = response.data.slice(0, 2)
+			this.comments = response
 			this.calculateLatestTimeString()
 		},
 		calculateLatestTimeString() {
