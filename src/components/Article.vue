@@ -11,6 +11,7 @@
 					<v-carousel :show-arrows="false"
 						height="30vh"
 						vertical-delimiters="true"
+						class="round-touch"
 					>
 						<v-carousel-item
 							v-for="item in images.data"

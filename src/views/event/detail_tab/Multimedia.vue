@@ -5,7 +5,7 @@
 				<v-icon large>
 					mdi-music
 				</v-icon>
-				<span class="pl-4">Event Sounds</span>
+				<span class="pl-4 quick-sand-font">Event Sounds</span>
 			</v-card-title>
 			<v-card-text v-show="list.length === 0">
 				No sounds added yet!
@@ -25,7 +25,7 @@
 				<v-icon large>
 					mdi-video
 				</v-icon>
-				<span class="pl-4">Event Videos</span>
+				<span class="pl-4 quick-sand-font">Event Videos</span>
 			</v-card-title>
 			<v-row class="ma-0 pa-0">
 				<v-col v-show="urls.length === 0">
@@ -35,16 +35,13 @@
 					v-for="(item, index) in urls"
 					:key="index"
 					cols="12"
-					class="ma-0 pa-0"
+					class="ma-0"
 				>
-					<youtube
-						ref="youtube"
-						class="pa-4"
-						:video-id="getId(item)"
-						:resize="true"
-						:resize-delay="100"
-						:fit-parent="true"
-						@playing="playing"
+					<iframe :src="prepareEmbedUrl(item)"
+						frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen
+						height="400"
+						width="100%"
 					/>
 				</v-col>
 			</v-row>
@@ -137,20 +134,12 @@ export default {
 			"https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal"
 		],
 	}),
-	computed: {
-		player() {
-			return this.$refs.youtube.player
-		},
-	},
 	methods: {
-		playVideo() {
-			this.player.playVideo()
-		},
-		playing() {
-			console.log("\o/ we are watching!!!")
-		},
 		getId(url) {
-			return this.$youtube.getIdFromUrl(url)
+			return this.$helper.getVideoIdFromYoutubeURL(url)
+		},
+		prepareEmbedUrl(url) {
+			return `https://www.youtube.com/embed/${this.getId(url)}`
 		}
 	}
 }

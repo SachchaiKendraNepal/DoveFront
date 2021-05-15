@@ -7,8 +7,8 @@
 			<v-list-item-avatar size="54"
 				class="author-avatar"
 			>
-				<v-img contain
-					src="https://cdn.vuetifyjs.com/images/lists/1.jpg"
+				<v-img
+					:src="post.uploaded_by.profile['profile_images'][0].image"
 				/>
 			</v-list-item-avatar>
 			<v-list-item-content>
@@ -23,16 +23,20 @@
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
-				<v-icon v-if="!isArticle"
-					color="purple"
+				<v-btn icon
+					@click="togglePinStatus"
 				>
-					mdi-video
-				</v-icon>
-				<v-icon v-else
-					color="teal darken-2"
-				>
-					mdi-newspaper
-				</v-icon>
+					<v-icon v-if="extraStatus.pinned"
+						color="indigo"
+					>
+						mdi-pin
+					</v-icon>
+					<v-icon v-else
+						color="indigo"
+					>
+						mdi-pin-outline
+					</v-icon>
+				</v-btn>
 			</v-list-item-action>
 		</v-list-item>
 
@@ -102,7 +106,9 @@
 				mdi-heart
 			</v-icon>
 		</p>
-		<post-comment />
+		<post-comment :post-id="post.id"
+			:is-article="isArticle"
+		/>
 	</v-card>
 </template>
 
@@ -165,6 +171,14 @@ export default {
 			}
 			await this.init()
 		},
+		async togglePinStatus() {
+			if (this.isArticle) {
+				await this.$store.dispatch("article/togglePinStatus", {id: this.post.id})
+			} else {
+				await this.$store.dispatch("multimedia/togglePinStatus", {id: this.post.id})
+			}
+			await this.init()
+		}
 	}
 }
 </script>

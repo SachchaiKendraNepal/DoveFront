@@ -8,6 +8,7 @@
 					<v-carousel :show-arrows="false"
 						height="30vh"
 						vertical-delimiters="true"
+						class="round-touch"
 					>
 						<v-carousel-item
 							v-for="item in images.data"
@@ -110,24 +111,5 @@ export default {
 		height: 14px;
 		width: 14px;
 	}
-}
-.video-container {
- overflow: hidden;
- position: relative;
- width:100%;
-}
-
-.video-container::after {
-	padding-top: 56.25%;
-	display: block;
-	content: '';
-}
-
-.video-container iframe {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 }
 </style>

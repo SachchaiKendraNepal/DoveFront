@@ -34,10 +34,6 @@
 						:key="index"
 						class="pl-3 pr-1 comment-item"
 					>
-						<!--						<v-list-item-avatar>-->
-						<!--							<v-img :src="item.avatar" />-->
-						<!--						</v-list-item-avatar>-->
-
 						<v-list-item-content>
 							<v-list-item-title v-if="item.writer"
 								class="d-flex justify-space-between align-items-center"
@@ -133,7 +129,7 @@ export default {
 	background-color: #d9ebfa
 	border-radius: 10px
 	padding: 10px 5px
-	-webkit-line-clamp: unset !important
+	white-space: normal
 .comment-text-box
 	background-color: #d2e4f5
 	border-radius: 10px

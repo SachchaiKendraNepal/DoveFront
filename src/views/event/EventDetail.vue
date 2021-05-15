@@ -224,7 +224,7 @@
 			<v-card
 				flat
 				max-width="1000"
-				class="mx-auto"
+				class="mx-auto ma-2 elevation-24"
 			>
 				<v-tabs-items v-model="tab">
 					<event-about-tab-content :event="event" />

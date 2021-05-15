@@ -6,7 +6,7 @@
 			dark
 			fixed
 			top
-			right
+			left
 			medium
 			max-height="65"
 			max-width="65"
@@ -26,7 +26,7 @@
 					dark
 					fixed
 					top
-					right
+					left
 					medium
 					max-height="45"
 					max-width="45"
@@ -44,7 +44,7 @@
 					dark
 					fixed
 					top
-					right
+					left
 					medium
 					max-height="65"
 					max-width="65"
@@ -84,7 +84,6 @@ export default {
 					currentUser.username
 				)
 				if (isUserLoggedOut === true) await this.$router.push({name: "LOG IN"})
-				else if (isUserLoggedOut === 500) await this.openSnack("Internal Server Error. Try again.")
 				else await this.openSnack(isUserLoggedOut)
 			}
 		},
@@ -98,9 +97,10 @@ export default {
 }
 .logout {
 	top: 150px;
-	right: 22px;
+	left: 20px;
 }
 .register {
 	top: 150px;
+	left: 20px;
 }
 </style>

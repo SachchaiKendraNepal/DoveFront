@@ -7,12 +7,12 @@
 	>
 		<v-list-item>
 			<v-list-item-content class="text-center pb-0">
-				<v-list-item-subtitle>Wake up. Kick Ass. Repeat!</v-list-item-subtitle>
+				<v-list-item-subtitle>Happy New Year!</v-list-item-subtitle>
 				<v-list-item-title
 					id="user-name"
 					class="mb-2"
 				>
-					Kiran Parajuli
+					{{ currentUser.first_name }} {{ currentUser.last_name }}
 				</v-list-item-title>
 			</v-list-item-content>
 		</v-list-item>
@@ -25,10 +25,11 @@
 				<v-icon left>
 					mdi-account-group
 				</v-icon>
-				MEMBER
+				FOLLOWER
 			</v-chip>
 
 			<v-chip
+				v-if="currentUser.is_superuser"
 				color="grey darken-3"
 				label
 				text-color="white"
@@ -43,7 +44,13 @@
 </template>
 <script>
 export default {
-	name: "UserClipComponent"
+	name: "UserClipComponent",
+	data: () => ({
+		currentUser: null
+	}),
+	created() {
+		this.currentUser = this.$helper.getCurrentUser()
+	},
 }
 </script>
 <style lang="sass" scoped>

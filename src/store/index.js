@@ -7,6 +7,7 @@ import branch from "@/store/modules/branch"
 import article from "@/store/modules/article"
 import multimedia from "@/store/modules/multimedia"
 import snack from "@/store/modules/snack"
+import post from "@/store/modules/post"
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ export default new Vuex.Store({
 		branch,
 		article,
 		multimedia,
-		snack
+		snack,
+		post
 	},
 	strict: debug
 })

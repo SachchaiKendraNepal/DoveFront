@@ -1,64 +1,60 @@
 <template>
-	<v-card height="1000"
+	<v-card min-height="800"
 		color="rgb(241 241 242)"
-		class="ma-4"
+		class="ma-4 repeating-gradient d-flex align-center"
 	>
-		<v-row class="fill-height ma-0 pa-0 repeating-gradient"
-			align="center" justify="center"
+		<v-card class="mx-auto elevation-0 rounded-0"
+			max-width="1000"
+			color="transparent"
 		>
-			<v-card class="ma-auto elevation-0 rounded-0"
-				max-width="1000"
-				color="transparent"
+			<v-card-subtitle
+				id="kendra_name"
+				class="text-center"
 			>
-				<v-card-subtitle
-					id="kendra_name"
-					class="text-center"
+				ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल
+			</v-card-subtitle>
+			<v-card-subtitle
+				id="kendra_motto"
+				class="text-center"
+			>
+				हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
+			</v-card-subtitle>
+			<v-row class="ma-0 pa-0"
+				justify="center" align="center"
+			>
+				<v-col v-for="(item, index) in kendra"
+					:key="index"
+					cols="12" xl="6"
+					lg="6" md="6"
+					sm="6"
 				>
-					ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल
-				</v-card-subtitle>
-				<v-card-subtitle
-					id="kendra_motto"
-					class="text-center"
-				>
-					हिमाल पहाड तराई, कोहि छैन पराई, सबैलाई समेट्ने एक मात्र सच्चाई
-				</v-card-subtitle>
-				<v-row class="ma-0 pa-0"
-					justify="center" align="center"
-				>
-					<v-col v-for="(item, index) in kendra"
-						:key="index"
-						cols="12" xl="6"
-						lg="6" md="6"
-						sm="6"
+					<v-card class="elevation-0 text-center"
+						color="transparent"
 					>
-						<v-card class="elevation-0 text-center"
-							color="transparent"
+						<v-avatar size="230"
+							class="rounded-circle resize-avatar"
+							:class="(item.position === 'Kendra Pramukh') ? 'pramukh' : 'saha-pramukh'"
 						>
-							<v-avatar size="230"
-								class="rounded-circle resize-avatar"
-								:class="(item.position === 'Kendra Pramukh') ? 'pramukh' : 'saha-pramukh'"
-							>
-								<v-img :src="item.image" />
-							</v-avatar>
-							<div class="personal-info">
-								<div class="name">
-									{{ item.name }}
-								</div>
-								<div class="branch">
-									{{ item.branch }}
-								</div>
-								<div class="position">
-									{{ item.position }}
-								</div>
-								<div class="contact">
-									{{ item.contact }}
-								</div>
+							<v-img :src="item.image" />
+						</v-avatar>
+						<div class="personal-info">
+							<div class="name">
+								{{ item.name }}
 							</div>
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-card>
-		</v-row>
+							<div class="branch">
+								{{ item.branch }}
+							</div>
+							<div class="position">
+								{{ item.position }}
+							</div>
+							<div class="contact">
+								{{ item.contact }}
+							</div>
+						</div>
+					</v-card>
+				</v-col>
+			</v-row>
+		</v-card>
 	</v-card>
 </template>
 <script>
