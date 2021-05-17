@@ -87,9 +87,9 @@
 			</div>
 
 			<v-card-text>
-				<div class="subtitle-2">
-					{{ subtitle }}
-				</div>>
+				<div class="subtitle-2"
+					v-html="subtitle"
+				/>
 			</v-card-text>
 			<v-divider class="mb-4" />
 			<slot name="form" />
