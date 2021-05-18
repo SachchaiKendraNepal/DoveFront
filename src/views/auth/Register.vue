@@ -317,7 +317,7 @@ export default {
 		},
 		async registerFollower() {
 			this.loading = true
-			const state = await this.$store.dispatch("user/registerFollower", this.follower)
+			const state = await this.$store.dispatch("user/registerFollower", {body: this.follower})
 			this.loading = false
 			if (state) await this.$router.push({name: "LOG IN"})
 		},
