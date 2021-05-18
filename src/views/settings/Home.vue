@@ -159,6 +159,7 @@ export default {
 				count: 500,
 				title: "Followers",
 				artist: "Manage Sachchai Nepal Followers",
+				view: "/admin/follower",
 				add: "openAddFollowerFormDialog"
 			},
 			{
@@ -166,8 +167,8 @@ export default {
 				count: 200,
 				title: "Members",
 				artist: "Manage Sachchai Nepal Members",
-				view: "/admin/follower",
-				add: "openAddFollowerFormDialog"
+				view: "/admin/member",
+				add: "openAddMemberFormDialog"
 			},
 			{
 				color: "#cd430a",
@@ -230,6 +231,9 @@ export default {
 		},
 		openAddFollowerFormDialog() {
 			this.$bus.emit("open-follower-form-dialog-add-item")
+		},
+		openAddMemberFormDialog() {
+			this.$bus.emit("open-member-form-dialog-add-item")
 		}
 	}
 }
