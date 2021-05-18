@@ -1,8 +1,12 @@
+const util = require("util")
 import $api from "@/handler/axios"
+import urls from "@/urls.json"
+const userUrls = urls.user
 
 export const SET_USERS = "SET_USERS"
 export const SET_ROLES = "SET_ROLES"
-export const SET_REGISTER_FORM_ERRS = "SET_REGISTER_FORM_ERRS"
+export const SET_REGISTER_FORM_ERRORS = "SET_REGISTER_FORM_ERRORS"
+export const SET_USER_CREATE_FORM_ERRORS = "SET_USER_CREATE_FORM_ERRORS"
 
 const defaultRegisterErrors = {
 	first_name: null,
@@ -20,12 +24,22 @@ const defaultRegisterErrors = {
 	district: null,
 }
 
+const defaultUserCreateFormErrors = {
+	first_name: null,
+	last_name: null,
+	username: null,
+	email: null,
+}
+
 const state = {
 	users: {},
 	user: {},
 	roles: {},
 	registerFormErrors: {
 		... defaultRegisterErrors
+	},
+	userCreateFormErrors: {
+		...defaultUserCreateFormErrors
 	}
 }
 const mutations = {
@@ -35,103 +49,89 @@ const mutations = {
 	[SET_ROLES](state, value) {
 		state.roles = value
 	},
-	[SET_REGISTER_FORM_ERRS](statue, value) {
+	[SET_REGISTER_FORM_ERRORS](statue, value) {
 		state.registerFormErrors = value
+	},
+	[SET_USER_CREATE_FORM_ERRORS](state, value) {
+		state.userCreateFormErrors = value
 	}
 }
 
 const getters = {
-	users: (state) => state.users,
+	usersList: (state) => state.users,
+	userDetail: (state) => state.user,
 	roles: (state) => state.roles,
 	registerFormErrors: (state) => state.registerFormErrors,
+	userCreateFormErrors: (state) => state.userCreateFormErrors
 }
 
 const actions = {
 	clearRegisterFormErrors({ commit }) {
-		commit("SET_REGISTER_FORM_ERRS", { ...defaultRegisterErrors })
+		commit("SET_REGISTER_FORM_ERRORS", { ...defaultRegisterErrors })
 	},
-	async login({ commit }, user) {
-		// always remove preserved/cached localStorage item at first
-		localStorage.removeItem("sachchaiAccessToken")
-		localStorage.removeItem("currentUser")
+	clearUserCreateFormErrors({commit}) {
+		commit("SET_USER_CREATE_FORM_ERRORS", { ...defaultUserCreateFormErrors })
+	},
+	async create({ commit }, {body: body}) {
 		try {
-			const response = await $api.post("login", user)
-			if (response.token) {
-				// save currentUser at localStorage
-				localStorage.setItem("currentUser", JSON.stringify(response.data))
-				// save new access token at localStorage
-				localStorage.setItem("sachchaiAccessToken", response.token)
-				return true
-			} else {
-				localStorage.removeItem("sachchaiAccessToken")
+			return await $api.post(userUrls.list, body)
+		} catch (e) {
+			if (parseInt(e.response.status.toString()) === 400) {
+				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
 				return false
 			}
-		} catch (e) {
-			const status = parseInt(e.response.status.toString())
-			if (status === 400 || status === 404) {
-				return e.response.data.detail
-			}
-			return 500
+			return false
 		}
 	},
-	async logout({ commit }, username) {
-		try {
-			await $api.post("logout", { username: username })
-			localStorage.removeItem("sachchaiAccessToken")
-			localStorage.removeItem("currentUser")
-			return true
-		} catch (e) {
-			console.log(e)
-			const status = (e.response) ? parseInt(e.response.status.toString()) : "500"
-			if (status === 400) {
-				return `Username: ${e.response.data.username[0]}`
-			} else if (status === 404) return e.response.data.detail
-			else {
-				localStorage.removeItem("sachchaiAccessToken")
-				localStorage.removeItem("currentUser")
-				return true
-			}
-		}
-
-	},
-	async create({ commit }, userData) {
-		const response = await $api.post("user", userData)
-		console.log(response)
-	},
-	async get({ commit }, userID) {
-		const response = await $api.getWithPayload("user", userID)
-		console.log(response)
+	async get({ commit }, {id: id}) {
+		const response = await $api.get(util.format(userUrls.detail, id))
+		commit("SET_USER", response)
 	},
 	async list({ commit }) {
 		try {
-			const response = await $api.get("user")
+			const response = await $api.get(userUrls.list)
 			commit(SET_USERS, response)
-			return response
 		} catch (e) {
 			throw e
 		}
 	},
-	async update({ commit }, userData) {
-		// TODO: TBD
+	update({ commit }, {id: id, body: body}) {
+		try {
+			return $api.patch(util.format(userUrls.detail, id), body)
+		} catch (e) {
+			if (parseInt(e.response.status.toString()) === 400) {
+				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
+				return false
+			}
+			return false
+		}
 	},
-	changePassword({ commit }, changePwData) {
-		return $api.post("update-password", changePwData)
+	async delete({}, {id: id}) {
+		try {
+			await $api.delete(util.format(userUrls.detail, id))
+			return true
+		} catch (e) {
+			return false
+		}
 	},
-	forgotPassword({ commit }, userEmail) {
+	changePassword({ commit }, {body: body}) {
+		return $api.post("update-password", body)
+	},
+	forgotPassword({ commit }, {email: email}) {
 		const fd = new FormData()
-		fd.append("email", userEmail)
+		fd.append("email", email)
 		return $api.post("reset-password", fd)
 	},
 	async getAllRoles({ commit }) {
 		// TODO: TBD
 	},
-	async registerFollower({commit}, userData) {
+	async registerFollower({commit}, {body: body}) {
 		try {
-			await $api.post("register-follower", userData)
+			await $api.post("register-follower", body)
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_REGISTER_FORM_ERRS", e.response.data)
+				commit("SET_REGISTER_FORM_ERRORS", e.response.data)
 			}
 			return 500
 		}

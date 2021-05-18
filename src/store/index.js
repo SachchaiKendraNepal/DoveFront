@@ -8,6 +8,8 @@ import article from "@/store/modules/article"
 import multimedia from "@/store/modules/multimedia"
 import snack from "@/store/modules/snack"
 import post from "@/store/modules/post"
+import profile from "@/store/modules/profile"
+import auth from "@/store/modules/auth"
 
 Vue.use(Vuex)
 
@@ -16,6 +18,8 @@ const debug = process.env.NODE_ENV !== "prod"
 export default new Vuex.Store({
 	modules: {
 		user,
+		profile,
+		auth,
 		event,
 		location,
 		branch,

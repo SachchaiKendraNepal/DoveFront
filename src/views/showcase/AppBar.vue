@@ -83,7 +83,7 @@ export default {
 		async logout() {
 			const currentUser = this.$helper.getCurrentUser()
 			const isUserLoggedOut = await this.$store.dispatch(
-				"user/logout",
+				"auth/logout",
 				currentUser.username
 			)
 			if (isUserLoggedOut === true) await this.$router.push({ name: "LOG IN" })

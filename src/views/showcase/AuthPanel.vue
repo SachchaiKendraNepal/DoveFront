@@ -80,7 +80,7 @@ export default {
 				await this.$router.push({name: "LOG IN"})
 			} else {
 				const isUserLoggedOut = await this.$store.dispatch(
-					"user/logout",
+					"auth/logout",
 					currentUser.username
 				)
 				if (isUserLoggedOut === true) await this.$router.push({name: "LOG IN"})

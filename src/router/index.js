@@ -105,17 +105,12 @@ const routes = [
 			{
 				path: "follower",
 				name: "FOLLOWERS ADMINISTRATION",
-				component: () => import("@/views/member/Member")
-			},
-			{
-				path: "follower/:id",
-				name: "FOLLOWER ADMINISTRATION",
-				component: () => import("@/views/member/MemberDetail")
+				component: () => import("@/views/member/FollowersTable")
 			},
 			{
 				path: "member",
 				name: "MEMBERS ADMINISTRATION",
-				component: () => import("@/views/member/Member")
+				component: () => import("@/views/member/MembersTable")
 			},
 			{
 				path: "member/:id",

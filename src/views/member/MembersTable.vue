@@ -66,7 +66,7 @@
 					</v-icon>
 					<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
 				</v-btn>
-				<follower-form-dialog />
+				<member-form-dialog />
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -139,7 +139,7 @@ import router from "@/router";
 export default {
 	name: "MembersTable",
 	components: {
-		FollowerFormDialog: () => import("@/views/member/MemberFormDialog")
+		MemberFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
 		isLoading: false,
@@ -247,11 +247,11 @@ export default {
 		},
 
 		openAddFollowerFormDialog() {
-			this.$bus.emit("open-follower-form-dialog-add-item")
+			this.$bus.emit("open-member-form-dialog-add-item")
 		},
 
 		openEditFollowerFormDialog(item) {
-			this.$bus.emit("open-follower-form-dialog-edit-item", {
+			this.$bus.emit("open-member-form-dialog-edit-item", {
 				editedIndex: this.members.indexOf(item),
 				editedItem: Object.assign({}, item),
 			})
