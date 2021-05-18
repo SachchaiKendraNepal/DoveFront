@@ -10,6 +10,7 @@ import snack from "@/store/modules/snack"
 import post from "@/store/modules/post"
 import profile from "@/store/modules/profile"
 import auth from "@/store/modules/auth"
+import member from "@/store/modules/member"
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ const debug = process.env.NODE_ENV !== "prod"
 export default new Vuex.Store({
 	modules: {
 		user,
+		member,
 		profile,
 		auth,
 		event,
