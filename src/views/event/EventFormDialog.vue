@@ -452,18 +452,16 @@
 						/>
 					</v-col>
 					<v-col
-						id="country-input-column"
 						cols="12"
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-country"
+							id="country"
 							v-model="editedItem.country"
-							loading="countriesLoading"
+							:loading="countriesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
-							cache-items
 							item-text="name"
 							item-value="id"
 							:items="countries"
@@ -487,13 +485,12 @@
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-province"
+							id="province"
 							v-model="editedItem.province"
-							loading="provincesLoading"
+							:loading="provincesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
-							cache-items
 							outlined
 							attach=""
 							label="Province"
@@ -517,10 +514,9 @@
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-districts"
+							id="districts"
 							v-model="editedItem.district"
-							loading="districtsLoading"
-							cache-items
+							:loading="districtsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -547,10 +543,9 @@
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-municipality"
+							id="municipality"
 							v-model="editedItem.municipality"
-							loading="municipalitiesLoading"
-							cache-items
+							:loading="municipalitiesLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -578,14 +573,13 @@
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-municipality-ward"
+							id="municipality-ward"
 							v-model="editedItem.municipality_ward"
-							loading="municipalityWardsLoading"
+							:loading="municipalityWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
 							allow-overflow
-							cache-items
 							dense
 							outlined
 							clearable
@@ -609,10 +603,9 @@
 						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-vdc"
+							id="vdc"
 							v-model="editedItem.vdc"
-							loading="vdcsLoading"
-							cache-items
+							:loading="vdcsLoading"
 							item-text="name"
 							item-value="id"
 							allow-overflow
@@ -637,17 +630,16 @@
 					</v-col>
 					<v-col
 						cols="12"
-						class="ma-0 pa-0 event-vdc-col"
+						class="ma-0 pa-0"
 					>
 						<v-autocomplete
-							id="event-vdc-ward"
+							id="vdc-ward"
 							v-model="editedItem.vdc_ward"
-							loading="vdcWardsLoading"
+							:loading="vdcWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
 							allow-overflow
-							cache-items
 							dense
 							outlined
 							clearable
