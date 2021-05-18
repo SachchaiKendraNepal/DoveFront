@@ -322,48 +322,6 @@
 									<v-icon class="pb-1"
 										size="30"
 									>
-										mdi-shield-key
-									</v-icon>
-									Permissions Information
-								</p>
-								<v-divider />
-							</v-col>
-							<v-col
-								cols="12"
-								md="6"
-								lg="6"
-								xl="6"
-								class="ma-0 pa-0"
-							>
-								<v-checkbox
-									id="member-is-staff"
-									v-model="editedItem.is_staff"
-									label="Staff Status"
-									prepend-icon="mdi-account-tie"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								md="6"
-								lg="6"
-								xl="6"
-								class="ma-0 pa-0"
-							>
-								<v-checkbox
-									id="member-is-superuser"
-									v-model="editedItem.is_superuser"
-									label="Superuser status"
-									prepend-icon="mdi-account-cowboy-hat"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="pl-0"
-							>
-								<p class="heading ma-0 pa-0">
-									<v-icon class="pb-1"
-										size="30"
-									>
 										mdi-city-variant
 									</v-icon>
 									Branch Information
@@ -500,12 +458,12 @@ export default {
 		}
 	},
 	created() {
-		this.$bus.on("open-follower-form-dialog-add-item", this.openDialog)
-		this.$bus.on("open-follower-form-dialog-edit-item", this.openEditDialog)
+		this.$bus.on("open-member-form-dialog-add-item", this.openDialog)
+		this.$bus.on("open-member-form-dialog-edit-item", this.openEditDialog)
 	},
 	beforeUnmount() {
-		this.$bus.off("open-follower-form-dialog-add-item")
-		this.$bus.off("open-follower-form-dialog-edit-item")
+		this.$bus.off("open-member-form-dialog-add-item")
+		this.$bus.off("open-member-form-dialog-edit-item")
 	},
 	methods: {
 		openDialog() {
