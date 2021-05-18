@@ -1,4 +1,8 @@
 {
+  "user": {
+    "list": "user",
+    "detail": "user/%s"
+  },
   "branch": "/branch/",
   "event": "/event/",
   "article": {
@@ -31,5 +35,11 @@
     "listLovedMedia": "loved-media",
     "listBookmarkedMedia": "bookmarked-media",
     "listPinnedMedia": "pinned-media"
+  },
+  "profile": {
+    "userProfile": "user/%s/profile",
+    "detail": "profile/%s",
+    "imageList": "profile-image/",
+    "imageDetail": "profile-image/%s/"
   }
 }
