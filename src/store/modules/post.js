@@ -42,8 +42,8 @@ const actions = {
 		commit(SET_PINNED_POST, response)
 	},
 	async fetchLovedPosts({commit}) {
-		await $api.get(urls.post.listLovedMedia)
-		commit(SET_LOVED_POSTS, resp)
+		const response = await $api.get(urls.post.listLovedMedia)
+		commit(SET_LOVED_POSTS, response)
 	},
 	async fetchBookmarkedPosts({commit}) {
 		const response = await $api.get(urls.post.listBookmarkedMedia)
