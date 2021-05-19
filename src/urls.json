@@ -1,7 +1,18 @@
 {
   "user": {
     "list": "user",
-    "detail": "user/%s"
+    "detail": "user/%s",
+    "updatePassword": "update-password",
+    "resetPassword": "reset-password"
+  },
+  "member": {
+    "list": "member",
+    "detail": "member/%s",
+    "role": "member/%s/role",
+    "roleDetail": "role-detail/%s",
+    "branch": "member/%s/branch",
+    "branchDetail": "member-branch/%s",
+    "toggleApproval": "member/%s/toggle-approval"
   },
   "branch": "/branch/",
   "event": "/event/",
@@ -13,7 +24,7 @@
     "toggleLove": "/article/%s/toggle-love",
     "toggleBookmark": "/article/%s/toggle-bookmark",
     "togglePin": "article/%s/toggle-pin-status",
-    "extraStatus": "article-extra-status/%s",
+    "extraStatus": "article-status/%s",
     "comment": "article/%s/comment"
   },
   "multimedia": {
@@ -27,7 +38,7 @@
     "toggleLove": "/multimedia/%s/toggle-love",
     "toggleBookmark": "/multimedia/%s/toggle-bookmark",
     "togglePin": "multimedia/%s/toggle-pin-status",
-    "extraStatus": "multimedia-extra-status/%s",
+    "extraStatus": "multimedia-status/%s",
     "comment": "multimedia/%s/comment"
   },
   "post": {
