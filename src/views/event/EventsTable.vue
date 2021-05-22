@@ -92,10 +92,18 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_main="{ item }">
-			<v-simple-checkbox
+			<v-checkbox
 				v-model="item.is_main"
 				color="primary"
-				disabled
+				readonly
+			/>
+		</template>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.is_approved="{ item }">
+			<v-checkbox
+				v-model="item.is_approved"
+				color="success"
+				readonly
 			/>
 		</template>
 		<!--		 eslint-disable-next-line vue/valid-v-slot-->
@@ -122,6 +130,15 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.actions="{ item }">
+			<v-icon
+				v-ripple
+				class="mr-2"
+				color="success"
+				size="22"
+				@click="toggleApproval(item)"
+			>
+				mdi-check
+			</v-icon>
 			<v-icon
 				v-ripple
 				class="mr-2"
@@ -169,7 +186,8 @@ export default {
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "TITLE", value: "title" },
 			{ text: "Organizer", value: "organizer" },
-			{ text: "IS MAIN EVENT", value: "is_main" },
+			{ text: "MAIN", value: "is_main" },
+			{ text: "APPROVED", value: "is_approved" },
 			{ text: "LOCATION", value: "location" },
 			{ text: "VENUE", value: "venue" },
 			{ text: "START DATE", value: "start_date" },
@@ -182,13 +200,18 @@ export default {
 		})
 	},
 	async created() {
-		this.$bus.on("reload-events", this.initialize)
+		this.$bus.on("reload-events", this.reloadEvents)
 		await this.initialize()
 	},
 	beforeUnmount() {
 		this.$bus.off("reload-events")
 	},
 	methods: {
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
 		getDurationChipColor(value) {
 			if (value === 1) {
 				return "red lighten-2"
@@ -212,6 +235,12 @@ export default {
 			this.isLoading = false
 		},
 
+		async reloadEvents() {
+			this.isLoading = true
+			await this.$store.dispatch("event/getAll")
+			this.isLoading = false
+		},
+
 		openAddEventFormDialog() {
 			this.$bus.emit("open-event-form-dialog-add-item")
 		},
@@ -224,16 +253,27 @@ export default {
 		},
 
 		async deleteItem(item) {
-			const index = this.events.indexOf(item)
 			const reaction = confirm(`Are you sure you want to delete event "${item.title}"?`);
 			if (reaction === true) {
-				await this.$store.dispatch(
+				const isDeleted = await this.$store.dispatch(
 					"event/delete",
 					{
 						id: item.id,
 					})
-				this.events.splice(index, 1)
+				if (isDeleted) {
+					await this.openSnack("Event deleted.", "success")
+					await this.reloadEvents()
+				}
 			}
+		},
+
+		async toggleApproval(item) {
+			const response = await this.$store.dispatch("event/toggleApproval", { id: item.id })
+			if (response) {
+				await this.openSnack("Event approval toggled.", "success")
+				await this.reloadEvents()
+			}
+			else await this.openSnack("Event approval toggle failed. Try again.")
 		},
 
 		routeToEventDetailPage(itemId) {
@@ -247,8 +287,8 @@ export default {
 .event-name
 	margin: 0
 	padding: 0
-	font-size: 16px
-	font-weight: 300
+	font-size: .9rem
+	font-weight: 500
 
 .cursor
 	cursor: pointer
