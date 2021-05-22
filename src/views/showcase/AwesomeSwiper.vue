@@ -270,14 +270,6 @@ export default {
 				prevEl: ".swiper-button-prev",
 			}
 		})
-	},
-	methods: {
-		onSwiper(swiper) {
-			// console.log(swiper)
-		},
-		onSlideChange() {
-			// console.log("slide change")
-		},
 	}
 }
 </script>

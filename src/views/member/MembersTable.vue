@@ -1,6 +1,5 @@
 <template>
 	<v-data-table
-		id="member-d-table"
 		v-model="selected"
 		multi-sort
 		show-select
@@ -10,7 +9,7 @@
 		:search="search"
 		:headers="headers"
 		:items-per-page="12"
-		:loading="isLoading"
+		:loading="loading"
 		loading-text="Members Loading..."
 		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
 	>
@@ -70,28 +69,12 @@
 			</v-toolbar>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.full_name="{ item }">
-			<p
-				class="ma-0 pa-0 follower-full-name"
-				@click="routeToMemberDetailPage(item.id)"
-			>
-				{{ item.f_name }} {{ item.l_name }}
-			</p>
+		<template #item.branch="{ item }">
+			{{ getCurrentMemberBranchName(item) }}
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.is_staff="{ item }">
-			<v-simple-checkbox
-				v-model="item.is_staff"
-				disabled
-			/>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.is_superuser="{ item }">
-			<v-simple-checkbox
-				v-model="item.is_superuser"
-				color="primary"
-				disabled
-			/>
+		<template #item.role="{ item }">
+			{{ getCurrentRole(item) }}
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_approved="{ item }">
@@ -100,10 +83,20 @@
 				color="primary"
 				hide-details="auto"
 				class="mt-0"
+				disabled
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.actions="{ item }">
+			<v-icon
+				v-ripple
+				class="mr-2"
+				color="green"
+				size="22"
+				@click.stop="toggleApprovalStatus(item)"
+			>
+				mdi-check
+			</v-icon>
 			<v-icon
 				v-ripple
 				class="mr-2"
@@ -135,6 +128,7 @@
 
 <script>
 import router from "@/router";
+import {mapGetters} from "vuex";
 
 export default {
 	name: "MembersTable",
@@ -142,108 +136,62 @@ export default {
 		MemberFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
-		isLoading: false,
+		loading: false,
 		selected: [],
 		search: "",
 		headers: [
-			{ text: "ACTIONS", value: "actions", sortable: false },
-			{ text: "FULL NAME", value: "full_name" },
-			{ text: "USERNAME", value: "username" },
-			{ text: "BRANCH", value: "branch" },
-			{ text: "PHONE", value: "phone" },
-			{ text: "SUPERUSER STATUS", value: "is_superuser" },
-			{ text: "STAFF STATUS", value: "is_staff" },
-			{ text: "APPROVED STATUS", value: "is_approved" },
-			{ text: "DATE JOINED", value: "date_joined" }
-		],
-		members: []
+			{ text: "Actions", value: "actions", sortable: false },
+			{ text: "Id", value: "id" },
+			{ text: "User", value: "user.username" },
+			{ text: "Branch", value: "branch" },
+			{ text: "Role", value: "role" },
+			{ text: "Approval status", value: "is_approved" },
+			{ text: "Created at", value: "created_at" },
+		]
 	}),
 
-	created() {
-		this.initialize()
+	computed: {
+		...mapGetters({
+			members: "member/list"
+		})
+	},
+
+	async created() {
+		this.$bus.on("reload-members", this.initialize)
+		await this.initialize()
+	},
+
+	beforeUnmount() {
+		this.$bus.off("reload-members")
 	},
 
 	methods: {
-		initialize() {
-			const now = new Date().toISOString().replace(/T/, " ").replace(/\..+/, "")
-			this.members = [
-				{
-					id: 1,
-					username: "kiran589",
-					email: "kiran589@gmail.com",
-					f_name: "Kiran",
-					l_name: "Parajuli",
-					phone: 9843530425,
-					branch: "Polar Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 2,
-					username: "bot25",
-					email: "bot25@gmail.com",
-					f_name: "Bot",
-					l_name: "Heikki",
-					phone: 985632256,
-					branch: "Seiko Branch",
-					is_approved: false,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: false,
-					is_staff: true,
-					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 3,
-					username: "skshetry101",
-					email: "susant@gmail.com",
-					f_name: "Susant",
-					l_name: "Kshetry",
-					phone: 984568953,
-					branch: "Akiko Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "ABC, XYZ",
-					permanent_address: "DAC, YML",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 4,
-					username: "1996amrit",
-					email: "1996amrit@gmail.com",
-					f_name: "Amrit",
-					l_name: "Neupane",
-					phone: 9843530425,
-					branch: "Main Branch",
-					is_approved: true,
-					approved_at: now,
-					date_joined: now,
-					is_superuser: true,
-					is_staff: true,
-					temporary_address: "CAB, ZYX",
-					permanent_address: "PKC, LMT",
-					last_login: now,
-					image:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-			]
+		async openSnack(text, color = "error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+		getCurrentMemberBranch(item) {
+			if (item.member_branches.length === 0) return false
+			return item.member_branches[0]
+		},
+		getCurrentMemberBranchName(item) {
+			const currentBranch = this.getCurrentMemberBranch(item)
+			if (currentBranch) return currentBranch.branch.name
+			return "None"
+		},
+		getCurrentRole(item) {
+			const currentBranch = this.getCurrentMemberBranch(item)
+			if (!currentBranch) return "None"
+			if (currentBranch.member_branch_roles.length === 0) return "None"
+			return currentBranch.member_branch_roles[0].role_name
+		},
+		async initialize() {
+			this.loading = true
+			await this.$store.dispatch("member/fetchMembers")
+			await this.$store.dispatch("user/list")
+			await this.$store.dispatch("branch/getAll")
+			this.loading = false
 		},
 
 		openAddFollowerFormDialog() {
@@ -257,9 +205,22 @@ export default {
 			})
 		},
 
-		deleteItem(item) {
-			const index = this.members.indexOf(item)
-			confirm("Are you sure you want to delete this member?") && this.members.splice(index, 1)
+		async toggleApprovalStatus(item) {
+			const response = await this.$store.dispatch("member/toggleApprovalStatus", {id: item.id})
+			if (response) {
+				await this.openSnack("Member approval status toggled successfully.", "success")
+				await this.initialize()
+			}
+			else await this.openSnack("Toggle failed. Try again.")
+		},
+
+		async deleteItem(item) {
+			const response = await this.$store.dispatch("member/delete", {id: item.id})
+			if (response) {
+				await this.openSnack("Member deleted successfully.", "success")
+				await this.initialize()
+			}
+			else await this.openSnack("Delete failed. Try again.")
 		},
 
 		routeToMemberDetailPage(itemId) {

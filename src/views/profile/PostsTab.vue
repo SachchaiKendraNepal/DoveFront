@@ -20,24 +20,12 @@
 					md="8"
 					class="pa-md-1 pt-md-2 px-2 py-0"
 				>
-					<div class="mb-2">
-						<article-post :post="articlePost" />
-					</div>
-					<div class="mb-2">
-						<article-post :post="articlePost" />
-					</div>
-					<div class="mb-2">
-						<article-post :post="articlePost" />
-					</div>
-					<div class="mb-2">
-						<multimedia :post="multimediaPost" />
-					</div>
-					<div class="mb-2">
-						<article-post :post="articlePost" />
-					</div>
-					<div class="mb-2">
-						<multimedia :post="multimediaPost" />
-					</div>
+					<!--					<div class="mb-2">-->
+					<!--						<article-post :post="articlePost" />-->
+					<!--					</div>-->
+					<!--					<div class="mb-2">-->
+					<!--						<multimedia :post="multimediaPost" />-->
+					<!--					</div>-->
 				</v-col>
 			</v-row>
 		</template>
@@ -50,24 +38,13 @@ export default {
 		IntroCard: () => import("@/views/profile/Intro"),
 		PeekPhotos: () => import("@/views/profile/PeekPhotos"),
 		TabItemCard: () => import("@/components/ProfileTabItem"),
-		ArticlePost: () => import("@/components/Article"),
-		Multimedia: () => import("@/components/Multimedia"),
+		// ArticlePost: () => import("@/components/Article"),
+		// Multimedia: () => import("@/components/Multimedia"),
 	},
 	data: () => ({
-		articlePost: {
-			id: 1,
-			title: "Our Changing Planet",
-			author: "Kurt Wagner",
-			description: "Visit ten places on our planet that are undergoing the biggest changes today."
-		},
-		multimediaPost: {
-			id: 1,
-			title: "Alice in the Wonderland",
-			author: "Kiran Parajuli",
-			description: "Alice, now 19 years old, follows a rabbit in a blue coat to a magical wonderland" +
-				" from her dreams where she is reunited with her friends who make her realise her true destiny."
-		},
-	})
+		loading: false,
+	}),
+
 }
 </script>
 <style lang="sass" scoped>

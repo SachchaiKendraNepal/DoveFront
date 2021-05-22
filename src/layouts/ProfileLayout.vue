@@ -188,6 +188,9 @@
 								</v-icon>
 							</v-avatar>
 						</v-app-bar-nav-icon>
+						<v-toolbar-title class="toolbar-title">
+							{{ $route.name }}
+						</v-toolbar-title>
 						<v-spacer />
 						<v-menu
 							max-width="220"
@@ -262,7 +265,7 @@
 					class="text-center"
 					cols="12"
 				>
-					©️ {{ new Date().getFullYear() }} — <strong>Ishowriya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
+					©️ {{ new Date().getFullYear() }} — <strong>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
 				</v-col>
 			</v-footer>
 		</v-main>
@@ -442,4 +445,7 @@ export default {
 	color: rgb(8 40 57) !important
 .profile-tab-active-down
 	color: rgb(8 40 57) !important
+.toolbar-title
+	font-weight: bold !important
+	color: darkslategrey
 </style>

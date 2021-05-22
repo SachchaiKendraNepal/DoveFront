@@ -178,7 +178,7 @@ const routes = [
 		children: [
 			{
 				path: "post",
-				name: "MY POST",
+				name: "MY POSTS",
 				component: () => import("@/views/profile/PostsTab")
 			},
 			{
@@ -193,7 +193,7 @@ const routes = [
 			},
 			{
 				path: "multimedia",
-				name: "MY MULTIMEDIA",
+				name: "MY MULTIMEDIAS",
 				component: () => import("@/views/profile/MultimediaTab")
 			},
 		],

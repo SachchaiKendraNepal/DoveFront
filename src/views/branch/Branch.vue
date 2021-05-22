@@ -83,19 +83,16 @@
 			<v-simple-checkbox
 				v-model="item.is_main"
 				color="primary"
-				disabled
+				:readonly="true"
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.contacts="{ item }">
-			<template v-for="contact in item.contacts">
-				<!-- eslint-disable-next-line vue/no-v-for-template-key-on-child-->
-				<v-chip :key="contact"
-					class="contact-chip-item"
-				>
-					{{ contact }}
-				</v-chip>
-			</template>
+		<template #item.is_approved="{ item }">
+			<v-simple-checkbox
+				v-model="item.is_approved"
+				color="success"
+				:readonly="true"
+			/>
 		</template>
 		<!--		 eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.location="{ item }">
@@ -162,8 +159,9 @@ export default {
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
-			{ text: "CONTACTS", value: "contacts" },
+			{ text: "CONTACTS", value: "contact" },
 			{ text: "IS MAIN BRANCH", value: "is_main" },
+			{ text: "IS APPROVED", value: "is_approved" },
 			{ text: "LOCATION", value: "location" },
 			{ text: "CREATED AT", value: "created_at" }
 		]

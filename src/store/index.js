@@ -19,7 +19,6 @@ const debug = process.env.NODE_ENV !== "prod"
 export default new Vuex.Store({
 	modules: {
 		user,
-		member,
 		profile,
 		auth,
 		event,
@@ -28,7 +27,8 @@ export default new Vuex.Store({
 		article,
 		multimedia,
 		snack,
-		post
+		post,
+		member,
 	},
 	strict: debug
 })

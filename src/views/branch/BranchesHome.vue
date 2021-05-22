@@ -304,7 +304,6 @@ export default {
 	},
 	methods: {
 		routeToBranchDetail(eventId) {
-			console.log(eventId)
 			this.$router.push({name: "SACHCHAI NEPAL BRANCH"})
 		},
 		initBranches() {
