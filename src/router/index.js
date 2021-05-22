@@ -120,7 +120,7 @@ const routes = [
 			{
 				path: "branch",
 				name: "BRANCHES ADMINISTRATION",
-				component: () => import("@/views/branch/Branch")
+				component: () => import("@/views/branch/BranchTable")
 			},
 			{
 				path: "branch/:id",
