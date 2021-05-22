@@ -26,7 +26,8 @@ module.exports = {
 		if (rawData.municipality > 0) {
 			delete rawData.vdc
 			delete rawData.vdc_ward
-		} else {
+		}
+		if (rawData.vdc > 0) {
 			delete rawData.municipality
 			delete rawData.municipality_ward
 		}
@@ -97,7 +98,7 @@ module.exports = {
 					for (let i = 0; i < value.length; i++) {
 						formData.append(`${key}`, value[i]);
 					}
-				} else {
+				} else if(value) {
 					formData.append(key, value)
 				}
 			}
