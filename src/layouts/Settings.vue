@@ -9,16 +9,6 @@
 			class="home-snack"
 		>
 			{{ snackText }}
-
-			<template #action="{ attrs }">
-				<v-btn
-					v-bind="attrs"
-					text
-					@click="snack = false"
-				>
-					Close
-				</v-btn>
-			</template>
 		</v-snackbar>
 		<v-app-bar app
 			color="grey darken-4" dark
