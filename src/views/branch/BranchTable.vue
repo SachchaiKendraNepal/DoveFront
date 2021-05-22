@@ -187,7 +187,7 @@ export default {
 	},
 
 	async created() {
-		this.$bus.on("reload-branches", this.initialize)
+		this.$bus.on("reload-branches", this.initOnlyBranches)
 		await this.initialize()
 	},
 
