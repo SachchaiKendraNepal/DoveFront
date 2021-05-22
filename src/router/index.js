@@ -147,7 +147,7 @@ const routes = [
 			{
 				path: "event",
 				name: "EVENTS ADMINISTRATION",
-				component: () => import("@/views/event/Events")
+				component: () => import("@/views/event/EventsTable")
 			},
 			{
 				path: "event/:id",
