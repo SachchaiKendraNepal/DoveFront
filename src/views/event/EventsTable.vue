@@ -198,9 +198,17 @@ export default {
 				return "primary"
 			} else return ""
 		},
-		initialize() {
+		async initialize() {
 			this.isLoading = true
-			this.$store.dispatch("event/getAll")
+			await this.$store.dispatch("event/getAll")
+			await this.$store.dispatch("branch/fetchAll")
+			await this.$store.dispatch("location/getAllCountries")
+			await this.$store.dispatch("location/getAllProvinces")
+			await this.$store.dispatch("location/getAllDistricts")
+			await this.$store.dispatch("location/getAllMunicipalities")
+			await this.$store.dispatch("location/getAllMunicipalityWards")
+			await this.$store.dispatch("location/getAllVdcs")
+			await this.$store.dispatch("location/getAllVdcWards")
 			this.isLoading = false
 		},
 

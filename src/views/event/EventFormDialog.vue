@@ -451,7 +451,6 @@
 						<v-autocomplete
 							id="country"
 							v-model="editedItem.country"
-							:loading="countriesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
@@ -480,7 +479,6 @@
 						<v-autocomplete
 							id="province"
 							v-model="editedItem.province"
-							:loading="provincesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
@@ -509,7 +507,6 @@
 						<v-autocomplete
 							id="districts"
 							v-model="editedItem.district"
-							:loading="districtsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -538,7 +535,6 @@
 						<v-autocomplete
 							id="municipality"
 							v-model="editedItem.municipality"
-							:loading="municipalitiesLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -568,7 +564,6 @@
 						<v-autocomplete
 							id="municipality-ward"
 							v-model="editedItem.municipality_ward"
-							:loading="municipalityWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -598,7 +593,6 @@
 						<v-autocomplete
 							id="vdc"
 							v-model="editedItem.vdc"
-							:loading="vdcsLoading"
 							item-text="name"
 							item-value="id"
 							allow-overflow
@@ -628,7 +622,6 @@
 						<v-autocomplete
 							id="vdc-ward"
 							v-model="editedItem.vdc_ward"
-							:loading="vdcWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -687,14 +680,6 @@ export default {
 	data: () => ({
 		dialog: false,
 		startDateMenu: false,
-		countriesLoading: false,
-		provincesLoading: false,
-		districtsLoading: false,
-		municipalitiesLoading: false,
-		municipalityWardsLoading: false,
-		branchesLoading: false,
-		vdcsLoading: false,
-		vdcWardsLoading: false,
 		timeOfDayOptions: [
 			"Morning",
 			"Afternoon",
@@ -762,60 +747,12 @@ export default {
 	async created() {
 		this.$bus.on("open-event-form-dialog-add-item", this.openDialog)
 		this.$bus.on("open-event-form-dialog-edit-item", this.edit)
-		await this.initCountries()
-		await this.initProvinces()
-		await this.initDistricts()
-		await this.initMunicipalities()
-		await this.initMunicipalityWards()
-		await this.initVdcs()
-		await this.initVdcWards()
-		await this.initBranches()
 	},
 	beforeUnmount() {
 		this.$bus.off("open-event-form-dialog-add-item")
 		this.$bus.off("open-event-form-dialog-edit-item")
 	},
 	methods: {
-		async initBranches() {
-			this.branchesLoading = true
-			await this.$store.dispatch("branch/fetchAll")
-			this.branchesLoading = false
-		},
-		async initCountries() {
-			this.countriesLoading = true
-			await this.$store.dispatch("location/getAllCountries")
-			this.countriesLoading = false
-		},
-		async initProvinces() {
-			this.provincesLoading = true
-			await this.$store.dispatch("location/getAllProvinces")
-			this.provincesLoading = false
-		},
-		async initDistricts() {
-			this.districtsLoading = true
-			await this.$store.dispatch("location/getAllDistricts")
-			this.districtsLoading = false
-		},
-		async initMunicipalities() {
-			this.municipalitiesLoading = true
-			await this.$store.dispatch("location/getAllMunicipalities")
-			this.municipalitiesLoading = false
-		},
-		async initMunicipalityWards() {
-			this.municipalityWardsLoading = true
-			await this.$store.dispatch("location/getAllMunicipalityWards")
-			this.municipalityWardsLoading = false
-		},
-		async initVdcs() {
-			this.vdcsLoading = true
-			await this.$store.dispatch("location/getAllVdcs")
-			this.vdcsLoading = false
-		},
-		async initVdcWards() {
-			this.vdcWardsLoading = true
-			await this.$store.dispatch("location/getAllVdcWards")
-			this.vdcWardsLoading = false
-		},
 		openDialog() {
 			this.dialog = true
 		},
