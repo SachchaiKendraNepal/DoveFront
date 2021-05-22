@@ -20,7 +20,15 @@
     "detail": "/branch/%s/",
     "toggleApproval": "branch/%s/toggle-approval"
   },
-  "event": "/event/",
+  "event": {
+    "list": "event/",
+    "detail": "event/%s/",
+    "toggleApproval": "event/%s/toggle-approval",
+    "imageList": "event-photo/",
+    "imageDetail": "event-photo/%s/",
+    "videoUrlList": "event-video-url/",
+    "videoUrlDetail": "event-video-url/%s/"
+  },
   "article": {
     "set": "/article/",
     "createWithList": "/create-article",
