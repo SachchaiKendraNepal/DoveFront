@@ -530,6 +530,7 @@
 												label="Date of membership"
 												prepend-inner-icon="mdi-calendar"
 												readonly
+												clearable
 												v-bind="attrs"
 												dense
 												outlined
@@ -635,7 +636,7 @@ export default {
 	computed: {
 		...mapGetters({
 			users: "user/usersList",
-			branches: "branch/allBranches",
+			branches: "branch/list",
 			member: "member/detail",
 			memberFormErrors: "member/memberFormErrors",
 			memberRoleFormErrors: "member/memberRoleFormErrors",

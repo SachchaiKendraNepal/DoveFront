@@ -43,27 +43,13 @@ const mutations = {
 }
 
 const getters = {
-	allCountries: state => {
-		return state.countries.results
-	},
-	allProvinces: state => {
-		return state.provinces.results
-	},
-	allDistricts: state => {
-		return state.districts.results
-	},
-	allMunicipalities: state => {
-		return state.municipalities.results
-	},
-	allMunicipalityWards: state => {
-		return state.municipality_wards.results
-	},
-	allVdcs: state => {
-		return state.vdcs.results
-	},
-	allVdcWards: state => {
-		return state.vdc_wards.results
-	}
+	allCountries: state => state.countries.results,
+	allProvinces: state => state.provinces.results,
+	allDistricts: state => state.districts.results,
+	allMunicipalities: state => state.municipalities.results,
+	allMunicipalityWards: state => state.municipality_wards.results,
+	allVdcs: state => state.vdcs.results,
+	allVdcWards: state => state.vdc_wards.results
 }
 
 const actions = {

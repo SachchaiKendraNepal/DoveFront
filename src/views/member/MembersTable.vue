@@ -27,16 +27,16 @@
 					</v-icon>
 				</v-avatar>
 				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
-					Sachchai Followers
+					Sachchai Members
 				</v-toolbar-title>
 				<v-divider
-					class="mx-4 search-follower"
+					class="mx-4 search-member"
 					inset
 					vertical
 				/>
 				<v-text-field
 					v-model="search"
-					class="search-follower"
+					class="search-member"
 					solo
 					dense
 					hide-details
@@ -48,14 +48,14 @@
 				/>
 				<v-spacer />
 				<v-divider
-					class="mx-4 search-follower"
+					class="mx-4 search-member"
 					inset
 					vertical
 				/>
 				<v-btn
 					dark
 					color="primary"
-					@click.stop="openAddFollowerFormDialog"
+					@click.stop="openAddBranchFormDialog"
 				>
 					<v-icon
 						dark
@@ -102,7 +102,7 @@
 				class="mr-2"
 				color="primary"
 				size="20"
-				@click.stop="openEditFollowerFormDialog(item)"
+				@click.stop="openEditMemberFormDialog(item)"
 			>
 				mdi-pencil
 			</v-icon>
@@ -190,15 +190,15 @@ export default {
 			this.loading = true
 			await this.$store.dispatch("member/fetchMembers")
 			await this.$store.dispatch("user/list")
-			await this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("branch/fetchAll")
 			this.loading = false
 		},
 
-		openAddFollowerFormDialog() {
+		openAddBranchFormDialog() {
 			this.$bus.emit("open-member-form-dialog-add-item")
 		},
 
-		openEditFollowerFormDialog(item) {
+		openEditMemberFormDialog(item) {
 			this.$bus.emit("open-member-form-dialog-edit-item", {
 				editedIndex: this.members.indexOf(item),
 				editedItem: Object.assign({}, item),
@@ -230,14 +230,8 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.search-follower
+.search-member
 	display: block
 	@media only screen and (max-width: 315px)
 		display: none
-.follower-full-name
-	margin: 0
-	padding: 0
-	font-size: 18px
-	font-weight: 300
-	cursor: pointer
 </style>

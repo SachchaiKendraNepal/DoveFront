@@ -77,7 +77,6 @@ const actions = {
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
-				return false
 			}
 			return false
 		}
@@ -100,7 +99,6 @@ const actions = {
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
-				return false
 			}
 			return false
 		}

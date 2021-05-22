@@ -222,3 +222,11 @@ export default {
 		max-width: 0 !important
 		width: 0 !important
 </style>
+<style lang="scss">
+.v-label {
+	font-size: 14px !important;
+}
+.v-input {
+	font-size: 14px !important;
+}
+</style>

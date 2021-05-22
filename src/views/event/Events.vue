@@ -178,7 +178,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			events: "event/allEvents",
+			events: "event/list",
 		})
 	},
 	async created() {

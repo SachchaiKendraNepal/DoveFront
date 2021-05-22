@@ -24,7 +24,7 @@ const mutations = {
 }
 
 const getters = {
-	allEvents: state => {
+	list: state => {
 		return state.events.results
 	}
 }
@@ -45,6 +45,16 @@ const actions = {
 
 	async delete({commit}, payload) {
 		await $api.delete(eventUrl + payload.id + "/")
+	},
+
+	async filterEvents({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(eventUrl, payload)
+			commit("SET_EVENTS", response)
+			return true
+		} catch {
+			return false
+		}
 	}
 }
 
