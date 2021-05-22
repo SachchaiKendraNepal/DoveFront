@@ -116,7 +116,6 @@ export default {
 	},
 	data() {
 		return {
-			followers: [],
 			search: null,
 			loading: false,
 			followersListHeaders: [
@@ -133,7 +132,7 @@ export default {
 	},
 	computed: {
 		... mapGetters({
-			users: "user/usersList"
+			followers: "user/usersList"
 		})
 	},
 	async created() {
@@ -143,7 +142,6 @@ export default {
 		async initialize() {
 			this.loading = true
 			await this.$store.dispatch("user/list")
-			if (Array.isArray(this.users)) this.followers = this.users
 			this.loading = false
 		},
 		openAddFollowerFormDialog() {

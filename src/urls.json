@@ -9,7 +9,7 @@
     "list": "member",
     "detail": "member/%s",
     "role": "member/%s/role",
-    "roleDetail": "role-detail/%s",
+    "roleDetail": "member-role/%s",
     "branch": "member/%s/branch",
     "branchDetail": "member-branch/%s",
     "toggleApproval": "member/%s/toggle-approval"

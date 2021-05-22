@@ -613,7 +613,6 @@ export default {
 			let response
 			if (this.video_urls.length > 0 || this.videos.length > 0) {
 				// create a multimedia
-				console.log("creating multimedia ...")
 				const body = await getFormData({
 					...this.post,
 					audio: this.audios,
@@ -624,7 +623,6 @@ export default {
 				response = await this.$store.dispatch("multimedia/createMultimediaPost", body)
 			} else {
 				// create an article
-				console.log("creating article ...")
 				const body = getFormData({
 					...this.post,
 					image: this.images

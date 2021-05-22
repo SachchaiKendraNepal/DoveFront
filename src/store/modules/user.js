@@ -32,9 +32,8 @@ const defaultUserCreateFormErrors = {
 }
 
 const state = {
-	users: {},
+	users: [],
 	user: {},
-	roles: {},
 	registerFormErrors: {
 		... defaultRegisterErrors
 	},
@@ -121,9 +120,6 @@ const actions = {
 		const fd = new FormData()
 		fd.append("email", email)
 		return $api.post("reset-password", fd)
-	},
-	async getAllRoles({ commit }) {
-		// TODO: TBD
 	},
 	async registerFollower({commit}, {body: body}) {
 		try {

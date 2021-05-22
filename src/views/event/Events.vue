@@ -229,7 +229,6 @@ export default {
 		},
 
 		routeToEventDetailPage(itemId) {
-			console.log(itemId)
 			router.push({name: "EVENT ADMINISTRATION", params: { id: itemId }})
 		}
 	},

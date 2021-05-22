@@ -1,3 +1,5 @@
+import $api from "@/handler/axios";
+
 const util = require("util")
 const urls = require("@/urls.json")
 const memberUrls = urls.member
@@ -28,7 +30,7 @@ const defaultMemberRoleFormErrors = {
 
 
 const state = {
-	members: {},
+	members: [],
 	member: {},
 	role: {},
 	branch: {},
@@ -57,8 +59,11 @@ const mutations = {
 }
 
 const getters = {
-	membersList: (state) => state.members,
-	memberDetail: state => state.member
+	list: (state) => state.members,
+	detail: state => state.member,
+	memberFormErrors: state => state.memberFormErrors,
+	memberRoleFormErrors: state => state.memberRoleFormErrors,
+	memberBranchFormErrors: state => state.memberBranchFormErrors
 }
 
 const actions = {
@@ -74,7 +79,7 @@ const actions = {
 
 	async fetchMembers({commit}) {
 		try {
-			const response = await this.$api.get(memberUrls.list)
+			const response = await $api.get(memberUrls.list)
 			commit("SET_MEMBERS", response)
 			return true
 		} catch {
@@ -83,7 +88,7 @@ const actions = {
 	},
 	async fetchMemberDetail({commit}, {id: id}) {
 		try {
-			const response = await this.$api.get(util.format(memberUrls.detail, id))
+			const response = await $api.get(util.format(memberUrls.detail, id))
 			commit("SET_MEMBER", response)
 		} catch {
 			return false
@@ -91,7 +96,7 @@ const actions = {
 	},
 	async create({commit}, {body: body}) {
 		try {
-			await this.$api.post(memberUrls.list, body)
+			await $api.post(memberUrls.list, body)
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
@@ -102,24 +107,24 @@ const actions = {
 	},
 	async delete({}, {id: id}) {
 		try {
-			await this.$api.delete(util.format(memberUrls.detail, id))
+			await $api.delete(util.format(memberUrls.detail, id))
 			return true
 		} catch {
 			return false
 		}
 	},
-	async toggleMemberApproval({commit}, {id: id}) {
+	async toggleApprovalStatus({commit}, {id: id}) {
 		try {
-			await this.$api.post(util.format(memberUrls.toggleApproval, id))
+			await $api.post(util.format(memberUrls.toggleApproval, id))
 			return true
 		} catch {
 			return false
 		}
 	},
 
-	async assignBranch({commit}, {body: body}) {
+	async assignBranch({commit}, {userId:userId, body: body}) {
 		try {
-			await this.$api.post(util.format(memberUrls.assignBranch, id), body)
+			await $api.post(util.format(memberUrls.branch, userId), body)
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
@@ -132,17 +137,17 @@ const actions = {
 
 	async stripBranch({}, {id: id}) {
 		try {
-			await this.$api.delete(util.format(memberUrls.branchDetail, id))
+			await $api.delete(util.format(memberUrls.branchDetail, id))
 			return true
 		} catch {
 			return false
 		}
 	},
 
-	async assignRole({commit}, {body: body}) {
+	async assignRole({commit}, {userId: userId, body: body}) {
 		try {
-			await this.$api.post(util.format(memberUrls.assignRole, id), body)
-			return true
+			const response = await $api.post(util.format(memberUrls.role, userId), body)
+			return response.success
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_MEMBER_ROLE_FORM_ERRORS", e.response.data)
@@ -154,11 +159,19 @@ const actions = {
 
 	async stripRole({}, {id: id}) {
 		try {
-			await this.$api.delete(util.format(memberUrls.roleDetail, id))
+			await $api.delete(util.format(memberUrls.roleDetail, id))
 			return true
 		} catch {
 			return false
 		}
 	},
 
+}
+
+export default {
+	namespaced: true,
+	state,
+	mutations,
+	getters,
+	actions
 }
