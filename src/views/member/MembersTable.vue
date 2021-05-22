@@ -78,12 +78,11 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_approved="{ item }">
-			<v-switch
+			<v-checkbox
 				v-model="item.is_approved"
-				color="primary"
-				hide-details="auto"
+				color="success"
 				class="mt-0"
-				disabled
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
