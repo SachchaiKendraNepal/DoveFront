@@ -40,8 +40,8 @@
 				class="mx-auto" color="transparent"
 			>
 				<v-img
-					v-if="editedIndex !== -1"
-					:src="editedItem.image"
+					v-if="editedIndex !== -1 && editedItem.cover_image"
+					:src="editedItem.cover_image"
 					height="350"
 					style="border-radius: 0 0 10px 10px"
 				/>
@@ -174,6 +174,7 @@
 							clearable
 							label="Name"
 							prepend-inner-icon="mdi-form-textbox"
+							:error-messages="formErrors.name"
 						/>
 					</v-col>
 					<v-col
@@ -183,36 +184,13 @@
 						<v-text-field
 							v-model="editedItem.contact"
 							class="ma-0 pa-0"
-							label="Contacts"
+							label="Contact"
 							type="number"
 							outlined
 							dense
 							clearable
 							prepend-inner-icon="mdi-phone-classic"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0 checkbox-input-column"
-					>
-						<v-checkbox
-							id="is_main"
-							v-model="editedItem.is_main"
-							label="Is Main Branch?"
-							append-icon="mdi-map-marker-star-outline"
-							hide-details="auto"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0 checkbox-input-column"
-					>
-						<v-checkbox
-							id="is_approved"
-							v-model="editedItem.is_approved"
-							label="Approval Status"
-							append-icon="mdi-check-circle"
-							hide-details="auto"
+							:error-messages="formErrors.contact"
 						/>
 					</v-col>
 					<v-col
@@ -228,11 +206,27 @@
 							small-chips
 							show-size
 							accept="image/*"
-							label="Branch Image"
+							label="Cover Image"
 							clearable
 							multiple
 							prepend-icon=""
 							prepend-inner-icon="mdi-camera"
+							:error-messages="formErrors.cover_image"
+						/>
+					</v-col>
+					<v-col
+						cols="12"
+						class="ma-0 pa-0"
+					>
+						<v-textarea
+							v-model="editedItem.slogan"
+							clearable
+							dense
+							prepend-inner-icon="mdi-text"
+							label="Slogan"
+							outlined
+							class="ma-0-0"
+							:error-messages="formErrors.slogan"
 						/>
 					</v-col>
 					<v-col
@@ -257,11 +251,9 @@
 						<v-autocomplete
 							id="country"
 							v-model="editedItem.country"
-							:loading="countriesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
-							cache-items
 							item-text="name"
 							item-value="id"
 							:items="countries"
@@ -270,6 +262,7 @@
 							label="Country"
 							clearable
 							prepend-inner-icon="mdi-web"
+							:error-messages="formErrors.country"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -287,11 +280,9 @@
 						<v-autocomplete
 							id="province"
 							v-model="editedItem.province"
-							:loading="provincesLoading"
 							class="ma-0"
 							allow-overflow
 							dense
-							cache-items
 							outlined
 							attach=""
 							label="Province"
@@ -300,6 +291,7 @@
 							:items="provinces"
 							clearable
 							prepend-inner-icon="mdi-office-building-marker-outline"
+							:error-messages="formErrors.province"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -317,7 +309,6 @@
 						<v-autocomplete
 							id="districts"
 							v-model="editedItem.district"
-							:loading="districtsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -329,6 +320,7 @@
 							label="District"
 							clearable
 							prepend-inner-icon="mdi-map-marker-multiple-outline"
+							:error-messages="formErrors.district"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -346,7 +338,6 @@
 						<v-autocomplete
 							id="municipality"
 							v-model="editedItem.municipality"
-							:loading="municipalitiesLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -359,6 +350,7 @@
 							clearable
 							prepend-inner-icon="mdi-google-maps"
 							:disabled="editedItem.vdc > 0"
+							:error-messages="formErrors.municipality"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -376,7 +368,6 @@
 						<v-autocomplete
 							id="municipality-ward"
 							v-model="editedItem.municipality_ward"
-							:loading="municipalityWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -389,6 +380,7 @@
 							:items="municipality_wards"
 							:disabled="editedItem.vdc > 0"
 							prepend-inner-icon="mdi-numeric"
+							:error-messages="formErrors.municipality_ward"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -406,7 +398,6 @@
 						<v-autocomplete
 							id="vdc"
 							v-model="editedItem.vdc"
-							:loading="vdcsLoading"
 							item-text="name"
 							item-value="id"
 							allow-overflow
@@ -419,6 +410,7 @@
 							clearable
 							prepend-inner-icon="mdi-home-map-marker"
 							:disabled="editedItem.municipality > 0"
+							:error-messages="formErrors.vdc"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -436,7 +428,6 @@
 						<v-autocomplete
 							id="vdc-ward"
 							v-model="editedItem.vdc_ward"
-							:loading="vdcWardsLoading"
 							item-text="name"
 							item-value="id"
 							class="ma-0"
@@ -449,6 +440,7 @@
 							:items="vdc_wards"
 							:disabled="editedItem.municipality > 0"
 							prepend-inner-icon="mdi-numeric"
+							:error-messages="formErrors.vdc_ward"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -496,18 +488,10 @@ export default {
 	name: "BranchFormDialog",
 	data: () => ({
 		dialog: false,
-		countriesLoading: false,
-		provincesLoading: false,
-		districtsLoading: false,
-		municipalitiesLoading: false,
-		municipalityWardsLoading: false,
-		branchesLoading: false,
-		vdcsLoading: false,
-		vdcWardsLoading: false,
 		editedIndex: -1,
 		editedItem: {
 			id: "",
-			image: "",
+			cover_image: "",
 			name: "",
 			country: "",
 			province: "",
@@ -516,7 +500,7 @@ export default {
 			municipality_ward: null,
 			vdc: null,
 			vdc_ward: null,
-			contacts: null,
+			contact: null,
 			is_main: false,
 			is_approved: false,
 			imageForUpload: []
@@ -533,6 +517,7 @@ export default {
 			municipality_wards: "location/allMunicipalityWards",
 			vdcs: "location/allVdcs",
 			vdc_wards: "location/allVdcWards",
+			formErrors: "branch/formErrorMessagesList"
 		}),
 
 		formTitle() {
@@ -545,62 +530,26 @@ export default {
 	async created() {
 		this.$bus.on("open-branch-form-dialog-add-item", this.openDialog)
 		this.$bus.on("open-branch-form-dialog-edit-item", this.openEditDialog)
-		await this.initCountries()
-		await this.initProvinces()
-		await this.initDistricts()
-		await this.initMunicipalities()
-		await this.initMunicipalityWards()
-		await this.initVdcs()
-		await this.initVdcWards()
 	},
 	beforeUnmount() {
 		this.$bus.off("open-branch-form-dialog-add-item")
 		this.$bus.off("open-branch-form-dialog-edit-item")
 	},
 	methods: {
-		async initCountries() {
-			this.countriesLoading = true
-			await this.$store.dispatch("location/getAllCountries")
-			this.countriesLoading = false
+		clearFormErrors() {
+			this.$store.dispatch("branch/clearBranchFormErrors")
 		},
-		async initProvinces() {
-			this.provincesLoading = true
-			await this.$store.dispatch("location/getAllProvinces")
-			this.provincesLoading = false
-		},
-		async initDistricts() {
-			this.districtsLoading = true
-			await this.$store.dispatch("location/getAllDistricts")
-			this.districtsLoading = false
-		},
-		async initMunicipalities() {
-			this.municipalitiesLoading = true
-			await this.$store.dispatch("location/getAllMunicipalities")
-			this.municipalitiesLoading = false
-		},
-		async initMunicipalityWards() {
-			this.municipalityWardsLoading = true
-			await this.$store.dispatch("location/getAllMunicipalityWards")
-			this.municipalityWardsLoading = false
-		},
-		async initVdcs() {
-			this.vdcsLoading = true
-			await this.$store.dispatch("location/getAllVdcs")
-			this.vdcsLoading = false
-		},
-		async initVdcWards() {
-			this.vdcWardsLoading = true
-			await this.$store.dispatch("location/getAllVdcWards")
-			this.vdcWardsLoading = false
-		},
-
 		openDialog() {
+			this.clearFormErrors()
 			this.dialog = true
 		},
 
 		openEditDialog(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
+			if(this.editedItem.contact) {
+				this.editedItem.contact = this.editedItem.contact.substring(4)
+			}
 			this.openDialog()
 		},
 
@@ -612,24 +561,42 @@ export default {
 			})
 		},
 
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+
 		async save() {
 			if (this.editedIndex > -1) {
-				const body = cookEditData("branch", this.editedItem, "image")
+				const body = cookEditData("branch", this.editedItem, "cover_image")
 				const branchData = getFormData(body)
-				await this.$store.dispatch(
+				const updated = await this.$store.dispatch(
 					"branch/update",
 					{
 						id: this.editedItem.id,
 						body: branchData
 					}
 				)
+				if (updated) {
+					this.close()
+					this.$bus.emit("reload-branches")
+					await this.openSnack("Branch updated successfully.", "success")
+				} else {
+					await this.openSnack("Branch update failed. Try again.")
+				}
 			} else {
-				const body = cookCreateData("image", this.editedItem)
+				const body = cookCreateData("cover_image", this.editedItem)
 				const branchData = getFormData(body)
-				await this.$store.dispatch("branch/create", branchData)
+				const created = await this.$store.dispatch("branch/create", {body: branchData})
+				if (created) {
+					this.close()
+					this.$bus.emit("reload-branches")
+					await this.openSnack("Branch added successfully.", "success")
+				} else {
+					await this.openSnack("Branch create failed. Try again.")
+				}
 			}
-			this.$bus.emit("reload-branches")
-			this.close()
 		},
 
 		routeToBranchDetailPage(itemId) {
