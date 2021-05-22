@@ -1,7 +1,8 @@
 <template>
 	<v-card
 		id="explore-card"
-		class="overflow-hidden"
+		class="overflow-hidden rounded-0"
+		flat
 	>
 		<v-app-bar
 			dense
@@ -24,13 +25,8 @@
 			</v-toolbar-title>
 			<v-spacer />
 			<v-btn icon>
-				<v-icon color="green lighten-4">
-					mdi-content-save-edit
-				</v-icon>
-			</v-btn>
-			<v-btn icon>
-				<v-icon color="red lighten-4">
-					mdi-delete
+				<v-icon color="blue lighten-4">
+					mdi-bird
 				</v-icon>
 			</v-btn>
 		</v-app-bar>
