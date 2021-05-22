@@ -209,7 +209,7 @@
 									>
 										mdi-account-circle
 									</v-icon>
-									User Information
+									Follower Information
 								</p>
 								<v-divider class="pb-4" />
 							</v-col>
@@ -239,7 +239,7 @@
 										color="blue lighten-5"
 										class="blue--text"
 										block
-										:disabled="editedIndex>-1"
+										:disabled="editedIndex > -1"
 										@click="saveMember"
 									>
 										Save
@@ -280,7 +280,7 @@
 											:key="item.id"
 											cols="12"
 											class="px-0"
-											:class="(index ===0) ? 'ma-0 pt-0' : ''"
+											:class="(index === 0) ? 'ma-0 pt-0' : ''"
 										>
 											<v-col cols="12"
 												class="ma-0 pa-0"
@@ -294,7 +294,7 @@
 													<h4 class="pl-2">
 														{{ item.branch.name }}
 													</h4>
-													<div class="date-of-mem px-1">
+													<div class="date-of-membership px-1">
 														<v-icon small>
 															mdi-calendar
 														</v-icon> {{ item.date_of_membership }}
@@ -604,7 +604,6 @@ export default {
 			approved_at: null
 		},
 		defaultItem: {
-			id: null,
 			user: {
 				username: null,
 				last_login: null,
@@ -624,21 +623,11 @@ export default {
 			branch: null,
 			date_of_membership: null
 		},
-		memberBranch: [{
-			branch: null,
-			date_of_membership: null
-		}],
 		editedItemBranchMemberRole: {
 			role_name: [],
 			from_date: [],
 			to_date: []
 		},
-		memberRole: [{
-			role_name: null,
-			from_date: null,
-			to_date: null,
-			branch: null
-		}],
 		rules: {
 			required: value => !!value || "This field is required.",
 		}
@@ -862,7 +851,7 @@ export default {
 			width: 100px !important
 			margin-top: -50px !important
 			border: 2px solid white !important
-.date-of-mem
+.date-of-membership
 	font-size: .7rem
 .assigned-branches
 	background-color: #f8f3c2
