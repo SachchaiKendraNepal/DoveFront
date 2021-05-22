@@ -9,12 +9,17 @@
     "list": "member",
     "detail": "member/%s",
     "role": "member/%s/role",
-    "roleDetail": "member-role/%s",
+    "roleDetail": "member-role/%s/",
     "branch": "member/%s/branch",
-    "branchDetail": "member-branch/%s",
+    "branchViewSet": "member-branch/",
+    "branchDetail": "member-branch/%s/",
     "toggleApproval": "member/%s/toggle-approval"
   },
-  "branch": "/branch/",
+  "branch": {
+    "list": "/branch/",
+    "detail": "/branch/%s/",
+    "toggleApproval": "branch/%s/toggle-approval"
+  },
   "event": "/event/",
   "article": {
     "set": "/article/",
