@@ -80,18 +80,22 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_main="{ item }">
-			<v-simple-checkbox
+			<v-switch
 				v-model="item.is_main"
 				color="primary"
-				:readonly="true"
+				hide-details="auto"
+				class="mt-0"
+				disabled
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_approved="{ item }">
-			<v-simple-checkbox
+			<v-switch
 				v-model="item.is_approved"
 				color="success"
-				:readonly="true"
+				hide-details="auto"
+				class="mt-0"
+				disabled
 			/>
 		</template>
 		<!--		 eslint-disable-next-line vue/valid-v-slot-->
@@ -114,6 +118,15 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.actions="{ item }">
+			<v-icon
+				v-ripple
+				class="mr-2"
+				color="success"
+				size="22"
+				@click="toggleBranchApproval(item)"
+			>
+				mdi-check
+			</v-icon>
 			<v-icon
 				v-ripple
 				class="mr-2"
@@ -173,9 +186,9 @@ export default {
 		})
 	},
 
-	created() {
+	async created() {
 		this.$bus.on("reload-branches", this.initialize)
-		this.initialize()
+		await this.initialize()
 	},
 
 	beforeUnmount() {
@@ -183,9 +196,21 @@ export default {
 	},
 
 	methods: {
-		initialize() {
+		async initOnlyBranches() {
 			this.isLoading = true
-			this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("branch/getAll")
+			this.isLoading = false
+		},
+		async initialize() {
+			this.isLoading = true
+			await this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("location/getAllCountries")
+			await this.$store.dispatch("location/getAllProvinces")
+			await this.$store.dispatch("location/getAllDistricts")
+			await this.$store.dispatch("location/getAllMunicipalities")
+			await this.$store.dispatch("location/getAllMunicipalityWards")
+			await this.$store.dispatch("location/getAllVdcs")
+			await this.$store.dispatch("location/getAllVdcWards")
 			this.isLoading = false
 		},
 
@@ -201,16 +226,33 @@ export default {
 		},
 
 		async deleteItem(item) {
-			const index = this.branches.indexOf(item)
 			const reaction = confirm(`Are you sure you want to delete branch "${item.name}"?`);
 			if (reaction === true) {
-				await this.$store.dispatch(
+				const isDeleted = await this.$store.dispatch(
 					"branch/delete",
 					{
 						id: item.id,
 					})
-				this.branches.splice(index, 1)
+				if (isDeleted) {
+					await this.openSnack("Branch removed successfully.", "success")
+					await this.initOnlyBranches()
+				} else await this.openSnack("Branch removed failed. Try again.")
 			}
+		},
+
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+
+		async toggleBranchApproval(item) {
+			const response = await this.$store.dispatch("branch/toggleApproval", { id: item.id })
+			if (response) {
+				await this.openSnack("Branch approval toggled.", "success")
+				await this.initOnlyBranches()
+			}
+			else await this.openSnack("Branch approval toggle failed. Try again.")
 		},
 
 		routeToBranchDetailPage(itemId) {
@@ -224,8 +266,8 @@ export default {
 .branch-name
 	margin: 0
 	padding: 0
-	font-size: 18px
-	font-weight: 300
+	font-size: .9rem
+	font-weight: 400
 
 .cursor
 	cursor: pointer

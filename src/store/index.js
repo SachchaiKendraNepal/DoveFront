@@ -21,14 +21,14 @@ export default new Vuex.Store({
 		user,
 		profile,
 		auth,
+		member,
 		event,
 		location,
 		branch,
 		article,
 		multimedia,
 		snack,
-		post,
-		member,
+		post
 	},
 	strict: debug
 })

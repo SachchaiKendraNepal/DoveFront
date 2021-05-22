@@ -6,6 +6,8 @@ const memberUrls = urls.member
 
 export const SET_MEMBERS = "SET_MEMBERS"
 export const SET_MEMBER = "SET_MEMBER"
+export const SET_MEMBER_BRANCHES = "SET_MEMBER_BRANCHES"
+export const SET_MEMBER_ROLES = "SET_MEMBER_ROLES"
 export const SET_MEMBER_FORM_ERRORS = "SET_MEMBER_FORM_ERRORS"
 export const SET_MEMBER_ROLE_FORM_ERRORS = "SET_MEMBER_ROLE_FORM_ERRORS"
 export const SET_MEMBER_BRANCH_FORM_ERRORS = "SET_MEMBER_BRANCH_FORM_ERRORS"
@@ -35,6 +37,9 @@ const state = {
 	role: {},
 	branch: {},
 
+	branches: [],
+	roles: [],
+
 	memberFormErrors: { ...defaultMemberFormErrors },
 	memberRoleFormErrors: { ...defaultMemberRoleFormErrors },
 	memberBranchFormErrors: { ...defaultMemberBranchFormErrors }
@@ -46,6 +51,12 @@ const mutations = {
 	},
 	[SET_MEMBER](state, value) {
 		state.member = value
+	},
+	[SET_MEMBER_BRANCHES](state, value) {
+		state.branches = value
+	},
+	[SET_MEMBER_ROLES](state, value) {
+		state.roles = value
 	},
 	[SET_MEMBER_FORM_ERRORS](state, value) {
 		state.memberFormErrors = value
@@ -61,6 +72,8 @@ const mutations = {
 const getters = {
 	list: (state) => state.members,
 	detail: state => state.member,
+	branchesList: state => state.branches,
+	rolesList: state => state.roles,
 	memberFormErrors: state => state.memberFormErrors,
 	memberRoleFormErrors: state => state.memberRoleFormErrors,
 	memberBranchFormErrors: state => state.memberBranchFormErrors
@@ -162,6 +175,16 @@ const actions = {
 			await $api.delete(util.format(memberUrls.roleDetail, id))
 			return true
 		} catch {
+			return false
+		}
+	},
+
+	async fetchMemberBranchesForBranch({commit}, {branch: branch}) {
+		try {
+			const response = await $api.get(memberUrls.branchViewSet + `?branch=${branch}`)
+			commit("SET_MEMBER_BRANCHES", response)
+			return true
+		} catch (e) {
 			return false
 		}
 	},
