@@ -289,20 +289,13 @@
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-combobox
-							v-model="editedItem.contacts"
+						<v-text-field
+							v-model="editedItem.contact"
 							class="ma-0 pa-0"
-							:items="[]"
-							hide-selected
-							hint="Add contact number and hit Enter to add a new one."
-							label="Contacts"
-							multiple
-							small-chips
-							deletable-chips
+							label="Contact"
 							type="number"
 							outlined
 							dense
-							attach=""
 							clearable
 							prepend-inner-icon="mdi-phone-classic"
 						/>
@@ -726,7 +719,7 @@ export default {
 			vdc_ward: null,
 			venue: "",
 			organizer: "",
-			contacts: [],
+			contact: [],
 			start_date: null,
 			duration: null,
 			time_of_day: "",
@@ -747,7 +740,7 @@ export default {
 			municipality_wards: "location/allMunicipalityWards",
 			vdcs: "location/allVdcs",
 			vdc_wards: "location/allVdcWards",
-			branches: "branch/allBranches"
+			branches: "branch/list"
 		}),
 		formTitle() {
 			return this.editedIndex === -1
@@ -785,7 +778,7 @@ export default {
 	methods: {
 		async initBranches() {
 			this.branchesLoading = true
-			await this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("branch/fetchAll")
 			this.branchesLoading = false
 		},
 		async initCountries() {
@@ -811,7 +804,7 @@ export default {
 		async initMunicipalityWards() {
 			this.municipalityWardsLoading = true
 			await this.$store.dispatch("location/getAllMunicipalityWards")
-			this.municipalitiesLoading = false
+			this.municipalityWardsLoading = false
 		},
 		async initVdcs() {
 			this.vdcsLoading = true
