@@ -14,7 +14,7 @@
 			<v-toolbar
 				fixed
 				dark
-				height="auto"
+				height="60"
 			>
 				<v-avatar
 					:size="
@@ -37,24 +37,16 @@
 				</v-avatar>
 				<v-toolbar-title class="toolbar-title">
 					{{ formTitle }}
-				</v-toolbar-title>>
+				</v-toolbar-title>
 				<v-spacer />
 				<v-avatar
 					class="cursor"
 					color="grey darken-3"
-					:size="
-						$vuetify.breakpoint.smAndUp
-							? 30
-							: 25
-					"
+					:size="30"
 					@click="close"
 				>
 					<v-icon
-						:size="
-							$vuetify.breakpoint.smAndUp
-								? 22
-								: 16
-						"
+						:size="16"
 					>
 						mdi-close
 					</v-icon>
@@ -67,7 +59,7 @@
 			>
 				<v-img
 					v-if="editedIndex !== -1"
-					:src="editedItem.banner"
+					:src="getBannerImage"
 					height="300"
 					style="border-radius: 0 0 10px 10px"
 				/>
@@ -85,6 +77,7 @@
 								<v-tooltip bottom>
 									<template #activator="{ on, attrs }">
 										<v-icon
+											v-if="editedItem.is_approved"
 											v-ripple
 											v-bind="attrs"
 											color="green darken-1"
@@ -112,8 +105,10 @@
 							<v-divider class="mb-4" />
 							<div class="mb-4">
 								<v-chip
+									v-if="editedItem.is_main"
 									label
-									color="blue lighten-5"
+									dark
+									color="blue lighten-1"
 									class="mr-2 mb-1"
 								>
 									<v-icon left>
@@ -125,6 +120,43 @@
 									</v-icon>
 								</v-chip>
 								<v-chip
+									v-if="editedItem.type === 'General Meeting'"
+									label
+									dark
+									class="mb-1"
+									color="green lighten-1"
+								>
+									<v-icon
+										left
+										color="white"
+									>
+										mdi-clipboard-account
+									</v-icon>
+									<b v-show="$vuetify.breakpoint.smAndUp">General Meeting</b>
+									<v-icon right>
+										mdi-city
+									</v-icon>
+								</v-chip>
+								<v-chip
+									v-if="editedItem.type === 'Board Meeting'"
+									label
+									dark
+									class="mb-1"
+									color="indigo lighten-1"
+								>
+									<v-icon
+										left
+										color="white"
+									>
+										mdi-clock-time-eleven
+									</v-icon>
+									<b v-show="$vuetify.breakpoint.smAndUp">Board Meeting</b>
+									<v-icon right>
+										mdi-city
+									</v-icon>
+								</v-chip>
+								<v-chip
+									v-if="editedItem.type === 'Satsang'"
 									label
 									dark
 									class="mb-1"
@@ -135,7 +167,7 @@
 									>
 										mdi-dove
 									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Sacchai Event</b>
+									<b v-show="$vuetify.breakpoint.smAndUp">Satsang</b>
 									<v-icon right>
 										mdi-city
 									</v-icon>
@@ -146,7 +178,7 @@
 									mdi-shape-plus
 								</v-icon>
 								<b>Date created:</b>
-								<span class="px-1">{{ editedItem.created_at }}</span>
+								<span class="px-1">{{ $moment(editedItem.created_at).fromNow() }}</span>
 							</p>
 							<p class="mb-0 mb-4">
 								<v-icon class="small-detail-icon">
@@ -160,7 +192,7 @@
 									mdi-account-network
 								</v-icon>
 								<b>Total Members:</b>
-								<span class="px-1">558</span>
+								<span class="px-1">Not tracked</span>
 							</p>
 							<p class="mb-0">
 								<v-icon class="small-detail-icon">
@@ -205,6 +237,7 @@
 							label="Title"
 							clearable
 							prepend-inner-icon="mdi-form-textbox"
+							:error-messages="formErrors.title"
 						/>
 					</v-col>
 					<v-col
@@ -222,6 +255,7 @@
 							clearable
 							counter="512"
 							prepend-inner-icon="mdi-script-text"
+							:error-messages="formErrors.description"
 						/>
 					</v-col>
 					<v-col
@@ -242,6 +276,7 @@
 							:items="branches"
 							clearable
 							prepend-inner-icon="mdi-city"
+							:error-messages="formErrors.organizer"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -283,6 +318,7 @@
 							:items="eventTypeOptions"
 							clearable
 							prepend-inner-icon="mdi-call-merge"
+							:error-messages="formErrors.type"
 						/>
 					</v-col>
 					<v-col
@@ -298,6 +334,7 @@
 							dense
 							clearable
 							prepend-inner-icon="mdi-phone-classic"
+							:error-messages="formErrors.contact"
 						/>
 					</v-col>
 					<v-col
@@ -331,6 +368,7 @@
 							multiple
 							prepend-icon=""
 							prepend-inner-icon="mdi-camera"
+							:error-messages="formErrors.banner"
 						/>
 					</v-col>
 					<v-col
@@ -370,6 +408,7 @@
 									outlined
 									v-bind="attrs"
 									label="Start Date"
+									:error-messages="formErrors.start_date"
 									v-on="on"
 									@click:clear="editedItem.start_date = null"
 								/>
@@ -393,6 +432,7 @@
 							label="Duration"
 							hint="This is the number of days the event will go on."
 							prepend-inner-icon="mdi-av-timer"
+							:error-messages="formErrors.duration"
 						/>
 					</v-col>
 					<v-col
@@ -411,6 +451,7 @@
 							:items="timeOfDayOptions"
 							clearable
 							prepend-inner-icon="mdi-white-balance-sunny"
+							:error-messages="formErrors.time_of_day"
 						/>
 					</v-col>
 					<v-col
@@ -442,6 +483,7 @@
 							clearable
 							prepend-inner-icon="mdi-home-roof"
 							hint="Where is the event going to be organized?"
+							:error-messages="formErrors.venue"
 						/>
 					</v-col>
 					<v-col
@@ -462,6 +504,7 @@
 							label="Country"
 							clearable
 							prepend-inner-icon="mdi-web"
+							:error-messages="formErrors.country"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -490,6 +533,7 @@
 							:items="provinces"
 							clearable
 							prepend-inner-icon="mdi-office-building-marker-outline"
+							:error-messages="formErrors.province"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -518,6 +562,7 @@
 							label="District"
 							clearable
 							prepend-inner-icon="mdi-map-marker-multiple-outline"
+							:error-messages="formErrors.district"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -547,6 +592,7 @@
 							clearable
 							prepend-inner-icon="mdi-google-maps"
 							:disabled="editedItem.vdc > 0"
+							:error-messages="formErrors.municipality"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -576,6 +622,7 @@
 							:items="municipality_wards"
 							:disabled="editedItem.vdc > 0"
 							prepend-inner-icon="mdi-numeric"
+							:error-messages="formErrors.municipality_ward"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -605,6 +652,7 @@
 							clearable
 							prepend-inner-icon="mdi-home-map-marker"
 							:disabled="editedItem.municipality > 0"
+							:error-messages="formErrors.vdc"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -634,6 +682,7 @@
 							:items="vdc_wards"
 							:disabled="editedItem.municipality > 0"
 							prepend-inner-icon="mdi-numeric"
+							:error-messages="formErrors.vdc"
 						>
 							<template #no-data>
 								<v-list-item>
@@ -692,29 +741,66 @@ export default {
 		],
 		editedIndex: -1,
 		editedItem: {
-			id: "",
-			title: "",
-			description: "",
-			country: "",
-			province: "",
-			district: "",
+			id: null,
+			title: null,
+			description: null,
+			venue: null,
+			start_date: null,
+			duration: null,
+			time_of_day: null,
+			type: null,
+			is_approved: null,
+			is_main: null,
+			banner: null,
+			country: null,
+			province: null,
+			district: null,
 			municipality: null,
 			municipality_ward: null,
 			vdc: null,
 			vdc_ward: null,
-			venue: "",
-			organizer: "",
-			contact: [],
-			start_date: null,
-			duration: null,
-			time_of_day: "",
-			banner: "",
-			type: "",
-			is_main: false,
+			contact: null,
+			organizer: null,
+			created_at: null,
+			updated_at: null,
+			approved_at: null,
+			created_by: null,
+			updated_by: null,
+			approved_by: null,
+			images: null,
+			video_urls: null,
 			imageForUpload: [],
 		},
-		defaultItem: {},
-		rules: [(value) => !value || value.size < 2000000 || "Image size should be less than 2 MB!"],
+		defaultItem: {
+			title: null,
+			description: null,
+			venue: null,
+			start_date: null,
+			duration: null,
+			time_of_day: null,
+			type: null,
+			is_approved: null,
+			is_main: null,
+			banner: null,
+			country: null,
+			province: null,
+			district: null,
+			municipality: null,
+			municipality_ward: null,
+			vdc: null,
+			vdc_ward: null,
+			contact: null,
+			organizer: null,
+			created_at: null,
+			updated_at: null,
+			approved_at: null,
+			created_by: null,
+			updated_by: null,
+			approved_by: null,
+			images: null,
+			video_urls: null,
+			imageForUpload: [],
+		},
 	}),
 	computed: {
 		...mapGetters({
@@ -725,10 +811,11 @@ export default {
 			municipality_wards: "location/allMunicipalityWards",
 			vdcs: "location/allVdcs",
 			vdc_wards: "location/allVdcWards",
-			branches: "branch/list"
+			branches: "branch/list",
+			formErrors: "event/formErrorsList"
 		}),
 		formTitle() {
-			return this.editedIndex === -1
+			return (this.editedIndex === -1)
 				? "New Event"
 				: "Edit Event"
 		},
@@ -741,11 +828,15 @@ export default {
 			return this.editedItem.start_date
 				? moment(this.editedItem.start_date).format("dddd, MMMM Do YYYY")
 				: ""
+		},
+		getBannerImage() {
+			if (this.editedItem.banner) return this.editedItem.banner
+			else return require("@/assets/defaultEventImage.jpeg")
 		}
 	},
 
 	async created() {
-		this.$bus.on("open-event-form-dialog-add-item", this.openDialog)
+		this.$bus.on("open-event-form-dialog-add-item", this.openCreateDialog)
 		this.$bus.on("open-event-form-dialog-edit-item", this.edit)
 	},
 	beforeUnmount() {
@@ -756,10 +847,18 @@ export default {
 		openDialog() {
 			this.dialog = true
 		},
+		async openCreateDialog() {
+			await this.$store.dispatch("event/clearFormErrors")
+			this.editedItem = this.defaultItem
+			this.openDialog()
+		},
 
-		edit(args) {
+		async edit(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
+			if (this.editedItem.contact) {
+				this.editedItem.contact = this.editedItem.contact.substring(4)
+			}
 			this.openDialog()
 		},
 
@@ -771,28 +870,53 @@ export default {
 			})
 		},
 
+		async openSnack(text, color="error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+
 		async save() {
-			const body = {}
 			// Lets update an event
 			if (this.editedIndex > -1) {
 				const body = cookEditData("event", this.editedItem, "banner")
 				const eventData = getFormData(body)
-				await this.$store.dispatch(
+				const updated = await this.$store.dispatch(
 					"event/update",
 					{
 						id: this.editedItem.id,
 						body: eventData
 					}
 				)
+				if (updated) {
+					this.close()
+					this.$bus.emit("reload-events")
+					await this.openSnack("Event updated.", "success")
+				} else {
+					if (this.formErrors.non_field_errors) {
+						await this.openSnack(this.formErrors.non_field_errors[0])
+					} else {
+						await this.openSnack("Event update failed. Try again")
+					}
+				}
 			}
 			// Lets create an event
 			else {
 				const body = cookCreateData("banner", this.editedItem)
 				const eventData = getFormData(body)
-				await this.$store.dispatch("event/create", eventData)
+				const created = await this.$store.dispatch("event/create", {body: eventData})
+				if (created) {
+					this.close()
+					this.$bus.emit("reload-events")
+					await this.openSnack("Event added.", "success")
+				} else {
+					if (this.formErrors.non_field_errors) {
+						await this.openSnack(this.formErrors.non_field_errors[0])
+					} else {
+						await this.openSnack("Event create failed. Try again")
+					}
+				}
 			}
-			this.$bus.emit("reload-events")
-			this.close()
 		},
 		routeToEventDetailPage(itemId) {
 			router.push({name: "SACHCHAI NEPAL EVENT", params: { id: itemId }})
