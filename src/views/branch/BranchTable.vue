@@ -182,7 +182,7 @@ export default {
 
 	computed: {
 		...mapGetters({
-			branches: "branch/allBranches"
+			branches: "branch/list"
 		})
 	},
 
@@ -198,12 +198,12 @@ export default {
 	methods: {
 		async initOnlyBranches() {
 			this.isLoading = true
-			await this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("branch/fetchAll")
 			this.isLoading = false
 		},
 		async initialize() {
 			this.isLoading = true
-			await this.$store.dispatch("branch/getAll")
+			await this.$store.dispatch("branch/fetchAll")
 			await this.$store.dispatch("location/getAllCountries")
 			await this.$store.dispatch("location/getAllProvinces")
 			await this.$store.dispatch("location/getAllDistricts")
