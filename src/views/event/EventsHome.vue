@@ -253,7 +253,7 @@ export default {
 			}
 		},
 		initEvents() {
-			this.$store.dispatch("event/getAll")
+			this.$store.dispatch("event/fetchAll")
 		}
 	}
 }
