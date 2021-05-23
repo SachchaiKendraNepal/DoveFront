@@ -95,7 +95,7 @@
 <script>
 export default {
 	data: () => ({
-		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
+		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
 		og_items: [
 			{ text: "Showcase", icon: "mdi-view-dashboard", to: "/"},
 			{ text: "Home", icon: "mdi-home", to: "/home/feeds" }

@@ -61,7 +61,7 @@
 						size="60"
 					>
 						<v-img
-							:src="currentUser.profile['profile_images'][0].image"
+							:src="getCurrentProfileImage"
 						/>
 					</v-avatar>
 				</v-col>
@@ -468,12 +468,20 @@ export default {
 		imageURLs: [],
 		audioURLs: [],
 		videoURLs: [],
-		video_URLs: []
+		video_URLs: [],
+		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
 	}),
 	computed: {
 		...mapGetters({
 			postCreationFormErrors: "multimedia/multimediaPostCreationFormErrors"
 		}),
+		getCurrentProfileImage() {
+			const currentUser = this.$helper.getCurrentUser()
+			if (currentUser && currentUser.profile["profile_images"].length > 0) {
+				return currentUser.profile["profile_images"][0].image
+			}
+			else return this.defaultProfileImage
+		}
 	},
 	async created() {
 		this.currentUser = this.$helper.getCurrentUser()
