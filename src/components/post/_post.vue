@@ -4,7 +4,8 @@
 		color="white"
 	>
 		<v-list-item>
-			<v-list-item-avatar size="54"
+			<v-list-item-avatar v-if="post.uploaded_by.profile['profile_images'].length > 0"
+				size="54"
 				class="author-avatar"
 			>
 				<v-img

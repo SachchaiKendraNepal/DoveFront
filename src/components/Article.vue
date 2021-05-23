@@ -14,7 +14,7 @@
 						class="round-touch"
 					>
 						<v-carousel-item
-							v-for="item in images.data"
+							v-for="item in post['article_images']"
 							:key="item.id"
 							:src="item.image"
 							transition="fade-transition"
@@ -39,17 +39,6 @@ export default {
 			type: Object
 		}
 	},
-	data: () => ({
-		images: {}
-	}),
-	async created() {
-		await this.init()
-	},
-	methods: {
-		async init() {
-			this.images = await this.$store.dispatch("article/fetchImagesForArticle", {id: this.post.id})
-		}
-	}
 };
 </script>
 

@@ -11,13 +11,13 @@
 						class="round-touch"
 					>
 						<v-carousel-item
-							v-for="item in images.data"
+							v-for="item in post['multimedia_images']"
 							:key="item.id + 5 * 7"
 							:src="item.image"
 							transition="fade-transition"
 							reverse-transition="fade-transition"
 						/>
-						<v-carousel-item v-for="item in videos.data"
+						<v-carousel-item v-for="item in post['multimedia_videos']"
 							:key="item.id + 7 * 11"
 							transition="fade-transition"
 							reverse-transition="fade-transition"
@@ -39,7 +39,7 @@
 								/>
 							</template>
 						</v-carousel-item>
-						<v-carousel-item v-for="item in video_urls.data"
+						<v-carousel-item v-for="item in post['multimedia_video_urls']"
 							:key="item.id + 11 * 13"
 							transition="fade-transition"
 							reverse-transition="fade-transition"
@@ -72,24 +72,7 @@ export default {
 			required: true
 		}
 	},
-	data() {
-		return {
-			images: {},
-			videos: {},
-			sounds: {},
-			video_urls: {}
-		}
-	},
-	async created() {
-		await this.init()
-	},
 	methods: {
-		async init() {
-			this.images = await this.$store.dispatch("multimedia/fetchImagesFor", {id: this.post.id})
-			this.videos = await this.$store.dispatch("multimedia/fetchVideosFor", {id: this.post.id})
-			this.sounds = await this.$store.dispatch("multimedia/fetchSoundsFor", {id: this.post.id})
-			this.video_urls = await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: this.post.id})
-		},
 		getId(url) {
 			return this.$helper.getVideoIdFromYoutubeURL(url)
 		},
