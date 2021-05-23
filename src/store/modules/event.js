@@ -53,6 +53,7 @@ const mutations = {
 
 const getters = {
 	list: state => state.events.results,
+	detail: state => state.event,
 	formErrorsList: state => state.formErrors
 }
 
@@ -60,9 +61,14 @@ const actions = {
 	clearFormErrors({commit}) {
 		commit("SET_EVENT_FORM_ERRORS", { ... defaultFormErrors})
 	},
-	async getAll({commit}) {
+	async fetchAll({commit}) {
 		const response = await $api.get(eventUrl.list)
 		commit("SET_EVENTS", response)
+	},
+
+	async fetchSingle({commit}, {id: id}) {
+		const response = await $api.get(util.format(eventUrl.detail, id))
+		commit("SET_EVENT", response)
 	},
 
 	async create({commit}, {body: body}) {
