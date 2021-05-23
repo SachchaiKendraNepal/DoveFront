@@ -1,5 +1,7 @@
 <template>
-	<div id="event-detail-container">
+	<div v-if="event"
+		id="event-detail-container"
+	>
 		<v-row id="event-top-row"
 			class="ma-0 pa-0"
 		>
@@ -43,6 +45,7 @@
 				class="pa-0"
 			>
 				<v-card
+					:loading="loading"
 					class="mx-auto"
 					max-width="1000"
 					flat
@@ -51,7 +54,7 @@
 					<v-card-title class="event-title">
 						{{ event.title }}
 					</v-card-title>
-					<v-card-subtitle>
+					<v-card-subtitle v-if="event.description">
 						{{ event.description.substr(0, 150) }} <span>...</span> <span><i>See more in <code>about</code> section.</i></span>
 					</v-card-subtitle>
 					<v-card-subtitle class="event-subtitle">
@@ -237,6 +240,8 @@
 	</div>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
 	name: "EventDetailView",
 	components: {
@@ -246,40 +251,8 @@ export default {
 		EventMultimediaTabContent: () => import("@/views/event/detail_tab/Multimedia")
 	},
 	data: () => ({
+		loading: true,
 		tab: null,
-		event: {
-			id: 16,
-			title: "Dashain - Tihar Event",
-			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-				"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
-				"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-				"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
-				"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
-				"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
-				"mollit anim id est laborum.",
-			country: "Nepal",
-			province: "Province No 2",
-			district: "BXABCY",
-			municipality: null,
-			municipality_ward: null,
-			vdc: "HariyoKharka",
-			vdc_ward: "AadhiBeri Gaaupalika",
-			is_main: false,
-			type: "SATSANG",
-			created_by: "bot25",
-			created_at: "Nov 2, 2020",
-			updated_by: "bot25",
-			updated_at: "Nov 2, 2020",
-			venue: "Deep Housing Auditorium",
-			organizer: "Hero Branch",
-			contacts: [9845689652, 6158965],
-			start_date: "Nov 5, 2020",
-			duration: 2,
-			timeOfDay: "10AM - 5PM",
-			banner:
-				"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
-			no_of_responses: 5
-		},
 		eventTabItems: [
 			{ title: "about", icon: "mdi-information-variant" },
 			{ title: "discussion", icon: "mdi-account-multiple" },
@@ -294,6 +267,9 @@ export default {
 		]
 	}),
 	computed: {
+		...mapGetters({
+			event: "event/detail"
+		}),
 		aboutEventInfo() {
 			return [
 				{index: 0, icon: "mdi-account-group", field: "Audiences", value: this.event.no_of_responses + " people responded"},
@@ -304,6 +280,16 @@ export default {
 			]
 		}
 	},
+	async created() {
+		await this.init()
+	},
+	methods: {
+		async init() {
+			this.loading=true
+			await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
+			this.loading=false
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

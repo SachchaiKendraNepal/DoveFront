@@ -223,7 +223,7 @@ export default {
 		},
 		async initialize() {
 			this.isLoading = true
-			await this.$store.dispatch("event/getAll")
+			await this.$store.dispatch("event/fetchAll")
 			await this.$store.dispatch("branch/fetchAll")
 			await this.$store.dispatch("location/getAllCountries")
 			await this.$store.dispatch("location/getAllProvinces")
@@ -237,7 +237,7 @@ export default {
 
 		async reloadEvents() {
 			this.isLoading = true
-			await this.$store.dispatch("event/getAll")
+			await this.$store.dispatch("event/fetchAll")
 			this.isLoading = false
 		},
 
