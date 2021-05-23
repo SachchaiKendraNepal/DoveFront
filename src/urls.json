@@ -27,7 +27,14 @@
     "imageList": "event-photo/",
     "imageDetail": "event-photo/%s/",
     "videoUrlList": "event-video-url/",
-    "videoUrlDetail": "event-video-url/%s/"
+    "videoUrlDetail": "event-video-url/%s/",
+    "videoList": "event-video/",
+    "videoDetail": "event-video/%s/",
+    "interestList": "event-interest/",
+    "interestDetail": "event-interest/%s/",
+    "commentList": "event-comment/",
+    "commentDetail": "event-comment/%s/",
+    "interestStatistics": "event/%s/interest-statistics"
   },
   "article": {
     "set": "/article/",
