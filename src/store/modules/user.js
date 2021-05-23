@@ -73,7 +73,8 @@ const actions = {
 	},
 	async create({ commit }, {body: body}) {
 		try {
-			return await $api.post(userUrls.list, body)
+			await $api.post(userUrls.list, body)
+			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
@@ -93,9 +94,10 @@ const actions = {
 			throw e
 		}
 	},
-	update({ commit }, {id: id, body: body}) {
+	async update({ commit }, {id: id, body: body}) {
 		try {
-			return $api.patch(util.format(userUrls.detail, id), body)
+			await $api.patch(util.format(userUrls.detail, id), body)
+			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)

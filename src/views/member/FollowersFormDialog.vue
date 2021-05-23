@@ -270,7 +270,7 @@
 							>
 								<v-text-field
 									id="phone"
-									v-model="editedItem.phone"
+									v-model="editedItem.profile.contact"
 									class="ma-0"
 									outlined
 									dense
@@ -447,6 +447,9 @@ export default {
 		openEditDialog(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
+			if (this.editedItem.profile.contact) {
+				this.editedItem.profile.contact = this.editedItem.profile.contact.substring(4)
+			}
 			this.openDialog()
 		},
 
@@ -462,13 +465,13 @@ export default {
 			const userData = {
 				first_name: this.editedItem.first_name,
 				last_name: this.editedItem.last_name,
-				contact: this.editedItem.contact,
 				email: this.editedItem.email,
 				username: this.editedItem.username,
 				is_staff: this.editedItem.is_staff,
 				password: "Cartoon-Duck-14-Coffee-Glvs"
 			}
 			const profileData = {
+				contact: this.editedItem.profile.contact,
 				current_city: this.editedItem.profile.current_city,
 			}
 			if (this.editedIndex > -1) {
@@ -478,11 +481,12 @@ export default {
 				)
 				if (editUser) {
 					await this.$store.dispatch("profile/update", {
-						id: editUser.profile.id,
+						id: this.editedItem.profile.id,
 						body: profileData
 					})
 				}
 				await this.openSnack("Follower updated successfully.", "success")
+				this.$bus.emit("reload-followers")
 				this.close()
 			} else {
 				const newUser = await this.$store.dispatch("user/create", {body: userData})

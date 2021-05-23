@@ -136,7 +136,11 @@ export default {
 		})
 	},
 	async created() {
+		this.$bus.on("reload-followers", this.initialize)
 		await this.initialize()
+	},
+	beforeUnmount() {
+		this.$bus.off("reload-events")
 	},
 	methods: {
 		async initialize() {
