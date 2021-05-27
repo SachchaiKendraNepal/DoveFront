@@ -11,6 +11,7 @@
 			<v-checkbox
 				v-model="item.view"
 				dense
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -18,6 +19,7 @@
 			<v-checkbox
 				v-model="item.create"
 				dense
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -25,6 +27,7 @@
 			<v-checkbox
 				v-model="item.edit"
 				dense
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -32,6 +35,7 @@
 			<v-checkbox
 				v-model="item.delete"
 				dense
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -39,6 +43,7 @@
 			<v-checkbox
 				v-model="item.approve"
 				dense
+				readonly
 			/>
 		</template>
 	</v-data-table>

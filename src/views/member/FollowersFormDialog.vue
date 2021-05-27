@@ -407,7 +407,7 @@ export default {
 	computed: {
 		...mapGetters({
 			userFieldErrors: "user/userCreateFormErrors",
-			profileFieldErrors: "profile/profileUpdateFormErrors"
+			profileFieldErrors: "profile/updateFormErrors"
 		}),
 		formTitle() {
 			return this.editedIndex === -1 ? "Add New Follower" : "Edit Follower"
@@ -427,8 +427,8 @@ export default {
 	async created() {
 		this.$bus.on("open-follower-form-dialog-add-item", this.openDialog)
 		this.$bus.on("open-follower-form-dialog-edit-item", this.openEditDialog)
-		await this.$store.dispatch("user/clearUserCreateFormErrors")
-		await this.$store.dispatch("profile/clearUserProfileFormErrors")
+		await this.$store.dispatch("user/clearCreateFormErrors")
+		await this.$store.dispatch("profile/clearFormErrors")
 	},
 	beforeUnmount() {
 		this.$bus.off("open-follower-form-dialog-add-item")

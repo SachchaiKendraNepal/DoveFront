@@ -30,11 +30,16 @@
     "videoUrlDetail": "event-video-url/%s/",
     "videoList": "event-video/",
     "videoDetail": "event-video/%s/",
+    "toggleInterestedStatus": "event/%s/toggle-interested",
+    "toggleGoingStatus": "event/%s/toggle-going",
     "interestList": "event-interest/",
     "interestDetail": "event-interest/%s/",
     "commentList": "event-comment/",
     "commentDetail": "event-comment/%s/",
-    "interestStatistics": "event/%s/interest-statistics"
+    "interestStatistics": "event/%s/interest-statistics",
+    "addImageList": "event/%s/image-list",
+    "addVideoList": "event/%s/video-list",
+    "addVideoUrlList": "event/%s/video-url-list"
   },
   "article": {
     "set": "/article/",

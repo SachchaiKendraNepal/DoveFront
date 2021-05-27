@@ -4,9 +4,10 @@ import urls from "@/urls.json"
 const userUrls = urls.user
 
 export const SET_USERS = "SET_USERS"
+export const SET_USER = "SET_USER"
 export const SET_ROLES = "SET_ROLES"
 export const SET_REGISTER_FORM_ERRORS = "SET_REGISTER_FORM_ERRORS"
-export const SET_USER_CREATE_FORM_ERRORS = "SET_USER_CREATE_FORM_ERRORS"
+export const SET_CREATE_FORM_ERRORS = "SET_CREATE_FORM_ERRORS"
 
 const defaultRegisterErrors = {
 	first_name: null,
@@ -24,7 +25,7 @@ const defaultRegisterErrors = {
 	district: null,
 }
 
-const defaultUserCreateFormErrors = {
+const defaultCreateFormErrors = {
 	first_name: null,
 	last_name: null,
 	username: null,
@@ -37,13 +38,16 @@ const state = {
 	registerFormErrors: {
 		... defaultRegisterErrors
 	},
-	userCreateFormErrors: {
-		...defaultUserCreateFormErrors
+	createFormErrors: {
+		...defaultCreateFormErrors
 	}
 }
 const mutations = {
 	[SET_USERS](state, value) {
 		state.users = value
+	},
+	[SET_USER](state, value) {
+		state.user = value
 	},
 	[SET_ROLES](state, value) {
 		state.roles = value
@@ -51,25 +55,25 @@ const mutations = {
 	[SET_REGISTER_FORM_ERRORS](statue, value) {
 		state.registerFormErrors = value
 	},
-	[SET_USER_CREATE_FORM_ERRORS](state, value) {
+	[SET_CREATE_FORM_ERRORS](state, value) {
 		state.userCreateFormErrors = value
 	}
 }
 
 const getters = {
-	usersList: (state) => state.users,
-	userDetail: (state) => state.user,
+	list: (state) => state.users,
+	detail: (state) => state.user,
 	roles: (state) => state.roles,
 	registerFormErrors: (state) => state.registerFormErrors,
-	userCreateFormErrors: (state) => state.userCreateFormErrors
+	userCreateFormErrors: (state) => state.createFormErrors
 }
 
 const actions = {
 	clearRegisterFormErrors({ commit }) {
 		commit("SET_REGISTER_FORM_ERRORS", { ...defaultRegisterErrors })
 	},
-	clearUserCreateFormErrors({commit}) {
-		commit("SET_USER_CREATE_FORM_ERRORS", { ...defaultUserCreateFormErrors })
+	clearCreateFormErrors({commit}) {
+		commit("SET_CREATE_FORM_ERRORS", { ...defaultCreateFormErrors })
 	},
 	async create({ commit }, {body: body}) {
 		try {
@@ -77,16 +81,16 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
+				commit("SET_CREATE_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
 	},
-	async get({ commit }, {id: id}) {
+	async fetchById({ commit }, {id: id}) {
 		const response = await $api.get(util.format(userUrls.detail, id))
 		commit("SET_USER", response)
 	},
-	async list({ commit }) {
+	async fetchAll({ commit }) {
 		try {
 			const response = await $api.get(userUrls.list)
 			commit(SET_USERS, response)
@@ -100,7 +104,7 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_USER_CREATE_FORM_ERRORS", e.response.data)
+				commit("SET_CREATE_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}

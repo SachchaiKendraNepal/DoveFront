@@ -142,8 +142,8 @@ export default {
 		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
 	props: {
-		targetId: {
-			type: Number,
+		target: {
+			type: Object,
 			required: true
 		},
 		isArticle: {
@@ -153,7 +153,6 @@ export default {
 		}
 	},
 	data: () => ({
-		target: null,
 		loading: false,
 		isFollower: false,
 		isMember: true,
@@ -163,35 +162,14 @@ export default {
 			multimedia: null
 		}
 	}),
-	computed: {
-		... mapGetters({
-			article: "article/articleDetail",
-			multimedia: "multimedia/multimediaDetail",
-		})
-	},
-	async created() {
-		await this.init()
-	},
 	methods: {
-		async init() {
-			this.loading=true
-			if (this.isArticle) {
-				await this.$store.dispatch("article/getSingle", {id: this.targetId})
-				this.target=this.article
-			}
-			else {
-				await this.$store.dispatch("multimedia/getSingle", {id: this.targetId})
-				this.target=this.multimedia
-			}
-			this.loading=false
-		},
 		async addCommentToPost() {
 			if (this.isArticle) {
-				this.comment.article = this.targetId
+				this.comment.article = this.target.id
 				delete this.comment.multimedia
 			}
 			else {
-				this.comment.multimedia = this.targetId
+				this.comment.multimedia = this.target.id
 				delete this.comment.article
 			}
 			await this.$store.dispatch("post/postComment", {body: this.comment})

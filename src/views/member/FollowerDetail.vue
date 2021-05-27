@@ -103,25 +103,24 @@
 					>
 						<v-card-text class="mt-0 pa-0">
 							<v-list class="mt-0 pt-0 alice-blue">
-								<v-list-item @click="1">
+								<v-list-item>
 									<v-icon class="mr-2">
 										mdi-account-circle
 									</v-icon>
 									<p class="mb-0 pb-0">
-										<b>Full Name:</b> {{ follower.f_name }} {{ follower.l_name }}
+										<b>Full Name:</b> {{ getFollowerFullName }}
 									</p>
 								</v-list-item>
 								<v-list-item
 									v-for="(item, index) in personalInfoItems"
 									:key="index"
-									@click="1"
 								>
 									<v-icon class="mr-2">
 										{{ item.icon }}
 									</v-icon>
 									<p class="mb-0 pb-0">
 										<b>{{ item.displayFieldName }} :</b>
-										{{ follower[item.field] }}
+										{{ item.value }}
 									</p>
 								</v-list-item>
 							</v-list>
@@ -133,41 +132,74 @@
 						id="branch-info-tab-content"
 						flat
 					>
-						<v-card-text class="mt-0 pa-0">
+						<v-card-text v-if="follower.member"
+							class="mt-0 pa-0"
+						>
 							<v-list
-								v-for="item in memberInfoItems1"
-								:key="item.index"
+								v-for="memberBranch in follower.member.member_branches"
+								:key="memberBranch.index"
 								class="ma-0 pa-0 alice-blue"
 							>
-								<v-list-item @click="1">
+								<v-list-item>
 									<v-icon class="mr-2">
-										{{ item.icon }}
+										mdi-city
 									</v-icon>
 									<p class="ma-0 pa-0">
-										<b>{{ item.displayFieldName }} :</b>
-										{{ follower[item.field] }}
+										<b>Branch :</b>
+										{{ memberBranch.branch.name }}
 									</p>
-									<v-spacer />
-									<span v-if="item.field === 'position'">
-										<v-avatar v-for="i in 2"
-											:key="i"
-											class="elevation-3"
-											size="20"
-											color="grey darken-2 ml-1"
+								</v-list-item>
+								<v-list-item>
+									<v-list color="transparent"
+										class="ma-0 pa-0"
+										width="100%"
+									>
+										<v-list-item
+											v-for="memberBranchRole in memberBranch.member_branch_roles"
+											:key="memberBranchRole.id"
 										>
-											<v-icon dark
-												small
-											>mdi-star</v-icon>
-										</v-avatar>
-									</span>
+											<v-icon class="mr-2">
+												mdi-key
+											</v-icon>
+											<p class="ma-0 pa-0">
+												<b>Role :</b>
+												{{ memberBranchRole.role_name }}
+											</p>
+											<v-spacer />
+											<span v-if="memberBranchRole">
+												<v-avatar
+													class="elevation-3"
+													size="20"
+													color="grey darken-2 ml-1"
+												>
+													<v-icon dark
+														small
+													>{{ getRoleIcon(memberBranchRole.role_name) }}</v-icon>
+												</v-avatar>
+												<v-avatar
+													v-if="memberBranchRole.role_name === 'Double Star Leader'"
+													class="elevation-3"
+													size="20"
+													color="grey darken-2 ml-1"
+												>
+													<v-icon dark
+														small
+													>{{ getRoleIcon(memberBranchRole.role_name) }}</v-icon>
+												</v-avatar>
+											</span>
+										</v-list-item>
+									</v-list>
 								</v-list-item>
 							</v-list>
-							<v-list class="ma-0 pa-0 alice-blue">
-								<v-list-item @click="1">
+							<v-list v-if="follower"
+								class="ma-0 pa-0 alice-blue"
+							>
+								<v-list-item v-if="follower.member">
 									<v-checkbox
-										v-model="follower.is_approved"
+										v-model="follower.member.is_approved"
 										color="indigo"
 										label="Approved Status"
+										readonly
 									/>
 									<v-spacer />
 									<span>
@@ -176,17 +208,17 @@
 								</v-list-item>
 							</v-list>
 							<v-list
-								v-for="item in memberInfoItems2"
+								v-for="item in memberInfoItems"
 								:key="item.index"
 								class="ma-0 pa-0 alice-blue"
 							>
-								<v-list-item @click="1">
+								<v-list-item>
 									<v-icon class="mr-2">
 										{{ item.icon }}
 									</v-icon>
 									<p class="ma-0 pa-0">
 										<b>{{ item.displayFieldName }} :</b>
-										{{ follower[item.field] }}
+										{{ item.value }}
 									</p>
 								</v-list-item>
 							</v-list>
@@ -204,11 +236,12 @@
 								:key="index"
 								class="ma-0 pa-0 alice-blue"
 							>
-								<v-list-item @click="1">
+								<v-list-item>
 									<v-checkbox
 										v-model="follower[item.field]"
 										dense
 										:label="item.displayFieldName"
+										readonly
 									/>
 									<v-spacer />
 									<span>
@@ -252,6 +285,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
 	name: "FollowerDetailView",
 	components: {
@@ -262,6 +297,7 @@ export default {
 		DetailViewExplorer: () => import("@/components/DetailViewExplorer")
 	},
 	data: () => ({
+		loading: false,
 		now: null,
 		tab: null,
 		profileTabItems: [
@@ -270,61 +306,78 @@ export default {
 			{icon: "mdi-shield-key", title: "Permissions", index: 2, id: "permission-info-tab"},
 			{icon: "mdi-post", title: "Posts", index: 3, id: "posts-info-tab"}
 		],
-		personalInfoItems: [
-			{icon: "mdi-card-account-details-outline", field: "username", displayFieldName: "Username"},
-			{icon: "mdi-at", field: "email", displayFieldName: "Email Address"},
-			{icon: "mdi-phone-classic", field: "phone", displayFieldName: "Phone"},
-			{icon: "mdi-office-building-marker", field: "temporary_address", displayFieldName: "Temporary Address"},
-			{icon: "mdi-crosshairs-gps", field: "permanent_address", displayFieldName: "Permanent Address"},
-			{icon: "mdi-account-tie-outline", field: "created_by", displayFieldName: "Created By"},
-			{icon: "mdi-calendar-plus", field: "created_at", displayFieldName: "Date Joined"},
-			{icon: "mdi-history", field: "last_login", displayFieldName: "Last Logged In"},
-			{icon: "mdi-account-tie-outline", field: "updated_by", displayFieldName: "Updated By"},
-			{icon: "mdi-calendar-edit", field: "updated_at", displayFieldName: "Last Updated At"},
-		],
-		memberInfoItems1: [
-			{icon: "mdi-home-city", field: "branch", displayFieldName: "Branch", index: 0},
-			{icon: "mdi-account-tie", field: "position", displayFieldName: "Position", index: 1}
-		],
-		memberInfoItems2: [
-			// {icon: "mdi-marker-check", field: "is_approved", displayFieldName: "Approved Status"},
-			{icon: "mdi-calendar-check", field: "approved_at", displayFieldName: "Approved At", index: 2},
-			{icon: "mdi-account-check", field: "approved_by", displayFieldName: "Approved By", index: 3},
-		],
 		permissionInfoItems: [
 			{icon: "mdi-account-tie", field: "is_staff", displayFieldName: "Can View Admin Site"},
 			{icon: "mdi-account-cowboy-hat", field: "is_superuser", displayFieldName: "Super User"}
 		],
 		collapseOnScroll: true,
-		follower: {
-			id: 1,
-			username: "kiran589",
-			email: "kiran589@gmail.com",
-			f_name: "Kiran",
-			l_name: "Parajuli",
-			phone: 9843530425,
-			branch: "Polar Branch",
-			position: "Leader",
-			sub_position: "Double Star",
-			is_approved: true,
-			approved_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			approved_by: "John Doe",
-			date_joined: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			is_superuser: true,
-			is_staff: true,
-			temporary_address: "ABC, XYZ",
-			permanent_address: "DAC, YML",
-			last_login: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			image:
-				"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
-			bio: "Greyhound divisely hello coldly fonwderfully",
-			created_by: "John Doe",
-			created_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-			updated_by: "Kiran Parajuli",
-			updated_at: new Date().toISOString().replace(/T/, " ").replace(/\..+/, ""),
-		},
 	}),
-	methods: {}
+	computed: {
+		...mapGetters({
+			follower: "user/detail"
+		}),
+		getMemberApprovedAt() {
+			if (!this.follower.member.approved_at) return "None"
+			return this.formatDate(this.follower.member.approved_at)
+		},
+		getMemberApprovedBy() {
+			console.log(this.follower)
+			// return "none"
+			if (!this.follower) return "None"
+			if (!this.follower.member) return "None"
+			if (!this.follower.member.approved_by) return "None"
+			else return this.follower.member.approved_by.username
+		},
+		getFollowerFullName() {
+			if(!this.follower) return "None"
+			return `${this.follower.first_name} ${this.follower.last_name}`
+		},
+		memberInfoItems() {
+			if (!this.follower.member) return []
+			return [
+				{icon: "mdi-calendar-check", value: this.getMemberApprovedAt, displayFieldName: "Approved At", index: 2},
+				{icon: "mdi-account-check", value: this.getMemberApprovedBy, displayFieldName: "Approved By", index: 3},
+			]
+		},
+		personalInfoItems() {
+			if (!this.follower) return []
+			if(!this.follower.profile) return []
+			return [
+				{icon: "mdi-card-account-details-outline", value: this.follower.username, displayFieldName: "Username"},
+				{icon: "mdi-at", value: this.follower.email, displayFieldName: "Email Address"},
+				{icon: "mdi-phone-classic", value: this.follower.profile.contact, displayFieldName: "Phone"},
+				{icon: "mdi-office-building-marker", value: this.follower.profile.home_town, displayFieldName: "Home Town"},
+				{icon: "mdi-crosshairs-gps", value: this.follower.profile.current_city, displayFieldName: "Current City"},
+				{icon: "mdi-account-tie-outline", value: "Yet to implement", displayFieldName: "Created By"},
+				{icon: "mdi-calendar-plus", value: this.formatDate(this.follower.date_joined), displayFieldName: "Date Joined"},
+				{icon: "mdi-history", value: this.formatDate(this.follower.last_login), displayFieldName: "Last Logged In"},
+				{icon: "mdi-account-tie-outline", value: "Yet to implement", displayFieldName: "Updated By"},
+				{icon: "mdi-calendar-edit", value: this.formatDate(this.follower.profile.last_updated), displayFieldName: "Last Updated At"},
+			]
+		},
+	},
+	async created() {
+		await this.init()
+	},
+	methods: {
+		getRoleIcon(roleName) {
+			if(roleName === "Branch Chief") return "mdi-account-cowboy-hat"
+			else if(roleName === "Branch Vice Chief") return "mdi-account-heart"
+			else if(roleName === "Leader") return "mdi-account-tie"
+			else if(roleName === "Double Star Leader") return "mdi-star"
+			else if(roleName === "Single Star Leader") return "mdi-star"
+			else if(roleName === "Maintainer") return "mdi-account-hard-hat"
+			else return "None"
+		},
+		formatDate(date) {
+			return this.$moment(date).format("MMMM Do YYYY")
+		},
+		async init() {
+			this.loading = true
+			await this.$store.dispatch("user/fetchById", {id: this.$route.params.id})
+			this.loading = false
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

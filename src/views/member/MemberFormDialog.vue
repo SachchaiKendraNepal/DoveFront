@@ -153,7 +153,7 @@
 														mdi-shape-plus
 													</v-icon>
 													<b>Date joined:</b>
-													<span class="px-1">{{ editedItem.user.date_joined }}</span>
+													<span class="px-1">{{ formatDate(editedItem.user.date_joined) }}</span>
 												</p>
 												<p v-if="editedItem.is_approved"
 													class="mb-0 mb-4"
@@ -171,7 +171,7 @@
 														mdi-check
 													</v-icon>
 													<b>Approved at:</b>
-													<span class="px-1">{{ editedItem.approved_at }}</span>
+													<span class="px-1">{{ formatDate(editedItem.approved_at) }}</span>
 												</p>
 												<p
 													class="mb-0"
@@ -182,7 +182,7 @@
 													<b>Last logged in:</b>
 													<span v-if="editedItem.user.last_login"
 														class="px-1"
-													>{{ editedItem.user.last_login }}</span>
+													>{{ formatDate(editedItem.user.last_login) }}</span>
 													<span v-else
 														class="px-1"
 													>Haven't logged in.</span>
@@ -239,7 +239,6 @@
 										color="blue lighten-5"
 										class="blue--text"
 										block
-										:disabled="editedIndex > -1"
 										@click="saveMember"
 									>
 										Save
@@ -635,7 +634,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			users: "user/usersList",
+			users: "user/list",
 			branches: "branch/list",
 			member: "member/detail",
 			memberFormErrors: "member/memberFormErrors",
@@ -651,12 +650,12 @@ export default {
 		getCurrentRoleIcon() {
 			const roleName = this.getCurrentRoleName
 			if (roleName === "None") return "mdi-close"
-			else if(roleName === "Branch Chief") return "mdi-sth"
-			else if(roleName === "Branch Vice Chief") return "mdi-sth"
-			else if(roleName === "Leader") return "mdi-sth"
-			else if(roleName === "Double Star Leader") return "mdi-sth"
-			else if(roleName === "Single Star Leader") return "mdi-sth"
-			else if(roleName === "Maintainer") return "mdi-sth"
+			else if(roleName === "Branch Chief") return "mdi-account-cowboy-hat"
+			else if(roleName === "Branch Vice Chief") return "mdi-account-heart"
+			else if(roleName === "Leader") return "mdi-account-tie"
+			else if(roleName === "Double Star Leader") return "mdi-star"
+			else if(roleName === "Single Star Leader") return "mdi-star"
+			else if(roleName === "Maintainer") return "mdi-account-hard-hat"
 			else return "None"
 		},
 		getCurrentBranchName() {
@@ -687,6 +686,9 @@ export default {
 		this.$bus.off("open-member-form-dialog-edit-item")
 	},
 	methods: {
+		formatDate(date) {
+			return this.$moment(date).format("MMMM Do YYYY")
+		},
 		moreRoles(memberBranch) {
 			return memberBranch.member_branch_roles.length !== 0;
 		},
@@ -741,10 +743,10 @@ export default {
 		},
 
 		async saveMember() {
-			await this.$store.dispatch("member/create", {body: {
+			const isSaved = await this.$store.dispatch("member/create", {body: {
 				user: this.editedItem.user
 			}})
-			await this.close()
+			if (isSaved) await this.close()
 		},
 		async saveMemberBranch() {
 			const response =  await this.$store.dispatch("member/assignBranch", {

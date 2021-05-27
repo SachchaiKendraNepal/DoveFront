@@ -63,7 +63,7 @@
 					>
 						mdi-plus-circle
 					</v-icon>
-					<span v-if="$vuetify.breakpoint.smAndUp">New Member</span>
+					<span v-if="$vuetify.breakpoint.smAndUp">Member</span>
 				</v-btn>
 				<member-form-dialog />
 			</v-toolbar>
@@ -81,9 +81,12 @@
 			<v-checkbox
 				v-model="item.is_approved"
 				color="success"
-				class="mt-0"
 				readonly
 			/>
+		</template>
+		<!-- eslint-disable-next-line vue/valid-v-slot-->
+		<template #item.created_at="{ item }">
+			{{ $moment(item.created_at).format("MMMM Do YYYY") }}
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.actions="{ item }">
@@ -188,7 +191,7 @@ export default {
 		async initialize() {
 			this.loading = true
 			await this.$store.dispatch("member/fetchMembers")
-			await this.$store.dispatch("user/list")
+			await this.$store.dispatch("user/fetchAll")
 			await this.$store.dispatch("branch/fetchAll")
 			this.loading = false
 		},

@@ -8,7 +8,7 @@ export const SET_PROFILE_IMAGES = "SET_PROFILE_IMAGES"
 export const SET_USER_PROFILE_FORM_ERRORS = "SET_USER_PROFILE_FORM_ERRORS"
 
 
-const defaultUserProfileFormErrors = {
+const defaultFormErrors = {
 	current_city: null,
 	contact: null,
 	country: null,
@@ -20,8 +20,8 @@ const defaultUserProfileFormErrors = {
 const state = {
 	profile: {},
 	profileImage: {},
-	userProfileFormErrors: {
-		...defaultUserProfileFormErrors
+	formErrors: {
+		...defaultFormErrors
 	}
 }
 
@@ -33,21 +33,17 @@ const mutations = {
 		return state.profileImage = value
 	},
 	[SET_USER_PROFILE_FORM_ERRORS](state, value) {
-		return state.userProfileFormErrors = value
+		return state.formErrors = value
 	}
 }
 
 const getters = {
-	profile: (state) => {
-		return state.profile
-	},
-	profileImages: (state) => state.profileImages,
-	profileUpdateFormErrors: (state) => state.userProfileFormErrors
+	updateFormErrors: (state) => state.formErrors
 }
 
 const actions = {
-	clearUserProfileFormErrors({commit}) {
-		commit("SET_USER_PROFILE_FORM_ERRORS", { ...defaultUserProfileFormErrors })
+	clearFormErrors({commit}) {
+		commit("SET_USER_PROFILE_FORM_ERRORS", { ...defaultFormErrors })
 	},
 	async update({commit}, {id: id, body: body}) {
 		try {

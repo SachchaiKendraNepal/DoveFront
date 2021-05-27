@@ -65,16 +65,18 @@
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.full_name="{ item }">
-			<p class="ma-0 pa-0 follower-full-name">
+			<p class="ma-0 pa-0 follower-full-name"
+				@click="routeToFollowerDetail(item)"
+			>
 				{{ item.first_name }} {{ item.last_name }}
 			</p>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.is_superuser="{ item }">
-			<v-simple-checkbox
+			<v-checkbox
 				v-model="item.is_superuser"
 				color="primary"
-				disabled
+				readonly
 			/>
 		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -132,7 +134,7 @@ export default {
 	},
 	computed: {
 		... mapGetters({
-			followers: "user/usersList"
+			followers: "user/list"
 		})
 	},
 	async created() {
@@ -145,7 +147,7 @@ export default {
 	methods: {
 		async initialize() {
 			this.loading = true
-			await this.$store.dispatch("user/list")
+			await this.$store.dispatch("user/fetchAll")
 			this.loading = false
 		},
 		openAddFollowerFormDialog() {
@@ -171,18 +173,25 @@ export default {
 			}
 			else await this.openSnack("Internal server error. Try again.")
 		},
+		async routeToFollowerDetail(item) {
+			await router.push({name: "FOLLOWER ADMINISTRATION", params: {id: item.id}})
+		}
 	}
 }
 </script>
-<style lang="sass" scoped>
-.search-follower
-	display: block
-	@media only screen and (max-width: 315px)
-		display: none
-.follower-full-name
-	margin: 0
-	padding: 0
-	font-size: 1rem
-	font-weight: 300
-	cursor: pointer
+<style lang="scss" scoped>
+.search-follower {
+	display: block;
+	@media only screen and (max-width: 315px) {
+		display: none;
+	}
+}
+.follower-full-name {
+	margin: 0;
+	padding: 0;
+	font-size: 1rem;
+	font-weight: 300;
+	cursor: pointer !important;
+	//z-index: 1;
+}
 </style>

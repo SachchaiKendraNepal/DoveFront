@@ -120,28 +120,35 @@
 									mdi-shape-plus
 								</v-icon>
 								<b>Date created:</b>
-								<span class="px-1">{{ editedItem.created_at }}</span>
+								<span class="px-1">{{ $moment(editedItem.created_at).format("MMMM Do YYYY") }}</span>
 							</p>
 							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
 									mdi-plus
 								</v-icon>
 								<b>Created by:</b>
-								<span class="px-1"> Kiran Parajuli </span>
+								<span v-if="editedItem.created_by"
+									class="px-1"
+								> {{ editedItem.created_by.username }} </span>
 							</p>
 							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
 									mdi-account-network
 								</v-icon>
 								<b>Total Members:</b>
-								<span class="px-1">558</span>
+								<span class="px-1">Not implemented yet</span>
 							</p>
 							<p class="mb-0">
 								<v-icon class="small-detail-icon">
 									mdi-pencil
 								</v-icon>
 								<b>Last Updated By:</b>
-								<span class="px-1">Sam Gellaitry</span>
+								<span v-if="editedItem.updated_by"
+									class="px-1"
+								>{{ editedItem.updated_by.username }}</span>
+								<span v-else
+									class="px-1"
+								>None</span>
 							</p>
 						</v-list-item-content>
 					</v-list-item>
@@ -546,6 +553,7 @@ export default {
 		openEditDialog(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
+			console.log(this.editedItem)
 			if(this.editedItem.contact) {
 				this.editedItem.contact = this.editedItem.contact.substring(4)
 			}

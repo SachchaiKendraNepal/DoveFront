@@ -113,9 +113,9 @@ const routes = [
 				component: () => import("@/views/member/MembersTable")
 			},
 			{
-				path: "member/:id",
-				name: "MEMBER ADMINISTRATION",
-				component: () => import("@/views/member/MemberDetail")
+				path: "follower/:id",
+				name: "FOLLOWER ADMINISTRATION",
+				component: () => import("@/views/member/FollowerDetail")
 			},
 			{
 				path: "branch",

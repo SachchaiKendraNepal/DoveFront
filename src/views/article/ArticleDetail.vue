@@ -4,13 +4,13 @@
 	>
 		<base-post-detail
 			v-if="postId"
-			:target-id="postId"
+			:target="article"
 			:is-article="true"
 		>
 			<template #imageCarousel>
 				<v-carousel height="100vh">
 					<v-carousel-item
-						v-for="item in articleImages"
+						v-for="item in article.article_images"
 						:key="item.id"
 						:src="item.image"
 						reverse-transition="fade-transition"
@@ -43,7 +43,7 @@ export default {
 	}),
 	computed: {
 		... mapGetters({
-			articleImages: "article/allArticleImages"
+			article: "article/articleDetail"
 		})
 	},
 	async created() {
@@ -53,7 +53,7 @@ export default {
 		async init() {
 			this.loading=true
 			this.postId = parseInt(this.$route.params.id)
-			await this.$store.dispatch("article/fetchImagesForArticle", {id: this.postId})
+			await this.$store.dispatch("article/getSingle", {id: this.postId})
 			this.loading=false
 		}
 	}

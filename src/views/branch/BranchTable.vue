@@ -64,7 +64,7 @@
 					>
 						mdi-plus-circle
 					</v-icon>
-					<span v-if="$vuetify.breakpoint.smAndUp">New Branch</span>
+					<span v-if="$vuetify.breakpoint.smAndUp">Branch</span>
 				</v-btn>
 				<branch-form-dialog />
 			</v-toolbar>

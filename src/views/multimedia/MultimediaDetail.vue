@@ -5,7 +5,7 @@
 	>
 		<base-post-detail
 			v-if="multimediaId"
-			:target-id="multimediaId"
+			:target="multimedia"
 			:is-article="false"
 		>
 			<template #imageCarousel>
@@ -29,7 +29,7 @@
 						</v-btn>
 					</template>
 					<v-carousel-item
-						v-for="item in multimediaImages"
+						v-for="item in multimedia.multimedia_images"
 						:key="item.id + 5 * 7"
 						active-class="multimedia-active-image"
 						:src="item.image"
@@ -37,7 +37,7 @@
 						transition="fade-transition"
 					/>
 					<v-carousel-item
-						v-for="item in multimediaVideos"
+						v-for="item in multimedia.multimedia_videos"
 						:key="item.id + 7 * 11"
 						active-class="multimedia-active-video"
 						reverse-transition="fade-transition"
@@ -60,7 +60,7 @@
 							/>
 						</template>
 					</v-carousel-item>
-					<v-carousel-item v-for="(item) in multimediaVideoUrls"
+					<v-carousel-item v-for="(item) in multimedia.multimedia_video_urls"
 						:key="item.id + 11 * 13"
 						active-class="multimedia-active-video-url"
 						transition="fade-transition"
@@ -100,21 +100,17 @@ export default {
 	}),
 	computed: {
 		... mapGetters({
-			multimediaImages: "multimedia/allMultimediaImages",
-			multimediaVideos: "multimedia/allMultimediaVideos",
-			multimediaVideoUrls: "multimedia/allMultimediaVideoUrls"
+			multimedia: "multimedia/multimediaDetail"
 		}),
 	},
-	async mounted() {
+	async created() {
 		await this.init()
 	},
 	methods: {
 		async init() {
 			this.loading=true
 			this.multimediaId = parseInt(this.$route.params.id)
-			await this.$store.dispatch("multimedia/fetchImagesFor", {id: this.multimediaId})
-			await this.$store.dispatch("multimedia/fetchVideosFor", {id: this.multimediaId})
-			await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: this.multimediaId})
+			await this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
 			this.loading=false
 		},
 		getId(url) {
