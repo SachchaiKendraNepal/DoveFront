@@ -70,7 +70,7 @@
 					>
 						mdi-plus-circle
 					</v-icon>
-					<span v-if="$vuetify.breakpoint.smAndUp">New Event</span>
+					<span v-if="$vuetify.breakpoint.smAndUp">Event</span>
 				</v-btn>
 				<event-form-dialog />
 			</v-toolbar>

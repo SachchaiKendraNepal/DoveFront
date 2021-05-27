@@ -1,6 +1,8 @@
 <template>
 	<v-tab-item value="tab-discussion">
-		<v-card flat>
+		<v-card flat
+			max-width="1000"
+		>
 			<v-text-field
 				v-model="myComment"
 				class="ma-0 pa-4"

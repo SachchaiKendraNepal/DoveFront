@@ -108,7 +108,7 @@
 									v-if="editedItem.is_main"
 									label
 									dark
-									color="blue lighten-1"
+									color="blue"
 									class="mr-2 mb-1"
 								>
 									<v-icon left>
