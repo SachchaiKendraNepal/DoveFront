@@ -6,7 +6,7 @@
 					class="py-0"
 				>
 					<v-carousel :show-arrows="false"
-						height="30vh"
+						height="400"
 						vertical-delimiters="true"
 						class="round-touch"
 					>
@@ -17,26 +17,31 @@
 							transition="fade-transition"
 							reverse-transition="fade-transition"
 						/>
-						<v-carousel-item v-for="item in post['multimedia_videos']"
+						<v-carousel-item v-for="(item, index) in post['multimedia_videos']"
 							:key="item.id + 7 * 11"
 							transition="fade-transition"
 							reverse-transition="fade-transition"
 						>
 							<template #default>
-								<video-player
-									:options="{
-										fluid: true,
-										fill: true,
-										autoplay: false,
-										controls: true,
-										sources: [
-											{
-												src: item.video,
-												type: 'video/mp4'
-											}
-										]
-									}"
-								/>
+								<v-card height="400"
+									max-width="1000" class="mx-auto"
+									:class="'video-player-' + index"
+								>
+									<video-player
+										:options="{
+											fluid: true,
+											fill: true,
+											autoplay: false,
+											controls: true,
+											sources: [
+												{
+													src: item.video,
+													type: 'video/mp4'
+												}
+											]
+										}"
+									/>
+								</v-card>
 							</template>
 						</v-carousel-item>
 						<v-carousel-item v-for="item in post['multimedia_video_urls']"
@@ -45,12 +50,13 @@
 							reverse-transition="fade-transition"
 						>
 							<template #default>
-								<div class="video-container">
-									<iframe :src="prepareEmbedUrl(item.video_url)"
-										frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-										allowfullscreen
+								<v-card height="400"
+									max-width="1000" class="mx-auto"
+								>
+									<youtube-iframe :video-url="item.video_url"
+										height="400"
 									/>
-								</div>
+								</v-card>
 							</template>
 						</v-carousel-item>
 					</v-carousel>
@@ -63,6 +69,7 @@
 export default {
 	name: "MultimediaComponent",
 	components: {
+		YoutubeIframe: () => import("@/components/YoutubeIframe"),
 		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostCard: () => import("@/components/post/_post")
 	},
@@ -70,14 +77,6 @@ export default {
 		post: {
 			type: Object,
 			required: true
-		}
-	},
-	methods: {
-		getId(url) {
-			return this.$helper.getVideoIdFromYoutubeURL(url)
-		},
-		prepareEmbedUrl(url) {
-			return `https://www.youtube.com/embed/${this.getId(url)}`
 		}
 	}
 }

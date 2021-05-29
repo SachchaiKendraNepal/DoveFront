@@ -9,7 +9,7 @@
 					class="py-0"
 				>
 					<v-carousel :show-arrows="false"
-						height="30vh"
+						height="400"
 						vertical-delimiters="true"
 						class="round-touch"
 					>
