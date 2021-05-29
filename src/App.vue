@@ -38,4 +38,7 @@ export default {
 	width: 100%;
 	height: 100%;
 }
+.send-icon-button {
+	transform: rotate(-60deg)
+}
 </style>
