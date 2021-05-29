@@ -105,6 +105,13 @@ module.exports = {
 		}
 		return formData
 	},
+	isCurrentUserSuperAdmin() {
+		if (this.isUserLoggedIn()) {
+			const currentUser = this.getCurrentUser()
+			return currentUser["is_superuser"]
+		}
+		return false
+	},
 	getCurrentUser() {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
