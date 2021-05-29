@@ -78,5 +78,21 @@
     "detail": "profile/%s",
     "imageList": "profile-image/",
     "imageDetail": "profile-image/%s/"
+  },
+  "location":{
+    "countryList": "country/",
+    "countryDetail": "country/%s/",
+    "provinceList": "province/",
+    "provinceDetail": "province/%s/",
+    "districtList": "district/",
+    "districtDetail": "district/%s/",
+    "municipalityList": "municipality/",
+    "municipalityDetail": "municipality/%s/",
+    "municipalityWardList": "municipality-ward/",
+    "municipalityWardDetail": "municipality-ward/%s/",
+    "vdcList": "vdc/",
+    "vdcDetail": "vdc/%s/",
+    "vdcWardList": "vdc-ward/",
+    "vdcWardDetail": "vdc-ward/%s/"
   }
 }
