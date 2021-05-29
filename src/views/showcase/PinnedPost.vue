@@ -30,7 +30,7 @@
 			:show-arrows="false"
 			vertical-delimiters="true"
 			height="298"
-			class="round-touch"
+			class="bottom-round-touch"
 		>
 			<div v-if="postImages.length > 0">
 				<v-carousel-item
@@ -41,45 +41,10 @@
 					reverse-transition="fade-transition"
 				/>
 			</div>
-			<div v-if="postVideos.length > 0">
-				<v-carousel-item v-for="item in postVideos"
-					:key="item.id + 7 * 11"
-					transition="fade-transition"
-					reverse-transition="fade-transition"
-				>
-					<template #default>
-						<video-player
-							:options="{
-								fluid: true,
-								fill: true,
-								autoplay: false,
-								controls: true,
-								sources: [
-									{
-										src: item.video,
-										type: 'video/mp4'
-									}
-								]
-							}"
-						/>
-					</template>
-				</v-carousel-item>
-			</div>
-			<div v-if="postVideoUrls > 0">
-				<v-carousel-item v-for="item in postVideoUrls"
-					:key="item.id + 11 * 13"
-					transition="fade-transition"
-					reverse-transition="fade-transition"
-				>
-					<template #default>
-						<div class="video-container">
-							<iframe :src="prepareEmbedUrl(item.video_url)"
-								frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen
-							/>
-						</div>
-					</template>
-				</v-carousel-item>
+			<div v-else>
+				<v-img height="298"
+					:src="require('@/assets/pinned_post.jpg')"
+				/>
 			</div>
 		</v-carousel>
 	</div>
@@ -89,9 +54,6 @@ import router from "@/router"
 
 export  default {
 	name: "PinnedPostComponent",
-	components: {
-		VideoPlayer: () => import("@/components/VideoPlayer"),
-	},
 	props: {
 		post: {
 			type: Object,
@@ -127,11 +89,9 @@ export  default {
 		init() {
 			this.loading = true
 			if (this.post) {
-				if (this.post.article_images) this.postImages = this.post.article_images
+				if (this.post["article_images"]) this.postImages = this.post["article_images"]
 				else {
-					this.postImages = this.post.multimedia_images
-					this.postVideos = this.post.multimedia_videos
-					this.postVideoUrls = this.post.multimedia_video_urls
+					this.postImages = this.post["multimedia_images"]
 				}
 			}
 			this.loading = false
@@ -141,12 +101,6 @@ export  default {
 				? router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: this.post.id }})
 				: router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: this.post.id }})
 		},
-		getId(url) {
-			return this.$helper.getVideoIdFromYoutubeURL(url)
-		},
-		prepareEmbedUrl(url) {
-			return `https://www.youtube.com/embed/${this.getId(url)}`
-		}
 	}
 }
 </script>
@@ -157,4 +111,6 @@ export  default {
 	font-size: 14px!important
 #parallax-actions
 	cursor: pointer
+.bottom-round-touch
+	border-radius: 0 0 4px 4px
 </style>
