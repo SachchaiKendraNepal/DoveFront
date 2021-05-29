@@ -120,8 +120,8 @@ const actions = {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {
 				commit("SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS", e.response.data)
-				return false
-			} else return 500
+			}
+			return false
 		}
 	},
 
@@ -221,12 +221,30 @@ const actions = {
 		}
 	},
 
-	async fetchComments({}, {id: id}) {
+	async fetchCommentsForId({}, {id: id}) {
 		try {
-			return await $api.get(util.format(multimediaUrl.comment, id))
+			return await $api.getWithPayload(urls.post.comment, {multimedia: id})
 		} catch (e) {
 			return false
 		}
+	},
+
+	async getYTVideoTitle({}, {id: id}) {
+		const DEFAULT_KEY = Buffer.from("QUl6YVN5QjBRNGdUaG1zMkp0LTZTZ01ZajR1ZFlLZlZmWE5zcmNj", "base64") + ""
+
+		let url = "https://www.googleapis.com/youtube/v3/videos"
+
+		try {
+			const response = await $api.getWithPayload(url, {
+				key: DEFAULT_KEY,
+				part: "snippet",
+				id: id
+			})
+			return response.items[0]["snippet"].title
+		} catch (e) {
+			return "Video"
+		}
+
 	}
 }
 

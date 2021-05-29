@@ -1,5 +1,8 @@
 <template>
 	<v-tab-item value="tab-photos">
+		<v-card-text class="why-idk">
+			Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
+		</v-card-text>
 		<v-dialog
 			v-model="fullScreenDialog"
 			max-width="90vw"
@@ -17,9 +20,11 @@
 				</v-col>
 			</v-row>
 		</v-dialog>
-		<v-card flat>
+		<v-card v-if="event"
+			flat
+		>
 			<v-card-text>
-				<v-row v-if="imageURLs.length>0"
+				<v-row v-if="imageURLs.length > 0"
 					no-gutters
 					justify="center"
 					align="center"
@@ -36,7 +41,9 @@
 							overlap
 						>
 							<template #badge>
-								<v-icon @click="removeUploadToImage(index)">
+								<v-icon class="badge-close"
+									@click="removeUploadToImage(index)"
+								>
 									mdi-close
 								</v-icon>
 							</template>
@@ -50,11 +57,12 @@
 				</v-row>
 				<div class="upload-image-container">
 					<file-upload
+						id="event-image-uploader"
 						v-model="eventImagesForUpload"
 						:multiple="true"
 						class="cursor-pointer"
-						@input-file="inputFile"
-						@input-filter="inputFilter"
+						@input-file="inputImageFile"
+						@input-filter="inputImageFilter"
 					>
 						<div class="upload-image">
 							Add image to event
@@ -72,16 +80,18 @@
 					</v-btn>
 				</div>
 			</v-card-text>
-			<v-card-text v-if="event.images.length === 0">
-				<div class="no-photos">
-					No photos added yet!
-				</div>
-			</v-card-text>
+			<div v-if="event.images">
+				<v-card-text v-if="event.images.length === 0">
+					<div class="no-photos">
+						No photos added yet!
+					</div>
+				</v-card-text>
+			</div>
 			<v-row class="ma-0 pa-2">
 				<v-col
 					v-for="img in event.images"
 					:key="img.id"
-					class="d-flex child-flex ma-0 pa-2"
+					class="d-flex child-flex ma-0 pa-2 justify-center"
 					cols="12"
 					xl="3"
 					lg="3"
@@ -132,7 +142,7 @@ export default {
 			this.fullScreenDialog=true
 			this.selectedImage = url
 		},
-		inputFile(latest) {
+		inputImageFile(latest) {
 			const latestFile = latest.file
 			const latestUrl = URL.createObjectURL(latestFile)
 			if (/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(latestFile.name)) {
@@ -140,7 +150,7 @@ export default {
 				this.images.push(latestFile)
 			}
 		},
-		inputFilter(newFile, oldFile, prevent) {
+		inputImageFilter(newFile, oldFile, prevent) {
 			if (newFile && !oldFile) {
 				// Filter file extension
 				if (!/\.(jpeg|jpe|jpg|gif|png)$/i.test(newFile.name)) {
@@ -194,9 +204,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	background: aliceblue url("./../../../assets/noEventsPhoto.png") no-repeat;
-	background-size: auto 100%;
-	width: 100%;
+	background: aliceblue url("./../../../assets/noEventPhotos.jpg") no-repeat;
 	min-height: 150px;
 	border-radius: 20px;
 }
@@ -215,5 +223,8 @@ export default {
 }
 .event-image {
 	border-radius: 2%
+}
+.badge-close {
+	z-index: 1;
 }
 </style>

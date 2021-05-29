@@ -4,16 +4,25 @@
 		:loading="loading"
 		class="mx-auto"
 	>
+		<v-snackbar
+			v-model="snack"
+			top
+			right
+			:timeout="3000"
+			:color="snackColor"
+			class="home-snack"
+		>
+			{{ snackText }}
+		</v-snackbar>
 		<v-btn
 			id="go-back"
 			fab
 			dark
 			fixed
 			top
-			left
 			small
-			color="primary"
-			@click="$router.go(-1)"
+			color="grey darken-3"
+			@click="$router.push({name: 'HOME'})"
 		>
 			<v-icon>
 				mdi-arrow-left-circle
@@ -39,31 +48,31 @@
 				class="ma-0 pa-0"
 			>
 				<div id="magic">
-					<PostDetailAdminActionsComponent />
-					<v-divider />
 					<div id="postDetail">
+						<div class="py-2" />
 						<v-card-title class="pt-0 grey--text text--darken-3">
 							{{ target.title }}
 						</v-card-title>
+						<v-divider />
 						<v-card-subtitle class="post-auth-subtitle">
 							<span>
 								<v-icon size="16"
-									class="post-auth-icon"
+									class="post-auth-icon pr-1"
 								>mdi-account-circle</v-icon>
 							</span>
 							<span v-if="target.uploaded_by">{{ target.uploaded_by.username }}</span>
 							<span>
 								<v-icon size="16"
-									class="post-auth-icon"
+									class="post-auth-icon pl-1"
 								>mdi-calendar-plus</v-icon>
 							</span>
-							{{ target.uploaded_at }}
+							{{ formatDate(target.uploaded_at) }}
 							<span>
 								<v-icon size="16"
 									class="post-auth-icon"
 								>mdi-calendar-check</v-icon>
 							</span>
-							{{ target.approved_at }}
+							{{ formatDate(target.approved_at) }}
 						</v-card-subtitle>
 						<v-card-text v-if="target.description"
 							class="py-0"
@@ -100,7 +109,6 @@
 					<PostDetailActionsComponent v-if="target" :target="target"
 						:is-article="isArticle"
 					/>
-					<v-divider />
 				</div>
 				<slot name="comments" />
 				<v-row
@@ -138,7 +146,6 @@ export default {
 	name: "BasePostDetailComponent",
 	components: {
 		IconWithTooltip: () => import("@/components/IconWithTooltip"),
-		PostDetailAdminActionsComponent: () => import("@/views/post/PostDetailAdminActions"),
 		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
 	props: {
@@ -162,7 +169,24 @@ export default {
 			multimedia: null
 		}
 	}),
+	computed: {
+		...mapGetters({
+			snackText: "snack/snackText",
+			snackColor: "snack/snackColor"
+		}),
+		snack: {
+			get() {
+				return this.$store.state.snack.snack
+			},
+			set(v) {
+				this.$store.dispatch("snack/setSnackState", v)
+			}
+		},
+	},
 	methods: {
+		formatDate(date) {
+			return this.$moment(date).format("MMMM Do YYYY")
+		},
 		async addCommentToPost() {
 			if (this.isArticle) {
 				this.comment.article = this.target.id
@@ -190,6 +214,7 @@ export default {
 .post-auth-subtitle
 	font-size: 12px
 	padding-bottom: 5px
-.send-icon-button
-	transform: rotate(-60deg)
+#go-back
+	top: 80px
+	left: 1%
 </style>

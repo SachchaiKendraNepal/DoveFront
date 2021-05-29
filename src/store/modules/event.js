@@ -78,6 +78,11 @@ const actions = {
 		commit("SET_EVENTS", response)
 	},
 
+	async fetchAllApproved({commit}) {
+		const response = await $api.getWithPayload(eventUrl.list, {is_approved: true})
+		commit("SET_EVENTS", response)
+	},
+
 	async fetchSingle({commit}, {id: id}) {
 		const response = await $api.get(util.format(eventUrl.detail, id))
 		commit("SET_EVENT", response)
@@ -139,7 +144,7 @@ const actions = {
 		try {
 			const response = await $api.get(util.format(eventUrl.interestStatistics, id))
 			commit("SET_EVENT_STATISTICS", response)
-			return true
+			return response
 		} catch (e) {
 			return false
 		}
@@ -165,6 +170,14 @@ const actions = {
 		try {
 			const response = await $api.getWithPayload(eventUrl.commentList, {event: id})
 			commit("SET_EVENT_COMMENTS", response)
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async addCommentFor({}, {body: body}) {
+		try {
+			await $api.post(eventUrl.commentList, body)
 			return true
 		} catch (e) {
 			return false

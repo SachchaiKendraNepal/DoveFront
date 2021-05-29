@@ -1,8 +1,12 @@
 <template>
-	<v-tab-item value="tab-discussion">
-		<v-card flat
-			max-width="1000"
-		>
+	<v-tab-item value="tab-discussion"
+		transition="fade-transition"
+		reverse-transition="fade-transition"
+	>
+		<v-card flat>
+			<v-card-text class="why-idk">
+				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
+			</v-card-text>
 			<v-text-field
 				v-model="myComment"
 				class="ma-0 pa-4"
@@ -11,24 +15,36 @@
 				clearable
 				label="Add your comment..."
 				hide-details="auto"
-				append-outer-icon="mdi-send"
-				@click:append-outer="makeComment"
-			/>
+			>
+				<template #append>
+					<v-icon class="send-icon-button"
+						color="primary"
+						@click="makeComment"
+					>
+						mdi-send
+					</v-icon>
+				</template>
+			</v-text-field>
 			<v-card-text v-show="discussions.length === 0">
 				No discussions made yet!
 			</v-card-text>
-			<v-list three-line>
-				<v-list-item v-for="(item, index) in discussions"
+			<v-list v-if="discussions.count > 0"
+				three-line
+			>
+				<v-list-item v-for="(item, index) in discussions.results"
 					:key="index"
 				>
-					<v-list-item-avatar>
-						<v-img :src="item.avatar" />
-					</v-list-item-avatar>
+					<v-avatar size="48"
+						:color="colors[index % 10]"
+						class="d-flex justify-content-center ma-2"
+					>
+						<span class="white--text headline">{{ item.writer.username[0].toUpperCase() }}</span>
+					</v-avatar>
 
 					<v-list-item-content>
 						<v-list-item-title style="white-space: normal;">
-							{{ item.author }}
-							- <span class="comment-date">{{ item.date }}</span>
+							<code>{{ item.writer.username }}</code>
+							<span class="comment-date">{{ $moment(item.created_at).fromNow() }}</span>
 						</v-list-item-title>
 						<v-list-item-subtitle class="comment">
 							{{ item.comment }}
@@ -43,10 +59,26 @@
 					</v-list-item-action>
 				</v-list-item>
 			</v-list>
+			<v-list v-else
+				three-line
+			>
+				<v-list-item>
+					<v-list-item-content>
+						<v-list-item-title class="grey--text darken-1">
+							Be the first to add comment!
+						</v-list-item-title>
+						<v-list-item-subtitle class="grey--text">
+							No discussions made yet.
+						</v-list-item-subtitle>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list>
 		</v-card>
 	</v-tab-item>
 </template>
 <script>
+import {mapGetters} from "vuex";
+
 export default {
 	name: "EventDetailDiscussionTabContent",
 	props: {
@@ -56,41 +88,32 @@ export default {
 		}
 	},
 	data: () => ({
+		loading: false,
 		myComment: "",
-		discussions: [
-			{
-				avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-				author: "Ali Connors",
-				comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-				date: "Nov 2, 2020"
-			},
-			{
-				avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-				author: "Alex, Scott," +
-					" Jennifer", comment: "Wish I could come, but I'm out of town this weekend.",
-				date: "Nov 2, 2020"
-			},
-			{
-				avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-				author: "Sandra Adams",
-				comment: "Do you have Paris recommendations? Have you ever been?",
-				date: "Nov 2, 2020"
-			},
-			{
-				avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-				author: "Trevor Hansen",
-				comment: "Have any ideas about what we should get Heidi for her birthday?",
-				date: "Nov 2, 2020"
-			},
-			{
-				avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-				author: "Britta Holt",
-				comment: "We should eat this: Grate, Squash, Corn, and tomatillo Tacos.",
-				date: "Nov 2, 2020"
-			},
-		]
+		colors: [
+			"#1F7087",
+			"#731231",
+			"#254f0d",
+			"#6d190d",
+			"#952175",
+			"#64410d",
+			"#952175",
+			"#105414",
+			"#60250f",
+			"#10405f",
+		],
 	}),
+	computed: {
+		...mapGetters({
+			discussions: "event/commentsList"
+		})
+	},
 	methods: {
+		async init() {
+			this.loading = true
+			await this.$store.dispatch("event/fetchCommentsFor", {id: this.event.id})
+			this.loading = false
+		},
 		makeComment() {
 			if (this.myComment === null) return
 			console.log(this.myComment)
@@ -98,12 +121,18 @@ export default {
 	}
 }
 </script>
-<style scoped lang="sass">
-.comment
-	background-color: #d9ebfa
-	border-radius: 10px
-	padding: 10px 5px
-	-webkit-line-clamp: unset !important
-.comment-date
-	font-size: 12px
+<style scoped lang="scss">
+.comment {
+	background-color: #d9ebfa;
+	border-radius: 10px;
+	padding: 10px 5px;
+	-webkit-line-clamp: unset !important;
+}
+.comment-date {
+	font-size: 10px;
+	padding: 2px;
+	margin: 2px;
+	background: aliceblue;
+	border-radius: 5px;
+}
 </style>

@@ -95,8 +95,8 @@ const actions = {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {
 				commit("SET_ARTICLE_POST_CREATION_FORM_ERRORS", e.response.data)
-				return false
-			} else return 500
+			}
+			return false
 		}
 	},
 
@@ -164,9 +164,9 @@ const actions = {
 		}
 	},
 
-	async fetchComments({}, {id: id}) {
+	async fetchCommentsForId({}, {id: id}) {
 		try {
-			return await $api.get(util.format(articleUrl.comment, id))
+			return await $api.getWithPayload(urls.post.comment, {article: id})
 		} catch (e) {
 			return false
 		}

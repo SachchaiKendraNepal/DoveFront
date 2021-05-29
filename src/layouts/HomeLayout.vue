@@ -65,7 +65,7 @@
 					<template #activator="{ on, attrs }">
 						<v-avatar
 							class="to-showcase elevation-4 mx-2"
-							color="#0e7ed8"
+							color="#7e57c2"
 							v-bind="attrs"
 							v-on="on"
 							@click="routeToShowcase()"
@@ -82,6 +82,17 @@
 				<profile-dropdown />
 			</div>
 		</v-app-bar>
+
+		<v-snackbar
+			v-model="snack"
+			top
+			right
+			:timeout="3000"
+			:color="snackColor"
+			class="home-snack"
+		>
+			{{ snackText }}
+		</v-snackbar>
 
 		<v-card
 			light
@@ -156,6 +167,7 @@
 
 <script>
 import router from "@/router"
+import {mapGetters} from "vuex";
 
 export default {
 	name: "SacchaiHomeLayout",
@@ -178,6 +190,20 @@ export default {
 		],
 		homeDrawer: false
 	}),
+	computed: {
+		...mapGetters({
+			snackText: "snack/snackText",
+			snackColor: "snack/snackColor"
+		}),
+		snack: {
+			get() {
+				return this.$store.state.snack.snack
+			},
+			set(v) {
+				this.$store.dispatch("snack/setSnackState", v)
+			}
+		},
+	},
 	methods: {
 		routeToShowcase() {
 			router.push({name: "SACHCHAI SHOWCASE"})

@@ -1,5 +1,6 @@
 import $api from "@/handler/axios";
 import urls from "@/urls.json";
+const util = require("util");
 
 export const SET_LOVED_POSTS = "SET_LOVED_POSTS"
 export const SET_BOOKMARKED_POSTS = "SET_BOOKMARKED_POSTS"
@@ -60,7 +61,26 @@ const actions = {
 			}
 			return 500
 		}
+	},
+
+	async updateComment({}, {id: id, comment: comment}) {
+		try{
+			await $api.patch(util.format(urls.post.commentDetail, id), {comment: comment})
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async deleteComment({}, {id: id}) {
+		try {
+			await $api.delete(util.format(urls.post.commentDetail, id))
+			return true
+		} catch (e) {
+			return false
+		}
 	}
+
 }
 
 export default {

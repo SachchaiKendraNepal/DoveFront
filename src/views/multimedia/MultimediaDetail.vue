@@ -9,7 +9,9 @@
 			:is-article="false"
 		>
 			<template #imageCarousel>
-				<v-carousel height="100vh">
+				<v-carousel height="100vh"
+					dark
+				>
 					<template #next="{ on, attrs }">
 						<v-btn dark
 							icon
@@ -29,56 +31,110 @@
 						</v-btn>
 					</template>
 					<v-carousel-item
-						v-for="item in multimedia.multimedia_images"
+						v-for="item in multimedia['multimedia_images']"
 						:key="item.id + 5 * 7"
 						active-class="multimedia-active-image"
-						:src="item.image"
 						reverse-transition="fade-transition"
 						transition="fade-transition"
-					/>
+					>
+						<template #default>
+							<v-card height="100vh"
+								class="rounded-0"
+							>
+								<v-img :src="item.image"
+									height="100vh"
+									contain
+								/>
+							</v-card>
+						</template>
+					</v-carousel-item>
 					<v-carousel-item
-						v-for="item in multimedia.multimedia_videos"
+						v-for="item in multimedia['multimedia_videos']"
 						:key="item.id + 7 * 11"
 						active-class="multimedia-active-video"
 						reverse-transition="fade-transition"
 						transition="fade-transition"
 					>
 						<template #default>
-							<video-player
-								:options="{
-									fluid: true,
-									fill: true,
-									autoplay: true,
-									controls: true,
-									sources: [
-										{
-											src: item.video,
-											type: 'video/mp4'
-										}
-									]
-								}"
-							/>
+							<v-card
+								height="100vh"
+								class="rounded-0"
+							>
+								<video-player
+									:options="{
+										fluid: true,
+										fill: true,
+										autoplay: true,
+										controls: true,
+										sources: [
+											{
+												src: item.video,
+												type: 'video/mp4'
+											}
+										]
+									}"
+								/>
+							</v-card>
 						</template>
 					</v-carousel-item>
-					<v-carousel-item v-for="(item) in multimedia.multimedia_video_urls"
-						:key="item.id + 11 * 13"
+					<v-carousel-item
 						active-class="multimedia-active-video-url"
 						transition="fade-transition"
 						reverse-transition="fade-transition"
 					>
 						<template #default>
-							<div class="video-container">
-								<iframe :src="prepareEmbedUrl(item.video_url)"
-									frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen
-								/>
-							</div>
+							<v-card
+								v-if="nowPlaying"
+								dark
+								height="100vh"
+								class="rounded-0"
+							>
+								<v-card
+									height="600"
+									class="rounded-0"
+								>
+									<youtube-iframe
+										:video-url="nowPlaying"
+										height="600"
+									/>
+								</v-card>
+								<v-list class="rounded-t-0">
+									<v-list-item v-for="(videoUrl, index) in multimedia['multimedia_video_urls']"
+										:key="videoUrl.id"
+										@click="1"
+									>
+										<v-list-item-avatar tile>
+											<v-img class="thumbnail-radius"
+												:src="thumbnail(videoUrl.video_url)"
+											/>
+										</v-list-item-avatar>
+										<v-list-item-content>
+											<div class="video-list-name">
+												Video {{ index + 1 }}
+											</div>
+										</v-list-item-content>
+										<v-list-item-action>
+											<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
+												color="red lighten-1"
+												@click="nowPlaying = videoUrl.video_url"
+											>
+												<v-icon>mdi-play</v-icon>
+											</v-btn>
+											<div v-else
+												class="green--text"
+											>
+												Currently Playing
+											</div>
+										</v-list-item-action>
+									</v-list-item>
+								</v-list>
+							</v-card>
 						</template>
 					</v-carousel-item>
 				</v-carousel>
 			</template>
 			<template #comments>
-				<comments-detail :id="multimediaId" />
+				<comments-detail />
 			</template>
 		</base-post-detail>
 	</v-card>
@@ -86,10 +142,10 @@
 <script>
 import {mapGetters} from "vuex";
 
-
 export default {
 	name: "MultimediaDetailView",
 	components: {
+		YoutubeIframe: () => import("@/components/YoutubeIframe"),
 		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostDetail: () => import("@/components/post/_postDetail"),
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
@@ -97,6 +153,7 @@ export default {
 	data: () => ({
 		multimediaId: null,
 		loading: false,
+		nowPlaying: null,
 	}),
 	computed: {
 		... mapGetters({
@@ -107,22 +164,36 @@ export default {
 		await this.init()
 	},
 	methods: {
+		thumbnail(videoUrl) {
+			const youtube_video_id = this.getId(videoUrl)
+			return `//img.youtube.com/vi/${youtube_video_id}/0.jpg`
+		},
+		getId(videoUrl) {
+			return this.$helper.getVideoIdFromYoutubeURL(videoUrl)
+		},
 		async init() {
 			this.loading=true
 			this.multimediaId = parseInt(this.$route.params.id)
 			await this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
+			if (this.multimedia["multimedia_video_urls"].length > 0) {
+				this.nowPlaying = this.multimedia["multimedia_video_urls"][0].video_url
+			}
 			this.loading=false
 		},
-		getId(url) {
-			return this.$helper.getVideoIdFromYoutubeURL(url)
-		},
-		prepareEmbedUrl(url) {
-			return `https://www.youtube.com/embed/${this.getId(url)}`
+		async getVideoTitle(url) {
+			const id = this.getId(url)
+			const title = await this.$store.dispatch("multimedia/getYTVideoTitle", {id: id})
+			console.log(title)
+			return title
 		}
 	}
 }
 </script>
-<style lang="sass" scoped>
-::v-deep div.title
-	text-align: center !important
+<style lang="scss" scoped>
+::v-deep div.title {
+	text-align: center !important;
+}
+.thumbnail-radius {
+	border-radius: 5px;
+}
 </style>

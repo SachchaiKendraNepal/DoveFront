@@ -50,7 +50,7 @@
     "toggleBookmark": "/article/%s/toggle-bookmark",
     "togglePin": "article/%s/toggle-pin-status",
     "extraStatus": "article-status/%s",
-    "comment": "article/%s/comment"
+    "comment": "comment/?article=%s"
   },
   "multimedia": {
     "set": "/multimedia/",
@@ -64,10 +64,11 @@
     "toggleBookmark": "/multimedia/%s/toggle-bookmark",
     "togglePin": "multimedia/%s/toggle-pin-status",
     "extraStatus": "multimedia-status/%s",
-    "comment": "multimedia/%s/comment"
+    "comment": "comment/?multimedia=%s"
   },
   "post": {
-    "comment": "comment",
+    "comment": "comment/",
+    "commentDetail": "comment/%s/",
     "listLovedMedia": "loved-media",
     "listBookmarkedMedia": "bookmarked-media",
     "listPinnedMedia": "pinned-media"

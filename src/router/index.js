@@ -178,7 +178,7 @@ const routes = [
 		children: [
 			{
 				path: "post",
-				name: "MY POSTS",
+				name: "PROFILE POSTS",
 				component: () => import("@/views/profile/PostsTab")
 			},
 			{
