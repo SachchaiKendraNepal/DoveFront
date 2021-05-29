@@ -12,11 +12,13 @@
 				</v-toolbar-title>
 			</v-toolbar>
 		</div>
-		<div class="ma-0 pa-0 scrollable-y-comments">
-			<v-list v-if="comments.length > 0"
+		<div
+			class="ma-0 pa-0 scrollable-y-comments"
+		>
+			<v-list v-if="comments.count > 0"
 				two-line
 			>
-				<template v-for="(item, index) in comments">
+				<template v-for="(item, index) in comments.results">
 					<v-subheader
 						v-if="item.header"
 						:key="index"
@@ -34,6 +36,55 @@
 						:key="index"
 						class="pl-3 pr-1 comment-item"
 					>
+						<div v-if="ifWriterIsCurrentUser(item.writer.username)">
+							<v-btn
+								icon
+								@click="openUpdateCommentDialog(item.comment)"
+							>
+								<v-icon color="primary">
+									mdi-pencil
+								</v-icon>
+							</v-btn>
+							<v-dialog
+								v-model="updateCommentDialog"
+								max-width="500"
+							>
+								<v-card class="edit-comment-card">
+									<v-card-title class="headline grey lighten-2">
+										Update your comment
+									</v-card-title>
+									<div class="py-4" />
+
+									<v-card-text>
+										<v-textarea
+											v-model="updateComment.comment"
+											filled
+											label="Comment"
+										/>
+									</v-card-text>
+
+									<v-divider />
+
+									<v-card-actions>
+										<v-btn
+											color="grey"
+											text
+											@click="updateCommentDialog = false"
+										>
+											Cancel
+										</v-btn>
+										<v-spacer />
+										<v-btn
+											color="primary"
+											text
+											@click="updateMyComment(item.id)"
+										>
+											Update
+										</v-btn>
+									</v-card-actions>
+								</v-card>
+							</v-dialog>
+						</div>
 						<v-list-item-content>
 							<v-list-item-title v-if="item.writer"
 								class="d-flex justify-space-between align-items-center"
@@ -46,7 +97,10 @@
 							</v-list-item-subtitle>
 						</v-list-item-content>
 						<v-list-item-action class="comment-actions">
-							<v-btn icon>
+							<v-btn v-if="ifWriterIsCurrentUser(item.writer.username) || $helper.isCurrentUserSuperAdmin() "
+								icon
+								@click="removeComment(item.id)"
+							>
 								<v-icon
 									color="red darken-1"
 								>
@@ -71,10 +125,6 @@ import $ from "jquery"
 export default {
 	name: "CommentsDetailComponent",
 	props: {
-		id: {
-			type: Number,
-			required: true
-		},
 		isArticle: {
 			type: Boolean,
 			required: false,
@@ -82,6 +132,10 @@ export default {
 		}
 	},
 	data: () => ({
+		updateCommentDialog: false,
+		updateComment: {
+			comment: null
+		},
 		comments: [],
 		loading: false
 	}),
@@ -96,19 +150,58 @@ export default {
 		this.calculateCommentBoxHeight()
 	},
 	methods: {
+		openUpdateCommentDialog(comment) {
+			this.updateCommentDialog = true
+			this.updateComment.comment = comment
+		},
+		closeUpdateCommentDialog() {
+			this.updateCommentDialog = false
+		},
+		ifWriterIsCurrentUser(commentWriterUsername) {
+			const currentUser = this.$helper.getCurrentUser()
+			return currentUser.username === commentWriterUsername
+		},
 		async init() {
 			this.loading = true
+			this.postId = parseInt(this.$route.params.id)
 			let response
 			if (this.isArticle) {
-				response = await this.$store.dispatch("article/fetchComments", {id: this.id})
+				response = await this.$store.dispatch("article/fetchCommentsForId", {id: this.postId})
 			} else {
-				response = await this.$store.dispatch("multimedia/fetchComments", {id: this.id})
+				response = await this.$store.dispatch("multimedia/fetchCommentsForId", {id: this.postId})
 			}
-			this.comments = response.data
+			this.comments = response
 			this.loading = false
+		},
+		async openSnack(text, color = "error") {
+			await this.$store.dispatch("snack/setSnackState", true)
+			await this.$store.dispatch("snack/setSnackColor", color)
+			await this.$store.dispatch("snack/setSnackText", text)
+		},
+		async updateMyComment(commentId) {
+			const updated = await this.$store.dispatch("article/updateComment", {
+				id: commentId,
+				comment: this.updateComment.comment
+			})
+			if (updated) {
+				this.closeUpdateCommentDialog()
+				await this.init()
+			} else {
+				await this.openSnack("Failed to comment. Try again later.")
+			}
+		},
+		async removeComment(commentId) {
+			const removed = await this.$store.dispatch("article/deleteComment", {id: commentId})
+			if (removed) {
+				await this.openSnack("Comment removed", "success")
+				await this.init()
+			} else {
+				await this.openSnack("Comment remove failed")
+			}
 		},
 		calculateCommentBoxHeight() {
 			const commentToolbarHeight = 50
+			console.log("mounted")
 			$(document).ready(function () {
 				const commentPostBox = $("#post-comment-from-detail").css("height")
 				const magicBoxHeight = $("#magic").height()
