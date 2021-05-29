@@ -286,9 +286,9 @@ export default {
 	computed: {
 		...mapGetters({
 			registerFormErrors: "user/registerFormErrors",
-			countries: "location/allCountries",
-			provinces: "location/allProvinces",
-			districts: "location/allDistricts"
+			countries: "location/countriesList",
+			provinces: "location/provincesList",
+			districts: "location/districtsList"
 		}),
 	},
 
@@ -302,17 +302,17 @@ export default {
 	methods: {
 		async initCountries() {
 			this.loadingCountries = true
-			await this.$store.dispatch("location/getAllCountries")
+			await this.$store.dispatch("location/fetchAllCountries")
 			this.loadingCountries = false
 		},
 		async initProvinces() {
 			this.loadingProvinces = true
-			await this.$store.dispatch("location/getAllProvinces")
+			await this.$store.dispatch("location/fetchAllProvinces")
 			this.loadingProvinces = false
 		},
 		async initDistricts() {
 			this.loadingDistricts = true
-			await this.$store.dispatch("location/getAllDistricts")
+			await this.$store.dispatch("location/fetchAllDistricts")
 			this.loadingDistricts = false
 		},
 		async registerFollower() {

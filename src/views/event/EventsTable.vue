@@ -225,13 +225,13 @@ export default {
 			this.isLoading = true
 			await this.$store.dispatch("event/fetchAll")
 			await this.$store.dispatch("branch/fetchAll")
-			await this.$store.dispatch("location/getAllCountries")
-			await this.$store.dispatch("location/getAllProvinces")
-			await this.$store.dispatch("location/getAllDistricts")
-			await this.$store.dispatch("location/getAllMunicipalities")
-			await this.$store.dispatch("location/getAllMunicipalityWards")
-			await this.$store.dispatch("location/getAllVdcs")
-			await this.$store.dispatch("location/getAllVdcWards")
+			await this.$store.dispatch("location/fetchAllCountries")
+			await this.$store.dispatch("location/fetchAllProvinces")
+			await this.$store.dispatch("location/fetchAllDistricts")
+			await this.$store.dispatch("location/fetchAllMunicipalities")
+			await this.$store.dispatch("location/fetchAllMunicipalityWards")
+			await this.$store.dispatch("location/fetchAllVdcs")
+			await this.$store.dispatch("location/fetchAllVdcWards")
 			this.isLoading = false
 		},
 
