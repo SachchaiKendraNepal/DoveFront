@@ -12,16 +12,26 @@
 					<v-carousel-item
 						v-for="item in article.article_images"
 						:key="item.id"
-						:src="item.image"
 						reverse-transition="fade-transition"
 						transition="fade-transition"
-					/>
+					>
+						<template #default>
+							<v-card height="100vh"
+								class="rounded-0"
+							>
+								<v-img :src="item.image"
+									height="100vh"
+									contain
+								/>
+							</v-card>
+						</template>
+					</v-carousel-item>
 				</v-carousel>
 			</template>
 			<template
 				#comments
 			>
-				<comments-detail :id="postId"
+				<comments-detail
 					:is-article="true"
 				/>
 			</template>
@@ -53,6 +63,7 @@ export default {
 		async init() {
 			this.loading=true
 			this.postId = parseInt(this.$route.params.id)
+
 			await this.$store.dispatch("article/getSingle", {id: this.postId})
 			this.loading=false
 		}

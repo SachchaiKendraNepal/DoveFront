@@ -1,48 +1,57 @@
 <template>
-	<v-card
-		:loading="loadingPosts"
-		flat
-		color="transparent"
-		class="mx-auto pa-0"
-		max-width="1000"
-	>
-		<v-row
-			class="ma-0 pa-0"
-			align="start"
-			justify="center"
+	<div>
+		<v-overlay :value="fetchingPostsOverlay">
+			<v-progress-circular indeterminate
+				size="64"
+			/>
+		</v-overlay>
+		<v-card
+			:loading="loadingPosts"
+			flat
+			color="transparent"
+			class="mx-auto pa-0"
+			max-width="1000"
 		>
-			<v-col
-				id="post-column"
-				class="ma-0"
-				cols="12"
-				xl="8"
-				lg="8"
-				md="8"
-				sm="8"
+			<v-row
+				class="ma-0 pa-0"
+				align="start"
+				justify="center"
 			>
-				<add-post-box />
-				<div v-for="post in posts"
-					:key="post.id" class="mb-2"
+				<v-col
+					id="post-column"
+					class="ma-0"
+					cols="12"
+					xl="8"
+					lg="8"
+					md="8"
+					sm="8"
 				>
-					<article-post v-if="post.isArticle"
-						:post="post"
-					/>
-					<multimedia v-else
-						:post="post"
-					/>
-				</div>
-			</v-col>
-			<v-col
-				cols="12"
-				xl="4"
-				lg="4"
-				md="4"
-				sm="4"
-			>
-				<home-ads-column-view />
-			</v-col>
-		</v-row>
-	</v-card>
+					<add-post-box />
+					<div v-if="posts.length > 0">
+						<div v-for="post in posts"
+							:key="post.id" class="mb-2"
+						>
+							<article-post v-if="post.isArticle"
+								:post="post"
+							/>
+							<multimedia v-else
+								:post="post"
+							/>
+						</div>
+					</div>
+				</v-col>
+				<v-col
+					cols="12"
+					xl="4"
+					lg="4"
+					md="4"
+					sm="4"
+				>
+					<home-ads-column-view />
+				</v-col>
+			</v-row>
+		</v-card>
+	</div>
 </template>
 
 <script>
@@ -58,6 +67,7 @@ export default {
 	},
 	data: () => ({
 		loadingPosts: false,
+		fetchingPostsOverlay: true,
 		posts: []
 	}),
 	computed: {
@@ -78,6 +88,7 @@ export default {
 			this.loadingPosts = false
 		},
 		sortPostsByUploadedDate() {
+			this.fetchingPostsOverlay = true
 			this.articles.forEach(article => {
 				article.isArticle = true
 			})
@@ -87,6 +98,7 @@ export default {
 			this.posts = this.posts.concat(this.articles)
 			this.posts = this.posts.concat(this.multimedias)
 			this.posts.sort((a, b) => (Date.parse(a.uploaded_at) < Date.parse(b.uploaded_at)) ? 1 : -1)
+			this.fetchingPostsOverlay = false
 		}
 	}
 }

@@ -96,14 +96,8 @@
 export default {
 	data: () => ({
 		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
-		og_items: [
-			{ text: "Showcase", icon: "mdi-view-dashboard", to: "/"},
-			{ text: "Home", icon: "mdi-home", to: "/home/feeds" }
-		],
-		my_items: [
-			{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/about"},
-			{ text: "My Posts", icon: "mdi-post-outline", to: "/home/post" }
-		],
+		og_items: [{ text: "Home", icon: "mdi-home", to: "/home/feeds" }],
+		my_items: [{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/about"}],
 		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],
 		log_items: [{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }]
 	}),

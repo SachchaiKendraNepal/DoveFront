@@ -1,10 +1,8 @@
 <template>
 	<v-dialog
 		v-model="dialog"
-		fullscreen
-		hide-overlay
-		close-delay="1000"
-		open-delay="1000"
+		:fullscreen="fullscreen"
+		max-width="500"
 		transition="dialog-bottom-transition"
 	>
 		<v-card
@@ -207,6 +205,10 @@
 				<v-divider
 					v-show="editedIndex !== -1"
 					class="mt-3"
+				/>
+				<div
+					v-if="editedIndex === -1"
+					class="py-6"
 				/>
 				<v-row class="ma-0 pa-0">
 					<v-col
@@ -481,6 +483,7 @@
 							counter="255"
 							label="Venue"
 							clearable
+							autocomplete="off"
 							prepend-inner-icon="mdi-home-roof"
 							hint="Where is the event going to be organized?"
 							:error-messages="formErrors.venue"
@@ -499,6 +502,8 @@
 							item-text="name"
 							item-value="id"
 							:items="countries"
+							name="country"
+							autocomplete="off"
 							attach=""
 							outlined
 							label="Country"
@@ -522,15 +527,17 @@
 						<v-autocomplete
 							id="province"
 							v-model="editedItem.province"
+							item-text="name"
+							item-value="id"
 							class="ma-0"
 							allow-overflow
 							dense
 							outlined
 							attach=""
-							label="Province"
-							item-text="name"
-							item-value="id"
+							name="Province"
+							autocomplete="off"
 							:items="provinces"
+							label="Province"
 							clearable
 							prepend-inner-icon="mdi-office-building-marker-outline"
 							:error-messages="formErrors.province"
@@ -561,6 +568,7 @@
 							:items="districts"
 							label="District"
 							clearable
+							autocomplete="off"
 							prepend-inner-icon="mdi-map-marker-multiple-outline"
 							:error-messages="formErrors.district"
 						>
@@ -590,6 +598,7 @@
 							label="Municipality"
 							:items="municipalities"
 							clearable
+							autocomplete="off"
 							prepend-inner-icon="mdi-google-maps"
 							:disabled="editedItem.vdc > 0"
 							:error-messages="formErrors.municipality"
@@ -618,6 +627,7 @@
 							outlined
 							clearable
 							attach=""
+							autocomplete="off"
 							label="Municipality Ward"
 							:items="municipality_wards"
 							:disabled="editedItem.vdc > 0"
@@ -650,6 +660,7 @@
 							label="VDC"
 							:items="vdcs"
 							clearable
+							autocomplete="off"
 							prepend-inner-icon="mdi-home-map-marker"
 							:disabled="editedItem.municipality > 0"
 							:error-messages="formErrors.vdc"
@@ -677,6 +688,7 @@
 							dense
 							outlined
 							clearable
+							autocomplete="off"
 							attach=""
 							label="VDC Ward"
 							:items="vdc_wards"
@@ -726,6 +738,12 @@ import {cookCreateData, cookEditData, getFormData} from "@/Helper"
 
 export default {
 	name: "EventFormDialog",
+	props: {
+		fullscreen: {
+			type: Boolean,
+			default: true
+		}
+	},
 	data: () => ({
 		dialog: false,
 		startDateMenu: false,
@@ -924,6 +942,11 @@ export default {
 	}
 }
 </script>
+<style lang="scss" scoped>
+#event-form {
+	overflow: hidden !important;
+}
+</style>
 <style lang="sass" scoped>
 .cursor
 	cursor: pointer
@@ -962,6 +985,7 @@ export default {
 ::v-deep.v-autocomplete__content
 	z-index: 10 !important
 .toolbar-title
+	font-weight: 300 !important
 	margin-left: 10px !important
 	@media only screen and (max-width: 600px)
 		margin-left: 5px !important

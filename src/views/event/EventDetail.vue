@@ -304,9 +304,8 @@
 		</v-row>
 		<v-row class="ma-0 pa-0">
 			<v-card
-				flat
 				max-width="1000"
-				class="mx-auto ma-2 elevation-24"
+				class="mx-auto my-2"
 			>
 				<v-tabs-items v-model="tab">
 					<event-about-tab-content :event="event" />
@@ -358,9 +357,10 @@ export default {
 	methods: {
 		async init() {
 			this.loading=true
-			await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
-			await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
-			await this.$store.dispatch("event/fetchCommentsFor", { id: this.$route.params.id})
+			const eventId = this.$route.params.id
+			await this.$store.dispatch("event/fetchSingle", { id: eventId })
+			await this.$store.dispatch("event/fetchStatistics", { id: eventId })
+			await this.$store.dispatch("event/fetchCommentsFor", { id: eventId })
 			this.loading=false
 		},
 		async openSnack(text, color="error") {
@@ -436,4 +436,11 @@ export default {
 	max-width: 770px
 	margin: auto auto
 	text-align: center
+</style>
+<style lang="scss">
+.why-idk {
+	opacity: 0;
+	height: 0;
+	padding: 0;
+}
 </style>

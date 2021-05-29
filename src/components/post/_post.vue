@@ -21,6 +21,7 @@
 				</v-list-item-title>
 				<v-list-item-subtitle v-if="post.uploaded_by">
 					<code>{{ post.uploaded_by.username }}</code>
+					<span class="uploaded-at">{{ $moment(post.uploaded_at).format("MMMM Do YYYY") }}</span>
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
@@ -29,11 +30,13 @@
 				>
 					<v-icon v-if="extraStatus.pinned"
 						color="indigo"
+						class="tilt-pin"
 					>
 						mdi-pin
 					</v-icon>
 					<v-icon v-else
 						color="indigo"
+						class="tilt-pin"
 					>
 						mdi-pin-outline
 					</v-icon>
@@ -214,5 +217,16 @@ export default {
 .post-actions-row {
 	height: 40px;
 	padding: 0 4px 0 8px !important;
+}
+.tilt-pin {
+	transform: rotate(30deg) !important
+}
+
+.uploaded-at {
+	font-size: .8rem;
+	margin: 2px;
+	padding: 2px;
+	background-color: aliceblue;
+	border-radius: 4px;
 }
 </style>

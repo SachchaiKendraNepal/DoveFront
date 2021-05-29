@@ -1,13 +1,13 @@
 <template>
 	<div v-if="!loading">
 		<v-list-item dark>
-			<v-list-item-avatar>
+			<v-list-item-avatar v-if="userHasProfileImage">
 				<v-img :src="getUploaderImage" />
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title
 					class="title cursor"
-					@click="routeToPostDetail(post.id, isArticle)"
+					@click="routeToPostDetail()"
 				>
 					{{ post.title }}
 				</v-list-item-title>
@@ -32,17 +32,17 @@
 			height="298"
 			class="round-touch"
 		>
-			<div v-if="images.data.length > 0">
+			<div v-if="postImages.length > 0">
 				<v-carousel-item
-					v-for="(item, index) in images.data"
+					v-for="(item, index) in postImages"
 					:key="index + 5 * 7"
 					:src="item.image"
 					transition="fade-transition"
 					reverse-transition="fade-transition"
 				/>
 			</div>
-			<div v-if="videos && videos.data.length > 0">
-				<v-carousel-item v-for="item in videos.data"
+			<div v-if="postVideos.length > 0">
+				<v-carousel-item v-for="item in postVideos"
 					:key="item.id + 7 * 11"
 					transition="fade-transition"
 					reverse-transition="fade-transition"
@@ -65,8 +65,8 @@
 					</template>
 				</v-carousel-item>
 			</div>
-			<div v-if="videoUrls && videoUrls.data.length > 0">
-				<v-carousel-item v-for="item in videoUrls.data"
+			<div v-if="postVideoUrls > 0">
+				<v-carousel-item v-for="item in postVideoUrls"
 					:key="item.id + 11 * 13"
 					transition="fade-transition"
 					reverse-transition="fade-transition"
@@ -89,6 +89,9 @@ import router from "@/router"
 
 export  default {
 	name: "PinnedPostComponent",
+	components: {
+		VideoPlayer: () => import("@/components/VideoPlayer"),
+	},
 	props: {
 		post: {
 			type: Object,
@@ -102,37 +105,41 @@ export  default {
 	},
 	data: () =>({
 		loading: false,
-		images: null,
-		videos: null,
-		videoUrls: null,
-		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
+		postImages: [],
+		postVideos: [],
+		postVideoUrls: []
 	}),
 	computed: {
+		userHasProfileImage() {
+			if (!this.post) return false
+			return this.post["uploaded_by"].profile["profile_images"].length > 0
+		},
 		getUploaderImage() {
-			if (this.post["uploaded_by"].profile["profile_images"].length > 0) {
+			if (this.userHasProfileImage) {
 				return this.post["uploaded_by"].profile["profile_images"][0].image
-			} else return this.defaultProfileImage
+			} else return "None"
 		}
 	},
-	async created() {
-		await this.init()
+	created() {
+		this.init()
 	},
 	methods: {
-		async init() {
+		init() {
 			this.loading = true
-			if (this.isArticle) {
-				this.images = await this.$store.dispatch("article/fetchImagesForArticle", {id: this.post.id})
-			} else {
-				this.images = await this.$store.dispatch("multimedia/fetchImagesFor", {id: this.post.id})
-				this.videos = await this.$store.dispatch("multimedia/fetchVideosFor", {id: this.post.id})
-				this.videoUrls = await this.$store.dispatch("multimedia/fetchVideoUrlsFor", {id: this.post.id})
+			if (this.post) {
+				if (this.post.article_images) this.postImages = this.post.article_images
+				else {
+					this.postImages = this.post.multimedia_images
+					this.postVideos = this.post.multimedia_videos
+					this.postVideoUrls = this.post.multimedia_video_urls
+				}
 			}
 			this.loading = false
 		},
-		routeToPostDetail(itemID, isArticle) {
-			isArticle
-				? router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: itemID }})
-				: router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: itemID }})
+		routeToPostDetail() {
+			this.isArticle
+				? router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: this.post.id }})
+				: router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: this.post.id }})
 		},
 		getId(url) {
 			return this.$helper.getVideoIdFromYoutubeURL(url)

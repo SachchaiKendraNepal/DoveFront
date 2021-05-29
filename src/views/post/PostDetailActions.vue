@@ -17,11 +17,11 @@
 					v-on="on"
 					@click="togglePostLoveStatus"
 				>
-					<v-icon v-if="extraStatus.loved">
+					<v-icon v-if="!extraStatus.loved">
 						mdi-heart
 					</v-icon>
 					<v-icon v-else>
-						mdi-heart-outlined
+						mdi-heart-outline
 					</v-icon>
 				</v-btn>
 			</template>
@@ -110,25 +110,26 @@ export default {
 	},
 	methods: {
 		async init() {
+			const postId = this.$route.params.id
 			if (this.isArticle) {
-				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: this.target.id})
+				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: postId})
 			} else {
-				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: this.target.id})
+				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: postId})
 			}
 		},
 		async togglePostLoveStatus() {
 			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleLoveStatus", {id: this.post.id})
+				await this.$store.dispatch("article/toggleLoveStatus", {id: this.target.id})
 			} else {
-				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.post.id})
+				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.target.id})
 			}
 			await this.init()
 		},
 		async toggleBookmarkStatus() {
 			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.post.id})
+				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.target.id})
 			} else {
-				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.post.id})
+				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.target.id})
 			}
 			await this.init()
 		},

@@ -599,23 +599,3 @@ export default {
 	}
 }
 </script>
-<style lang="sass" scoped>
-.cursor-pointer
-	cursor: pointer
-.event-banner
-	border-radius: 10px
-.button-span
-	visibility: visible
-	opacity: 1
-	margin-left: 4px
-	transition: all .2s
-	@media only screen and (max-width: 432px)
-		visibility: hidden
-		opacity: 0
-		width: 0
-		margin: 0
-		overflow: hidden
-::v-deep.v-list-item__content
-	padding: 0
-	margin-top: -10px
-</style>

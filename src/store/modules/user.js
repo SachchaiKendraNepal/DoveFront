@@ -133,7 +133,7 @@ const actions = {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_REGISTER_FORM_ERRORS", e.response.data)
 			}
-			return 500
+			return false
 		}
 	}
 }

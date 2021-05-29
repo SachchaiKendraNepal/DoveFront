@@ -179,7 +179,7 @@ export default {
 			await this.$store.dispatch("snack/setSnackText", text)
 		},
 		async updateMyComment(commentId) {
-			const updated = await this.$store.dispatch("article/updateComment", {
+			const updated = await this.$store.dispatch("post/updateComment", {
 				id: commentId,
 				comment: this.updateComment.comment
 			})
@@ -191,7 +191,7 @@ export default {
 			}
 		},
 		async removeComment(commentId) {
-			const removed = await this.$store.dispatch("article/deleteComment", {id: commentId})
+			const removed = await this.$store.dispatch("post/deleteComment", {id: commentId})
 			if (removed) {
 				await this.openSnack("Comment removed", "success")
 				await this.init()

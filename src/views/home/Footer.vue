@@ -35,15 +35,19 @@
 			>
 				<v-col cols="12">
 					<v-card class="d-flex pa-4"
-						color="transparent"
+						color="rgb(0 150 136 / 29%)"
 						min-height="120"
 					>
 						<div class="become-follower">
-							Become a follower
-							<v-btn rounded
+							<div class="become-text">
+								Become a follower
+							</div>
+							<v-btn
+								rounded
 								min-height="50"
 								min-width="120"
-								class="showcase-blue-bg"
+								class="become-btn"
+								color="rgb(0 105 92 / 67%)"
 								@click="routeToRegisterPage"
 							>
 								Join Us
@@ -59,12 +63,16 @@
 					sm="3"
 					class="pl-xl-16 pl-lg-16 pl-md-12 pl-sm-6"
 				>
-					<div class="d-flex justify-start align-center">
+					<div class="d-flex justify-start align-center my-4">
 						<v-avatar
 							tile
-							size="50"
+							size="70"
 						>
-							<v-img src="@/assets/dove-solid.svg" />
+							<v-icon size="70"
+								color="light-blue lighten-3"
+							>
+								mdi-bird
+							</v-icon>
 						</v-avatar>
 					</div>
 					<div id="about-kendra">
@@ -193,7 +201,6 @@ export default {
 		FacebookWidget: () => import("@/views/showcase/Facebook")
 	},
 	data: () => ({
-		logo: require("@/assets/sacchai_logo.jpg"),
 		socialMediaButtonIcons: [
 			{color: "indigo darken-2", icon: "mdi-facebook"},
 			{color: "#f71701", icon: "mdi-youtube"},
@@ -294,6 +301,12 @@ export default {
 	@media only screen and (max-width: 500px) {
 		font-size: 3rem;
 		line-height: 3rem;
+	}
+	.become-text {
+		padding: 10px
+	}
+	.become-btn {
+		padding: 10px
 	}
 }
 </style>

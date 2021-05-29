@@ -1,6 +1,9 @@
 <template>
 	<v-tab-item value="tab-multimedia">
 		<v-card flat>
+			<v-card-text class="why-idk">
+				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
+			</v-card-text>
 			<v-card-text>
 				<v-row v-if="videoUrls.length>0"
 					no-gutters
@@ -12,7 +15,7 @@
 						cols="12" xl="4"
 						md="4"
 						lg="4" sm="4"
-						class="image-to-upload-col"
+						class="ma-2"
 					>
 						<v-badge
 							bordered
@@ -20,38 +23,66 @@
 							overlap
 						>
 							<template #badge>
-								<v-icon @click="removeVideoUrls(index)">
+								<v-icon class="badge-close"
+									@click="removeVideoUrls(index)"
+								>
 									mdi-close
 								</v-icon>
 							</template>
 							<youtube-iframe
 								:video-url="videoUrl"
+								class="rounded"
 							/>
 						</v-badge>
 					</v-col>
 				</v-row>
+				<v-row v-if="videos.length>0"
+					no-gutters
+					justify="center"
+					align="center"
+					class="pb-4"
+				>
+					<v-col v-for="(video, index) in videosToUpload" :key="index"
+						cols="12" xl="4"
+						md="4"
+						lg="4" sm="4"
+					>
+						<v-badge
+							bordered
+							overlap
+							color="grey darken-2"
+						>
+							<template #badge>
+								<v-icon
+									x-small
+									class="badge-close"
+									@click="removeVideo(index)"
+								>
+									mdi-close
+								</v-icon>
+							</template>
+							<div class="video-item-to-upload">
+								<a :href="video.videoUrl"
+									target="_blank"
+								>{{ video.name }}</a>
+							</div>
+						</v-badge>
+					</v-col>
+				</v-row>
+
 				<div class="upload-image-container">
 					<file-upload
+						id="multimedia-uploader"
 						v-model="eventVideosForUpload"
 						:multiple="true"
 						class="cursor-pointer"
-						@input-file="inputFile"
-						@input-filter="inputFilter"
+						@input-file="inputVideoFile"
+						@input-filter="inputVideoFilter"
 					>
 						<div class="upload-image">
 							Add video to event
 						</div>
 					</file-upload>
-				</div>
-				<div v-if="videos.length > 0"
-					class="d-flex justify-center pa-2"
-				>
-					<v-btn color="orange"
-						dark
-						@click="uploadEventVideos"
-					>
-						Upload
-					</v-btn>
 				</div>
 			</v-card-text>
 			<v-card-text>
@@ -72,63 +103,33 @@
 					hint="Type youtube video url and press enter to add a new one."
 				/>
 			</v-card-text>
+			<v-card-text v-if="videos.length > 0 || videoUrls.length > 0">
+				<div class="d-flex justify-center pa-2">
+					<v-btn color="orange"
+						dark
+						@click="uploadEventVideos"
+					>
+						Upload
+					</v-btn>
+				</div>
+			</v-card-text>
 			<v-card-title class="headline pb-0">
 				<v-icon large>
 					mdi-video
 				</v-icon>
 				<span class="pl-4 quick-sand-font">Event Videos</span>
 			</v-card-title>
-			<v-row class="ma-0 pa-0">
-				<v-col v-show="event.video_urls.length === 0">
+			<v-row
+				class="ma-0 pa-0"
+			>
+				<v-col v-if="event.video_urls.length === 0">
 					<div class="no-videos">
 						No videos added yet!
 					</div>
 				</v-col>
-				<v-col
-					cols="12"
-					class="ma-0"
-				>
-					<v-card
-						v-if="nowPlaying"
-						max-width="950"
-						height="400"
-						class="ma-0 pa-0"
-					>
-						<youtube-iframe :video-url="nowPlaying" />
-					</v-card>
-					<v-list>
-						<v-list-item v-for="(video_url, index) in event['video_urls']"
-							:key="video_url.id"
-							@click="1"
-						>
-							<v-list-item-avatar style="border: 2px solid #8BC34A; background: #8BC34A;">
-								<v-icon
-									:color="(nowPlaying !== video_url.video_url) ? 'indigo lighten-1' : 'green darken-2'"
-								>
-									mdi-play
-								</v-icon>
-							</v-list-item-avatar>
-							<v-list-item-content>
-								<div class="video-list-name">
-									Video {{ index + 1 }}
-								</div>
-							</v-list-item-content>
-							<v-list-item-action>
-								<v-btn v-if="!(nowPlaying === video_url.video_url)" icon
-									color="red lighten-1"
-									@click="nowPlaying = video_url.video_url"
-								>
-									<v-icon>mdi-play</v-icon>
-								</v-btn>
-								<div v-else
-									class="green--text"
-								>
-									Currently Playing
-								</div>
-							</v-list-item-action>
-						</v-list-item>
-					</v-list>
-				</v-col>
+				<youtube-play-list v-else
+					:video-urls="event.video_urls"
+				/>
 			</v-row>
 		</v-card>
 	</v-tab-item>
@@ -140,7 +141,7 @@ import VueUploadComponent from "vue-upload-component";
 export default {
 	name: "EventDetailMultimediaTabContent",
 	components: {
-		YoutubeIframe: () => import("@/components/YoutubeIframe"),
+		YoutubePlayList: () => import("@/components/YoutubePlayList"),
 		FileUpload: VueUploadComponent,
 	},
 	props: {
@@ -154,15 +155,9 @@ export default {
 		videos: [],
 		videoUrls: [],
 		videosToUpload: [],
-		nowPlaying: null,
 	}),
-	created() {
-		if (this.event.video_urls.length > 0) {
-			this.nowPlaying = this.event.video_urls[0].video_url
-		}
-	},
 	methods: {
-		inputFile(latest) {
+		inputVideoFile(latest) {
 			const latestFile = latest.file
 			const latestUrl = URL.createObjectURL(latestFile)
 			if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
@@ -172,9 +167,14 @@ export default {
 					videoUrl: latestUrl,
 				})
 				this.videos.push(latestFile)
+				console.log(this.videosToUpload, this.videos)
 			}
 		},
-		inputFilter(newFile, oldFile, prevent) {
+		removeVideo(index) {
+			this.videosToUpload.splice(index, 1)
+			this.videos.splice(index, 1)
+		},
+		inputVideoFilter(newFile, oldFile, prevent) {
 			if (newFile && !oldFile) {
 				// Filter file extension
 				if (!/\.(webm|mp4|mpeg|flv)$/i.test(newFile.name)) {
@@ -183,7 +183,7 @@ export default {
 				}
 			}
 		},
-		removeVideoUrls() {
+		removeVideoUrls(index) {
 			this.videoUrls.splice(index, 1)
 		},
 		removeVideosToUpload() {
@@ -191,17 +191,29 @@ export default {
 			this.videosToUpload.splice(index, 1)
 		},
 		async uploadEventVideos() {
-			const body = await getFormData({
-				videos: this.videos,
-			})
-			const added = await this.$store.dispatch("event/addVideoListFor", {
-				id: this.event.id,
-				body: body
-			})
+			let added
+			if (this.videos.length > 0) {
+				const body = await getFormData({
+					videos: this.videos,
+				})
+				added = await this.$store.dispatch("event/addVideoListFor", {
+					id: this.event.id,
+					body: body
+				})
+			}
+			if (this.videoUrls.length >0) {
+				added = await this.$store.dispatch("event/addVideoUrlListFor", {
+					id: this.event.id,
+					body: {
+						video_urls: this.videoUrls
+					}
+				})
+			}
 			if (added) {
 				await this.$store.dispatch("event/fetchSingle", {id: this.$route.params.id})
 				this.videosToUpload = []
 				this.videos = []
+				this.videoUrls = []
 			}
 		}
 	}
@@ -214,13 +226,25 @@ export default {
 }
 .no-videos {
 	display: flex;
-	color: #b07ed4;
-	font-weight: bold;
+	color: #88889a;
 	align-items: center;
 	justify-content: center;
-	background: aliceblue url(./../../../assets/cinema-clipart-roll.jpg) no-repeat;
+	text-align: center;
+	background: aliceblue url(./../../../assets/noEventVideos.jpg) no-repeat;
 	background-size: 100%;
 	margin: 12px;
 	height: 180px;
+	border-radius: 5px;
+}
+.badge-close {
+	z-index: 1;
+}
+.video-item-to-upload {
+	padding: 10px;
+	background: #7affcf;
+	border-radius: 5px;
+	a {
+		font-weight: bold;
+	}
 }
 </style>
