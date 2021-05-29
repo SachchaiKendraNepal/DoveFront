@@ -1,8 +1,13 @@
 <template>
-	<iframe v-if="videoUrl" :src="prepareEmbedUrl(videoUrl)"
-		frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+	<iframe
+		v-if="videoUrl"
+		id="youtube-video-frame"
+		:src="prepareEmbedUrl(videoUrl)"
+		frameborder="0"
+		allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;"
 		allowfullscreen
-		height="100%"
+		controls="1"
+		:height="height"
 		width="100%"
 	/>
 </template>
@@ -14,6 +19,11 @@ export default {
 		videoUrl: {
 			type: String,
 			required: true
+		},
+		height: {
+			type: String,
+			required: false,
+			default: "100%"
 		}
 	},
 	methods: {
