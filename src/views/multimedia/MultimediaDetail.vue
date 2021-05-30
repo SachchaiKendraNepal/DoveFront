@@ -183,7 +183,6 @@ export default {
 		async getVideoTitle(url) {
 			const id = this.getId(url)
 			const title = await this.$store.dispatch("multimedia/getYTVideoTitle", {id: id})
-			console.log(title)
 			return title
 		}
 	}
