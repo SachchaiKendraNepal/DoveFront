@@ -65,7 +65,7 @@
 					<v-btn
 						dark
 						color="primary"
-						@click="openAddNewDialog"
+						@click.prevent="openCreateFormDialog"
 					>
 						<v-icon
 							dark
@@ -77,68 +77,7 @@
 					</v-btn>
 
 
-					<v-dialog
-						v-model="createDialog"
-						dark
-						max-width="500px"
-					>
-						<v-card min-height="700">
-							<v-card-title class="grey darken-4 elevation-4">
-								<span class="headline">New District</span>
-							</v-card-title>
-							<div class="py-6" />
-
-							<v-card-text>
-								<v-container>
-									<v-row class="ma-0 pa-0">
-										<v-col cols="12">
-											<admin-text-field
-												v-model="editedItem.name"
-												name="name"
-												label="Name"
-												:errors="addFormErrors"
-												prepend-inner-icon="mdi-format-title"
-											/>
-										</v-col>
-										<v-col cols="12">
-											<admin-country-autocomplete-field
-												v-model="editedItem.country"
-												:items="countries.results"
-												:loading="countriesLoading"
-												:errors="addFormErrors"
-											/>
-										</v-col>
-										<v-col cols="12">
-											<admin-province-autocomplete-field
-												v-model="editedItem.province"
-												:items="provinces.results"
-												:loading="provincesLoading"
-												:errors="addFormErrors"
-											/>
-										</v-col>
-									</v-row>
-								</v-container>
-							</v-card-text>
-
-							<v-card-actions class="mx-6">
-								<v-spacer />
-								<v-btn
-									color="error darken-1"
-									text
-									@click="closeCreateDialog"
-								>
-									Cancel
-								</v-btn>
-								<v-btn
-									color="blue darken-1"
-									text
-									@click="createDistrict"
-								>
-									Save
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
+					<add-district-form-dialog />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -211,16 +150,17 @@ import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
+import AddDistrictFormDialog from "@/views/location/AddDistrictFormDialog";
 const urls = require("@/urls.json")
 const util = require("util")
 
 
 export default {
 	name: "DistrictTable",
-	mixins: [AdminTableList, CountryAutocomplete, ProvinceAutocomplete],
+	components: {AddDistrictFormDialog},
+	mixins: [AdminTableList],
 	data() {
 		return {
-			createDialog: false,
 			headers: [
 				{
 					text: "actions",
@@ -234,13 +174,6 @@ export default {
 				{ text: "CREATED AT", value: "created_at" },
 				{ text: "UPDATED AT", value: "updated_at" }
 			],
-			// add form fields
-			editedItem: {
-				name: null,
-				province: null,
-				country: null
-			},
-			addFormErrors: {},
 			//edit dialog for field
 			nameToUpdate: null,
 			mixinData: {
@@ -256,43 +189,16 @@ export default {
 		}),
 	},
 	methods: {
-		openAddNewDialog() {
-			this.createDialog = true
-			this.addFormErrors = {}
+		openCreateFormDialog() {
+			this.$bus.emit("open-add-district-form")
 		},
 		async initialize(val) {
 			this.loading = true
+			if (!val) val = 1
 			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
 			this.items = this.districts
 			this.totalDesserts = this.districts.count
 			this.loading = false
-		},
-		closeCreateDialog() {
-			const defaultData = {
-				name: null,
-				province: null
-			}
-			this.addFormErrors = defaultData
-			this.editedItem = defaultData
-			this.createDialog = false
-		},
-		async createDistrict() {
-			try {
-				await this.$api.post(urls.location.districtList, {
-					name: this.editedItem.name,
-					province: this.editedItem.province
-				})
-				await this.openSnack("District added successfully", "success")
-				this.closeCreateDialog()
-				await this.initialize(this.options.page)
-			} catch (e) {
-				const status = parseInt(e.response.status.toString())
-				if (status === 400) {
-					this.addFormErrors = e.response.data
-				} else {
-					await this.openSnack("District create failed")
-				}
-			}
 		},
 		async updateName(item) {
 			try {
