@@ -101,6 +101,7 @@
 												filled
 												prepend-inner-icon="mdi-format-title"
 												label="Name"
+												placeholder="Start typing"
 												:error-messages="addFormErrors.name"
 											/>
 										</v-col>
@@ -108,44 +109,34 @@
 											cols="12"
 										>
 											<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
-											<v-autocomplete v-model="province" :search-input.sync="search"
+											<v-autocomplete v-model="editedItem.province" :search-input.sync="province"
 												:items="provinces.results"
 												:loading="provincesLoading"
 												color="white"
-												hide-no-data
+												filled
 												hide-selected
 												item-text="name"
 												item-value="id"
-												label="Helloworldhehe"
-												prepend-icon="mdi-office-building-marker-outline"
-												return-object
-											/>
-											<v-divider />
-											<v-expand-transition>
-												<v-list
-													v-if="editedItem.province"
-													class="red lighten-3"
-												>
-													<v-list-item
-														v-for="(field, i) in provinces.results"
-														:key="i"
-													>
-														<v-list-item-avatar>
-															{{ field.name[0] }}
-														</v-list-item-avatar>
-														<v-list-item-content>
-															<v-list-item-title v-text="field.name" />
-															<v-list-item-subtitle>Name</v-list-item-subtitle>
-														</v-list-item-content>
+												label="Select province"
+												placeholder="Start typing"
+												autocomplete="off"
+												prepend-inner-icon="mdi-office-building-marker-outline"
+												:error-messages="addFormErrors.province"
+											>
+												<template #no-data>
+													<v-list-item>
+														<v-list-item-title>
+															No <code>provinces</code> found.
+														</v-list-item-title>
 													</v-list-item>
-												</v-list>
-											</v-expand-transition>
+												</template>
+											</v-autocomplete>
 										</v-col>
 									</v-row>
 								</v-container>
 							</v-card-text>
 
-							<v-card-actions class="mx-5">
+							<v-card-actions class="mx-6">
 								<v-spacer />
 								<v-btn
 									color="error darken-1"
@@ -213,7 +204,7 @@
 				</v-card-title>
 				<v-card-actions>
 					<v-spacer />
-					<v-btn color="blue darken-1"
+					<v-btn color="error darken-1"
 						text @click="closeDelete"
 					>
 						Cancel
@@ -254,7 +245,6 @@ export default {
 			headers: [
 				{
 					text: "actions",
-					align: "start",
 					sortable: false,
 					value: "actions",
 				},
@@ -276,6 +266,7 @@ export default {
 				province: null,
 			},
 			province: null,
+			provinceToSet: null,
 		}
 	},
 	computed: {
@@ -289,10 +280,11 @@ export default {
 			val || this.closeDelete()
 		},
 		async province(val) {
-			console.log(val)
-			this.provincesLoading = true
-			await this.$store.dispatch("location/searchProvincesByName", {name: val})
-			this.provincesLoading = false
+			if (val) {
+				this.provincesLoading = true
+				await this.$store.dispatch("location/searchProvincesByName", {name: val})
+				this.provincesLoading = false
+			}
 		}
 	},
 	methods: {
@@ -305,7 +297,6 @@ export default {
 		},
 		async createDistrict() {
 			try {
-				console.log(this.editedItem)
 				await this.$api.post(urls.location.districtList, this.editedItem)
 				await this.openSnack("District added successfully", "success")
 				this.close()
@@ -355,7 +346,6 @@ export default {
 			this.closeDelete()
 		},
 		async initialize(val) {
-
 			this.loading = true
 			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
 			this.items = this.districts
