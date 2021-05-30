@@ -16,7 +16,7 @@ const CountryAutocomplete = {
 		async country(val) {
 			if (val) {
 				this.countriesLoading = true
-				await this.$store.dispatch("location/filterCountries", {name: val})
+				await this.$store.dispatch("location/filterCountries", {search: val})
 				this.countriesLoading = false
 			}
 		}

@@ -211,157 +211,58 @@
 					class="py-6"
 				/>
 				<v-row class="ma-0 pa-0">
+					<admin-form-group-title
+						icon="mdi-calendar-text-outline"
+						text="Event Information"
+					/>
+					<text-field
+						id="event-title"
+						v-model="editedItem.title"
+						label="title"
+						name="title"
+						prepend-inner-icon="mdi-form-textbox"
+						:error-messages="formErrors"
+					/>
+					<text-area
+						id="event-description"
+						v-model="editedItem.description"
+						auto-grow
+						label="description"
+						name="description"
+						prepend-inner-icon="mdi-script-text"
+						:error-messages="formErrors"
+					/>
+					<branch-field
+						id="event-branch"
+						v-model="editedItem.branch"
+						label="Organizer (Branch)"
+						:error-messages="formErrors"
+					/>
+					<select-field
+						id="event-type"
+						v-model="editedItem.type"
+						label="Type of event"
+						name="type"
+						:select-items="eventTypeOptions"
+						prepend-inner-icon="mdi-call-merge"
+						:error-messages="formErrors"
+					/>
+					<text-field
+						v-model="editedItem.contact"
+						label="Contact"
+						type="number"
+						name="contact"
+						prepend-inner-icon="mdi-phone-classic"
+						:error-messages="formErrors"
+					/>
 					<v-col
 						cols="12"
-						class="pl-0"
-					>
-						<p class="header ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-calendar-text-outline
-							</v-icon>
-							Event Information
-						</p>
-						<v-divider />
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							id="event-title"
-							v-model="editedItem.title"
-							class="ma-0"
-							outlined
-							dense
-							counter="255"
-							label="Title"
-							clearable
-							prepend-inner-icon="mdi-form-textbox"
-							:error-messages="formErrors.title"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-textarea
-							id="event-description"
-							v-model="editedItem.description"
-							auto-grow
-							class="ma-0 pa-0"
-							name="description"
-							label="Description"
-							outlined
-							clearable
-							counter="512"
-							prepend-inner-icon="mdi-script-text"
-							:error-messages="formErrors.description"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0 organizer-col"
-					>
-						<v-autocomplete
-							id="event-organizer"
-							v-model="editedItem.organizer"
-							class="ma-0"
-							allow-overflow
-							attach=""
-							dense
-							outlined
-							label="Organizer (Branch)"
-							item-text="name"
-							item-value="id"
-							:items="branches"
-							clearable
-							prepend-inner-icon="mdi-city"
-							:error-messages="formErrors.organizer"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>branch</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-							<template #item="{ item }">
-								<v-list-item-avatar>
-									<v-avatar size="24"
-										color="grey darken-2"
-										class="white--text"
-									>
-										{{ item.name.charAt(0) }}
-									</v-avatar>
-								</v-list-item-avatar>
-								<v-list-item-content>
-									<v-list-item-title
-										v-text="item.name"
-									/>
-								</v-list-item-content>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-type"
-							v-model="editedItem.type"
-							class="ma-0"
-							allow-overflow
-							attach=""
-							dense
-							outlined
-							label="Type of event"
-							:items="eventTypeOptions"
-							clearable
-							prepend-inner-icon="mdi-call-merge"
-							:error-messages="formErrors.type"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							v-model="editedItem.contact"
-							class="ma-0 pa-0"
-							label="Contact"
-							type="number"
-							outlined
-							dense
-							clearable
-							prepend-inner-icon="mdi-phone-classic"
-							:error-messages="formErrors.contact"
-						/>
-					</v-col>
-					<v-col
-						id="is-main-col"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-checkbox
-							id="is_main"
-							v-model="editedItem.is_main"
-							label="Is Main Event?"
-							append-icon="mdi-calendar-star"
-							hide-details
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
 					>
 						<v-file-input
 							id="member-image-input"
 							v-model="editedItem.imageForUpload"
 							class="ma-0"
-							outlined
-							dense
+							solo
 							small-chips
 							show-size
 							accept="image/*"
@@ -373,54 +274,17 @@
 							:error-messages="formErrors.banner"
 						/>
 					</v-col>
-					<v-col
-						cols="12"
-						class="pl-0"
-					>
-						<p class="heading ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-calendar-clock
-							</v-icon>
-							Timeline Information
-						</p>
-						<v-divider />
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-menu
-							v-model="startDateMenu"
-							:nudge-bottom="50"
-							transition="scale-transition"
-							close-on-click
-							offset-overflow
-							max-width="290"
-							attach=""
-						>
-							<template #activator="{ on, attrs }">
-								<v-text-field
-									dense
-									class="ma-0 pa-0"
-									prepend-inner-icon="mdi-calendar"
-									:value="computedDateFormattedMomentJs"
-									clearable
-									outlined
-									v-bind="attrs"
-									label="Start Date"
-									:error-messages="formErrors.start_date"
-									v-on="on"
-									@click:clear="editedItem.start_date = null"
-								/>
-							</template>
-							<v-date-picker
-								v-model="editedItem.start_date"
-								@change="startDateMenu = false"
-							/>
-						</v-menu>
-					</v-col>
+					<admin-form-group-title
+						icon="mdi-calendar-clock"
+						text="Timeline Information"
+					/>
+					<date-picker-field
+						v-model="editedItem.start_date"
+						prepend-inner-icon="mdi-calendar"
+						label="Start Date"
+						name="start_date"
+						:error-messages="formErrors"
+					/>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
@@ -456,254 +320,89 @@
 							:error-messages="formErrors.time_of_day"
 						/>
 					</v-col>
-					<v-col
-						cols="12"
-						class="pl-0"
-					>
-						<p class="heading ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-map-marker
-							</v-icon>
-							Location Information
-						</p>
-						<v-divider />
-					</v-col>
+
+
+
+					<admin-form-group-title
+						icon="mdi-map-marker"
+						text="Location Information"
+					/>
+
+
+
+
+					<text-field
+						id="event-venue"
+						v-model="editedItem.venue"
+						label="Venue"
+						name="venue"
+						prepend-inner-icon="mdi-home-roof"
+						hint="Where is the event going to be organized?"
+						:error-messages="formErrors.venue"
+					/>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-text-field
-							id="event-venue"
-							v-model="editedItem.venue"
-							class="ma-0"
-							dense
-							outlined
-							counter="255"
-							label="Venue"
-							clearable
-							autocomplete="off"
-							prepend-inner-icon="mdi-home-roof"
-							hint="Where is the event going to be organized?"
-							:error-messages="formErrors.venue"
+						<country-field
+							v-model="editedItem.country"
+							:errors="formErrors"
 						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="country"
-							v-model="editedItem.country"
-							class="ma-0"
-							allow-overflow
-							dense
-							item-text="name"
-							item-value="id"
-							:items="countries"
-							name="country"
-							autocomplete="off"
-							attach=""
-							outlined
-							label="Country"
-							clearable
-							prepend-inner-icon="mdi-web"
-							:error-messages="formErrors.country"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>country</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="province"
+						<province-field
 							v-model="editedItem.province"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							name="Province"
-							autocomplete="off"
-							:items="provinces"
-							label="Province"
-							clearable
-							prepend-inner-icon="mdi-office-building-marker-outline"
-							:error-messages="formErrors.province"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>provinces</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:errors="formErrors"
+						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="districts"
+						<district-field
 							v-model="editedItem.district"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							:items="districts"
-							label="District"
-							clearable
-							autocomplete="off"
-							prepend-inner-icon="mdi-map-marker-multiple-outline"
-							:error-messages="formErrors.district"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>district</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:errors="formErrors"
+						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="municipality"
+						<municipality-field
 							v-model="editedItem.municipality"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							label="Municipality"
-							:items="municipalities"
-							clearable
-							autocomplete="off"
-							prepend-inner-icon="mdi-google-maps"
-							:disabled="editedItem.vdc > 0"
-							:error-messages="formErrors.municipality"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>municipality</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:error-messages="formErrors"
+						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="municipality-ward"
+						<municipality-ward-field
 							v-model="editedItem.municipality_ward"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							clearable
-							attach=""
-							autocomplete="off"
-							label="Municipality Ward"
-							:items="municipality_wards"
-							:disabled="editedItem.vdc > 0"
-							prepend-inner-icon="mdi-numeric"
-							:error-messages="formErrors.municipality_ward"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>municipality ward</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:error-messages="formErrors"
+						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
-							id="vdc"
+						<vdc-field
 							v-model="editedItem.vdc"
-							item-text="name"
-							item-value="id"
-							allow-overflow
-							class="ma-0"
-							dense
-							attach=""
-							outlined
-							label="VDC"
-							:items="vdcs"
-							clearable
-							autocomplete="off"
-							prepend-inner-icon="mdi-home-map-marker"
-							:disabled="editedItem.municipality > 0"
-							:error-messages="formErrors.vdc"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>vdc</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:error-messages="formErrors"
+						/>
 					</v-col>
 					<v-col
 						cols="12"
 						class="ma-0 pa-0"
 					>
-						<v-autocomplete
+						<vdc-ward-field
 							id="vdc-ward"
 							v-model="editedItem.vdc_ward"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							clearable
-							autocomplete="off"
-							attach=""
-							label="VDC Ward"
-							:items="vdc_wards"
-							:disabled="editedItem.municipality > 0"
-							prepend-inner-icon="mdi-numeric"
-							:error-messages="formErrors.vdc"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>vdc ward</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
+							:error-messages="formErrors"
+						/>
 					</v-col>
 					<v-col cols="12"
 						class="pa-0 pb-16 text-center"
@@ -735,9 +434,19 @@ import moment from "moment"
 import router from "@/router"
 import {mapGetters} from "vuex";
 import {cookCreateData, cookEditData, getFormData} from "@/Helper"
+import CountryAutocomplete from "@/mixins/CountryAutocomplete";
+import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
+import Snack from "@/mixins/Snack";
+import DistrictAutocomplete from "@/mixins/DistrictAutocomplete";
 
 export default {
 	name: "EventFormDialog",
+	mixins: [
+		CountryAutocomplete,
+		ProvinceAutocomplete,
+		DistrictAutocomplete,
+		Snack
+	],
 	props: {
 		fullscreen: {
 			type: Boolean,
@@ -778,7 +487,7 @@ export default {
 			vdc: null,
 			vdc_ward: null,
 			contact: null,
-			organizer: null,
+			branch: null,
 			created_at: null,
 			updated_at: null,
 			approved_at: null,
@@ -808,7 +517,7 @@ export default {
 			vdc: null,
 			vdc_ward: null,
 			contact: null,
-			organizer: null,
+			branch: null,
 			created_at: null,
 			updated_at: null,
 			approved_at: null,
@@ -822,14 +531,6 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			countries: "location/countriesList",
-			provinces: "location/provincesList",
-			districts: "location/districtsList",
-			municipalities: "location/municipalitiesList",
-			municipality_wards: "location/municipalityWardsList",
-			vdcs: "location/vdcsList",
-			vdc_wards: "location/vdcWardsList",
-			branches: "branch/list",
 			formErrors: "event/formErrorsList"
 		}),
 		formTitle() {
@@ -886,12 +587,6 @@ export default {
 				this.editedItem = Object.assign({}, this.defaultItem)
 				this.editedIndex = -1
 			})
-		},
-
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
 		},
 
 		async save() {

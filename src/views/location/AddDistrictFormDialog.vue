@@ -14,7 +14,7 @@
 				<v-container>
 					<v-row class="ma-0 pa-0">
 						<v-col cols="12">
-							<admin-text-field
+							<text-field
 								v-model="editedItem.name"
 								name="name"
 								label="Name"
@@ -23,7 +23,7 @@
 							/>
 						</v-col>
 						<v-col cols="12">
-							<admin-country-autocomplete-field
+							<country-field
 								v-model="editedItem.country"
 								:items="countries.results"
 								:loading="countriesLoading"
@@ -31,7 +31,7 @@
 							/>
 						</v-col>
 						<v-col cols="12">
-							<admin-province-autocomplete-field
+							<province-field
 								v-model="editedItem.province"
 								:items="provinces.results"
 								:loading="provincesLoading"

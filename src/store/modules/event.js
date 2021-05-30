@@ -62,7 +62,7 @@ const mutations = {
 }
 
 const getters = {
-	list: state => state.events.results,
+	list: state => state.events,
 	detail: state => state.event,
 	formErrorsList: state => state.formErrors,
 	statisticsDetail: state=> state.statistics,
@@ -73,8 +73,8 @@ const actions = {
 	clearFormErrors({commit}) {
 		commit("SET_EVENT_FORM_ERRORS", { ... defaultFormErrors})
 	},
-	async fetchAll({commit}) {
-		const response = await $api.get(eventUrl.list)
+	async fetchAll({commit}, {page: page}) {
+		const response = await $api.getWithPayload(eventUrl.list, {page: page})
 		commit("SET_EVENTS", response)
 	},
 

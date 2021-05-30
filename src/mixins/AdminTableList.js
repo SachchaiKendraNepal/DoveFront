@@ -1,6 +1,5 @@
 /**
  * required mixin data
- * - fetchAction
  * - deleteAction
  * - modelName
  */
@@ -10,7 +9,6 @@ const AdminTableList = {
 	mixins: [Snack],
 	data() {
 		return {
-			totalDesserts: 0,
 			totalItems: 0,
 			isLoading: false,
 			search: "",

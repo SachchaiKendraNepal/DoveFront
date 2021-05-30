@@ -16,6 +16,7 @@ const ProvinceAutocomplete = {
 	watch: {
 		async province(val) {
 			if (val) {
+				this.provincesLoading = true
 				await this.$store.dispatch("location/filterProvinces", {
 					search: val,
 					country: (this.selectedCountry) ? this.selectedCountry : ""

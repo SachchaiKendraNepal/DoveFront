@@ -2,8 +2,8 @@
 	<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 	<v-autocomplete :search-input.sync="country"
 		:value="value"
-		:items="items"
-		:loading="loading"
+		:items="countries.results"
+		:loading="countriesLoading"
 		solo
 		item-text="name"
 		item-value="id"
@@ -25,36 +25,31 @@
 <script>
 import AdminFieldErrorMessage from "@/mixins/AdminFieldErrorMessage";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
-import LocationAutocompleteInputChanged from "@/mixins/LocationAutocompleteInputChanged";
+import AutocompleteInputChanged from "@/mixins/AutocompleteInputChanged";
 
 export default {
-	name: "AdminAutocompleteField",
-	mixins: [AdminFieldErrorMessage, CountryAutocomplete, LocationAutocompleteInputChanged],
+	name: "CountryField",
+	mixins: [
+		AdminFieldErrorMessage,
+		CountryAutocomplete,
+		AutocompleteInputChanged
+	],
 	props: {
 		value: {
 			required: true
-		},
-		loading: {
-			type: Boolean,
-			default: false
 		},
 		errors: {
 			type: Object,
 			required: false,
 			default: () => {}
 		},
-		items: {
-			type: Array,
-			required: true,
-			default: () => []
-		}
 	},
 	emits: ["input"],
 	data() {
 		return {
 			name: "country",
 			mixinData: {
-				locationSetter: "location/setSelectedCountry"
+				setter: "location/setSelectedCountry"
 			}
 		}
 	},

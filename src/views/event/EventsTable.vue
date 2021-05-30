@@ -1,18 +1,20 @@
 <template>
-	<v-data-table
-		id="event-d-table"
-		v-model="selected"
-		:loading="isLoading"
-		loading-text="Events Loading ..."
-		calculate-widths
+	<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
+	<v-data-table :options.sync="options"
 		:headers="headers"
-		:items="events"
-		:search="search"
-		multi-sort
-		show-select
-		:single-select="false"
-		:items-per-page="12"
-		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
+		:items="items.results"
+		:server-items-length="getTotalPaginationData"
+		:items-per-page="getItemsPerPageCount"
+		:loading="loading"
+		loading-text="Loading events..."
+		class="elevation-1 ma-6"
+		:footer-props="{
+			showFirstLastPage: true,
+			disableItemsPerPage: true,
+			itemsPerPageOptions: [1, 5, 10, 50],
+			itemsPerPageText: 'Rows per page:',
+			pageText: `${options.page}-${getTotalPaginationData} of ${getTotalPaginationData}`
+		}"
 	>
 		<template #top>
 			<v-toolbar
@@ -169,14 +171,19 @@
 </template>
 
 <script>
-import router from "@/router";
 import {mapGetters} from "vuex";
+import AdminTableList from "@/mixins/AdminTableList";
+import Snack from "@/mixins/Snack";
+import ToggleApproval from "@/mixins/ToggleApproval";
+const urls = require("@/urls.json");
+const util = require("util");
 
 export default {
 	name: "EventsTableView",
 	components: {
 		EventFormDialog: () => import("@/views/event/EventFormDialog")
 	},
+	mixins: [AdminTableList, Snack, ToggleApproval],
 	data: () => ({
 		search: "",
 		selected: [],
@@ -193,25 +200,18 @@ export default {
 			{ text: "START DATE", value: "start_date" },
 			{ text: "DURATION (days)", value: "duration" },
 		],
+		mixinData: {
+			modelName: "Event",
+			deleteAction: "event/delete",
+			toggleApprovalAction: "event/toggleApproval"
+		}
 	}),
 	computed: {
 		...mapGetters({
 			events: "event/list",
 		})
 	},
-	async created() {
-		this.$bus.on("reload-events", this.reloadEvents)
-		await this.initialize()
-	},
-	beforeUnmount() {
-		this.$bus.off("reload-events")
-	},
 	methods: {
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
-		},
 		getDurationChipColor(value) {
 			if (value === 1) {
 				return "red lighten-2"
@@ -221,24 +221,13 @@ export default {
 				return "primary"
 			} else return ""
 		},
-		async initialize() {
-			this.isLoading = true
-			await this.$store.dispatch("event/fetchAll")
-			await this.$store.dispatch("branch/fetchAll")
-			await this.$store.dispatch("location/fetchAllCountries")
-			await this.$store.dispatch("location/fetchAllProvinces")
-			await this.$store.dispatch("location/fetchAllDistricts")
-			await this.$store.dispatch("location/fetchAllMunicipalities")
-			await this.$store.dispatch("location/fetchAllMunicipalityWards")
-			await this.$store.dispatch("location/fetchAllVdcs")
-			await this.$store.dispatch("location/fetchAllVdcWards")
-			this.isLoading = false
-		},
-
-		async reloadEvents() {
-			this.isLoading = true
-			await this.$store.dispatch("event/fetchAll")
-			this.isLoading = false
+		async initialize(val) {
+			this.loading = true
+			if (!val) val = 1
+			await this.$store.dispatch("event/fetchAll", {page: val})
+			this.items = this.events
+			this.totalItems = this.events.count
+			this.loading = false
 		},
 
 		openAddEventFormDialog() {
@@ -252,32 +241,8 @@ export default {
 			})
 		},
 
-		async deleteItem(item) {
-			const reaction = confirm(`Are you sure you want to delete event "${item.title}"?`);
-			if (reaction === true) {
-				const isDeleted = await this.$store.dispatch(
-					"event/delete",
-					{
-						id: item.id,
-					})
-				if (isDeleted) {
-					await this.openSnack("Event deleted.", "success")
-					await this.reloadEvents()
-				}
-			}
-		},
-
-		async toggleApproval(item) {
-			const response = await this.$store.dispatch("event/toggleApproval", { id: item.id })
-			if (response) {
-				await this.openSnack("Event approval toggled.", "success")
-				await this.reloadEvents()
-			}
-			else await this.openSnack("Event approval toggle failed. Try again.")
-		},
-
 		routeToEventDetailPage(itemId) {
-			router.push({name: "EVENT ADMINISTRATION", params: { id: itemId }})
+			this.$router.push({name: "EVENT ADMINISTRATION", params: { id: itemId }})
 		}
 	},
 }

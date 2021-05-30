@@ -148,8 +148,6 @@
 <script>
 import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
-import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
-import CountryAutocomplete from "@/mixins/CountryAutocomplete";
 import AddDistrictFormDialog from "@/views/location/AddDistrictFormDialog";
 const urls = require("@/urls.json")
 const util = require("util")
@@ -179,7 +177,6 @@ export default {
 			mixinData: {
 				modelName: "District",
 				deleteAction: "location/deleteDistrict",
-				fetchAction: "location/fetchAllDistricts"
 			}
 		}
 	},
@@ -197,7 +194,7 @@ export default {
 			if (!val) val = 1
 			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
 			this.items = this.districts
-			this.totalDesserts = this.districts.count
+			this.totalItems = this.districts.count
 			this.loading = false
 		},
 		async updateName(item) {
