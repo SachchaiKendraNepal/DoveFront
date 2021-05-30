@@ -56,7 +56,7 @@
 							>
 								<v-img :src="getCurrentProfileImage" />
 							</v-avatar>
-							<div class="text-center">
+							<div class="text-center py-4">
 								<v-chip
 									class="mt-1"
 									color="grey"
@@ -99,6 +99,7 @@
 								icon
 								height="40px"
 								width="40px"
+								:disabled="['Articles', 'Multimedia'].includes(item.title)"
 								@click.stop="handle_function_call(item.add)"
 							>
 								<v-icon>mdi-plus</v-icon>
@@ -139,6 +140,7 @@
 			<event-form-dialog />
 			<branch-form-dialog />
 			<follower-form-dialog />
+			<member-form-dialog />
 		</v-row>
 	</v-card>
 </template>
@@ -148,10 +150,11 @@ export default {
 	components: {
 		EventFormDialog: () => import("@/views/event/EventFormDialog"),
 		BranchFormDialog: () => import("@/views/branch/BranchFormDialog"),
-		FollowerFormDialog: () => import("@/views/member/MemberFormDialog")
+		FollowerFormDialog: () => import("@/views/member/FollowersFormDialog"),
+		MemberFormDialog: () => import("@/views/member/MemberFormDialog")
 	},
 	data: () => ({
-		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
+		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
 		currentUser: null,
 		items: [
 			{
@@ -197,7 +200,8 @@ export default {
 				count: 40,
 				title: "Events",
 				artist: "Manage Sachchai Nepal Events",
-				add: "openAddEventFormDialog"
+				add: "openAddEventFormDialog",
+				view: "/admin/event"
 			},
 			{
 				color: "rgb(69 26 145)",
@@ -255,4 +259,5 @@ export default {
 	max-width: 1000px
 .profile-avatar
 	border: 4px solid gold
+	background-color: gold
 </style>

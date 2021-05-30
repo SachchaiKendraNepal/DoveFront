@@ -86,7 +86,7 @@
 				>
 					<v-avatar
 						size="120"
-						style="border: 4px solid white; margin-top: -50px"
+						class="profile-av-nav"
 					>
 						<v-img :src="getCurrentProfileImage" />
 					</v-avatar>
@@ -153,7 +153,7 @@ export default {
 		return {
 			drawer: true,
 			currentUser: null,
-			defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
+			defaultProfileImage: require("@/assets/defaultProfileImage.png"),
 			drawerItems: [
 				{ title: "Home", icon: "mdi-home", to: "/admin/home" },
 				{ title: "Followers", icon: "mdi-account-multiple", to: "/admin/follower" },
@@ -226,5 +226,10 @@ export default {
 }
 .v-input {
 	font-size: 14px !important;
+}
+.profile-av-nav {
+	border: 4px solid aliceblue;
+	background: aliceblue;
+	margin-top: -50px
 }
 </style>
