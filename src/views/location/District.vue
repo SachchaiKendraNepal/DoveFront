@@ -64,7 +64,7 @@
 
 
 					<v-dialog
-						v-model="dialog"
+						v-model="createDialog"
 						dark
 						max-width="500px"
 					>
@@ -235,7 +235,7 @@ export default {
 	data() {
 		return {
 			provincesLoading: false,
-			dialog: false,
+			createDialog: false,
 			dialogDelete: false,
 			totalDesserts: 0,
 			search: "",
@@ -255,18 +255,20 @@ export default {
 				{ text: "CREATED AT", value: "created_at" },
 				{ text: "UPDATED AT", value: "updated_at" }
 			],
+			itemToDelete: null,
+			// add form fields
 			editedItem: {
 				name: null,
 				province: null,
 			},
-			itemToDelete: null,
-			nameToUpdate: null,
 			addFormErrors: {
 				name: null,
 				province: null,
 			},
+			//edit dialog for field
+			nameToUpdate: null,
+			// autocomplete watch field
 			province: null,
-			provinceToSet: null,
 		}
 	},
 	computed: {
@@ -293,7 +295,7 @@ export default {
 				name: null,
 				province: null
 			}
-			this.dialog = false
+			this.createDialog = false
 		},
 		async createDistrict() {
 			try {
