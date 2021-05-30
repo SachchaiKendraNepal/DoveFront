@@ -39,6 +39,7 @@
 							/>
 						</div>
 					</div>
+					<no-home-data v-else />
 				</v-col>
 				<v-col
 					cols="12"
@@ -55,12 +56,12 @@
 </template>
 
 <script>
-import HomeAdsColumnView from "@/views/home/Ads";
 import {mapGetters} from "vuex";
 export default {
 	name: "HomeComponent",
 	components: {
-		HomeAdsColumnView,
+		NoHomeData: () => import("@/components/NoHomeData"),
+		HomeAdsColumnView: () => import("@/views/home/Ads"),
 		ArticlePost: () => import("@/components/Article"),
 		Multimedia: () => import("@/components/Multimedia"),
 		AddPostBox: () => import("@/views/home/AddPostBox")
