@@ -4,7 +4,7 @@
  * - deleteAction
  * - modelName
  */
-const list = {
+const AdminTableList = {
 	data() {
 		return {
 			totalDesserts: 0,
@@ -77,4 +77,4 @@ const list = {
 	}
 };
 
-export default list;
+export default AdminTableList;

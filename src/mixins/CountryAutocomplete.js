@@ -1,6 +1,6 @@
 import {mapGetters} from "vuex";
 
-const countryAutocomplete = {
+const CountryAutocomplete = {
 	data() {
 		return {
 			country: null,
@@ -23,4 +23,4 @@ const countryAutocomplete = {
 	},
 }
 
-export default countryAutocomplete
+export default CountryAutocomplete

@@ -1,6 +1,6 @@
 import {mapGetters} from "vuex";
 
-const provinceAutocomplete = {
+const ProvinceAutocomplete = {
 	data() {
 		return {
 			province: null,
@@ -10,15 +10,15 @@ const provinceAutocomplete = {
 	computed: {
 		...mapGetters({
 			provinces: "location/provincesList",
+			selectedCountry: "location/selectedCountryId"
 		}),
 	},
 	watch: {
 		async province(val) {
 			if (val) {
-				this.provincesLoading = true
 				await this.$store.dispatch("location/filterProvinces", {
 					search: val,
-					country: (this.editedItem.country) ? this.editedItem.country : ""
+					country: (this.selectedCountry) ? this.selectedCountry : ""
 				})
 				this.provincesLoading = false
 			}
@@ -26,4 +26,4 @@ const provinceAutocomplete = {
 	},
 }
 
-export default provinceAutocomplete
+export default ProvinceAutocomplete

@@ -105,9 +105,7 @@
 												v-model="editedItem.country"
 												:items="countries.results"
 												:loading="countriesLoading"
-												label="Select country"
-												name="country"
-												prepend-inner-icon="mdi-web"
+												:errors="addFormErrors"
 											/>
 										</v-col>
 										<v-col cols="12">
@@ -115,10 +113,7 @@
 												v-model="editedItem.province"
 												:items="provinces.results"
 												:loading="provincesLoading"
-												name="province"
-												label="Select province"
-												:disabled="!editedItem.country"
-												prepend-inner-icon="mdi-office-building-marker-outline"
+												:errors="addFormErrors"
 											/>
 										</v-col>
 									</v-row>
@@ -213,16 +208,16 @@
 
 <script>
 import {mapGetters} from "vuex";
-import list from "@/mixins/list";
-import provinceAutocomplete from "@/mixins/provinceAutocomplete";
-import countryAutocomplete from "@/mixins/countryAutocomplete";
+import AdminTableList from "@/mixins/AdminTableList";
+import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
+import CountryAutocomplete from "@/mixins/CountryAutocomplete";
 const urls = require("@/urls.json")
 const util = require("util")
 
 
 export default {
 	name: "DistrictTable",
-	mixins: [list, countryAutocomplete, provinceAutocomplete],
+	mixins: [AdminTableList, CountryAutocomplete, ProvinceAutocomplete],
 	data() {
 		return {
 			createDialog: false,
@@ -277,8 +272,6 @@ export default {
 				name: null,
 				province: null
 			}
-			this.provinces = null
-			this.countries = null
 			this.addFormErrors = defaultData
 			this.editedItem = defaultData
 			this.createDialog = false

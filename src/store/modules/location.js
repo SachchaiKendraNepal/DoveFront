@@ -11,6 +11,9 @@ export const SET_MUNICIPALITY_WARDS = "SET_MUNICIPALITY_WARDS"
 export const SET_VDCS = "SET_VDCS"
 export const SET_VDC_WARDS = "SET_VDC_WARDS"
 
+export const SET_SELECTED_COUNTRY = "SET_SELECTED_COUNTRY"
+export const SET_SELECTED_PROVINCE = "SET_SELECTED_PROVINCE"
+
 const state = {
 	countries: {},
 	provinces: {},
@@ -18,7 +21,11 @@ const state = {
 	municipalities: {},
 	municipality_wards: {},
 	vdcs: {},
-	vdc_wards: {}
+	vdc_wards: {},
+
+
+	selectedCountry: null,
+	selectedProvince: null
 }
 
 const mutations = {
@@ -43,9 +50,19 @@ const mutations = {
 	[SET_VDC_WARDS](state, value) {
 		state.vdc_wards = value
 	},
+	[SET_SELECTED_COUNTRY](state, value) {
+		state.selectedCountry = value
+	},
+	[SET_SELECTED_PROVINCE](state, value) {
+		state.selectedProvince = value
+	}
 }
 
 const getters = {
+	selectedCountryId: state => state.selectedCountry,
+	selectedProvinceId: state => state.selectedProvince,
+
+
 	countriesList: state => state.countries,
 	provincesList: state => state.provinces,
 	districtsList: state => state.districts,
@@ -56,6 +73,14 @@ const getters = {
 }
 
 const actions = {
+	setSelectedCountry({commit}, {value: value}) {
+		commit("SET_SELECTED_COUNTRY", value)
+	},
+	setSelectedProvince({commit}, {value: value}) {
+		commit("SET_SELECTED_PROVINCE", value)
+	},
+
+
 	async fetchAllCountries({commit}){
 		const response = await $api.get(locationUrls.countryList)
 		commit("SET_COUNTRIES", response)

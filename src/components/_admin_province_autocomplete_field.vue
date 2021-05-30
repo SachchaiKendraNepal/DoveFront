@@ -8,29 +8,29 @@
 		hide-selected
 		item-text="name"
 		item-value="id"
-		:label="label"
-		:class="name"
-		:disabled="disabled"
-		placeholder="Start typing"
-		:prepend-inner-icon="prependInnerIcon"
-		@input="$emit('input', $event)"
+		:disabled="!selectedCountry"
+		label="Select province"
+		prepend-inner-icon="mdi-office-building-marker-outline"
+		:error-messages="getErrorMessage"
+		@input="inputChanged('input', $event)"
 	>
 		<template #no-data>
 			<v-list-item>
 				<v-list-item-title>
-					No <code>{{ name }}</code> found.
+					No <code>province</code> found.
 				</v-list-item-title>
 			</v-list-item>
 		</template>
 	</v-autocomplete>
 </template>
 <script>
-import countryAutocomplete from "@/mixins/countryAutocomplete";
-import provinceAutocomplete from "@/mixins/provinceAutocomplete";
+import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
+import AdminFieldErrorMessage from "@/mixins/AdminFieldErrorMessage";
+import LocationAutocompleteInputChanged from "@/mixins/LocationAutocompleteInputChanged";
 
 export default {
 	name: "AdminAutocompleteField",
-	mixins: [countryAutocomplete, provinceAutocomplete],
+	mixins: [ProvinceAutocomplete, AdminFieldErrorMessage, LocationAutocompleteInputChanged],
 	props: {
 		value: {
 			required: true
@@ -39,26 +39,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		disabled: {
-			type: Boolean,
-			default: false
-		},
-		name: {
-			type: String,
-			required: true
-		},
-		label: {
-			type: String,
-			required: true
-		},
 		errors: {
 			type: Object,
 			required: false,
 			default: () => {}
-		},
-		prependInnerIcon: {
-			type: String,
-			required: true
 		},
 		items: {
 			type: Array,
@@ -66,14 +50,13 @@ export default {
 			default: () => []
 		}
 	},
-	computed: {
-		getErrorMessage() {
-			if (!this.errors) return null
-			if (this.errors[this.name]) {
-				return this.errors[this.name][0]
+	data() {
+		return {
+			name: "province",
+			mixinData: {
+				locationSetter: "location/setSelectedProvince"
 			}
-			else return null
 		}
-	}
+	},
 }
 </script>

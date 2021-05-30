@@ -8,13 +8,11 @@
 		hide-selected
 		item-text="name"
 		item-value="id"
-		:label="label"
-		:class="name"
+		label="Select country"
+		name="country"
+		prepend-inner-icon="mdi-web"
 		placeholder="Start typing"
-		:prepend-inner-icon="prependInnerIcon"
-		@input="$emit('input', $event)"
-		@change="$emit('input', $event)"
-		@focus="$emit('focus')"
+		@input="inputChanged('input', $event)"
 	>
 		<template #no-data>
 			<v-list-item>
@@ -26,11 +24,12 @@
 	</v-autocomplete>
 </template>
 <script>
-import countryAutocomplete from "@/mixins/countryAutocomplete";
+import AdminFieldErrorMessage from "@/mixins/AdminFieldErrorMessage";
+import CountryAutocomplete from "@/mixins/CountryAutocomplete";
 
 export default {
 	name: "AdminAutocompleteField",
-	mixins: [countryAutocomplete],
+	mixins: [AdminFieldErrorMessage, CountryAutocomplete],
 	props: {
 		value: {
 			required: true
@@ -39,22 +38,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		name: {
-			type: String,
-			required: true
-		},
-		label: {
-			type: String,
-			required: true
-		},
 		errors: {
 			type: Object,
 			required: false,
 			default: () => {}
-		},
-		prependInnerIcon: {
-			type: String,
-			required: true
 		},
 		items: {
 			type: Array,
@@ -62,14 +49,14 @@ export default {
 			default: () => []
 		}
 	},
-	computed: {
-		getErrorMessage() {
-			if (!this.errors) return null
-			if (this.errors[this.name]) {
-				return this.errors[this.name][0]
+	emits: ["input"],
+	data() {
+		return {
+			name: "country",
+			mixinData: {
+				locationSetter: "location/setSelectedCountry"
 			}
-			else return null
 		}
-	}
+	},
 }
 </script>
