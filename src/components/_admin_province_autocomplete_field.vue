@@ -5,7 +5,6 @@
 		:items="items"
 		:loading="loading"
 		solo
-		hide-selected
 		item-text="name"
 		item-value="id"
 		:disabled="!selectedCountry"

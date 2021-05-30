@@ -5,11 +5,10 @@
 		:items="items"
 		:loading="loading"
 		solo
-		hide-selected
 		item-text="name"
 		item-value="id"
 		label="Select country"
-		name="country"
+		class="country"
 		prepend-inner-icon="mdi-web"
 		placeholder="Start typing"
 		@input="inputChanged('input', $event)"
@@ -26,10 +25,11 @@
 <script>
 import AdminFieldErrorMessage from "@/mixins/AdminFieldErrorMessage";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
+import LocationAutocompleteInputChanged from "@/mixins/LocationAutocompleteInputChanged";
 
 export default {
 	name: "AdminAutocompleteField",
-	mixins: [AdminFieldErrorMessage, CountryAutocomplete],
+	mixins: [AdminFieldErrorMessage, CountryAutocomplete, LocationAutocompleteInputChanged],
 	props: {
 		value: {
 			required: true
