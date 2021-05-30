@@ -210,7 +210,7 @@
 						Cancel
 					</v-btn>
 					<v-btn color="blue darken-1"
-						text @click="deleteDistrict"
+						text @click="deleteItem"
 					>
 						OK
 					</v-btn>
@@ -236,12 +236,6 @@ export default {
 		return {
 			provincesLoading: false,
 			createDialog: false,
-			dialogDelete: false,
-			totalDesserts: 0,
-			search: "",
-			items: [],
-			loading: false,
-			options: {},
 			headers: [
 				{
 					text: "actions",
@@ -255,7 +249,6 @@ export default {
 				{ text: "CREATED AT", value: "created_at" },
 				{ text: "UPDATED AT", value: "updated_at" }
 			],
-			itemToDelete: null,
 			// add form fields
 			editedItem: {
 				name: null,
@@ -269,18 +262,20 @@ export default {
 			nameToUpdate: null,
 			// autocomplete watch field
 			province: null,
+			mixinData: {
+				modelName: "District",
+				deleteAction: "location/deleteDistrict",
+				fetchAction: "location/fetchAllDistricts"
+			}
 		}
 	},
 	computed: {
 		...mapGetters({
-			districts: "location/districtsList",
-			provinces: "location/provincesList"
+			provinces: "location/provincesList",
+			districts: "location/districtsList"
 		}),
 	},
 	watch: {
-		dialogDelete(val) {
-			val || this.closeDelete()
-		},
 		async province(val) {
 			if (val) {
 				this.provincesLoading = true
@@ -290,6 +285,13 @@ export default {
 		}
 	},
 	methods: {
+		async initialize(val) {
+			this.loading = true
+			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
+			this.items = this.districts
+			this.totalDesserts = this.districts.count
+			this.loading = false
+		},
 		close() {
 			this.addFormErrors = {
 				name: null,
@@ -328,31 +330,6 @@ export default {
 		},
 		openNameUpdate(name) {
 			this.nameToUpdate = name
-		},
-		async deleteItemConfirm(districtId) {
-			this.dialogDelete = true
-			this.itemToDelete = districtId
-		},
-		closeDelete() {
-			this.dialogDelete = false
-		},
-
-		async deleteDistrict() {
-			const deleted = await this.$store.dispatch("location/deleteDistrict", {id: this.itemToDelete})
-			if (deleted) {
-				await this.openSnack("District deleted.", "success")
-				await this.initialize(this.options.page)
-			}
-			else await this.openSnack("District delete failed. Try again later")
-			this.itemToDelete = null
-			this.closeDelete()
-		},
-		async initialize(val) {
-			this.loading = true
-			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
-			this.items = this.districts
-			this.totalDesserts = this.districts.count
-			this.loading = false
 		},
 	},
 }

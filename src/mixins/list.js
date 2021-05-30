@@ -1,9 +1,25 @@
+import {mapGetters} from "vuex";
+
+
+/**
+ * required mixin data
+ * - fetchAction
+ * - deleteAction
+ * - modelName
+ * - itemListAction
+ */
 const list = {
 	data() {
 		return {
+			totalDesserts: 0,
+			totalItems: 0,
 			isLoading: false,
 			search: "",
-			options: {}
+			items: [],
+			options: {},
+			loading: false,
+			dialogDelete: false,
+			itemIdToDelete: null
 		};
 	},
 	computed: {
@@ -22,6 +38,9 @@ const list = {
 		}
 	},
 	watch: {
+		dialogDelete(val) {
+			val || this.closeDelete()
+		},
 		options: {
 			async handler(val) {
 				if(val) {
@@ -33,6 +52,9 @@ const list = {
 		},
 	},
 	methods: {
+		closeDelete() {
+			this.dialogDelete = false
+		},
 		formatDate(date) {
 			return this.$moment(date).fromNow()
 		},
@@ -41,6 +63,21 @@ const list = {
 			await this.$store.dispatch("snack/setSnackColor", color)
 			await this.$store.dispatch("snack/setSnackText", text)
 		},
+		async deleteItemConfirm(districtId) {
+			this.dialogDelete = true
+			this.itemToDelete = districtId
+		},
+		async deleteItem() {
+			if (!this.mixinData) return;
+			const deleted = await this.$store.dispatch(this.mixinData.deleteAction, {id: this.itemToDelete})
+			if (deleted) {
+				await this.openSnack(`${this.mixinData.modelName} deleted successfully.`, "success")
+				await this.initialize(this.options.page)
+			}
+			else await this.openSnack("District delete failed. Try again later.")
+			this.itemToDelete = null
+			this.closeDelete()
+		}
 	}
 };
 
