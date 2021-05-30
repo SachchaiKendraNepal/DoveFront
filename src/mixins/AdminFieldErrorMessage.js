@@ -1,3 +1,9 @@
+/**
+ *
+ * inheriting component should have following fields:
+ * - errors: Object
+ *
+ */
 const AdminFieldErrorMessage = {
 	computed: {
 		getErrorMessage() {

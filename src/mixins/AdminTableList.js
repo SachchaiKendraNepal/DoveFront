@@ -4,7 +4,10 @@
  * - deleteAction
  * - modelName
  */
+import Snack from "@/mixins/Snack";
+
 const AdminTableList = {
+	mixins: [Snack],
 	data() {
 		return {
 			totalDesserts: 0,
@@ -19,6 +22,13 @@ const AdminTableList = {
 		};
 	},
 	computed: {
+		/**
+		 * gets total pagination count required in a table
+		 *
+		 * serverItemsPerPage is backend constant `10`
+		 *
+		 * @returns {number}
+		 */
 		getTotalPaginationData() {
 			if (!this.items) return 0
 			const serverItemsPerPage = 10
@@ -27,6 +37,11 @@ const AdminTableList = {
 			if (rem > 0) return div + 1
 			else return div
 		},
+		/**
+		 * gets total items count in a page
+		 *
+		 * @returns {number}
+		 */
 		getItemsPerPageCount() {
 			if (!this.items) return 0
 			if (!this.items.results) return 0
@@ -53,11 +68,6 @@ const AdminTableList = {
 		},
 		formatDate(date) {
 			return this.$moment(date).fromNow()
-		},
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
 		},
 		async deleteItemConfirm(districtId) {
 			this.dialogDelete = true
