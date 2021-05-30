@@ -2,13 +2,20 @@
 	<div id="settings">
 		<v-snackbar
 			v-model="snack"
-			top
-			right
 			:timeout="3000"
-			:color="snackColor"
-			class="home-snack"
 		>
 			{{ snackText }}
+
+			<template #action="{ attrs }">
+				<v-btn
+					:color="snackColor"
+					text
+					v-bind="attrs"
+					@click="snack = false"
+				>
+					Close
+				</v-btn>
+			</template>
 		</v-snackbar>
 		<v-app-bar app
 			color="grey darken-4" dark
@@ -157,6 +164,7 @@ export default {
 				{ title: "Pins", icon: "mdi-pin", to: "/admin/pin" },
 				{ title: "Showcase Images", icon: "mdi-image", to: "/admin/showcase-image" },
 				{ title: "Events", icon: "mdi-calendar-multiple", to: "/admin/event" },
+				{ title: "Districts", icon: "mdi-map-marker-multiple-outline", to: "/admin/district" },
 				{ title: "Ads", icon: "mdi-cash-usd", to: "/admin/ad" }
 			],
 		}

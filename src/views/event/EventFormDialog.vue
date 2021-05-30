@@ -822,13 +822,13 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			countries: "location/allCountries",
-			provinces: "location/allProvinces",
-			districts: "location/allDistricts",
-			municipalities: "location/allMunicipalities",
-			municipality_wards: "location/allMunicipalityWards",
-			vdcs: "location/allVdcs",
-			vdc_wards: "location/allVdcWards",
+			countries: "location/countriesList",
+			provinces: "location/provincesList",
+			districts: "location/districtsList",
+			municipalities: "location/municipalitiesList",
+			municipality_wards: "location/municipalityWardsList",
+			vdcs: "location/vdcsList",
+			vdc_wards: "location/vdcWardsList",
 			branches: "branch/list",
 			formErrors: "event/formErrorsList"
 		}),

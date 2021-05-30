@@ -128,6 +128,11 @@ const routes = [
 				component: () => import("@/views/branch/BranchDetail")
 			},
 			{
+				path: "district",
+				name: "DISTRICT ADMINISTRATION",
+				component: () => import("@/views/location/District")
+			},
+			{
 				path: "article",
 				name: "ARTICLES ADMINISTRATION",
 				component: () => import("@/views/article/Articles")

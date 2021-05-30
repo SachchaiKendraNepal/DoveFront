@@ -1,4 +1,7 @@
 import $api from "@/handler/axios"
+const urls = require("@/urls.json")
+const locationUrls = urls.location
+const util = require("util")
 
 export const SET_COUNTRIES = "SET_COUNTRIES"
 export const SET_PROVINCES = "SET_PROVINCES"
@@ -43,44 +46,52 @@ const mutations = {
 }
 
 const getters = {
-	allCountries: state => state.countries.results,
-	allProvinces: state => state.provinces.results,
-	allDistricts: state => state.districts.results,
-	allMunicipalities: state => state.municipalities.results,
-	allMunicipalityWards: state => state.municipality_wards.results,
-	allVdcs: state => state.vdcs.results,
-	allVdcWards: state => state.vdc_wards.results
+	countriesList: state => state.countries.results,
+	provincesList: state => state.provinces.results,
+	districtsList: state => state.districts,
+	municipalitiesList: state => state.municipalities.results,
+	municipalityWardsList: state => state.municipality_wards.results,
+	vdcsList: state => state.vdcs.results,
+	vdcWardsList: state => state.vdc_wards.results
 }
 
 const actions = {
-	async getAllCountries({commit}){
+	async fetchAllCountries({commit}){
 		const response = await $api.get("/country/")
 		commit("SET_COUNTRIES", response)
 	},
-	async getAllProvinces({commit}){
+	async fetchAllProvinces({commit}){
 		const response = await $api.get("/province/")
 		commit("SET_PROVINCES", response)
 	},
-	async getAllDistricts({commit}){
-		const response = await $api.get("/district/")
+	async fetchAllDistricts({commit}, {page: page}){
+		const response = await $api.get(`/district/?page=${page}`)
 		commit("SET_DISTRICTS", response)
 	},
-	async getAllMunicipalities({commit}){
+	async fetchAllMunicipalities({commit}){
 		const response = await $api.get("/municipality/")
 		commit("SET_MUNICIPALITIES", response)
 	},
-	async getAllMunicipalityWards({commit}){
+	async fetchAllMunicipalityWards({commit}){
 		const response = await $api.get("/municipality-ward/")
 		commit("SET_MUNICIPALITY_WARDS", response)
 	},
-	async getAllVdcs({commit}){
+	async fetchAllVdcs({commit}){
 		const response = await $api.get("/vdc/")
 		commit("SET_VDCS", response)
 	},
-	async getAllVdcWards({commit}){
+	async fetchAllVdcWards({commit}){
 		const response = await $api.get("/vdc-ward/")
 		commit("SET_VDC_WARDS", response)
-	}
+	},
+	async deleteDistrict({}, {id: id}) {
+		try {
+			await $api.delete(util.format(locationUrls.districtDetail, id))
+			return true
+		} catch {
+			return false
+		}
+	},
 }
 
 export default {
