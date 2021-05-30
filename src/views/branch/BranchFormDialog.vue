@@ -553,7 +553,6 @@ export default {
 		openEditDialog(args) {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
-			console.log(this.editedItem)
 			if(this.editedItem.contact) {
 				this.editedItem.contact = this.editedItem.contact.substring(4)
 			}

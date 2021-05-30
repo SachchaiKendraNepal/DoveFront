@@ -167,7 +167,6 @@ export default {
 					videoUrl: latestUrl,
 				})
 				this.videos.push(latestFile)
-				console.log(this.videosToUpload, this.videos)
 			}
 		},
 		removeVideo(index) {

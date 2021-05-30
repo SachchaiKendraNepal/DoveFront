@@ -62,98 +62,22 @@
 						vertical
 					/>
 
-
-					<v-dialog
-						v-model="dialog"
+					<v-btn
 						dark
-						max-width="500px"
+						color="primary"
+						@click.prevent="openCreateFormDialog"
 					>
-						<template #activator="{ on, attrs }">
-							<v-btn
-								v-bind="attrs"
-								dark
-								color="primary"
-								v-on="on"
-							>
-								<v-icon
-									dark
-									:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-								>
-									mdi-plus-circle
-								</v-icon>
-								<span v-if="$vuetify.breakpoint.smAndUp">District</span>
-							</v-btn>
-						</template>
-						<v-card min-height="700">
-							<v-card-title class="grey darken-4 elevation-4">
-								<span class="headline">New District</span>
-							</v-card-title>
-							<div class="py-6" />
+						<v-icon
+							dark
+							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+						>
+							mdi-plus-circle
+						</v-icon>
+						<span v-if="$vuetify.breakpoint.smAndUp">District</span>
+					</v-btn>
 
-							<v-card-text>
-								<v-container>
-									<v-row class="ma-0 pa-0">
-										<v-col
-											cols="12"
-										>
-											<v-text-field
-												v-model="editedItem.name"
-												filled
-												prepend-inner-icon="mdi-format-title"
-												label="Name"
-												:error-messages="addFormErrors.name"
-											/>
-										</v-col>
-										<v-col
-											cols="12"
-										>
-											<v-autocomplete
-												id="event-province"
-												v-model="editedItem.province"
-												class="ma-0"
-												allow-overflow
-												filled
-												attach=""
-												label="Province"
-												item-text="name"
-												item-value="id"
-												:items="provinces"
-												clearable
-												prepend-inner-icon="mdi-office-building-marker-outline"
-												:error-messages="addFormErrors.province"
-											>
-												<template #no-data>
-													<v-list-item>
-														<v-list-item-title>
-															No <code>provinces</code> found.
-														</v-list-item-title>
-													</v-list-item>
-												</template>
-											</v-autocomplete>
-										</v-col>
-									</v-row>
-								</v-container>
-							</v-card-text>
 
-							<v-card-actions class="mx-5">
-								<v-spacer />
-								<v-btn
-									color="error darken-1"
-									text
-									@click="close"
-								>
-									Cancel
-								</v-btn>
-								<v-btn
-									color="blue darken-1"
-									text
-									@click="createDistrict"
-								>
-									Save
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
+					<add-district-form-dialog />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -203,13 +127,13 @@
 				</v-card-title>
 				<v-card-actions>
 					<v-spacer />
-					<v-btn color="blue darken-1"
+					<v-btn color="error darken-1"
 						text @click="closeDelete"
 					>
 						Cancel
 					</v-btn>
 					<v-btn color="blue darken-1"
-						text @click="deleteDistrict"
+						text @click="deleteItem"
 					>
 						OK
 					</v-btn>
@@ -223,27 +147,23 @@
 
 <script>
 import {mapGetters} from "vuex";
-import list from "@/mixins/list";
+import AdminTableList from "@/mixins/AdminTableList";
+import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
+import CountryAutocomplete from "@/mixins/CountryAutocomplete";
+import AddDistrictFormDialog from "@/views/location/AddDistrictFormDialog";
 const urls = require("@/urls.json")
 const util = require("util")
 
 
 export default {
 	name: "DistrictTable",
-	mixins: [list],
+	components: {AddDistrictFormDialog},
+	mixins: [AdminTableList],
 	data() {
 		return {
-			dialog: false,
-			dialogDelete: false,
-			totalDesserts: 0,
-			search: "",
-			items: [],
-			loading: false,
-			options: {},
 			headers: [
 				{
 					text: "actions",
-					align: "start",
 					sortable: false,
 					value: "actions",
 				},
@@ -254,55 +174,31 @@ export default {
 				{ text: "CREATED AT", value: "created_at" },
 				{ text: "UPDATED AT", value: "updated_at" }
 			],
-			editedItem: {
-				name: null,
-				province: null,
-			},
-			itemToDelete: null,
+			//edit dialog for field
 			nameToUpdate: null,
-			addFormErrors: {
-				name: null,
-				province: null,
+			mixinData: {
+				modelName: "District",
+				deleteAction: "location/deleteDistrict",
+				fetchAction: "location/fetchAllDistricts"
 			}
 		}
 	},
 	computed: {
 		...mapGetters({
-			districts: "location/districtsList",
-			provinces: "location/provincesList"
+			districts: "location/districtsList"
 		}),
 	},
-	watch: {
-		dialogDelete(val) {
-			val || this.closeDelete()
-		},
-	},
-	async created() {
-		await this.$store.dispatch("location/fetchAllProvinces")
-	},
 	methods: {
-		close() {
-			this.addFormErrors = {
-				name: null,
-				province: null
-			}
-			this.dialog = false
+		openCreateFormDialog() {
+			this.$bus.emit("open-add-district-form")
 		},
-		async createDistrict() {
-			try {
-				console.log(this.editedItem)
-				await this.$api.post(urls.location.districtList, this.editedItem)
-				await this.openSnack("District added successfully", "success")
-				this.close()
-				await this.initialize(this.options.page)
-			} catch (e) {
-				const status = parseInt(e.response.status.toString())
-				if (status === 400) {
-					this.addFormErrors = e.response.data
-				} else {
-					await this.openSnack("District create failed")
-				}
-			}
+		async initialize(val) {
+			this.loading = true
+			if (!val) val = 1
+			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
+			this.items = this.districts
+			this.totalDesserts = this.districts.count
+			this.loading = false
 		},
 		async updateName(item) {
 			try {
@@ -320,32 +216,6 @@ export default {
 		},
 		openNameUpdate(name) {
 			this.nameToUpdate = name
-		},
-		async deleteItemConfirm(districtId) {
-			this.dialogDelete = true
-			this.itemToDelete = districtId
-		},
-		closeDelete() {
-			this.dialogDelete = false
-		},
-
-		async deleteDistrict() {
-			const deleted = await this.$store.dispatch("location/deleteDistrict", {id: this.itemToDelete})
-			if (deleted) {
-				await this.openSnack("District deleted.", "success")
-				await this.initialize(this.options.page)
-			}
-			else await this.openSnack("District delete failed. Try again later")
-			this.itemToDelete = null
-			this.closeDelete()
-		},
-		async initialize(val) {
-
-			this.loading = true
-			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
-			this.items = this.districts
-			this.totalDesserts = this.districts.count
-			this.loading = false
 		},
 	},
 }
