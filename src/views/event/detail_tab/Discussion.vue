@@ -78,9 +78,11 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "EventDetailDiscussionTabContent",
+	mixins: [Snack],
 	props: {
 		event: {
 			type: Object,
@@ -114,9 +116,17 @@ export default {
 			await this.$store.dispatch("event/fetchCommentsFor", {id: this.event.id})
 			this.loading = false
 		},
-		makeComment() {
+		async makeComment() {
 			if (this.myComment === null) return
-			console.log(this.myComment)
+			const posted = await this.$store.dispatch("event/addCommentFor", {
+				id: this.event.id,
+				comment: this.myComment
+			})
+			if (posted) {
+				await this.openSnack("Comment posted successfully")
+				await this.init()
+			}
+			else await this.openSnack("Comment post failed")
 		}
 	}
 }
