@@ -3,7 +3,6 @@
  * - fetchAction
  * - deleteAction
  * - modelName
- * - itemListAction
  */
 const list = {
 	data() {

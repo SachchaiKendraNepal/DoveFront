@@ -4,7 +4,7 @@ const provinceAutocomplete = {
 	data() {
 		return {
 			province: null,
-			provincesLoading: false
+			provincesLoading: false,
 		}
 	},
 	computed: {
@@ -16,7 +16,10 @@ const provinceAutocomplete = {
 		async province(val) {
 			if (val) {
 				this.provincesLoading = true
-				await this.$store.dispatch("location/searchProvincesByName", {name: val})
+				await this.$store.dispatch("location/filterProvinces", {
+					search: val,
+					country: (this.editedItem.country) ? this.editedItem.country : ""
+				})
 				this.provincesLoading = false
 			}
 		}

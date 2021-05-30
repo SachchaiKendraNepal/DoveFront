@@ -19,6 +19,16 @@ import "video.js/dist/video-js.css"
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.component(APlayer)
+Vue.component("AdminTextField", () =>
+	import("@/components/_admin_text_field")
+);
+Vue.component("AdminCountryAutocompleteField", () =>
+	import("@/components/_admin_country_autocomplete_field")
+);
+Vue.component("AdminProvinceAutocompleteField", () =>
+	import("@/components/_admin_province_autocomplete_field")
+);
+
 
 
 Vue.prototype.$api = api

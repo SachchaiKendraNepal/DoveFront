@@ -62,28 +62,26 @@
 						vertical
 					/>
 
+					<v-btn
+						dark
+						color="primary"
+						@click="openAddNewDialog"
+					>
+						<v-icon
+							dark
+							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+						>
+							mdi-plus-circle
+						</v-icon>
+						<span v-if="$vuetify.breakpoint.smAndUp">District</span>
+					</v-btn>
+
 
 					<v-dialog
 						v-model="createDialog"
 						dark
 						max-width="500px"
 					>
-						<template #activator="{ on, attrs }">
-							<v-btn
-								v-bind="attrs"
-								dark
-								color="primary"
-								v-on="on"
-							>
-								<v-icon
-									dark
-									:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-								>
-									mdi-plus-circle
-								</v-icon>
-								<span v-if="$vuetify.breakpoint.smAndUp">District</span>
-							</v-btn>
-						</template>
 						<v-card min-height="700">
 							<v-card-title class="grey darken-4 elevation-4">
 								<span class="headline">New District</span>
@@ -93,44 +91,35 @@
 							<v-card-text>
 								<v-container>
 									<v-row class="ma-0 pa-0">
-										<v-col
-											cols="12"
-										>
-											<v-text-field
+										<v-col cols="12">
+											<admin-text-field
 												v-model="editedItem.name"
-												filled
-												prepend-inner-icon="mdi-format-title"
+												name="name"
 												label="Name"
-												placeholder="Start typing"
-												:error-messages="addFormErrors.name"
+												:errors="addFormErrors"
+												prepend-inner-icon="mdi-format-title"
 											/>
 										</v-col>
-										<v-col
-											cols="12"
-										>
-											<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
-											<v-autocomplete v-model="editedItem.province" :search-input.sync="province"
+										<v-col cols="12">
+											<admin-country-autocomplete-field
+												v-model="editedItem.country"
+												:items="countries.results"
+												:loading="countriesLoading"
+												label="Select country"
+												name="country"
+												prepend-inner-icon="mdi-web"
+											/>
+										</v-col>
+										<v-col cols="12">
+											<admin-province-autocomplete-field
+												v-model="editedItem.province"
 												:items="provinces.results"
 												:loading="provincesLoading"
-												color="white"
-												filled
-												hide-selected
-												item-text="name"
-												item-value="id"
+												name="province"
 												label="Select province"
-												placeholder="Start typing"
-												autocomplete="off"
+												:disabled="!editedItem.country"
 												prepend-inner-icon="mdi-office-building-marker-outline"
-												:error-messages="addFormErrors.province"
-											>
-												<template #no-data>
-													<v-list-item>
-														<v-list-item-title>
-															No <code>provinces</code> found.
-														</v-list-item-title>
-													</v-list-item>
-												</template>
-											</v-autocomplete>
+											/>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -141,7 +130,7 @@
 								<v-btn
 									color="error darken-1"
 									text
-									@click="close"
+									@click="closeCreateDialog"
 								>
 									Cancel
 								</v-btn>
@@ -226,13 +215,14 @@
 import {mapGetters} from "vuex";
 import list from "@/mixins/list";
 import provinceAutocomplete from "@/mixins/provinceAutocomplete";
+import countryAutocomplete from "@/mixins/countryAutocomplete";
 const urls = require("@/urls.json")
 const util = require("util")
 
 
 export default {
 	name: "DistrictTable",
-	mixins: [list, provinceAutocomplete],
+	mixins: [list, countryAutocomplete, provinceAutocomplete],
 	data() {
 		return {
 			createDialog: false,
@@ -253,11 +243,9 @@ export default {
 			editedItem: {
 				name: null,
 				province: null,
+				country: null
 			},
-			addFormErrors: {
-				name: null,
-				province: null,
-			},
+			addFormErrors: {},
 			//edit dialog for field
 			nameToUpdate: null,
 			mixinData: {
@@ -273,6 +261,10 @@ export default {
 		}),
 	},
 	methods: {
+		openAddNewDialog() {
+			this.createDialog = true
+			this.addFormErrors = {}
+		},
 		async initialize(val) {
 			this.loading = true
 			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
@@ -280,18 +272,25 @@ export default {
 			this.totalDesserts = this.districts.count
 			this.loading = false
 		},
-		close() {
-			this.addFormErrors = {
+		closeCreateDialog() {
+			const defaultData = {
 				name: null,
 				province: null
 			}
+			this.provinces = null
+			this.countries = null
+			this.addFormErrors = defaultData
+			this.editedItem = defaultData
 			this.createDialog = false
 		},
 		async createDistrict() {
 			try {
-				await this.$api.post(urls.location.districtList, this.editedItem)
+				await this.$api.post(urls.location.districtList, {
+					name: this.editedItem.name,
+					province: this.editedItem.province
+				})
 				await this.openSnack("District added successfully", "success")
-				this.close()
+				this.closeCreateDialog()
 				await this.initialize(this.options.page)
 			} catch (e) {
 				const status = parseInt(e.response.status.toString())
