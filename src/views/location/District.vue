@@ -225,16 +225,16 @@
 <script>
 import {mapGetters} from "vuex";
 import list from "@/mixins/list";
+import provinceAutocomplete from "@/mixins/provinceAutocomplete";
 const urls = require("@/urls.json")
 const util = require("util")
 
 
 export default {
 	name: "DistrictTable",
-	mixins: [list],
+	mixins: [list, provinceAutocomplete],
 	data() {
 		return {
-			provincesLoading: false,
 			createDialog: false,
 			headers: [
 				{
@@ -260,8 +260,6 @@ export default {
 			},
 			//edit dialog for field
 			nameToUpdate: null,
-			// autocomplete watch field
-			province: null,
 			mixinData: {
 				modelName: "District",
 				deleteAction: "location/deleteDistrict",
@@ -271,18 +269,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			provinces: "location/provincesList",
 			districts: "location/districtsList"
 		}),
-	},
-	watch: {
-		async province(val) {
-			if (val) {
-				this.provincesLoading = true
-				await this.$store.dispatch("location/searchProvincesByName", {name: val})
-				this.provincesLoading = false
-			}
-		}
 	},
 	methods: {
 		async initialize(val) {

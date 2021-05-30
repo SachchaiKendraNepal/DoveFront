@@ -1,6 +1,3 @@
-import {mapGetters} from "vuex";
-
-
 /**
  * required mixin data
  * - fetchAction
