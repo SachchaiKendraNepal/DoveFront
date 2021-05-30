@@ -12,7 +12,6 @@ const list = {
 			const serverItemsPerPage = 10
 			const  rem = this.items.count % serverItemsPerPage
 			const div = Math.floor(this.items.count / serverItemsPerPage)
-			console.log(rem)
 			if (rem > 0) return div + 1
 			else return div
 		},

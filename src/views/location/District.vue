@@ -107,29 +107,39 @@
 										<v-col
 											cols="12"
 										>
-											<v-autocomplete
-												id="event-province"
-												v-model="editedItem.province"
-												class="ma-0"
-												allow-overflow
-												filled
-												attach=""
-												label="Province"
+											<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
+											<v-autocomplete v-model="province" :search-input.sync="search"
+												:items="provinces.results"
+												:loading="provincesLoading"
+												color="white"
+												hide-no-data
+												hide-selected
 												item-text="name"
 												item-value="id"
-												:items="provinces"
-												clearable
-												prepend-inner-icon="mdi-office-building-marker-outline"
-												:error-messages="addFormErrors.province"
-											>
-												<template #no-data>
-													<v-list-item>
-														<v-list-item-title>
-															No <code>provinces</code> found.
-														</v-list-item-title>
+												label="Helloworldhehe"
+												prepend-icon="mdi-office-building-marker-outline"
+												return-object
+											/>
+											<v-divider />
+											<v-expand-transition>
+												<v-list
+													v-if="editedItem.province"
+													class="red lighten-3"
+												>
+													<v-list-item
+														v-for="(field, i) in provinces.results"
+														:key="i"
+													>
+														<v-list-item-avatar>
+															{{ field.name[0] }}
+														</v-list-item-avatar>
+														<v-list-item-content>
+															<v-list-item-title v-text="field.name" />
+															<v-list-item-subtitle>Name</v-list-item-subtitle>
+														</v-list-item-content>
 													</v-list-item>
-												</template>
-											</v-autocomplete>
+												</v-list>
+											</v-expand-transition>
 										</v-col>
 									</v-row>
 								</v-container>
@@ -233,6 +243,7 @@ export default {
 	mixins: [list],
 	data() {
 		return {
+			provincesLoading: false,
 			dialog: false,
 			dialogDelete: false,
 			totalDesserts: 0,
@@ -263,7 +274,8 @@ export default {
 			addFormErrors: {
 				name: null,
 				province: null,
-			}
+			},
+			province: null,
 		}
 	},
 	computed: {
@@ -276,9 +288,12 @@ export default {
 		dialogDelete(val) {
 			val || this.closeDelete()
 		},
-	},
-	async created() {
-		await this.$store.dispatch("location/fetchAllProvinces")
+		async province(val) {
+			console.log(val)
+			this.provincesLoading = true
+			await this.$store.dispatch("location/searchProvincesByName", {name: val})
+			this.provincesLoading = false
+		}
 	},
 	methods: {
 		close() {

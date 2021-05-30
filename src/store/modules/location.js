@@ -47,7 +47,7 @@ const mutations = {
 
 const getters = {
 	countriesList: state => state.countries.results,
-	provincesList: state => state.provinces.results,
+	provincesList: state => state.provinces,
 	districtsList: state => state.districts,
 	municipalitiesList: state => state.municipalities.results,
 	municipalityWardsList: state => state.municipality_wards.results,
@@ -61,11 +61,11 @@ const actions = {
 		commit("SET_COUNTRIES", response)
 	},
 	async fetchAllProvinces({commit}){
-		const response = await $api.get("/province/")
+		const response = await $api.get(locationUrls.provinceList)
 		commit("SET_PROVINCES", response)
 	},
 	async fetchAllDistricts({commit}, {page: page}){
-		const response = await $api.get(`/district/?page=${page}`)
+		const response = await $api.get(`${locationUrls.districtList}?page=${page}`)
 		commit("SET_DISTRICTS", response)
 	},
 	async fetchAllMunicipalities({commit}){
@@ -92,6 +92,15 @@ const actions = {
 			return false
 		}
 	},
+	async searchProvincesByName({commit}, {name: name}) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.provinceList, {search: name})
+			commit("SET_PROVINCES", response)
+			return true
+		} catch {
+			return false
+		}
+	}
 }
 
 export default {
