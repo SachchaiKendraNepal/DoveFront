@@ -112,35 +112,16 @@
 				<v-icon
 					small
 					color="red"
-					@click="deleteItemConfirm(item.id)"
+					@click="openAdminDeleteItemDialog(item.id, item.name)"
 				>
 					mdi-delete
 				</v-icon>
 			</template>
 		</v-data-table>
-		<v-dialog v-model="dialogDelete" dark
-			max-width="530px"
-		>
-			<v-card>
-				<v-card-title class="headline">
-					Are you sure you want to delete this district?
-				</v-card-title>
-				<v-card-actions>
-					<v-spacer />
-					<v-btn color="error darken-1"
-						text @click="closeDelete"
-					>
-						Cancel
-					</v-btn>
-					<v-btn color="blue darken-1"
-						text @click="deleteItem"
-					>
-						OK
-					</v-btn>
-					<v-spacer />
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
+		<admin-delete-item-dialog
+			model-name="district"
+			delete-action="location/deleteDistrict"
+		/>
 		<div class="py-6" />
 	</v-card>
 </template>
@@ -149,6 +130,7 @@
 import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import AddDistrictFormDialog from "@/views/location/AddDistrictFormDialog";
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
 const urls = require("@/urls.json")
 const util = require("util")
 
@@ -156,7 +138,7 @@ const util = require("util")
 export default {
 	name: "DistrictTable",
 	components: {AddDistrictFormDialog},
-	mixins: [AdminTableList],
+	mixins: [AdminTableList, AdminTableDeleteItemMixin],
 	data() {
 		return {
 			headers: [
