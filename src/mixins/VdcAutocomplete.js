@@ -10,7 +10,8 @@ const VdcAutocomplete = {
 	computed: {
 		...mapGetters({
 			vdcs: "location/vdcsList",
-			selectedDistrict: "location/selectedDistrictId"
+			selectedDistrict: "location/selectedDistrictId",
+			selectedMunicipality: "location/selectedMunicipalityId"
 		}),
 	},
 	watch: {

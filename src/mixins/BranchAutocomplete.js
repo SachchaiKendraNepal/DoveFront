@@ -16,7 +16,7 @@ const BranchAutocomplete = {
 		async branch(val) {
 			if (val) {
 				this.branchesLoading = true
-				await this.$store.dispatch("branch/filterBranch", {
+				await this.$store.dispatch("branch/filter", {
 					search: val
 				})
 				this.branchesLoading = false

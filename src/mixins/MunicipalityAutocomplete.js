@@ -10,14 +10,15 @@ const MunicipalityAutocomplete = {
 	computed: {
 		...mapGetters({
 			municipalities: "location/municipalitiesList",
-			selectedDistrict: "location/selectedDistrictId"
+			selectedDistrict: "location/selectedDistrictId",
+			selectedVdc: "location/selectedVdcId"
 		}),
 	},
 	watch: {
 		async municipality(val) {
 			if (val) {
 				this.municipalitiesLoading = true
-				await this.$store.dispatch("location/filterMultimedia", {
+				await this.$store.dispatch("location/filterMunicipality", {
 					search: val,
 					district: (this.selectedDistrict) ? this.selectedDistrict : ""
 				})

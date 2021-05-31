@@ -10,16 +10,16 @@ const VdcWardAutocomplete = {
 	computed: {
 		...mapGetters({
 			vdcWards: "location/vdcWardsList",
-			selectedVdcWard: "location/selectedDistrictId"
+			selectedVdc: "location/selectedVdcId"
 		}),
 	},
 	watch: {
 		async vdcWard(val) {
 			if (val) {
 				this.vdcWardsLoading = true
-				await this.$store.dispatch("location/filterVdc", {
+				await this.$store.dispatch("location/filterVdcWard", {
 					search: val,
-					district: (this.selectedDistrict) ? this.selectedDistrict : ""
+					vdc: (this.selectedVdc) ? this.selectedVdc : ""
 				})
 				this.vdcWardsLoading = false
 			}
