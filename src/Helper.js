@@ -22,15 +22,6 @@ module.exports = {
 	 * @return {Object}
 	 */
 	cookCreateData(imageKey, rawData) {
-		// Remove unused municipality or vdc
-		if (rawData.municipality > 0) {
-			delete rawData.vdc
-			delete rawData.vdc_ward
-		}
-		if (rawData.vdc > 0) {
-			delete rawData.municipality
-			delete rawData.municipality_ward
-		}
 		// remove image from object if not added
 		if (rawData.imageForUpload !== undefined) {
 			rawData[imageKey] = rawData.imageForUpload[0]
@@ -74,14 +65,6 @@ module.exports = {
 		if (rawData.imageForUpload !== undefined) {
 			body[imageKey] = rawData.imageForUpload[0]
 		} else delete body[imageKey]
-		// Remove unused municipality or vdc
-		if (body.municipality > 0) {
-			delete body.vdc
-			delete body.vdc_ward
-		} else {
-			delete body.municipality
-			delete body.municipality_ward
-		}
 		return body
 	},
 	/**
