@@ -22,6 +22,7 @@ export default {
 	name: "TextField",
 	mixins: [AdminFieldErrorMessage],
 	props: {
+		/* eslint-disable vue/require-prop-types */
 		value: {
 			required: true
 		},
@@ -51,6 +52,7 @@ export default {
 			type: String,
 			required: true
 		}
-	}
+	},
+	emits: ["input"],
 }
 </script>

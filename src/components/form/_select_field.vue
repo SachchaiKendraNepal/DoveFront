@@ -10,9 +10,10 @@
 			clearable
 			:type="type"
 			autocomplete="off"
+			hide-details="auto"
 			:prepend-inner-icon="prependInnerIcon"
 			:error-messages="getErrorMessage"
-			@input="inputChanged"
+			@input="inputChanged('input', $event)"
 		/>
 	</v-col>
 </template>
@@ -27,6 +28,7 @@ export default {
 		AutocompleteInputChanged
 	],
 	props: {
+		/* eslint-disable vue/require-prop-types */
 		value: {
 			required: true
 		},
@@ -60,11 +62,6 @@ export default {
 	data() {
 		return {
 			selectField: null,
-		}
-	},
-	watch: {
-		selectField(val) {
-
 		}
 	}
 }

@@ -10,6 +10,7 @@
 			placeholder="Start typing"
 			:error-messages="getErrorMessage"
 			:prepend-inner-icon="prependInnerIcon"
+			counter
 			@input="$emit('input', $event)"
 		/>
 	</v-col>
@@ -21,7 +22,12 @@ export default {
 	name: "TextField",
 	mixins: [AdminFieldErrorMessage],
 	props: {
+		/* eslint-disable vue/require-prop-types */
 		value: {
+			required: true
+		},
+		name: {
+			type: String,
 			required: true
 		},
 		label: {
@@ -37,6 +43,7 @@ export default {
 			type: String,
 			required: true
 		}
-	}
+	},
+	emits: ["input"]
 }
 </script>

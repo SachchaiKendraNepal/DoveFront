@@ -1,8 +1,5 @@
 <template>
 	<v-col cols="12">
-		<div class="mb-6">
-			Active picker: <code>{{ activePicker || 'null' }}</code>
-		</div>
 		<v-menu
 			ref="menu"
 			v-model="menu"
@@ -10,7 +7,6 @@
 			transition="scale-transition"
 			offset-y
 			attach=""
-			:nudge-top="20"
 			min-width="auto"
 		>
 			<template #activator="{ on, attrs }">
@@ -24,14 +20,15 @@
 					solo
 					clearable
 					v-bind="attrs"
+					hide-details="auto"
+					placeholder="Select date"
+					:error-messages="getErrorMessage"
 					v-on="on"
 					@input="$emit('input', $event)"
 				/>
 			</template>
-			<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
-			<v-date-picker :value="value" :active-picker.sync="activePicker"
-				:max="new Date().toISOString().substr(0, 10)"
-				min="1950-01-01"
+			<v-date-picker
+				:value="value"
 				@change="save"
 				@input="$emit('input', $event)"
 			/>
@@ -45,6 +42,7 @@ export default {
 	name: "DatePickerField",
 	mixins: [AdminFieldErrorMessage],
 	props: {
+		/* eslint-disable vue/require-prop-types */
 		value: {
 			required: true
 		},
@@ -70,20 +68,12 @@ export default {
 			required: true
 		}
 	},
+	emits: ["input"],
 	data: () => ({
-		activePicker: null,
-		date: null,
 		menu: false,
 	}),
-	watch: {
-		menu(val) {
-			val && setTimeout(() => (this.activePicker = "YEAR"))
-			console.log(this.activePicker)
-		},
-	},
 	methods: {
 		save(date) {
-			console.log(this.$refs)
 			this.$refs.menu.save(date)
 		},
 	},
