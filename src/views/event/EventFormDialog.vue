@@ -338,7 +338,7 @@
 							color="red lighten-5"
 							class="red--text ma-1"
 							depressed
-							@click="close"
+							@click="closeCreateEditDialog"
 						>
 							Cancel
 						</v-btn>
