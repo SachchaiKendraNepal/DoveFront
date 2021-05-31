@@ -41,7 +41,7 @@
 					class="cursor"
 					color="grey darken-3"
 					:size="30"
-					@click="close"
+					@click="closeCreateEditDialog"
 				>
 					<v-icon
 						:size="16"
@@ -221,7 +221,7 @@
 						label="title"
 						name="title"
 						prepend-inner-icon="mdi-form-textbox"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<text-area
 						id="event-description"
@@ -230,13 +230,13 @@
 						label="description"
 						name="description"
 						prepend-inner-icon="mdi-script-text"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<branch-field
 						id="event-branch"
 						v-model="editedItem.branch"
 						label="Organizer (Branch)"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<select-field
 						id="event-type"
@@ -245,7 +245,7 @@
 						name="type"
 						:select-items="eventTypeOptions"
 						prepend-inner-icon="mdi-call-merge"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<text-field
 						v-model="editedItem.contact"
@@ -253,27 +253,8 @@
 						type="number"
 						name="contact"
 						prepend-inner-icon="mdi-phone-classic"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
-					<v-col
-						cols="12"
-					>
-						<v-file-input
-							id="member-image-input"
-							v-model="editedItem.imageForUpload"
-							class="ma-0"
-							solo
-							small-chips
-							show-size
-							accept="image/*"
-							label="Banner Image"
-							clearable
-							multiple
-							prepend-icon=""
-							prepend-inner-icon="mdi-camera"
-							:error-messages="formErrors.banner"
-						/>
-					</v-col>
 					<admin-form-group-title
 						icon="mdi-calendar-clock"
 						text="Timeline Information"
@@ -283,54 +264,29 @@
 						prepend-inner-icon="mdi-calendar"
 						label="Start Date"
 						name="start_date"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							v-model="editedItem.duration"
-							clearable
-							dense
-							outlined
-							class="ma-0 pa-0"
-							label="Duration"
-							hint="This is the number of days the event will go on."
-							prepend-inner-icon="mdi-av-timer"
-							:error-messages="formErrors.duration"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="event-time-of-day"
-							v-model="editedItem.time_of_day"
-							class="ma-0"
-							allow-overflow
-							attach=""
-							dense
-							outlined
-							label="Time Of Day"
-							:items="timeOfDayOptions"
-							clearable
-							prepend-inner-icon="mdi-white-balance-sunny"
-							:error-messages="formErrors.time_of_day"
-						/>
-					</v-col>
-
-
-
+					<text-field
+						v-model="editedItem.duration"
+						label="Duration"
+						name="duration"
+						hint="This is the number of days the event will go on."
+						prepend-inner-icon="mdi-av-timer"
+						:errors="formErrors"
+					/>
+					<select-field
+						id="event-time-of-day"
+						v-model="editedItem.time_of_day"
+						label="Time Of Day"
+						name="time_of_day"
+						:select-items="timeOfDayOptions"
+						prepend-inner-icon="mdi-white-balance-sunny"
+						:errors="formErrors"
+					/>
 					<admin-form-group-title
 						icon="mdi-map-marker"
 						text="Location Information"
 					/>
-
-
-
-
 					<text-field
 						id="event-venue"
 						v-model="editedItem.venue"
@@ -338,72 +294,43 @@
 						name="venue"
 						prepend-inner-icon="mdi-home-roof"
 						hint="Where is the event going to be organized?"
-						:error-messages="formErrors.venue"
+						:errors="formErrors"
 					/>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<country-field
-							v-model="editedItem.country"
-							:errors="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<province-field
-							v-model="editedItem.province"
-							:errors="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<district-field
-							v-model="editedItem.district"
-							:errors="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<municipality-field
-							v-model="editedItem.municipality"
-							:error-messages="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<municipality-ward-field
-							v-model="editedItem.municipality_ward"
-							:error-messages="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<vdc-field
-							v-model="editedItem.vdc"
-							:error-messages="formErrors"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<vdc-ward-field
-							id="vdc-ward"
-							v-model="editedItem.vdc_ward"
-							:error-messages="formErrors"
-						/>
-					</v-col>
+					<country-field
+						id="country"
+						v-model="editedItem.country"
+						:errors="formErrors"
+					/>
+					<province-field
+						id="province"
+						v-model="editedItem.province"
+						:errors="formErrors"
+					/>
+					<district-field
+						id="district"
+						v-model="editedItem.district"
+						:errors="formErrors"
+					/>
+					<municipality-field
+						id="municipality"
+						v-model="editedItem.municipality"
+						:errors="formErrors"
+					/>
+					<municipality-ward-field
+						id="municipality-ward"
+						v-model="editedItem.municipality_ward"
+						:errors="formErrors"
+					/>
+					<vdc-field
+						id="vdc"
+						v-model="editedItem.vdc"
+						:errors="formErrors"
+					/>
+					<vdc-ward-field
+						id="vdc-ward"
+						v-model="editedItem.vdc_ward"
+						:errors="formErrors"
+					/>
 					<v-col cols="12"
 						class="pa-0 pb-16 text-center"
 					>
@@ -430,22 +357,17 @@
 	</v-dialog>
 </template>
 <script>
-import moment from "moment"
 import router from "@/router"
 import {mapGetters} from "vuex";
-import {cookCreateData, cookEditData, getFormData} from "@/Helper"
-import CountryAutocomplete from "@/mixins/CountryAutocomplete";
-import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
 import Snack from "@/mixins/Snack";
-import DistrictAutocomplete from "@/mixins/DistrictAutocomplete";
+import {getFormData} from "@/Helper";
+import AdminCreateEditFormMixin from "@/mixins/AdminCreateEditFormMixin";
 
 export default {
 	name: "EventFormDialog",
 	mixins: [
-		CountryAutocomplete,
-		ProvinceAutocomplete,
-		DistrictAutocomplete,
-		Snack
+		Snack,
+		AdminCreateEditFormMixin,
 	],
 	props: {
 		fullscreen: {
@@ -454,8 +376,6 @@ export default {
 		}
 	},
 	data: () => ({
-		dialog: false,
-		startDateMenu: false,
 		timeOfDayOptions: [
 			"Morning",
 			"Afternoon",
@@ -494,39 +414,10 @@ export default {
 			created_by: null,
 			updated_by: null,
 			approved_by: null,
-			images: null,
 			video_urls: null,
-			imageForUpload: [],
 		},
-		defaultItem: {
-			title: null,
-			description: null,
-			venue: null,
-			start_date: null,
-			duration: null,
-			time_of_day: null,
-			type: null,
-			is_approved: null,
-			is_main: null,
-			banner: null,
-			country: null,
-			province: null,
-			district: null,
-			municipality: null,
-			municipality_ward: null,
-			vdc: null,
-			vdc_ward: null,
-			contact: null,
-			branch: null,
-			created_at: null,
-			updated_at: null,
-			approved_at: null,
-			created_by: null,
-			updated_by: null,
-			approved_by: null,
-			images: null,
-			video_urls: null,
-			imageForUpload: [],
+		mixinData: {
+			clearFormErrorAction: "event/clearFormErrors"
 		},
 	}),
 	computed: {
@@ -543,11 +434,6 @@ export default {
 				? "mdi-calendar-plus"
 				: "mdi-calendar-edit"
 		},
-		computedDateFormattedMomentJs() {
-			return this.editedItem.start_date
-				? moment(this.editedItem.start_date).format("dddd, MMMM Do YYYY")
-				: ""
-		},
 		getBannerImage() {
 			if (this.editedItem.banner) return this.editedItem.banner
 			else return require("@/assets/defaultEventImage.jpeg")
@@ -556,79 +442,56 @@ export default {
 
 	async created() {
 		this.$bus.on("open-event-form-dialog-add-item", this.openCreateDialog)
-		this.$bus.on("open-event-form-dialog-edit-item", this.edit)
+		this.$bus.on("open-event-form-dialog-edit-item", this.openEditDialog)
 	},
 	beforeUnmount() {
 		this.$bus.off("open-event-form-dialog-add-item")
 		this.$bus.off("open-event-form-dialog-edit-item")
 	},
 	methods: {
-		openDialog() {
-			this.dialog = true
-		},
-		async openCreateDialog() {
-			await this.$store.dispatch("event/clearFormErrors")
-			this.editedItem = this.defaultItem
-			this.openDialog()
-		},
-
-		async edit(args) {
-			this.editedIndex = args.editedIndex
-			this.editedItem = args.editedItem
-			if (this.editedItem.contact) {
-				this.editedItem.contact = this.editedItem.contact.substring(4)
+		async createEvent(eventData) {
+			const created = await this.$store.dispatch("event/create", {body: eventData})
+			if (created) {
+				this.closeCreateEditDialog()
+				this.$bus.emit("reload")
+				await this.openSnack("Event added.", "success")
+			} else {
+				if (this.formErrors["non_field_errors"]) {
+					await this.openSnack(this.formErrors["non_field_errors"][0])
+				} else {
+					await this.openSnack("Event create failed. Try again")
+				}
 			}
-			this.openDialog()
 		},
 
-		close() {
-			this.dialog = false
-			this.$nextTick(() => {
-				this.editedItem = Object.assign({}, this.defaultItem)
-				this.editedIndex = -1
-			})
+		async updateEvent(eventData) {
+			const updated = await this.$store.dispatch(
+				"event/update",
+				{
+					id: this.editedItem.id,
+					body: eventData
+				}
+			)
+			if (updated) {
+				this.closeCreateEditDialog()
+				this.$bus.emit("reload")
+				await this.openSnack("Event updated.", "success")
+			} else {
+				if (this.formErrors["non_field_errors"]) {
+					await this.openSnack(this.formErrors["non_field_errors"][0])
+				} else {
+					await this.openSnack("Event update failed. Try again")
+				}
+			}
 		},
 
 		async save() {
-			// Lets update an event
+			const eventData = getFormData(this.editedItem)
 			if (this.editedIndex > -1) {
-				const body = cookEditData("event", this.editedItem, "banner")
-				const eventData = getFormData(body)
-				const updated = await this.$store.dispatch(
-					"event/update",
-					{
-						id: this.editedItem.id,
-						body: eventData
-					}
-				)
-				if (updated) {
-					this.close()
-					this.$bus.emit("reload-events")
-					await this.openSnack("Event updated.", "success")
-				} else {
-					if (this.formErrors.non_field_errors) {
-						await this.openSnack(this.formErrors.non_field_errors[0])
-					} else {
-						await this.openSnack("Event update failed. Try again")
-					}
-				}
+				await this.updateEvent(eventData)
 			}
-			// Lets create an event
 			else {
-				const body = cookCreateData("banner", this.editedItem)
-				const eventData = getFormData(body)
-				const created = await this.$store.dispatch("event/create", {body: eventData})
-				if (created) {
-					this.close()
-					this.$bus.emit("reload-events")
-					await this.openSnack("Event added.", "success")
-				} else {
-					if (this.formErrors.non_field_errors) {
-						await this.openSnack(this.formErrors.non_field_errors[0])
-					} else {
-						await this.openSnack("Event create failed. Try again")
-					}
-				}
+				await this.createEvent(eventData)
 			}
 		},
 		routeToEventDetailPage(itemId) {

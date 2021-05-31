@@ -122,10 +122,6 @@
 				<b>{{ item.country.name }}</b>
 			</p>
 		</template>
-		<!--		 eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.organizer="{ item }">
-			{{ item.organizer.name }}
-		</template>
 		<!-- eslint-disable-next-line vue/valid-v-slot-->
 		<template #item.start_date="{ item }">
 			{{ $moment(item.start_date).fromNow() }}
@@ -192,7 +188,7 @@ export default {
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "TITLE", value: "title" },
-			{ text: "Organizer", value: "organizer" },
+			{ text: "Organizer", value: "branch.name" },
 			{ text: "MAIN", value: "is_main" },
 			{ text: "APPROVED", value: "is_approved" },
 			{ text: "LOCATION", value: "location" },
@@ -236,7 +232,7 @@ export default {
 
 		openEditEventFormDialog(item) {
 			this.$bus.emit("open-event-form-dialog-edit-item", {
-				editedIndex: this.events.indexOf(item),
+				editedIndex: this.events.results.indexOf(item),
 				editedItem: Object.assign({}, item),
 			})
 		},
