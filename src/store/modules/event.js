@@ -10,28 +10,6 @@ export const SET_EVENT_FORM_ERRORS = "SET_EVENT_FORM_ERRORS"
 export const SET_EVENT_STATISTICS = "SET_EVENT_STATISTICS"
 export const SET_EVENT_COMMENTS = "SET_EVENT_COMMENTS"
 
-const defaultFormErrors = {
-	title: null,
-	description: null,
-	venue: null,
-	start_date: null,
-	duration: null,
-	time_of_day: null,
-	type: null,
-	is_approved: null,
-	is_main: null,
-	banner: null,
-	country: null,
-	province: null,
-	district: null,
-	municipality: null,
-	municipality_ward: null,
-	vdc: null,
-	vdc_ward: null,
-	contact: null,
-	organizer: null,
-}
-
 const state = {
 	events: {},
 	lastCreatedEvent: {},
@@ -40,7 +18,7 @@ const state = {
 	eventVideoUrls: {},
 	statistics: {},
 	comments: {},
-	formErrors: { ... defaultFormErrors }
+	formErrors: {}
 }
 
 const mutations = {
@@ -71,7 +49,7 @@ const getters = {
 
 const actions = {
 	clearFormErrors({commit}) {
-		commit("SET_EVENT_FORM_ERRORS", { ... defaultFormErrors})
+		commit("SET_EVENT_FORM_ERRORS", {})
 	},
 	async fetchAll({commit}, {page: page}) {
 		const response = await $api.getWithPayload(eventUrl.list, {page: page})

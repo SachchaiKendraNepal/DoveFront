@@ -189,7 +189,7 @@ const actions = {
 			return false
 		}
 	},
-	async filterMultimedia({commit}, payload) {
+	async filterMunicipality({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(locationUrls.municipalityList, payload)
 			commit("SET_MUNICIPALITIES", response)
@@ -197,10 +197,10 @@ const actions = {
 			return false
 		}
 	},
-	async filterMultimediaWard({commit}, payload) {
+	async filterMunicipalityWard({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(locationUrls.municipalityWardList, payload)
-			commit("SET_MUNICIPALITIES", response)
+			commit("SET_MUNICIPALITY_WARDS", response)
 		} catch {
 			return false
 		}
@@ -208,7 +208,7 @@ const actions = {
 	async filterVdc({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(locationUrls.vdcList, payload)
-			commit("SET_MUNICIPALITY_WARDS", response)
+			commit("SET_VDCS", response)
 		} catch {
 			return false
 		}

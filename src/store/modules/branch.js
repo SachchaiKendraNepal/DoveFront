@@ -9,25 +9,11 @@ export const SET_BRANCH = "SET_BRANCH"
 export const SET_BRANCH_FORM_ERRORS = "SET_BRANCH_FORM_ERRORS"
 export const SET_SELECTED_BRANCH = "SET_SELECTED_BRANCH"
 
-const defaultBranchFormErrorMessages = {
-	name: null,
-	slogan: null,
-	cover_image: null,
-	country: null,
-	province: null,
-	district: null,
-	municipality: null,
-	municipality_ward: null,
-	vdc: null,
-	vdc_ward: null,
-	contact: null
-}
-
 const state = {
 	branches: {},
 	branch: {},
 	selectedBranch: null,
-	formErrorMessages: { ... defaultBranchFormErrorMessages }
+	formErrorMessages: {}
 }
 
 const mutations = {
@@ -53,8 +39,8 @@ const getters = {
 }
 
 const actions = {
-	clearBranchFormErrors({commit}) {
-		commit("SET_BRANCH_FORM_ERRORS", { ...defaultBranchFormErrorMessages })
+	clearFormErrors({commit}) {
+		commit("SET_BRANCH_FORM_ERRORS", {})
 	},
 	setSelectedBranch({commit}, {value: value}) {
 		commit("SET_SELECTED_BRANCH", value)
@@ -63,7 +49,7 @@ const actions = {
 		const response = await $api.get(branchUrl.list)
 		commit("SET_BRANCHES", response)
 	},
-	async filterBranch({commit}, payload) {
+	async filter({commit}, payload) {
 		const response = await $api.getWithPayload(branchUrl.list, payload)
 		commit("SET_BRANCHES", response)
 	},
