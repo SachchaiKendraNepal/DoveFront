@@ -6,6 +6,7 @@
 	>
 		<add-event-card />
 		<v-toolbar
+			v-if="events.count > 0"
 			color="transparent"
 			height="60"
 			class="mx-3 event-toolbar"
@@ -70,22 +71,29 @@
 				</v-list>
 			</v-menu>
 		</v-toolbar>
-		<v-col v-for="(item, index) in events"
-			:key="index"
-			cols="12"
-		>
-			<event-home-card :event="item"
-				:card-bg="colors[index % 10]"
-			/>
-		</v-col>
+		<div v-if="events.count > 0">
+			<v-col v-for="(item, index) in events"
+				:key="index"
+				cols="12"
+			>
+				<event-home-card :event="item"
+					:card-bg="colors[index % 10]"
+				/>
+			</v-col>
+		</div>
+		<no-home-data v-else
+			class="ma-3 mb-12"
+		/>
 	</v-card>
 </template>
 <script>
 import {mapGetters} from "vuex";
+import NoHomeData from "@/components/NoHomeData";
 
 export default {
 	name: "EventsHomeComponent",
 	components: {
+		NoHomeData,
 		EventHomeCard: () => import("@/views/event/EventHomeCard"),
 		AddEventCard: () => import("@/views/event/AddEventCard"),
 	},
@@ -127,16 +135,8 @@ export default {
 	methods: {
 		async initEvents() {
 			this.loading = true
-			await this.$store.dispatch("event/fetchAll")
-			await this.$store.dispatch("branch/fetchAll")
-			await this.$store.dispatch("location/fetchAllCountries")
-			await this.$store.dispatch("location/fetchAllProvinces")
-			await this.$store.dispatch("location/fetchAllDistricts")
-			await this.$store.dispatch("location/fetchAllMunicipalities")
-			await this.$store.dispatch("location/fetchAllMunicipalityWards")
-			await this.$store.dispatch("location/fetchAllVdcs")
-			await this.$store.dispatch("location/fetchAllVdcWards")
 			await this.$store.dispatch("event/fetchAllApproved")
+			console.log(this.events)
 			this.loading = false
 		}
 	}

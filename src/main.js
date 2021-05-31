@@ -19,16 +19,51 @@ import "video.js/dist/video-js.css"
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.component(APlayer)
-Vue.component("AdminTextField", () =>
-	import("@/components/_admin_text_field")
+Vue.component("TextField", () =>
+	import("@/components/form/_text_field")
 );
-Vue.component("AdminCountryAutocompleteField", () =>
-	import("@/components/_admin_country_autocomplete_field")
+Vue.component("CountryField", () =>
+	import("@/components/form/_country_field")
 );
-Vue.component("AdminProvinceAutocompleteField", () =>
-	import("@/components/_admin_province_autocomplete_field")
+Vue.component("ProvinceField", () =>
+	import("@/components/form/_province_field")
 );
-
+Vue.component("DistrictField", () =>
+	import("@/components/form/_district_field")
+);
+Vue.component("MunicipalityField", () =>
+	import("@/components/form/_municipality_field")
+);
+Vue.component("MunicipalityWardField", () =>
+	import("@/components/form/_municipality_ward_field")
+);
+Vue.component("VdcField", () =>
+	import("@/components/form/_vdc_field")
+);
+Vue.component("VdcWardField", () =>
+	import("@/components/form/_vdc_ward_field")
+);
+Vue.component("TextArea", () =>
+	import("@/components/form/_text_area_field")
+);
+Vue.component("BranchField", () =>
+	import("@/components/form/_branch_field")
+);
+Vue.component("SelectField", () =>
+	import("@/components/form/_select_field")
+);
+Vue.component("DatePickerField", () =>
+	import("@/components/form/_date_picker")
+);
+Vue.component("AdminFormGroupTitle", () =>
+	import("@/components/adminForm/_admin_form_group_title")
+);
+Vue.component("FileField", () =>
+	import("@/components/form/__file_field")
+);
+Vue.component("AdminDeleteItemDialog", () =>
+	import("@/components/adminForm/_admin_table_delete_item_dialog")
+);
 
 
 Vue.prototype.$api = api

@@ -29,7 +29,7 @@
 					<v-btn
 						icon
 						style="background: grey;"
-						@click="close"
+						@click="closeCreateEditDialog"
 					>
 						<v-icon color="white">mdi-close</v-icon>
 					</v-btn>
@@ -154,310 +154,77 @@
 					</v-list-item>
 				</v-list>
 				<v-row class="ma-0 pa-0 px-4">
-					<v-col
-						cols="12"
-						class="pl-0"
-					>
-						<p class="heading ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-city-variant
-							</v-icon>
-							Branch Information
-						</p>
-						<v-divider class="pb-2" />
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							id="branch-name"
-							v-model="editedItem.name"
-							class="ma-0"
-							outlined
-							dense
-							clearable
-							label="Name"
-							prepend-inner-icon="mdi-form-textbox"
-							:error-messages="formErrors.name"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-text-field
-							v-model="editedItem.contact"
-							class="ma-0 pa-0"
-							label="Contact"
-							type="number"
-							outlined
-							dense
-							clearable
-							prepend-inner-icon="mdi-phone-classic"
-							:error-messages="formErrors.contact"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-file-input
-							id="member-image-input"
-							v-model="editedItem.imageForUpload"
-							class="ma-0"
-							outlined
-							dense
-							small-chips
-							show-size
-							accept="image/*"
-							label="Cover Image"
-							clearable
-							multiple
-							prepend-icon=""
-							prepend-inner-icon="mdi-camera"
-							:error-messages="formErrors.cover_image"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-textarea
-							v-model="editedItem.slogan"
-							clearable
-							dense
-							prepend-inner-icon="mdi-text"
-							label="Slogan"
-							outlined
-							class="ma-0-0"
-							:error-messages="formErrors.slogan"
-						/>
-					</v-col>
-					<v-col
-						cols="12"
-						class="pl-0"
-					>
-						<p class="heading ma-0 pa-0">
-							<v-icon class="pb-1"
-								size="30"
-							>
-								mdi-map-marker
-							</v-icon>
-							Location Information
-						</p>
-						<v-divider class="pb-2" />
-					</v-col>
-					<v-col
-						id="country-input-column"
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="country"
-							v-model="editedItem.country"
-							class="ma-0"
-							allow-overflow
-							dense
-							item-text="name"
-							item-value="id"
-							:items="countries"
-							attach=""
-							outlined
-							label="Country"
-							clearable
-							prepend-inner-icon="mdi-web"
-							:error-messages="formErrors.country"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>country</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="province"
-							v-model="editedItem.province"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							label="Province"
-							item-text="name"
-							item-value="id"
-							:items="provinces"
-							clearable
-							prepend-inner-icon="mdi-office-building-marker-outline"
-							:error-messages="formErrors.province"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>provinces</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="districts"
-							v-model="editedItem.district"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							:items="districts"
-							label="District"
-							clearable
-							prepend-inner-icon="mdi-map-marker-multiple-outline"
-							:error-messages="formErrors.district"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>district</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="municipality"
-							v-model="editedItem.municipality"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							label="Municipality"
-							:items="municipalities"
-							clearable
-							prepend-inner-icon="mdi-google-maps"
-							:disabled="editedItem.vdc > 0"
-							:error-messages="formErrors.municipality"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>municipality</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="municipality-ward"
-							v-model="editedItem.municipality_ward"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							clearable
-							attach=""
-							label="Municipality Ward"
-							:items="municipality_wards"
-							:disabled="editedItem.vdc > 0"
-							prepend-inner-icon="mdi-numeric"
-							:error-messages="formErrors.municipality_ward"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>municipality ward</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="vdc"
-							v-model="editedItem.vdc"
-							item-text="name"
-							item-value="id"
-							allow-overflow
-							class="ma-0"
-							dense
-							attach=""
-							outlined
-							label="VDC"
-							:items="vdcs"
-							clearable
-							prepend-inner-icon="mdi-home-map-marker"
-							:disabled="editedItem.municipality > 0"
-							:error-messages="formErrors.vdc"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>vdc</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ma-0 pa-0"
-					>
-						<v-autocomplete
-							id="vdc-ward"
-							v-model="editedItem.vdc_ward"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							clearable
-							attach=""
-							label="VDC Ward"
-							:items="vdc_wards"
-							:disabled="editedItem.municipality > 0"
-							prepend-inner-icon="mdi-numeric"
-							:error-messages="formErrors.vdc_ward"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>vdc ward</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
+					<admin-form-group-title
+						icon="mdi-city-variant"
+						text="Branch Information"
+					/>
+					<text-field
+						id="branch-name"
+						v-model="editedItem.name"
+						label="Name"
+						name="name"
+						:errors="formErrors"
+						prepend-inner-icon="mdi-form-textbox"
+					/>
+					<text-field
+						v-model="editedItem.contact"
+						label="Contact"
+						name="contact"
+						type="number"
+						:errors="formErrors"
+						prepend-inner-icon="mdi-phone-classic"
+					/>
+					<text-area
+						id="slogan"
+						v-model="editedItem.slogan"
+						prepend-inner-icon="mdi-text"
+						label="Slogan"
+						name="slogan"
+						:errors="formErrors"
+					/>
+
+					<admin-form-group-title
+						icon="mdi-map-marker"
+						text="Location Information"
+					/>
+
+
+					<country-field
+						id="country"
+						v-model="editedItem.country"
+						:errors="formErrors"
+					/>
+					<province-field
+						id="province"
+						v-model="editedItem.province"
+						:errors="formErrors"
+					/>
+					<district-field
+						id="district"
+						v-model="editedItem.district"
+						:errors="formErrors"
+					/>
+					<municipality-field
+						id="municipality"
+						v-model="editedItem.municipality"
+						:error-messages="formErrors"
+					/>
+					<municipality-ward-field
+						id="municipality-ward"
+						v-model="editedItem.municipality_ward"
+						:error-messages="formErrors"
+					/>
+					<vdc-field
+						id="vdc"
+						v-model="editedItem.vdc"
+						:error-messages="formErrors"
+					/>
+					<vdc-ward-field
+						id="vdc-ward"
+						v-model="editedItem.vdc_ward"
+						:error-messages="formErrors"
+					/>
+
 					<v-col cols="12"
 						class="pb-16"
 					>
@@ -467,7 +234,7 @@
 								color="red lighten-5"
 								class="red--text"
 								depressed
-								@click="close"
+								@click="closeCreateEditDialog"
 							>
 								Cancel
 							</v-btn>
@@ -490,19 +257,24 @@
 import router from "@/router";
 import {mapGetters} from "vuex";
 import {cookCreateData, cookEditData, getFormData} from "@/Helper";
+import Snack from "@/mixins/Snack";
+import AdminCreateEditFormMixin from "@/mixins/AdminCreateEditFormMixin";
 
 export default {
 	name: "BranchFormDialog",
+	mixins: [
+		Snack,
+		AdminCreateEditFormMixin
+	],
 	data: () => ({
-		dialog: false,
 		editedIndex: -1,
 		editedItem: {
-			id: "",
-			cover_image: "",
-			name: "",
-			country: "",
-			province: "",
-			district: "",
+			id: null,
+			cover_image: null,
+			name: null,
+			country: null,
+			province: null,
+			district: null,
 			municipality: null,
 			municipality_ward: null,
 			vdc: null,
@@ -512,17 +284,12 @@ export default {
 			is_approved: false,
 			imageForUpload: []
 		},
-		defaultItem: {},
+		mixinData: {
+			clearFormErrorAction: "branch/clearFormErrors"
+		},
 	}),
 	computed: {
 		...mapGetters({
-			countries: "location/countriesList",
-			provinces: "location/provincesList",
-			districts: "location/districtsList",
-			municipalities: "location/municipalitiesList",
-			municipality_wards: "location/municipalityWardsList",
-			vdcs: "location/vdcsList",
-			vdc_wards: "location/vdcWardsList",
 			formErrors: "branch/formErrorMessagesList"
 		}),
 
@@ -534,7 +301,7 @@ export default {
 		}
 	},
 	async created() {
-		this.$bus.on("open-branch-form-dialog-add-item", this.openDialog)
+		this.$bus.on("open-branch-form-dialog-add-item", this.openCreateDialog)
 		this.$bus.on("open-branch-form-dialog-edit-item", this.openEditDialog)
 	},
 	beforeUnmount() {
@@ -542,66 +309,44 @@ export default {
 		this.$bus.off("open-branch-form-dialog-edit-item")
 	},
 	methods: {
-		clearFormErrors() {
-			this.$store.dispatch("branch/clearBranchFormErrors")
-		},
-		openDialog() {
-			this.clearFormErrors()
-			this.dialog = true
-		},
-
-		openEditDialog(args) {
-			this.editedIndex = args.editedIndex
-			this.editedItem = args.editedItem
-			if(this.editedItem.contact) {
-				this.editedItem.contact = this.editedItem.contact.substring(4)
+		async updateBranch(branchData) {
+			const updated = await this.$store.dispatch(
+				"branch/update",
+				{
+					id: this.editedItem.id,
+					body: branchData
+				}
+			)
+			if (updated) {
+				this.closeCreateEditDialog()
+				this.$bus.emit("reload")
+				await this.openSnack("Branch updated successfully.", "success")
+			} else {
+				if (!this.formErrors["non_field_errors"]) {
+					await this.openSnack("Branch update failed. Try again.")
+				}
 			}
-			this.openDialog()
 		},
 
-		close() {
-			this.dialog = false
-			this.$nextTick(() => {
-				this.editedItem = Object.assign({}, this.defaultItem)
-				this.editedIndex = -1
-			})
-		},
-
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
+		async createBranch(branchData) {
+			const created = await this.$store.dispatch("branch/create", {body: branchData})
+			if (created) {
+				this.closeCreateEditDialog()
+				this.$bus.emit("reload")
+				await this.openSnack("Branch added successfully.", "success")
+			} else {
+				if (!this.formErrors["non_field_errors"]) {
+					await this.openSnack("Branch create failed. Please check your form and try again.")
+				}
+			}
 		},
 
 		async save() {
+			const branchData = getFormData(this.editedItem)
 			if (this.editedIndex > -1) {
-				const body = cookEditData("branch", this.editedItem, "cover_image")
-				const branchData = getFormData(body)
-				const updated = await this.$store.dispatch(
-					"branch/update",
-					{
-						id: this.editedItem.id,
-						body: branchData
-					}
-				)
-				if (updated) {
-					this.close()
-					this.$bus.emit("reload-branches")
-					await this.openSnack("Branch updated successfully.", "success")
-				} else {
-					await this.openSnack("Branch update failed. Try again.")
-				}
+				await this.updateBranch(branchData)
 			} else {
-				const body = cookCreateData("cover_image", this.editedItem)
-				const branchData = getFormData(body)
-				const created = await this.$store.dispatch("branch/create", {body: branchData})
-				if (created) {
-					this.close()
-					this.$bus.emit("reload-branches")
-					await this.openSnack("Branch added successfully.", "success")
-				} else {
-					await this.openSnack("Branch create failed. Try again.")
-				}
+				await this.createBranch(branchData)
 			}
 		},
 

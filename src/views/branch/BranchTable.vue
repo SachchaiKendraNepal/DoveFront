@@ -1,174 +1,195 @@
 <template>
-	<v-data-table
-		id="branch-d-table"
-		v-model="selected"
-		:loading="isLoading"
-		loading-text="Branches Loading..."
-		calculate-widths
-		:headers="headers"
-		:items="branches"
-		:search="search"
-		multi-sort
-		show-select
-		:single-select="false"
-		:items-per-page="12"
-		class="elevation-3 mx-2 mx-sm-6 mx-md-6 mx-lg-6 mx-xl-12 my-6"
+	<v-card v-if="items"
+		max-width="1000"
+		class="mx-auto rounded-0"
+		flat
 	>
-		<template #top>
-			<v-toolbar
-				flat
-				color="grey lighten-2"
-			>
-				<v-avatar
-					class="elevation-2 mr-2"
-					size="40"
+		<div class="py-6" />
+		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
+		<v-data-table v-model="selected" :options.sync="options"
+			loading-text="Branches Loading..."
+			:headers="headers"
+			:items="items.results"
+			:server-items-length="getTotalPaginationData"
+			:items-per-page="getItemsPerPageCount"
+			:loading="loading"
+			:search="search"
+			multi-sort
+			calculate-widths
+			show-select
+			:single-select="false"
+			class="elevation-3 mx-2"
+			:footer-props="{
+				showFirstLastPage: true,
+				disableItemsPerPage: true,
+				itemsPerPageOptions: [1, 5, 10, 50],
+				itemsPerPageText: 'Rows per page:',
+				pageText: `${options.page}-${getTotalPaginationData} of ${getTotalPaginationData}`
+			}"
+		>
+			<template #top>
+				<v-toolbar
+					flat
+					color="grey lighten-2"
 				>
-					<v-icon size="30">
-						mdi-city-variant
-					</v-icon>
-				</v-avatar>
-				<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
-					Sachchai Branches
-				</v-toolbar-title>
-				<v-divider
-					class="mx-4 search-branch"
-					inset
-					vertical
-				/>
-				<v-text-field
-					v-model="search"
-					class="search-branch"
-					solo
-					dense
-					hide-details
-					label=""
-					name="search"
-					prepend-inner-icon="mdi-magnify"
-					clearable
-					placeholder="Search"
-				/>
-				<v-spacer />
-				<v-divider
-					class="mx-4 search-branch"
-					inset
-					vertical
-				/>
-				<v-btn
-					dark
-					color="primary"
-					@click="openAddBranchFormDialog"
-				>
-					<v-icon
-						dark
-						:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+					<v-avatar
+						class="elevation-2 mr-2"
+						size="40"
 					>
-						mdi-plus-circle
-					</v-icon>
-					<span v-if="$vuetify.breakpoint.smAndUp">Branch</span>
+						<v-icon size="30">
+							mdi-city-variant
+						</v-icon>
+					</v-avatar>
+					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+						Sachchai Branches
+					</v-toolbar-title>
+					<v-divider
+						class="mx-4 search-branch"
+						inset
+						vertical
+					/>
+					<v-text-field
+						v-model="search"
+						class="search-branch"
+						solo
+						dense
+						hide-details
+						label=""
+						name="search"
+						prepend-inner-icon="mdi-magnify"
+						clearable
+						placeholder="Search"
+					/>
+					<v-spacer />
+					<v-divider
+						class="mx-4 search-branch"
+						inset
+						vertical
+					/>
+					<v-btn
+						dark
+						color="primary"
+						@click="openAddBranchFormDialog"
+					>
+						<v-icon
+							dark
+							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
+						>
+							mdi-plus-circle
+						</v-icon>
+						<span v-if="$vuetify.breakpoint.smAndUp">Branch</span>
+					</v-btn>
+					<branch-form-dialog />
+				</v-toolbar>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.name="{ item }">
+				<p
+					class="branch-name cursor"
+					@click="routeToBranchDetailPage(item.id)"
+				>
+					{{ item.name }}
+				</p>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.is_main="{ item }">
+				<v-switch
+					v-model="item.is_main"
+					color="primary"
+					hide-details="auto"
+					class="mt-0"
+					disabled
+				/>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.is_approved="{ item }">
+				<v-switch
+					v-model="item.is_approved"
+					color="success"
+					hide-details="auto"
+					class="mt-0"
+					disabled
+				/>
+			</template>
+			<!--		 eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.location="{ item }">
+				<p
+					class="mb-0 location"
+				>
+					<span>
+						{{ getWardNameOfItem(item) }},&nbsp;
+						{{ getMunicipalityOrVdcName(item) }},&nbsp;
+					</span>
+					<i>{{ item.district.name }},&nbsp;
+						{{ item.province.name }},&nbsp;</i>
+					<b>{{ item.country.name }}</b>
+				</p>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.created_at="{ item }">
+				{{ $moment(item.created_at).fromNow() }}
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.actions="{ item }">
+				<v-icon
+					v-ripple
+					class="mr-2"
+					color="success"
+					size="22"
+					@click="toggleApproval(item)"
+				>
+					mdi-check
+				</v-icon>
+				<v-icon
+					v-ripple
+					class="mr-2"
+					color="primary"
+					size="20"
+					@click="openEditBranchFormDialog(item)"
+				>
+					mdi-pencil
+				</v-icon>
+				<v-icon
+					v-ripple
+					color="red"
+					size="20"
+					@click="openAdminDeleteItemDialog(item.id, item.name)"
+				>
+					mdi-delete
+				</v-icon>
+			</template>
+			<template #no-data>
+				<v-btn
+					color="primary"
+					@click="initialize"
+				>
+					Reset
 				</v-btn>
-				<branch-form-dialog />
-			</v-toolbar>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.name="{ item }">
-			<p
-				class="branch-name cursor"
-				@click="routeToBranchDetailPage(item.id)"
-			>
-				{{ item.name }}
-			</p>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.is_main="{ item }">
-			<v-switch
-				v-model="item.is_main"
-				color="primary"
-				hide-details="auto"
-				class="mt-0"
-				disabled
-			/>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.is_approved="{ item }">
-			<v-switch
-				v-model="item.is_approved"
-				color="success"
-				hide-details="auto"
-				class="mt-0"
-				disabled
-			/>
-		</template>
-		<!--		 eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.location="{ item }">
-			<p
-				class="mb-0 location"
-			>
-				<span>
-					{{ (item.vdc_ward !== null) ? item.vdc_ward.name : item.municipality_ward.name }},&nbsp;
-					{{ (item.vdc !== null) ? item.vdc.name : item.municipality.name }},&nbsp;
-				</span>
-				<i>{{ item.district.name }},&nbsp;
-					{{ item.province.name }},&nbsp;</i>
-				<b>{{ item.country.name }}</b>
-			</p>
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.created_at="{ item }">
-			{{ $moment(item.created_at).fromNow() }}
-		</template>
-		<!-- eslint-disable-next-line vue/valid-v-slot-->
-		<template #item.actions="{ item }">
-			<v-icon
-				v-ripple
-				class="mr-2"
-				color="success"
-				size="22"
-				@click="toggleBranchApproval(item)"
-			>
-				mdi-check
-			</v-icon>
-			<v-icon
-				v-ripple
-				class="mr-2"
-				color="primary"
-				size="20"
-				@click="openEditBranchFormDialog(item)"
-			>
-				mdi-pencil
-			</v-icon>
-			<v-icon
-				v-ripple
-				color="red"
-				size="20"
-				@click="deleteItem(item)"
-			>
-				mdi-delete
-			</v-icon>
-		</template>
-		<template #no-data>
-			<v-btn
-				color="primary"
-				@click="initialize"
-			>
-				Reset
-			</v-btn>
-		</template>
-	</v-data-table>
+			</template>
+		</v-data-table>
+		<div class="py-6" />
+		<admin-delete-item-dialog
+			model-name="branch"
+			delete-action="branch/delete"
+		/>
+	</v-card>
 </template>
 
 <script>
 import router from "@/router";
 import {mapGetters} from "vuex";
+import AdminTableList from "@/mixins/AdminTableList";
+import ToggleApproval from "@/mixins/ToggleApproval";
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
 
 export default {
 	name: "BranchTable",
 	components: {
 		BranchFormDialog: () => import("@/views/branch/BranchFormDialog")
 	},
+	mixins: [AdminTableList, AdminTableDeleteItemMixin, ToggleApproval],
 	data: () => ({
-		search: "",
 		selected: [],
-		isLoading: false,
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
@@ -177,84 +198,45 @@ export default {
 			{ text: "IS APPROVED", value: "is_approved" },
 			{ text: "LOCATION", value: "location" },
 			{ text: "CREATED AT", value: "created_at" }
-		]
+		],
+		mixinData: {
+			modelName: "branch",
+			deleteAction: "branch/delete",
+			toggleApprovalAction: "branch/toggleApproval"
+		}
 	}),
-
 	computed: {
 		...mapGetters({
 			branches: "branch/list"
 		})
 	},
-
-	async created() {
-		this.$bus.on("reload-branches", this.initOnlyBranches)
-		await this.initialize()
-	},
-
-	beforeUnmount() {
-		this.$bus.off("reload-branches")
-	},
-
 	methods: {
-		async initOnlyBranches() {
-			this.isLoading = true
-			await this.$store.dispatch("branch/fetchAll")
-			this.isLoading = false
+		getMunicipalityOrVdcName(item) {
+			return (item.vdc !== null) ? item.vdc.name : item.municipality.name
 		},
-		async initialize() {
-			this.isLoading = true
-			await this.$store.dispatch("branch/fetchAll")
-			await this.$store.dispatch("location/fetchAllCountries")
-			await this.$store.dispatch("location/fetchAllProvinces")
-			await this.$store.dispatch("location/fetchAllDistricts")
-			await this.$store.dispatch("location/fetchAllMunicipalities")
-			await this.$store.dispatch("location/fetchAllMunicipalityWards")
-			await this.$store.dispatch("location/fetchAllVdcs")
-			await this.$store.dispatch("location/fetchAllVdcWards")
-			this.isLoading = false
+		getWardNameOfItem(item) {
+			if (item.vdc_ward) {
+				if (item.vdc_ward["name"]) return item.vdc_ward["name"]
+			} else if (item.municipality_ward) {
+				if (item.municipality_ward["name"]) return item.municipality_ward["name"]
+			}
 		},
-
+		async initialize(val=null) {
+			this.loading = true
+			await this.$store.dispatch("branch/filter", {page: val})
+			this.items = this.branches
+			this.totalItems = this.branches.count
+			this.loading = false
+		},
 		openAddBranchFormDialog() {
 			this.$bus.emit("open-branch-form-dialog-add-item")
 		},
-
 		openEditBranchFormDialog(item) {
 			this.$bus.emit("open-branch-form-dialog-edit-item", {
-				editedIndex: this.branches.indexOf(item),
+				editedIndex: this.branches.results.indexOf(item),
 				editedItem: Object.assign({}, item),
 			})
 		},
-
-		async deleteItem(item) {
-			const reaction = confirm(`Are you sure you want to delete branch "${item.name}"?`);
-			if (reaction === true) {
-				const isDeleted = await this.$store.dispatch(
-					"branch/delete",
-					{
-						id: item.id,
-					})
-				if (isDeleted) {
-					await this.openSnack("Branch removed successfully.", "success")
-					await this.initOnlyBranches()
-				} else await this.openSnack("Branch removed failed. Try again.")
-			}
-		},
-
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
-		},
-
-		async toggleBranchApproval(item) {
-			const response = await this.$store.dispatch("branch/toggleApproval", { id: item.id })
-			if (response) {
-				await this.openSnack("Branch approval toggled.", "success")
-				await this.initOnlyBranches()
-			}
-			else await this.openSnack("Branch approval toggle failed. Try again.")
-		},
-
 		routeToBranchDetailPage(itemId) {
 			router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})
 		}

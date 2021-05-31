@@ -13,6 +13,11 @@ export const SET_VDC_WARDS = "SET_VDC_WARDS"
 
 export const SET_SELECTED_COUNTRY = "SET_SELECTED_COUNTRY"
 export const SET_SELECTED_PROVINCE = "SET_SELECTED_PROVINCE"
+export const SET_SELECTED_DISTRICT = "SET_SELECTED_DISTRICT"
+export const SET_SELECTED_MUNICIPALITY = "SET_SELECTED_MUNICIPALITY"
+export const SET_SELECTED_MUNICIPALITY_WARD = "SET_SELECTED_MUNICIPALITY_WARD"
+export const SET_SELECTED_VDC = "SET_SELECTED_VDC"
+export const SET_SELECTED_VDC_WARD = "SET_SELECTED_VDC_WARD"
 
 const state = {
 	countries: {},
@@ -25,7 +30,12 @@ const state = {
 
 
 	selectedCountry: null,
-	selectedProvince: null
+	selectedProvince: null,
+	selectedDistrict: null,
+	selectedMunicipality: null,
+	selectedMunicipalityWard: null,
+	selectedVdc: null,
+	selectedVdcWard: null
 }
 
 const mutations = {
@@ -50,26 +60,47 @@ const mutations = {
 	[SET_VDC_WARDS](state, value) {
 		state.vdc_wards = value
 	},
+
 	[SET_SELECTED_COUNTRY](state, value) {
 		state.selectedCountry = value
 	},
 	[SET_SELECTED_PROVINCE](state, value) {
 		state.selectedProvince = value
-	}
+	},
+	[SET_SELECTED_DISTRICT](state, value) {
+		state.selectedDistrict = value
+	},
+	[SET_SELECTED_MUNICIPALITY](state, value) {
+		state.selectedMunicipality = value
+	},
+	[SET_SELECTED_MUNICIPALITY_WARD](state, value) {
+		state.selectedMunicipalityWard = value
+	},
+	[SET_SELECTED_VDC](state, value) {
+		state.selectedVdc = value
+	},
+	[SET_SELECTED_VDC_WARD](state, value) {
+		state.selectedVdcWard = value
+	},
 }
 
 const getters = {
 	selectedCountryId: state => state.selectedCountry,
 	selectedProvinceId: state => state.selectedProvince,
+	selectedDistrictId: state => state.selectedDistrict,
+	selectedMunicipalityId: state => state.selectedMunicipality,
+	selectedMunicipalityWardId: state => state.selectedMunicipalityWard,
+	selectedVdcId: state => state.selectedVdc,
+	selectedVdcWardId: state => state.selectedVdcWard,
 
 
 	countriesList: state => state.countries,
 	provincesList: state => state.provinces,
 	districtsList: state => state.districts,
-	municipalitiesList: state => state.municipalities.results,
-	municipalityWardsList: state => state.municipality_wards.results,
-	vdcsList: state => state.vdcs.results,
-	vdcWardsList: state => state.vdc_wards.results
+	municipalitiesList: state => state.municipalities,
+	municipalityWardsList: state => state.municipality_wards,
+	vdcsList: state => state.vdcs,
+	vdcWardsList: state => state.vdc_wards
 }
 
 const actions = {
@@ -78,6 +109,21 @@ const actions = {
 	},
 	setSelectedProvince({commit}, {value: value}) {
 		commit("SET_SELECTED_PROVINCE", value)
+	},
+	setSelectedDistrict({commit}, {value: value}) {
+		commit("SET_SELECTED_DISTRICT", value)
+	},
+	setSelectedMunicipality({commit}, {value: value}) {
+		commit("SET_SELECTED_MUNICIPALITY", value)
+	},
+	setSelectedMunicipalityWard({commit}, {value: value}) {
+		commit("SET_SELECTED_MUNICIPALITY_WARD", value)
+	},
+	setSelectedVdc({commit}, {value: value}) {
+		commit("SET_SELECTED_VDC", value)
+	},
+	setSelectedVdcWard({commit}, {value: value}) {
+		commit("SET_SELECTED_VDC_WARD", value)
 	},
 
 
@@ -131,6 +177,46 @@ const actions = {
 			const response = await $api.getWithPayload(locationUrls.countryList, payload)
 			commit("SET_COUNTRIES", response)
 			return true
+		} catch {
+			return false
+		}
+	},
+	async filterDistricts({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.districtList, payload)
+			commit("SET_DISTRICTS", response)
+		} catch {
+			return false
+		}
+	},
+	async filterMunicipality({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.municipalityList, payload)
+			commit("SET_MUNICIPALITIES", response)
+		} catch {
+			return false
+		}
+	},
+	async filterMunicipalityWard({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.municipalityWardList, payload)
+			commit("SET_MUNICIPALITY_WARDS", response)
+		} catch {
+			return false
+		}
+	},
+	async filterVdc({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.vdcList, payload)
+			commit("SET_VDCS", response)
+		} catch {
+			return false
+		}
+	},
+	async filterVdcWard({commit}, payload) {
+		try {
+			const response = await $api.getWithPayload(locationUrls.vdcWardList, payload)
+			commit("SET_VDC_WARDS", response)
 		} catch {
 			return false
 		}
