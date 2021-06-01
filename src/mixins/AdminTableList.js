@@ -22,7 +22,7 @@ const AdminTableList = {
 		 */
 		getTotalPaginationData() {
 			if (!this.items) return 0
-			const serverItemsPerPage = 5
+			const serverItemsPerPage = 3
 			const  rem = this.items.count % serverItemsPerPage
 			const div = Math.floor(this.items.count / serverItemsPerPage)
 			if (rem > 0) return div + 1
