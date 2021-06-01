@@ -1,21 +1,26 @@
 <template>
-	<v-card height="125"
-		class="ma-3 pa-3 add-new-event"
-		color="indigo lighten-4"
+	<v-card
+		max-width="500"
+		class="mx-ato add-new-event"
+		color="orange lighten-4"
 	>
 		<div class="top-section">
 			<div class="add-event-text"
 				@click="openAddEventFormDialog"
 			>
-				<v-icon size="60"
+				<v-icon size="40"
 					class="px-1"
 				>
 					mdi-calendar-plus
 				</v-icon>
-				Register a new event
+				<span>Register a new event</span>
 			</div>
-			<event-form-dialog :fullscreen="false" />
+			<v-divider />
+			<div class="bottom-section">
+				Events need to be approved to be visible for all the followers <span class="px-1"><v-icon color="green">mdi-check-circle</v-icon></span>
+			</div>
 		</div>
+		<event-form-dialog :fullscreen="false" />
 	</v-card>
 </template>
 
@@ -35,15 +40,14 @@ export default {
 
 <style scoped lang="scss">
 .add-new-event {
-	border-radius: 10px !important;
+	margin: 20px auto;
+	border-radius: 4px !important;
 	.top-section {
-		background-color: #abb8e2;
-		height: 100px;
 		border-radius: 16px !important;
 		.add-event-text {
-			height: 100px;
+			min-height: 100px;
 			font-family: "Acme", sans-serif;
-			font-size: 1.8rem;
+			font-size: 1.6rem;
 			color: #686868;
 			display: flex;
 			justify-content: center;
@@ -55,20 +59,16 @@ export default {
 		}
 	}
 	.bottom-section {
-		background-color: #deb3ff;
-		border-radius: 16px !important;
 		height: 70px;
-		.info-text {
-			color: #616161;
-			font-size: .875rem;
-			height: 70px;
-			max-width: 500px;
-			margin: auto auto;
-			display: flex;
-			justify-content: flex-start;
-			align-items: center;
-			text-align: center;
-		}
+		color: #616161;
+		font-size: .875rem;
+		min-height: 70px;
+		max-width: 500px;
+		margin: auto auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
 	}
 }
 </style>
