@@ -51,15 +51,6 @@ const actions = {
 	clearFormErrors({commit}) {
 		commit("SET_EVENT_FORM_ERRORS", {})
 	},
-	async fetchAll({commit}, {page: page}) {
-		const response = await $api.getWithPayload(eventUrl.list, {page: page})
-		commit("SET_EVENTS", response)
-	},
-
-	async fetchAllApproved({commit}) {
-		const response = await $api.getWithPayload(eventUrl.list, {is_approved: true})
-		commit("SET_EVENTS", response)
-	},
 
 	async fetchSingle({commit}, {id: id}) {
 		const response = await $api.get(util.format(eventUrl.detail, id))
@@ -99,7 +90,7 @@ const actions = {
 		}
 	},
 
-	async filterEvents({commit}, payload) {
+	async filter({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(eventUrl, payload)
 			commit("SET_EVENTS", response)

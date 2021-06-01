@@ -5,73 +5,72 @@
 		max-width="1000"
 	>
 		<add-event-card />
-		<v-toolbar
-			v-if="events.count > 0"
-			color="transparent"
-			height="60"
-			class="mx-3 event-toolbar"
-		>
-			<v-app-bar-nav-icon>
-				<v-icon>mdi-calendar-clock</v-icon>
-			</v-app-bar-nav-icon>
-			<v-spacer />
-			<v-card class="ma-0 pa-0 mx-4"
-				width="500"
-			>
-				<v-text-field
-					v-model="searchEvents"
-					color="red"
-					background-color="lightblue lighten-3"
-					solo
-					dense
-					hide-details
-					label="Search events"
-					prepend-inner-icon="mdi-calendar-search"
-				/>
-			</v-card>
-			<v-menu offset-y>
-				<template #activator="{ on, attrs }">
-					<v-btn
-						icon
-						v-bind="attrs"
-						v-on="on"
-					>
-						<v-icon>mdi-filter</v-icon>
-					</v-btn>
-				</template>
-				<v-list>
-					<v-list-item
-						v-for="(item, index) in filterMenuItems"
-						:key="index"
-					>
-						<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
-					</v-list-item>
-				</v-list>
-			</v-menu>
-
-			<v-menu offset-y>
-				<template #activator="{ on, attrs }">
-					<v-btn
-						icon
-						v-bind="attrs"
-						v-on="on"
-					>
-						<v-icon>mdi-sort</v-icon>
-					</v-btn>
-				</template>
-				<v-list>
-					<v-list-item
-						v-for="(item, index) in sortMenuItems"
-						:key="index"
-					>
-						<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-						<v-list-item-title>{{ item.title }}</v-list-item-title>
-					</v-list-item>
-				</v-list>
-			</v-menu>
-		</v-toolbar>
 		<div v-if="events.count > 0">
+			<v-toolbar
+				color="transparent"
+				height="60"
+				class="mx-3 event-toolbar"
+			>
+				<v-app-bar-nav-icon>
+					<v-icon>mdi-calendar-clock</v-icon>
+				</v-app-bar-nav-icon>
+				<v-spacer />
+				<v-card class="ma-0 pa-0 mx-4"
+					width="500"
+				>
+					<v-text-field
+						v-model="searchEvents"
+						color="red"
+						background-color="lightblue lighten-3"
+						solo
+						dense
+						hide-details
+						label="Search events"
+						prepend-inner-icon="mdi-calendar-search"
+					/>
+				</v-card>
+				<v-menu offset-y>
+					<template #activator="{ on, attrs }">
+						<v-btn
+							icon
+							v-bind="attrs"
+							v-on="on"
+						>
+							<v-icon>mdi-filter</v-icon>
+						</v-btn>
+					</template>
+					<v-list>
+						<v-list-item
+							v-for="(item, index) in filterMenuItems"
+							:key="index"
+						>
+							<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+							<v-list-item-title>{{ item.title }}</v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-menu>
+
+				<v-menu offset-y>
+					<template #activator="{ on, attrs }">
+						<v-btn
+							icon
+							v-bind="attrs"
+							v-on="on"
+						>
+							<v-icon>mdi-sort</v-icon>
+						</v-btn>
+					</template>
+					<v-list>
+						<v-list-item
+							v-for="(item, index) in sortMenuItems"
+							:key="index"
+						>
+							<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+							<v-list-item-title>{{ item.title }}</v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-menu>
+			</v-toolbar>
 			<v-col v-for="(item, index) in events"
 				:key="index"
 				cols="12"
@@ -135,7 +134,10 @@ export default {
 	methods: {
 		async initEvents() {
 			this.loading = true
-			await this.$store.dispatch("event/fetchAllApproved")
+			await this.$store.dispatch("event/filter", {
+				page: 1,
+				is_approved: true
+			})
 			console.log(this.events)
 			this.loading = false
 		}

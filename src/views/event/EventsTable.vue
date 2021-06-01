@@ -232,7 +232,7 @@ export default {
 		async initialize(val) {
 			this.loading = true
 			if (!val) val = 1
-			await this.$store.dispatch("event/fetchAll", {page: val})
+			await this.$store.dispatch("event/filter", {page: val})
 			this.items = this.events
 			this.totalItems = this.events.count
 			this.loading = false

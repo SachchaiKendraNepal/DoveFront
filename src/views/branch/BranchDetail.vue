@@ -395,7 +395,7 @@ export default {
 	methods: {
 		async init() {
 			this.loading=true
-			await this.$store.dispatch("event/filterEvents", { organizer: this.$route.params.id})
+			await this.$store.dispatch("event/filter", { organizer: this.$route.params.id})
 			await this.$store.dispatch("branch/fetchSingle", {id: this.$route.params.id})
 			await this.$store.dispatch("member/fetchMemberBranchesForBranch", {branch: this.$route.params.id})
 			this.loading=false
