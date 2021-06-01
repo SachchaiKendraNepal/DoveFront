@@ -82,6 +82,7 @@
 		</div>
 		<no-home-data v-else
 			class="ma-3 mb-12"
+			image="https://media.giphy.com/media/YOqgY2wQazNKleTJ5D/source.gif"
 		/>
 	</v-card>
 </template>
