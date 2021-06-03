@@ -92,7 +92,7 @@ const actions = {
 
 	async filter({commit}, payload) {
 		try {
-			const response = await $api.getWithPayload(eventUrl, payload)
+			const response = await $api.getWithPayload(eventUrl.list, payload)
 			commit("SET_EVENTS", response)
 			return true
 		} catch {
