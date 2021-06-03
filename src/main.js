@@ -64,6 +64,9 @@ Vue.component("FileField", () =>
 Vue.component("AdminDeleteItemDialog", () =>
 	import("@/components/adminForm/_admin_table_delete_item_dialog")
 );
+Vue.component("CheckboxField", () =>
+	import("@/components/form/_checkbox_field")
+);
 
 
 Vue.prototype.$api = api

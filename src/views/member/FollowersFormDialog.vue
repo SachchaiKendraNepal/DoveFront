@@ -8,33 +8,32 @@
 		transition="dialog-bottom-transition"
 	>
 		<v-card
-			class="zero-border-radius"
+			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title class="sticky-dialog-top">
+			<v-card-title class="grey darken-3">
 				<v-avatar
-					color="grey darken-1"
+					color="grey darken-2"
 					size="40"
 					class="mr-4 elevation-1"
 				>
-					<v-icon
+					<v-icon dark
 						size="22"
-						color="white"
 					>
-						{{ formIcon }}
+						{{ formIcon() }}
 					</v-icon>
 				</v-avatar>
-				<span class="form-title">{{ formTitle }}</span>
+				<span class="form-title">{{ formTitle('Follower') }}</span>
 				<v-spacer />
-				<span>
-					<v-btn
-						icon
-						style="background: grey;"
-						@click="close"
-					>
-						<v-icon color="white">mdi-close</v-icon>
-					</v-btn>
-				</span>
+				<v-btn
+					color="grey darken-2"
+					fab
+					dark
+					x-small
+					@click="closeCreateEditDialog"
+				>
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
 			</v-card-title>
 
 			<v-card flat
@@ -43,7 +42,7 @@
 				color="transparent"
 			>
 				<v-card color="aliceblue"
-					style="border-radius: 0 0 10px 10px;"
+					class="round-bottom"
 				>
 					<v-row
 						v-show="editedIndex !== -1"
@@ -56,100 +55,78 @@
 								:src="fetchCurrentCoverImage"
 								height="200"
 							/>
-							<div class="d-flex justify-center">
-								<v-avatar
-									id="profile-img-avatar"
-									size="180"
-								>
-									<v-img :src="getCurrentProfileImage" />
-								</v-avatar>
-							</div>
+						</v-col>
+						<v-col cols="12"
+							class="profile-av-row pb-0"
+						>
+							<v-avatar
+								class="profile-img-avatar"
+								size="180"
+							>
+								<v-img :src="getCurrentProfileImage" />
+							</v-avatar>
 						</v-col>
 						<v-col
 							cols="12"
 						>
 							<v-card
 								id="short-member-detail"
+								class="mx-auto text-center"
 								flat
-								class="mx-auto my-auto text-center"
 								tile
 							>
-								<v-list>
+								<v-list class="pt-0">
 									<v-list-item>
 										<v-list-item-content>
-											<p class="headline">
+											<div class="d-flex justify-center">
 												<span
-													id="follower-full-name-display"
-													class="mr-2"
+													class="follower-full-name"
 													@click="routeToFollowerDetailPage(editedItem.id)"
 												>
 													{{ editedItem.first_name }} {{ editedItem.last_name }}
 												</span>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															v-bind="attrs"
-															color="green darken-1"
-															v-on="on"
-														>
-															mdi-check-decagram
-														</v-icon>
-													</template>
-													<span>Approved</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															v-bind="attrs"
-															color="black lighten-2"
-															v-on="on"
-														>
-															mdi-account-cowboy-hat
-														</v-icon>
-													</template>
-													<span>Super User</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															size="26"
-															v-bind="attrs"
-															color="orange darken-2"
-															v-on="on"
-														>
-															mdi-account-tie
-														</v-icon>
-													</template>
-													<span>Staff Member</span>
-												</v-tooltip>
-											</p>
-											<v-divider class="mb-2" />
-											<p>
-												<v-icon class="small-detail-icon">
-													mdi-account-key
-												</v-icon>
-												<b>Role assigned:</b>
-												<span class="px-1">
-													<v-chip
-														small
-														class="ma-2"
-														color="primary"
-														text-color="white"
-													>
-														MAINTAINER
-														<v-icon right>mdi-hammer</v-icon>
-													</v-chip>
+												<span v-if="editedItem.is_superuser">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-ripple
+																v-bind="attrs"
+																color="orange lighten-2"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-cowboy-hat
+															</v-icon>
+														</template>
+														<span>Super User</span>
+													</v-tooltip>
 												</span>
-											</p>
-											<p class="mb-0 mb-4">
+												<span v-if="editedItem.is_staff">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-if="editedItem.is_staff"
+																v-ripple
+																size="26"
+																v-bind="attrs"
+																color="purple lighten-1"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-tie
+															</v-icon>
+														</template>
+														<span>Staff Member</span>
+													</v-tooltip>
+												</span>
+											</div>
+											<v-divider class="mb-2" />
+											<p class="mb-0 mb-4 mt-2">
 												<v-icon class="small-detail-icon">
 													mdi-shape-plus
 												</v-icon>
 												<b>Date joined:</b>
-												<span class="px-1">{{ editedItem.date_joined }}</span>
+												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
 											</p>
 											<p class="mb-0 mb-4">
 												<v-icon class="small-detail-icon">
@@ -163,7 +140,7 @@
 													mdi-check
 												</v-icon>
 												<b>Approved at:</b>
-												<span class="px-1">{{ editedItem.date_joined }}</span>
+												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
 											</p>
 											<p class="mb-0">
 												<v-icon class="small-detail-icon">
@@ -183,169 +160,56 @@
 				<v-card-text>
 					<v-container>
 						<v-row class="ma-0 pa-0">
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<p class="heading ma-0 pa-0">
-									<v-icon class="pb-1"
-										size="30"
-									>
-										mdi-account-circle
-									</v-icon>
-									Personal Information
-								</p>
-								<v-divider class="pb-4" />
-							</v-col>
-							<v-col
-								cols="12"
-								md="6"
-								class="ma-0 pa-0 pr-md-2 pr-lg-2 pr-xl-2"
-							>
-								<v-text-field
-									id="first-name"
-									v-model="editedItem.first_name"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									label="First Name"
-									prepend-inner-icon="mdi-form-textbox"
-									:error-messages="userFieldErrors.first_name"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								md="6"
-								class="ma-0 pa-0 pl-md-2 pl-lg-2 pl-xl-2"
-							>
-								<v-text-field
-									id="last-name"
-									v-model="editedItem.last_name"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									label="Last Name"
-									prepend-inner-icon="mdi-form-textbox"
-									:error-messages="userFieldErrors.last_name"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-text-field
-									id="username"
-									v-model="editedItem.username"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									label="Username"
-									prepend-inner-icon="mdi-card-account-details-outline"
-									:error-messages="userFieldErrors.username"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-text-field
-									id="email"
-									v-model="editedItem.email"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									type="email"
-									label="Email"
-									prepend-inner-icon="mdi-at"
-									:error-messages="userFieldErrors.email"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-text-field
-									id="phone"
-									v-model="editedItem.profile.contact"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									label="Phone"
-									type="number"
-									prepend-inner-icon="mdi-phone-classic"
-									:error-messages="profileFieldErrors.contact"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="pl-0"
-							>
-								<p class="heading ma-0 pa-0">
-									<v-icon class="pb-1"
-										size="30"
-									>
-										mdi-shield-key
-									</v-icon>
-									Permissions Information
-								</p>
-								<v-divider />
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-checkbox
-									id="is-staff"
-									v-model="editedItem.is_staff"
-									label="Staff Status"
-									prepend-icon="mdi-account-tie"
-								/>
-							</v-col>
-							<v-col
-								cols="12"
-								class="pl-0"
-							>
-								<p class="heading ma-0 pa-0">
-									<v-icon class="pb-1"
-										size="30"
-									>
-										mdi-map-marker
-									</v-icon>
-									Location Information
-								</p>
-								<v-divider class="pb-2" />
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-text-field
-									id="current-city"
-									v-model="editedItem.profile.current_city"
-									class="ma-0"
-									outlined
-									dense
-									clearable
-									label="Current city"
-									prepend-inner-icon="mdi-city"
-									:error-messages="profileFieldErrors.current_city"
-								/>
-							</v-col>
-							<v-col cols="12"
-								class="pa-0 pb-16"
-							>
+							<admin-form-group-title
+								icon="mdi-account-circle"
+								text="Personal Information"
+							/>
+							<text-field
+								id="first-name"
+								v-model="editedItem.first_name"
+								label="First Name"
+								name="first_name"
+								prepend-inner-icon="mdi-form-textbox"
+								:errors="formErrors"
+							/>
+							<text-field
+								id="last-name"
+								v-model="editedItem.last_name"
+								label="Last Name"
+								name="last_name"
+								prepend-inner-icon="mdi-form-textbox"
+								:errors="formErrors"
+							/>
+							<text-field
+								id="username"
+								v-model="editedItem.username"
+								label="Username"
+								name="username"
+								prepend-inner-icon="mdi-card-account-details-outline"
+								:errors="formErrors"
+							/>
+							<text-field
+								id="email"
+								v-model="editedItem.email"
+								type="email"
+								label="Email"
+								name="email"
+								prepend-inner-icon="mdi-at"
+								:errors="formErrors"
+							/>
+							<admin-form-group-title
+								icon="mdi-shield-key"
+								text="Permission Information"
+							/>
+							<!--TODO: add permissions-->
+							<v-col cols="12">
 								<v-card-actions class="pa-0">
 									<v-spacer />
 									<v-btn
 										color="red lighten-5"
 										class="red--text"
 										depressed
-										@click="close"
+										@click="closeCreateEditDialog"
 									>
 										Cancel
 									</v-btn>
@@ -369,55 +233,40 @@
 <script>
 import router from "@/router";
 import {mapGetters} from "vuex";
+import AdminCreateEditFormMixin from "@/mixins/AdminCreateEditFormMixin";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "FollowerFormDialog",
+	mixins: [AdminCreateEditFormMixin, Snack],
 	data: () => ({
-		defaultProfileImage: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50",
-		dialog: false,
-		countriesLoading: false,
-		provincesLoading: false,
-		districtsLoading: false,
-		editedIndex: -1,
+		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+		userData: null,
+		profileData: null,
 		editedItem: {
 			id: "",
 			email: "",
 			first_name: "",
 			last_name: "",
 			username: "",
-			is_staff: null,
-			profile: {
-				current_city: "",
-				contact: "",
-			}
+			is_superuser: null,
+			is_staff: null
 		},
-		defaultItem: {
-			id: "",
-			email: "",
-			first_name: "",
-			last_name: "",
-			username: "",
-			is_staff: null,
-			profile: {
-				current_city: "",
-				contact: "",
-			}
+		defaultItem: {},
+		mixinData: {
+			clearFormErrorAction: "user/clearCreateFormErrors"
 		},
 	}),
 	computed: {
 		...mapGetters({
-			userFieldErrors: "user/userCreateFormErrors",
-			profileFieldErrors: "profile/updateFormErrors"
+			formErrors: "user/userCreateFormErrors",
 		}),
-		formTitle() {
-			return this.editedIndex === -1 ? "Add New Follower" : "Edit Follower"
-		},
-		formIcon() {
-			return this.editedIndex === -1 ? "mdi-plus-circle" : "mdi-account-edit"
-		},
 		getCurrentProfileImage() {
-			if (this.editedIndex === -1) return this.defaultProfileImage
-			if (this.editedItem.profile["profile_images"].length === 0) return this.defaultProfileImage
+			if (
+				this.editedIndex === -1 ||
+				this.editedItem.profile["profile_images"].length === 0
+			)
+				return this.defaultProfileImage
 			return this.editedItem.profile["profile_images"][0].image
 		},
 		fetchCurrentCoverImage() {
@@ -425,79 +274,52 @@ export default {
 		}
 	},
 	async created() {
-		this.$bus.on("open-follower-form-dialog-add-item", this.openDialog)
+		this.$bus.on("open-follower-form-dialog-add-item", this.openCreateDialog)
 		this.$bus.on("open-follower-form-dialog-edit-item", this.openEditDialog)
-		await this.$store.dispatch("user/clearCreateFormErrors")
-		await this.$store.dispatch("profile/clearFormErrors")
 	},
 	beforeUnmount() {
 		this.$bus.off("open-follower-form-dialog-add-item")
 		this.$bus.off("open-follower-form-dialog-edit-item")
 	},
 	methods: {
-		async openSnack(text, color = "error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
-		},
-		openDialog() {
-			this.dialog = true
-		},
-
-		openEditDialog(args) {
-			this.editedIndex = args.editedIndex
-			this.editedItem = args.editedItem
-			if (this.editedItem.profile.contact) {
-				this.editedItem.profile.contact = this.editedItem.profile.contact.substring(4)
+		async updateFollower() {
+			const editUser = await this.$store.dispatch(
+				"user/update",
+				{id: this.editedItem.id, body: this.userData}
+			)
+			if (editUser) {
+				await this.openSnack("Follower updated successfully.", "success")
+				this.$bus.emit("reload")
+				this.closeCreateEditDialog()
 			}
-			this.openDialog()
+			else await this.openSnack("Follower update failed.")
 		},
-
-		close() {
-			this.dialog = false
-			this.$nextTick(() => {
-				this.editedItem = Object.assign({}, this.defaultItem)
-				this.editedIndex = -1
+		async createFollower() {
+			const newUser = await this.$store.dispatch("user/create", {
+				body: this.userData
 			})
+			if (newUser) {
+				await this.openSnack("Follower created successfully.", "success")
+				this.$bus.emit("reload")
+				this.closeCreateEditDialog()
+			} else {
+				await this.openSnack("Follower create failed.")
+			}
 		},
-
 		async save() {
-			const userData = {
+			this.userData = {
 				first_name: this.editedItem.first_name,
 				last_name: this.editedItem.last_name,
 				email: this.editedItem.email,
 				username: this.editedItem.username,
 				is_staff: this.editedItem.is_staff,
+				// default password set for follower added from admin
 				password: "Cartoon-Duck-14-Coffee-Glvs"
 			}
-			const profileData = {
-				contact: this.editedItem.profile.contact,
-				current_city: this.editedItem.profile.current_city,
-			}
 			if (this.editedIndex > -1) {
-				const editUser = await this.$store.dispatch(
-					"user/update",
-					{id: this.editedItem.id, body: userData}
-				)
-				if (editUser) {
-					await this.$store.dispatch("profile/update", {
-						id: this.editedItem.profile.id,
-						body: profileData
-					})
-				}
-				await this.openSnack("Follower updated successfully.", "success")
-				this.$bus.emit("reload-followers")
-				this.close()
+				await this.updateFollower()
 			} else {
-				const newUser = await this.$store.dispatch("user/create", {body: userData})
-				if (newUser) {
-					await this.$store.dispatch("profile/update", {
-						id: newUser.profile.id,
-						body: profileData
-					})
-				}
-				await this.openSnack("Follower created successfully.", "success")
-				this.close()
+				await this.createFollower()
 			}
 		},
 
@@ -508,38 +330,22 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.zero-border-radius
-	border-radius: 0
-	.sticky-dialog-top
-		position: sticky
-		position: -webkit-sticky
-		top: 0
-		z-index: 200
-	.v-card__title
-		background-color: #535151 !important
-	.form-title
-		color: white
-		font-weight: 400
-		display: block
-		@media only screen and (max-width: 325px)
-			display: none
+#short-member-detail
+	.small-detail-icon
+		margin-top: -4px
+		margin-right: 4px
+.follower-full-name
+	font-size: 1.5rem
+	font-weight: 400
+	color: #474646
+	cursor: pointer
 
-	.v-input--selection-controls
-		margin-top: 0
-
-	#short-member-detail
-		.small-detail-icon
-			margin-top: -4px
-			margin-right: 4px
-	.follower-full-name
-		font-size: 18px
-		font-weight: 300
-		color: #474646
-		cursor: pointer
-
-	#profile-img-avatar
+.profile-av-row
+	display: flex
+	justify-content: center
+	margin-top: -90px
+	.profile-img-avatar
 		transition: all .5s
-		margin-top: -90px
 		border: 4px solid white
 		@media only screen and (max-width: 245px)
 			height: 100px !important
@@ -547,5 +353,6 @@ export default {
 			width: 100px !important
 			margin-top: -50px !important
 			border: 2px solid white !important
-
+.round-bottom
+	border-radius: 0 0 10px 10px
 </style>

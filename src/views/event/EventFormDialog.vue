@@ -9,47 +9,30 @@
 			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-toolbar
-				fixed
-				dark
-				height="60"
-			>
+			<v-card-title class="grey darken-3">
 				<v-avatar
-					:size="
-						$vuetify.breakpoint.smAndUp
-							? 35
-							: 25
-					"
-					color="grey darken-3"
-					class="elevation-4"
+					color="grey darken-2"
+					size="40"
+					class="mr-4 elevation-1"
 				>
-					<v-icon
-						:size="
-							$vuetify.breakpoint.smAndUp
-								? 22
-								: 16
-						"
+					<v-icon dark
+						size="22"
 					>
-						{{ formIcon }}
+						{{ formIcon() }}
 					</v-icon>
 				</v-avatar>
-				<v-toolbar-title class="toolbar-title">
-					{{ formTitle }}
-				</v-toolbar-title>
+				<span class="form-title">{{ formTitle('Event') }}</span>
 				<v-spacer />
-				<v-avatar
-					class="cursor"
-					color="grey darken-3"
-					:size="30"
+				<v-btn
+					color="grey darken-2"
+					fab
+					dark
+					x-small
 					@click="closeCreateEditDialog"
 				>
-					<v-icon
-						:size="16"
-					>
-						mdi-close
-					</v-icon>
-				</v-avatar>
-			</v-toolbar>
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
+			</v-card-title>
 			<v-card flat
 				max-width="800"
 				class="mx-auto px-2"
@@ -386,7 +369,6 @@ export default {
 			"Board Meeting",
 			"General Meeting",
 		],
-		editedIndex: -1,
 		editedItem: {
 			id: null,
 			title: null,
@@ -416,6 +398,7 @@ export default {
 			approved_by: null,
 			video_urls: null,
 		},
+		defaultItem: {},
 		mixinData: {
 			clearFormErrorAction: "event/clearFormErrors"
 		},
@@ -424,16 +407,6 @@ export default {
 		...mapGetters({
 			formErrors: "event/formErrorsList"
 		}),
-		formTitle() {
-			return (this.editedIndex === -1)
-				? "New Event"
-				: "Edit Event"
-		},
-		formIcon() {
-			return this.editedIndex === -1
-				? "mdi-calendar-plus"
-				: "mdi-calendar-edit"
-		},
 		getBannerImage() {
 			if (this.editedItem.banner) return this.editedItem.banner
 			else return require("@/assets/defaultEventImage.jpeg")
@@ -500,52 +473,8 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
-#event-form {
-	overflow: hidden !important;
-}
-</style>
 <style lang="sass" scoped>
-.cursor
-	cursor: pointer
-.sticky-dialog-top
-	position: sticky
-	position: -webkit-sticky
-	top: 0
-	z-index: 205
-.v-input--selection-controls
-	margin-top: 0
 .small-detail-icon
 	margin-top: -4px
 	margin-right: 4px
-.v-card__title
-	background-color: #535151 !important
-.cursor
-	cursor: pointer
-.form-title
-	color: white
-	display: block
-	@media only screen and (max-width: 260px)
-		display: none
-#is-main-col
-	::v-deep.v-input--checkbox
-		margin: -5px 0 25px
-		padding: 10px 10px
-		border: 1px solid rgb(156 155 150)
-		border-radius: 3px
-	::v-deep.v-input--checkbox:hover
-		border: 1px solid black
-::v-deep.mx-calendar
-	margin: 0
-	padding: 3px
-	::v-deep.mx-calendar-header
-		background-color: blue
-::v-deep.v-autocomplete__content
-	z-index: 10 !important
-.toolbar-title
-	font-weight: 300 !important
-	margin-left: 10px !important
-	@media only screen and (max-width: 600px)
-		margin-left: 5px !important
-		font-size: 14px !important
 </style>
