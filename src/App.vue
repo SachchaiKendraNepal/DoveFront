@@ -13,6 +13,15 @@ export default {
 }
 </script>
 <style lang="scss">
+.form-title {
+	font-size: 1rem;
+	color: white;
+	font-weight: 400;
+	display: block;
+	@media only screen and (max-width: 325px) {
+		display: none
+	}
+}
 .round-touch {
 	border-radius: 4px;
 }
