@@ -56,9 +56,8 @@ const actions = {
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_USER_PROFILE_FORM_ERRORS", e.response.data)
-				return false
 			}
-			return 500
+			return false
 		}
 	}
 }

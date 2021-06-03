@@ -3,7 +3,8 @@
     "list": "user",
     "detail": "user/%s",
     "updatePassword": "update-password",
-    "resetPassword": "reset-password"
+    "resetPassword": "reset-password",
+    "filter": "list-user"
   },
   "member": {
     "list": "member",

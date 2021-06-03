@@ -25,22 +25,13 @@ const defaultRegisterErrors = {
 	district: null,
 }
 
-const defaultCreateFormErrors = {
-	first_name: null,
-	last_name: null,
-	username: null,
-	email: null,
-}
-
 const state = {
 	users: [],
 	user: {},
 	registerFormErrors: {
 		... defaultRegisterErrors
 	},
-	createFormErrors: {
-		...defaultCreateFormErrors
-	}
+	createFormErrors: {}
 }
 const mutations = {
 	[SET_USERS](state, value) {
@@ -56,7 +47,7 @@ const mutations = {
 		state.registerFormErrors = value
 	},
 	[SET_CREATE_FORM_ERRORS](state, value) {
-		state.userCreateFormErrors = value
+		state.createFormErrors = value
 	}
 }
 
@@ -73,12 +64,11 @@ const actions = {
 		commit("SET_REGISTER_FORM_ERRORS", { ...defaultRegisterErrors })
 	},
 	clearCreateFormErrors({commit}) {
-		commit("SET_CREATE_FORM_ERRORS", { ...defaultCreateFormErrors })
+		commit("SET_CREATE_FORM_ERRORS", {})
 	},
 	async create({ commit }, {body: body}) {
 		try {
-			await $api.post(userUrls.list, body)
-			return true
+			return await $api.post(userUrls.list, body)
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_CREATE_FORM_ERRORS", e.response.data)
@@ -93,6 +83,14 @@ const actions = {
 	async fetchAll({ commit }) {
 		try {
 			const response = await $api.get(userUrls.list)
+			commit(SET_USERS, response)
+		} catch (e) {
+			throw e
+		}
+	},
+	async filter({ commit }, payload) {
+		try {
+			const response = await $api.getWithPayload(userUrls.filter, payload)
 			commit(SET_USERS, response)
 		} catch (e) {
 			throw e
