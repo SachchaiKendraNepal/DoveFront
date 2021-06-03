@@ -49,6 +49,9 @@ Vue.component("TextArea", () =>
 Vue.component("BranchField", () =>
 	import("@/components/form/_branch_field")
 );
+Vue.component("FollowerField", () =>
+	import("@/components/form/_follower_field")
+);
 Vue.component("SelectField", () =>
 	import("@/components/form/_select_field")
 );
