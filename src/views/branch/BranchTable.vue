@@ -176,7 +176,6 @@
 </template>
 
 <script>
-import router from "@/router";
 import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ToggleApproval from "@/mixins/ToggleApproval";
@@ -201,7 +200,6 @@ export default {
 		],
 		mixinData: {
 			modelName: "branch",
-			deleteAction: "branch/delete",
 			toggleApprovalAction: "branch/toggleApproval"
 		}
 	}),
@@ -221,8 +219,9 @@ export default {
 				if (item.municipality_ward["name"]) return item.municipality_ward["name"]
 			}
 		},
-		async initialize(val=null) {
+		async initialize(val) {
 			this.loading = true
+			if(!val) val = 1
 			await this.$store.dispatch("branch/filter", {page: val})
 			this.items = this.branches
 			this.totalItems = this.branches.count
@@ -238,7 +237,7 @@ export default {
 			})
 		},
 		routeToBranchDetailPage(itemId) {
-			router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})
+			this.$router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})
 		}
 	}
 }

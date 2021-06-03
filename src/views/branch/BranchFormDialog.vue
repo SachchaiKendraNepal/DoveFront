@@ -8,11 +8,12 @@
 		transition="dialog-bottom-transition"
 	>
 		<v-card
-			class="zero-border-radius"
+			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title class="sticky-dialog-top">
+			<v-card-title>
 				<v-avatar
+					color="grey darken-2"
 					size="40"
 					class="mr-4 elevation-3"
 				>
@@ -20,18 +21,19 @@
 						dark
 						size="22"
 					>
-						{{ formIcon }}
+						{{ formIcon() }}
 					</v-icon>
 				</v-avatar>
-				<span class="form-title">{{ formTitle }}</span>
+				<span class="form-title">{{ formTitle('Branch') }}</span>
 				<v-spacer />
 				<span>
 					<v-btn
-						icon
-						style="background: grey;"
+						dark
+						fab
+						x-small
 						@click="closeCreateEditDialog"
 					>
-						<v-icon color="white">mdi-close</v-icon>
+						<v-icon>mdi-close</v-icon>
 					</v-btn>
 				</span>
 			</v-card-title>
@@ -267,7 +269,6 @@ export default {
 		AdminCreateEditFormMixin
 	],
 	data: () => ({
-		editedIndex: -1,
 		editedItem: {
 			id: null,
 			cover_image: null,
@@ -284,6 +285,7 @@ export default {
 			is_approved: false,
 			imageForUpload: []
 		},
+		defaultItem: {},
 		mixinData: {
 			clearFormErrorAction: "branch/clearFormErrors"
 		},
@@ -291,14 +293,7 @@ export default {
 	computed: {
 		...mapGetters({
 			formErrors: "branch/formErrorMessagesList"
-		}),
-
-		formTitle() {
-			return this.editedIndex === -1 ? "New Branch" : "Edit Branch"
-		},
-		formIcon() {
-			return this.editedIndex === -1 ? "mdi-home-modern" : "mdi-home-edit"
-		}
+		})
 	},
 	async created() {
 		this.$bus.on("open-branch-form-dialog-add-item", this.openCreateDialog)
@@ -357,8 +352,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.zero-border-radius
-	border-radius: 0
 
 	.sticky-dialog-top
 		position: sticky

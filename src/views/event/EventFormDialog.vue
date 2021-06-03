@@ -9,47 +9,30 @@
 			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-toolbar
-				fixed
-				dark
-				height="60"
-			>
+			<v-card-title class="grey darken-3">
 				<v-avatar
-					:size="
-						$vuetify.breakpoint.smAndUp
-							? 35
-							: 25
-					"
-					color="grey darken-3"
-					class="elevation-4"
+					color="grey darken-2"
+					size="40"
+					class="mr-4 elevation-1"
 				>
-					<v-icon
-						:size="
-							$vuetify.breakpoint.smAndUp
-								? 22
-								: 16
-						"
+					<v-icon dark
+						size="22"
 					>
-						{{ formIcon }}
+						{{ formIcon() }}
 					</v-icon>
 				</v-avatar>
-				<v-toolbar-title class="toolbar-title">
-					{{ formTitle }}
-				</v-toolbar-title>
+				<span class="form-title">{{ formTitle('Event') }}</span>
 				<v-spacer />
-				<v-avatar
-					class="cursor"
-					color="grey darken-3"
-					:size="30"
+				<v-btn
+					color="grey darken-2"
+					fab
+					dark
+					x-small
 					@click="closeCreateEditDialog"
 				>
-					<v-icon
-						:size="16"
-					>
-						mdi-close
-					</v-icon>
-				</v-avatar>
-			</v-toolbar>
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
+			</v-card-title>
 			<v-card flat
 				max-width="800"
 				class="mx-auto px-2"
@@ -386,7 +369,6 @@ export default {
 			"Board Meeting",
 			"General Meeting",
 		],
-		editedIndex: -1,
 		editedItem: {
 			id: null,
 			title: null,
@@ -416,6 +398,7 @@ export default {
 			approved_by: null,
 			video_urls: null,
 		},
+		defaultItem: {},
 		mixinData: {
 			clearFormErrorAction: "event/clearFormErrors"
 		},
@@ -424,16 +407,6 @@ export default {
 		...mapGetters({
 			formErrors: "event/formErrorsList"
 		}),
-		formTitle() {
-			return (this.editedIndex === -1)
-				? "New Event"
-				: "Edit Event"
-		},
-		formIcon() {
-			return this.editedIndex === -1
-				? "mdi-calendar-plus"
-				: "mdi-calendar-edit"
-		},
 		getBannerImage() {
 			if (this.editedItem.banner) return this.editedItem.banner
 			else return require("@/assets/defaultEventImage.jpeg")

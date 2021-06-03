@@ -116,8 +116,8 @@
 					class="mb-0 location"
 				>
 					<span>
-						{{ (item.vdc_ward !== null) ? item.vdc_ward.name : item.municipality_ward.name }},&nbsp;
-						{{ (item.vdc !== null) ? item.vdc.name : item.municipality.name }},&nbsp;
+						{{ getWardNameOfItem(item) }},&nbsp;
+						{{ getMunicipalityOrVdcName(item) }},&nbsp;
 					</span>
 					<i>{{ item.district.name }},&nbsp;
 						{{ item.province.name }},&nbsp;</i>
@@ -193,10 +193,6 @@ export default {
 		AdminTableDeleteItemMixin
 	],
 	data: () => ({
-		search: "",
-		selected: [],
-		isLoading: false,
-		dialog: false,
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "TITLE", value: "title" },
@@ -210,7 +206,6 @@ export default {
 		],
 		mixinData: {
 			modelName: "Event",
-			deleteAction: "event/delete",
 			toggleApprovalAction: "event/toggleApproval"
 		}
 	}),
@@ -221,13 +216,31 @@ export default {
 	},
 	methods: {
 		getDurationChipColor(value) {
-			if (value === 1) {
-				return "red lighten-2"
-			} else if (value === 2 || value === 3) {
-				return "orange"
-			} else if (value === 4 || value === 5) {
-				return "primary"
-			} else return ""
+			const rem = value % 5
+			switch (rem) {
+			case 1:
+				return "red lighten-3"
+			case 2:
+				return "indigo lighten-3"
+			case 3:
+				return "purple lighten-3"
+			case 4:
+				return "teal lighten-3"
+			case 5:
+				return "orange lighten-3"
+			default:
+				return "blue lighten-3"
+			}
+		},
+		getMunicipalityOrVdcName(item) {
+			return (item.vdc !== null) ? item.vdc.name : item.municipality.name
+		},
+		getWardNameOfItem(item) {
+			if (item.vdc_ward) {
+				if (item.vdc_ward["name"]) return item.vdc_ward["name"]
+			} else if (item.municipality_ward) {
+				if (item.municipality_ward["name"]) return item.municipality_ward["name"]
+			}
 		},
 		async initialize(val) {
 			this.loading = true
