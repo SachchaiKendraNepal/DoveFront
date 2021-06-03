@@ -106,77 +106,70 @@
 											</div>
 											<v-divider class="mb-2" />
 											<div class="member-information">
-												<p class="ma-0 pt-1">
-													<v-icon class="small-detail-icon">
-														mdi-city
-													</v-icon>
-													<b>Current Branch:</b>
-													<span class="px-1">
-														<v-chip
+												<admin-form-detail-item
+													field-icon="mdi-city"
+													field-name="Current Branch"
+												>
+													<template #content>
+														<v-chip color="primary"
 															small
-															color="primary"
-															text-color="white"
 														>
 															{{ getCurrentBranchName }}
-															<v-icon right>mdi-city-star</v-icon>
 														</v-chip>
-													</span>
-												</p>
-												<p class="ma-1 py-2">
-													<v-icon class="small-detail-icon">
-														mdi-account-key
-													</v-icon>
-													<b>Current Role:</b>
-													<span class="px-1">
-														<v-chip
+													</template>
+												</admin-form-detail-item>
+
+												<admin-form-detail-item
+													field-icon="mdi-account-key"
+													field-name="Current Role"
+												>
+													<template #content>
+														<v-chip color="primary"
 															small
-															color="primary"
-															text-color="white"
 														>
 															{{ getCurrentRoleName }}
-															<v-icon right>{{ getCurrentRoleIcon }}</v-icon>
+															<v-icon right>
+																{{ getCurrentRoleIcon }}
+															</v-icon>
 														</v-chip>
-													</span>
-												</p>
-												<p class="mb-0 mb-4">
-													<v-icon class="small-detail-icon">
-														mdi-shape-plus
-													</v-icon>
-													<b>Date joined:</b>
-													<span class="px-1">{{ formatDate(editedItem.user.date_joined) }}</span>
-												</p>
-												<p v-if="editedItem.is_approved"
-													class="mb-0 mb-4"
+													</template>
+												</admin-form-detail-item>
+												<admin-form-detail-item
+													field-icon="mdi-shape-plus"
+													field-name="Date joined"
+													:field-value="formatDate(editedItem.user.date_joined)"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-account-check"
+													field-name="Approved by"
+													:field-value="editedItem.approved_by.username"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-account-check"
+													field-name="Approved by"
+													:field-value="editedItem.approved_by.username"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-check"
+													field-name="Approved at"
+													:field-value="formatDate(editedItem.approved_at)"
+												/>
+												<admin-form-detail-item
+													field-icon="mdi-history"
+													field-name="Last logged in"
 												>
-													<v-icon class="small-detail-icon">
-														mdi-account-check
-													</v-icon>
-													<b>Approved by:</b>
-													<span class="px-1">{{ editedItem.approved_by.username }}</span>
-												</p>
-												<p v-if="editedItem.is_approved"
-													class="mb-0 mb-4"
-												>
-													<v-icon class="small-detail-icon">
-														mdi-check
-													</v-icon>
-													<b>Approved at:</b>
-													<span class="px-1">{{ formatDate(editedItem.approved_at) }}</span>
-												</p>
-												<p
-													class="mb-0"
-												>
-													<v-icon class="small-detail-icon">
-														mdi-history
-													</v-icon>
-													<b>Last logged in:</b>
-													<span v-if="editedItem.user.last_login"
-														class="px-1"
-													>{{ formatDate(editedItem.user.last_login) }}</span>
-													<span v-else
-														class="px-1"
-													>Haven't logged in.</span>
-												</p>
+													<template #content>
+														<span v-if="editedItem.user.last_login"
+															class="px-1"
+														>{{ formatDate(editedItem.user.last_login) }}</span>
+														<span v-else
+															class="px-1"
+														>Haven't logged in.</span>
+													</template>
+												</admin-form-detail-item>
 											</div>
 										</v-list-item-content>
 									</v-list-item>
@@ -680,10 +673,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-#short-member-detail
-	.small-detail-icon
-		margin-top: -4px
-		margin-right: 4px
 .date-of-membership
 	font-size: .7rem
 .assigned-branches
