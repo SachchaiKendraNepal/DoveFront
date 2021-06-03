@@ -6,7 +6,6 @@
 			:close-on-content-click="false"
 			transition="scale-transition"
 			offset-y
-			attach=""
 			min-width="auto"
 		>
 			<template #activator="{ on, attrs }">
@@ -23,6 +22,7 @@
 					hide-details="auto"
 					placeholder="Select date"
 					:error-messages="getErrorMessage"
+					:rules="rules"
 					v-on="on"
 					@input="$emit('input', $event)"
 				/>
@@ -66,6 +66,10 @@ export default {
 		prependInnerIcon: {
 			type: String,
 			required: true
+		},
+		rules: {
+			type: Array,
+			default: () => []
 		}
 	},
 	emits: ["input"],

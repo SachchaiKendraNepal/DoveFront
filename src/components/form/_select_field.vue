@@ -8,6 +8,7 @@
 			:label="label.toUpperCase()"
 			:items="selectItems"
 			clearable
+			:rules="rules"
 			:type="type"
 			autocomplete="off"
 			hide-details="auto"
@@ -51,6 +52,11 @@ export default {
 		prependInnerIcon: {
 			type: String,
 			required: true
+		},
+		rules: {
+			type: Array,
+			required: false,
+			default: () => []
 		},
 		errors: {
 			type: Object,
