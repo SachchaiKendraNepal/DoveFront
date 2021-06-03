@@ -60,7 +60,7 @@
 					<v-btn
 						dark
 						color="primary"
-						@click.stop="openAddBranchFormDialog"
+						@click.stop="openAddMemberFormDialog"
 					>
 						<v-icon
 							dark
@@ -162,7 +162,7 @@ export default {
 			{ text: "User", value: "user.username" },
 			{ text: "Branch", value: "branch" },
 			{ text: "Role", value: "role" },
-			{ text: "Approval status", value: "is_approved" },
+			{ text: "Approval", value: "is_approved" },
 			{ text: "Created at", value: "created_at" },
 		],
 		mixinData: {
@@ -201,7 +201,7 @@ export default {
 			this.loading = false
 		},
 
-		openAddBranchFormDialog() {
+		openAddMemberFormDialog() {
 			this.$bus.emit("open-member-form-dialog-add-item")
 		},
 

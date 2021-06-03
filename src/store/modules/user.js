@@ -8,6 +8,7 @@ export const SET_USER = "SET_USER"
 export const SET_ROLES = "SET_ROLES"
 export const SET_REGISTER_FORM_ERRORS = "SET_REGISTER_FORM_ERRORS"
 export const SET_CREATE_FORM_ERRORS = "SET_CREATE_FORM_ERRORS"
+export const SET_SELECTED_FOLLOWER = "SET_SELECTED_FOLLOWER"
 
 const defaultRegisterErrors = {
 	first_name: null,
@@ -31,7 +32,8 @@ const state = {
 	registerFormErrors: {
 		... defaultRegisterErrors
 	},
-	createFormErrors: {}
+	createFormErrors: {},
+	selectedFollower: null
 }
 const mutations = {
 	[SET_USERS](state, value) {
@@ -48,6 +50,9 @@ const mutations = {
 	},
 	[SET_CREATE_FORM_ERRORS](state, value) {
 		state.createFormErrors = value
+	},
+	[SET_SELECTED_FOLLOWER](state, value) {
+		state.selectedFollower = value
 	}
 }
 
@@ -56,10 +61,14 @@ const getters = {
 	detail: (state) => state.user,
 	roles: (state) => state.roles,
 	registerFormErrors: (state) => state.registerFormErrors,
-	userCreateFormErrors: (state) => state.createFormErrors
+	userCreateFormErrors: (state) => state.createFormErrors,
+	selectedFollower: (state) => state.selectedFollower
 }
 
 const actions = {
+	setSelectedFollower({commit}, {value: value}) {
+		commit("SET_SELECTED_FOLLOWER", value)
+	},
 	clearRegisterFormErrors({ commit }) {
 		commit("SET_REGISTER_FORM_ERRORS", { ...defaultRegisterErrors })
 	},

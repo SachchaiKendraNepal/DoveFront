@@ -128,27 +128,19 @@
 												<b>Date joined:</b>
 												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
 											</p>
-											<p class="mb-0 mb-4">
-												<v-icon class="small-detail-icon">
-													mdi-account-check
-												</v-icon>
-												<b>Approved by:</b>
-												<span class="px-1"> Kiran Parajuli </span>
-											</p>
-											<p class="mb-0 mb-4">
-												<v-icon class="small-detail-icon">
-													mdi-check
-												</v-icon>
-												<b>Approved at:</b>
-												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
-											</p>
 											<p class="mb-0">
 												<v-icon class="small-detail-icon">
 													mdi-history
 												</v-icon>
 												<b>Last logged in:</b>
-												<span class="px-1">{{ editedItem.last_login }}</span>
+												<span v-if="editedItem.last_login"
+													class="px-1"
+												>{{ formatDate(editedItem.last_login) }}</span>
+												<span v-else
+													class="px-1"
+												>Haven't logged in.</span>
 											</p>
+											<!--TODO: add profile details-->
 										</v-list-item-content>
 									</v-list-item>
 								</v-list>
