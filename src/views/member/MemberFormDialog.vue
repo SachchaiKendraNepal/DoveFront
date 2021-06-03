@@ -2,17 +2,16 @@
 	<v-dialog
 		v-model="dialog"
 		fullscreen
-		hide-overlay
 		close-delay="1000"
 		open-delay="1000"
 		transition="dialog-bottom-transition"
 	>
 		<v-card
 			:loading="loading"
-			class="zero-border-radius"
+			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title class="sticky-dialog-top">
+			<v-card-title class="grey darken-3">
 				<v-avatar
 					color="grey darken-1"
 					size="40"
@@ -29,11 +28,13 @@
 				<v-spacer />
 				<span>
 					<v-btn
-						icon
-						style="background: grey;"
-						@click="close"
+						color="grey darken-2"
+						fab
+						dark
+						x-small
+						@click="closeCreateEditDialog"
 					>
-						<v-icon color="white">mdi-close</v-icon>
+						<v-icon>mdi-close</v-icon>
 					</v-btn>
 				</span>
 			</v-card-title>
@@ -44,7 +45,7 @@
 				color="transparent"
 			>
 				<v-card color="aliceblue"
-					style="border-radius: 0 0 10px 10px;"
+					class="round-bottom"
 				>
 					<v-row
 						v-show="editedIndex !== -1"
@@ -62,131 +63,113 @@
 								<v-list v-if="editedItem.user">
 									<v-list-item>
 										<v-list-item-content>
-											<p class="headline">
+											<div class="d-flex justify-center">
 												<span
-													id="follower-full-name-display"
-													class="mr-2"
+													class="follower-full-name"
 													@click="routeToMemberDetailPage(editedItem.id)"
 												>
 													{{ editedItem.user.first_name }} {{ editedItem.user.last_name }}
 												</span>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-if="editedItem.is_approved"
-															v-ripple
-															v-bind="attrs"
-															color="green darken-1"
-															v-on="on"
-														>
-															mdi-check-decagram
-														</v-icon>
-													</template>
-													<span>Approved</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-if="editedItem.user.is_superuser"
-															v-ripple
-															v-bind="attrs"
-															color="black lighten-2"
-															v-on="on"
-														>
-															mdi-account-cowboy-hat
-														</v-icon>
-													</template>
-													<span>Super User</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-if="editedItem.user.is_staff"
-															v-ripple
-															size="26"
-															v-bind="attrs"
-															color="orange darken-2"
-															v-on="on"
-														>
-															mdi-account-tie
-														</v-icon>
-													</template>
-													<span>Staff Member</span>
-												</v-tooltip>
-											</p>
+												<span v-if="editedItem.user.is_superuser">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-ripple
+																v-bind="attrs"
+																color="orange lighten-2"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-cowboy-hat
+															</v-icon>
+														</template>
+														<span>Super User</span>
+													</v-tooltip>
+												</span>
+												<span v-if="editedItem.user.is_staff">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-ripple
+																size="26"
+																v-bind="attrs"
+																color="purple lighten-1"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-tie
+															</v-icon>
+														</template>
+														<span>Staff Member</span>
+													</v-tooltip>
+												</span>
+											</div>
 											<v-divider class="mb-2" />
 											<div class="member-information">
-												<p class="ma-0 pt-1">
-													<v-icon class="small-detail-icon">
-														mdi-city
-													</v-icon>
-													<b>Current Branch:</b>
-													<span class="px-1">
-														<v-chip
+												<admin-form-detail-item
+													field-icon="mdi-city"
+													field-name="Current Branch"
+												>
+													<template #content>
+														<v-chip color="primary"
 															small
-															color="primary"
-															text-color="white"
 														>
 															{{ getCurrentBranchName }}
-															<v-icon right>mdi-city-star</v-icon>
 														</v-chip>
-													</span>
-												</p>
-												<p class="ma-1 py-2">
-													<v-icon class="small-detail-icon">
-														mdi-account-key
-													</v-icon>
-													<b>Current Role:</b>
-													<span class="px-1">
-														<v-chip
+													</template>
+												</admin-form-detail-item>
+
+												<admin-form-detail-item
+													field-icon="mdi-account-key"
+													field-name="Current Role"
+												>
+													<template #content>
+														<v-chip color="primary"
 															small
-															color="primary"
-															text-color="white"
 														>
 															{{ getCurrentRoleName }}
-															<v-icon right>{{ getCurrentRoleIcon }}</v-icon>
+															<v-icon right>
+																{{ getCurrentRoleIcon }}
+															</v-icon>
 														</v-chip>
-													</span>
-												</p>
-												<p class="mb-0 mb-4">
-													<v-icon class="small-detail-icon">
-														mdi-shape-plus
-													</v-icon>
-													<b>Date joined:</b>
-													<span class="px-1">{{ formatDate(editedItem.user.date_joined) }}</span>
-												</p>
-												<p v-if="editedItem.is_approved"
-													class="mb-0 mb-4"
+													</template>
+												</admin-form-detail-item>
+												<admin-form-detail-item
+													field-icon="mdi-shape-plus"
+													field-name="Date joined"
+													:field-value="formatDate(editedItem.user.date_joined)"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-account-check"
+													field-name="Approved by"
+													:field-value="editedItem.approved_by.username"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-account-check"
+													field-name="Approved by"
+													:field-value="editedItem.approved_by.username"
+												/>
+												<admin-form-detail-item
+													v-if="editedItem.is_approved"
+													field-icon="mdi-check"
+													field-name="Approved at"
+													:field-value="formatDate(editedItem.approved_at)"
+												/>
+												<admin-form-detail-item
+													field-icon="mdi-history"
+													field-name="Last logged in"
 												>
-													<v-icon class="small-detail-icon">
-														mdi-account-check
-													</v-icon>
-													<b>Approved by:</b>
-													<span class="px-1">{{ editedItem.approved_by.username }}</span>
-												</p>
-												<p v-if="editedItem.is_approved"
-													class="mb-0 mb-4"
-												>
-													<v-icon class="small-detail-icon">
-														mdi-check
-													</v-icon>
-													<b>Approved at:</b>
-													<span class="px-1">{{ formatDate(editedItem.approved_at) }}</span>
-												</p>
-												<p
-													class="mb-0"
-												>
-													<v-icon class="small-detail-icon">
-														mdi-history
-													</v-icon>
-													<b>Last logged in:</b>
-													<span v-if="editedItem.user.last_login"
-														class="px-1"
-													>{{ formatDate(editedItem.user.last_login) }}</span>
-													<span v-else
-														class="px-1"
-													>Haven't logged in.</span>
-												</p>
+													<template #content>
+														<span v-if="editedItem.user.last_login"
+															class="px-1"
+														>{{ formatDate(editedItem.user.last_login) }}</span>
+														<span v-else
+															class="px-1"
+														>Haven't logged in.</span>
+													</template>
+												</admin-form-detail-item>
 											</div>
 										</v-list-item-content>
 									</v-list-item>
@@ -199,42 +182,19 @@
 				<v-card-text>
 					<v-container>
 						<v-row class="ma-0 pa-0">
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<p class="heading ma-0 pa-0">
-									<v-icon class="pb-1"
-										size="30"
-									>
-										mdi-account-circle
-									</v-icon>
-									Follower Information
-								</p>
-								<v-divider class="pb-4" />
-							</v-col>
-							<v-col
-								cols="12"
-								class="ma-0 pa-0"
-							>
-								<v-select
-									id="user"
-									v-model="editedItem.user"
-									class="ma-0"
-									outlined
-									dense
-									label="Follower"
-									:items="users"
-									item-text="username"
-									item-value="id"
-									prepend-inner-icon="mdi-card-account-details-outline"
-									:error-messages="memberFormErrors.user"
-								/>
-							</v-col>
+							<admin-form-group-title
+								icon="mdi-account-circle"
+								text="Follower Information"
+							/>
+							<follower-field
+								id="user"
+								v-model="editedItem.user"
+								:errors="memberFormErrors"
+							/>
 							<v-col cols="12"
 								class="ma-0 pa-0"
 							>
-								<v-card-actions class="pa-0">
+								<v-card-actions class="pa-0 mx-4">
 									<v-btn
 										color="blue lighten-5"
 										class="blue--text"
@@ -250,20 +210,10 @@
 								v-if="editedIndex > -1"
 								cols="12"
 							>
-								<v-col
-									cols="12"
-									class="pl-0"
-								>
-									<p class="heading ma-0 pa-0">
-										<v-icon class="pb-1"
-											size="30"
-										>
-											mdi-city-variant
-										</v-icon>
-										Branch Information
-									</p>
-									<v-divider class="pb-2" />
-								</v-col>
+								<admin-form-group-title
+									icon="mdi-city-variant"
+									text="Branch Information"
+								/>
 								<v-scale-transition>
 									<v-row v-if="moreBranches"
 										class="ma-0 pa-0"
@@ -341,7 +291,7 @@
 																		Assigned Roles
 																	</h3>
 																</v-col>
-																<v-col v-for="(role_item, ini) in item.member_branch_roles"
+																<v-col v-for="(role_item, ini) in item['member_branch_roles']"
 																	:key="role_item.id"
 																	cols="12"
 																	class="px-0"
@@ -390,81 +340,29 @@
 															</h3>
 														</v-col>
 														<v-form v-model="memberBranchRoleFormValid[index]">
-															<v-col
-																cols="12"
-																class="ma-0 pa-0"
-															>
-																<v-select
-																	id="role-name"
-																	v-model="editedItemBranchMemberRole.role_name[item.id]"
-																	:items="roleNameItems"
-																	label="Role name"
-																	filled
-																	:rules="[rules.required]"
-																	prepend-inner-icon="mdi-account-key"
-																	dense
-																/>
-															</v-col>
-															<v-col
-																cols="12"
-																class="ma-0 pa-0"
-															>
-																<v-menu
-																	v-model="fromDateMenu[index]"
-																	:close-on-content-click="false"
-																	transition="scale-transition"
-																	offset-y
-																	min-width="auto"
-																>
-																	<template #activator="{ on, attrs }">
-																		<v-text-field
-																			v-model="editedItemBranchMemberRole.from_date[item.id]"
-																			label="From date"
-																			prepend-inner-icon="mdi-calendar"
-																			readonly
-																			v-bind="attrs"
-																			dense
-																			filled
-																			:rules="[rules.required]"
-																			v-on="on"
-																		/>
-																	</template>
-																	<v-date-picker
-																		v-model="editedItemBranchMemberRole.from_date[item.id]"
-																		@input="fromDateMenu[index] = false"
-																	/>
-																</v-menu>
-															</v-col>
-															<v-col
-																cols="12"
-																class="ma-0 pa-0"
-															>
-																<v-menu
-																	v-model="toDateMenu[index]"
-																	:close-on-content-click="false"
-																	transition="scale-transition"
-																	offset-y
-																	min-width="auto"
-																>
-																	<template #activator="{ on, attrs }">
-																		<v-text-field
-																			v-model="editedItemBranchMemberRole.to_date[item.id]"
-																			label="To date"
-																			prepend-inner-icon="mdi-calendar"
-																			readonly
-																			v-bind="attrs"
-																			dense
-																			filled
-																			:rules="[rules.required]"
-																			v-on="on"
-																		/>
-																	</template>
-																	<v-date-picker
-																		v-model="editedItemBranchMemberRole.to_date[item.id]"
-																		@input="toDateMenu[index] = false"
-																	/>
-																</v-menu>
-															</v-col>
+															<select-field
+																id="role-name"
+																v-model="editedItemBranchMemberRole.role_name[item.id]"
+																:select-items="roleNameItems"
+																label="Role name"
+																name="role_name"
+																:rules="[rules.required]"
+																prepend-inner-icon="mdi-account-key"
+															/>
+															<date-picker-field
+																v-model="editedItemBranchMemberRole.from_date[item.id]"
+																prepend-inner-icon="mdi-calendar"
+																label="From Date"
+																name="from_date"
+																:rules="[rules.required]"
+															/>
+															<date-picker-field
+																v-model="editedItemBranchMemberRole.to_date[item.id]"
+																prepend-inner-icon="mdi-calendar"
+																label="To date"
+																name="to_date"
+																:rules="[rules.required]"
+															/>
 															<v-col cols="12"
 																class="pa-0"
 															>
@@ -498,50 +396,19 @@
 									cols="12"
 									class="ma-0 pa-0"
 								>
-									<v-select
+									<branch-field
 										id="member-branch"
 										v-model="defaultMemberBranch.branch"
-										class="ma-0"
-										outlined
-										dense
-										clearable
-										label="Branch"
-										:items="branches"
-										item-text="name"
-										item-value="id"
-										prepend-inner-icon="mdi-home-city"
 									/>
 								</v-col>
-								<v-col
-									cols="12"
-									class="ma-0 pa-0"
-								>
-									<v-menu
-										v-model="menu"
-										:close-on-content-click="false"
-										transition="scale-transition"
-										offset-y
-										min-width="auto"
-									>
-										<template #activator="{ on, attrs }">
-											<v-text-field
-												v-model="defaultMemberBranch.date_of_membership"
-												label="Date of membership"
-												prepend-inner-icon="mdi-calendar"
-												readonly
-												clearable
-												v-bind="attrs"
-												dense
-												outlined
-												v-on="on"
-											/>
-										</template>
-										<v-date-picker
-											v-model="defaultMemberBranch.date_of_membership"
-											@input="menu = false"
-										/>
-									</v-menu>
-								</v-col>
+								<date-picker-field
+									v-model="defaultMemberBranch.date_of_membership"
+									prepend-inner-icon="mdi-calendar"
+									label="Date of membership"
+									name="date_of_membership"
+									:attach="false"
+									:errors="memberBranchFormErrors"
+								/>
 								<v-col cols="12"
 									class="pa-0 ma-0"
 								>
@@ -565,11 +432,12 @@
 	</v-dialog>
 </template>
 <script>
-import router from "@/router";
 import {mapGetters} from "vuex";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "MemberFormDialog",
+	mixins: [Snack],
 	data: () => ({
 		loading: null,
 		memberBranchRoleFormValid: [],
@@ -581,9 +449,6 @@ export default {
 			"Single Star Leader",
 			"Maintainer",
 		],
-		menu: false,
-		fromDateMenu: [],
-		toDateMenu: [],
 		dialog: false,
 		editedIndex: -1,
 		editedItem: {
@@ -634,8 +499,6 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			users: "user/list",
-			branches: "branch/list",
 			member: "member/detail",
 			memberFormErrors: "member/memberFormErrors",
 			memberRoleFormErrors: "member/memberRoleFormErrors",
@@ -670,8 +533,8 @@ export default {
 		getCurrentRoleName() {
 			const currentBranch = this.getCurrentMemberBranch
 			if (!currentBranch) return "None"
-			if (currentBranch.member_branch_roles.length === 0) return "None"
-			return currentBranch.member_branch_roles[0].role_name
+			if (currentBranch["member_branch_roles"].length === 0) return "None"
+			return currentBranch["member_branch_roles"][0].role_name
 		},
 		moreBranches() {
 			return this.editedItem.member_branches.length !== 0;
@@ -690,18 +553,20 @@ export default {
 			return this.$moment(date).format("MMMM Do YYYY")
 		},
 		moreRoles(memberBranch) {
-			return memberBranch.member_branch_roles.length !== 0;
+			return memberBranch["member_branch_roles"].length !== 0;
 		},
-		addAnotherMemberBranch() {
+		async addAnotherMemberBranch() {
+			await this.$store.dispatch("member/clearMemberBranchFormError")
 			this.defaultMemberBranch = {
 				branch: null,
 				date_of_membership: null
 			}
 		},
-		readyAddingAnotherMemberRole(memberBranchId) {
+		async readyAddingAnotherMemberRole(memberBranchId) {
 			delete this.editedItemBranchMemberRole.from_date[memberBranchId]
 			delete this.editedItemBranchMemberRole.to_date[memberBranchId]
 			delete this.editedItemBranchMemberRole.role_name[memberBranchId]
+			await this.$store.dispatch("member/clearMemberRoleFormError")
 		},
 		async init() {
 			this.loading = true
@@ -728,25 +593,19 @@ export default {
 			await this.openDialog()
 		},
 
-		async close() {
+		async closeCreateEditDialog() {
 			this.dialog = false
 			await this.$store.dispatch("member/clearMemberFormError")
 			await this.$store.dispatch("member/clearMemberRoleFormError")
 			await this.$store.dispatch("member/clearMemberBranchFormError")
-			this.$bus.emit("reload-members")
-		},
-
-		async openSnack(text, color = "error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
+			this.$bus.emit("reload")
 		},
 
 		async saveMember() {
 			const isSaved = await this.$store.dispatch("member/create", {body: {
 				user: this.editedItem.user
 			}})
-			if (isSaved) await this.close()
+			if (isSaved) await this.closeCreateEditDialog()
 		},
 		async saveMemberBranch() {
 			const response =  await this.$store.dispatch("member/assignBranch", {
@@ -757,7 +616,7 @@ export default {
 				await this.openSnack("Member branch assigned.", "success")
 				await this.$store.dispatch("member/fetchMemberDetail", {id: this.editedItem.id})
 				this.editedItem = this.member
-				this.addAnotherMemberBranch()
+				await this.addAnotherMemberBranch()
 			} else {
 				await this.openSnack("Member branch assign failed.")
 			}
@@ -789,7 +648,7 @@ export default {
 				await this.openSnack("Member role assigned.", "success")
 				await this.$store.dispatch("member/fetchMemberDetail", {id: this.editedItem.id})
 				this.editedItem = this.member
-				this.readyAddingAnotherMemberRole(memberBranchId)
+				await this.readyAddingAnotherMemberRole(memberBranchId)
 			} else {
 				await this.openSnack(this.memberRoleFormErrors["non_field_errors"][0])
 			}
@@ -809,51 +668,12 @@ export default {
 		},
 
 		routeToMemberDetailPage(itemId) {
-			router.push({name: "FOLLOWER ADMINISTRATION", params: { id: itemId }})
+			this.$router.push({name: "FOLLOWER ADMINISTRATION", params: { id: itemId }})
 		}
 	},
 }
 </script>
 <style lang="sass" scoped>
-.zero-border-radius
-	border-radius: 0
-	.sticky-dialog-top
-		position: sticky
-		position: -webkit-sticky
-		top: 0
-		z-index: 200
-	.v-card__title
-		background-color: #535151 !important
-	.form-title
-		color: white
-		font-weight: 400
-		display: block
-		@media only screen and (max-width: 325px)
-			display: none
-
-	.v-input--selection-controls
-		margin-top: 0
-
-	#short-member-detail
-		.small-detail-icon
-			margin-top: -4px
-			margin-right: 4px
-	.follower-full-name
-		font-size: 18px
-		font-weight: 300
-		color: #474646
-		cursor: pointer
-
-	#profile-img-avatar
-		transition: all .5s
-		margin-top: -90px
-		border: 4px solid white
-		@media only screen and (max-width: 245px)
-			height: 100px !important
-			min-width: 100px !important
-			width: 100px !important
-			margin-top: -50px !important
-			border: 2px solid white !important
 .date-of-membership
 	font-size: .7rem
 .assigned-branches
@@ -867,15 +687,8 @@ export default {
 	padding: 10px
 	border-radius: 10px
 	margin-bottom: 10px
-</style>
-<style lang="scss">
-.v-label {
-	font-size: 14px !important;
-}
-.v-input {
-	font-size: 14px !important;
-}
-.member-information {
-	font-size: .875rem;
-}
+.member-information
+	font-size: .875rem
+.round-bottom
+	border-radius: 0 0 10px 10px
 </style>

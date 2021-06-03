@@ -12,24 +12,6 @@ export const SET_MEMBER_FORM_ERRORS = "SET_MEMBER_FORM_ERRORS"
 export const SET_MEMBER_ROLE_FORM_ERRORS = "SET_MEMBER_ROLE_FORM_ERRORS"
 export const SET_MEMBER_BRANCH_FORM_ERRORS = "SET_MEMBER_BRANCH_FORM_ERRORS"
 
-const defaultMemberFormErrors = {
-	user: null
-}
-
-const defaultMemberBranchFormErrors = {
-	branch: null,
-	date_of_membership: null,
-	member: null,
-}
-
-const defaultMemberRoleFormErrors = {
-	role_name: null,
-	member: null,
-	from_date: null,
-	to_date: null,
-	branch: null,
-}
-
 
 const state = {
 	members: [],
@@ -40,9 +22,9 @@ const state = {
 	branches: [],
 	roles: [],
 
-	memberFormErrors: { ...defaultMemberFormErrors },
-	memberRoleFormErrors: { ...defaultMemberRoleFormErrors },
-	memberBranchFormErrors: { ...defaultMemberBranchFormErrors }
+	memberFormErrors: {},
+	memberRoleFormErrors: {},
+	memberBranchFormErrors: {}
 }
 
 const mutations = {
@@ -81,18 +63,18 @@ const getters = {
 
 const actions = {
 	clearMemberFormError({commit}) {
-		commit("SET_MEMBER_FORM_ERRORS", defaultMemberFormErrors)
+		commit("SET_MEMBER_FORM_ERRORS", {})
 	},
 	clearMemberRoleFormError({commit}) {
-		commit("SET_MEMBER_ROLE_FORM_ERRORS", defaultMemberRoleFormErrors)
+		commit("SET_MEMBER_ROLE_FORM_ERRORS", {})
 	},
 	clearMemberBranchFormError({commit}) {
-		commit("SET_MEMBER_BRANCH_FORM_ERRORS", defaultMemberBranchFormErrors)
+		commit("SET_MEMBER_BRANCH_FORM_ERRORS", {})
 	},
 
-	async fetchMembers({commit}) {
+	async filter({commit}, payload) {
 		try {
-			const response = await $api.get(memberUrls.list)
+			const response = await $api.getWithPayload(memberUrls.filter, payload)
 			commit("SET_MEMBERS", response)
 			return true
 		} catch {

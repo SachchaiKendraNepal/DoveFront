@@ -9,6 +9,7 @@
   "member": {
     "list": "member",
     "detail": "member/%s",
+    "filter": "list-member",
     "role": "member/%s/role",
     "roleDetail": "member-role/%s/",
     "branch": "member/%s/branch",

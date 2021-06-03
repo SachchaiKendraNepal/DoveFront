@@ -49,6 +49,9 @@ Vue.component("TextArea", () =>
 Vue.component("BranchField", () =>
 	import("@/components/form/_branch_field")
 );
+Vue.component("FollowerField", () =>
+	import("@/components/form/_follower_field")
+);
 Vue.component("SelectField", () =>
 	import("@/components/form/_select_field")
 );
@@ -66,6 +69,9 @@ Vue.component("AdminDeleteItemDialog", () =>
 );
 Vue.component("CheckboxField", () =>
 	import("@/components/form/_checkbox_field")
+);
+Vue.component("AdminFormDetailItem", () =>
+	import("@/components/adminForm/_admin_form_detail_item")
 );
 
 
