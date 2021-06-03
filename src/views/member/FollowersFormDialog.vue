@@ -55,83 +55,78 @@
 								:src="fetchCurrentCoverImage"
 								height="200"
 							/>
-							<div class="d-flex justify-center">
-								<v-avatar
-									id="profile-img-avatar"
-									size="180"
-								>
-									<v-img :src="getCurrentProfileImage" />
-								</v-avatar>
-							</div>
+						</v-col>
+						<v-col cols="12"
+							class="profile-av-row pb-0"
+						>
+							<v-avatar
+								class="profile-img-avatar"
+								size="180"
+							>
+								<v-img :src="getCurrentProfileImage" />
+							</v-avatar>
 						</v-col>
 						<v-col
 							cols="12"
 						>
 							<v-card
 								id="short-member-detail"
+								class="mx-auto text-center"
 								flat
-								class="mx-auto my-auto text-center"
 								tile
 							>
-								<v-list>
+								<v-list class="pt-0">
 									<v-list-item>
 										<v-list-item-content>
-											<p class="headline">
+											<div class="d-flex justify-center">
 												<span
-													id="follower-full-name-display"
-													class="mr-2"
+													class="follower-full-name"
 													@click="routeToFollowerDetailPage(editedItem.id)"
 												>
 													{{ editedItem.first_name }} {{ editedItem.last_name }}
 												</span>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															v-bind="attrs"
-															color="green darken-1"
-															v-on="on"
-														>
-															mdi-check-decagram
-														</v-icon>
-													</template>
-													<span>Approved</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															v-bind="attrs"
-															color="black lighten-2"
-															v-on="on"
-														>
-															mdi-account-cowboy-hat
-														</v-icon>
-													</template>
-													<span>Super User</span>
-												</v-tooltip>
-												<v-tooltip bottom>
-													<template #activator="{ on, attrs }">
-														<v-icon
-															v-ripple
-															size="26"
-															v-bind="attrs"
-															color="orange darken-2"
-															v-on="on"
-														>
-															mdi-account-tie
-														</v-icon>
-													</template>
-													<span>Staff Member</span>
-												</v-tooltip>
-											</p>
+												<span v-if="editedItem.is_superuser">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-ripple
+																v-bind="attrs"
+																color="orange lighten-2"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-cowboy-hat
+															</v-icon>
+														</template>
+														<span>Super User</span>
+													</v-tooltip>
+												</span>
+												<span v-if="editedItem.is_staff">
+													<v-tooltip bottom>
+														<template #activator="{ on, attrs }">
+															<v-icon
+																v-if="editedItem.is_staff"
+																v-ripple
+																size="26"
+																v-bind="attrs"
+																color="purple lighten-1"
+																class="mx-1"
+																v-on="on"
+															>
+																mdi-account-tie
+															</v-icon>
+														</template>
+														<span>Staff Member</span>
+													</v-tooltip>
+												</span>
+											</div>
 											<v-divider class="mb-2" />
-											<p class="mb-0 mb-4">
+											<p class="mb-0 mb-4 mt-2">
 												<v-icon class="small-detail-icon">
 													mdi-shape-plus
 												</v-icon>
 												<b>Date joined:</b>
-												<span class="px-1">{{ editedItem.date_joined }}</span>
+												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
 											</p>
 											<p class="mb-0 mb-4">
 												<v-icon class="small-detail-icon">
@@ -145,7 +140,7 @@
 													mdi-check
 												</v-icon>
 												<b>Approved at:</b>
-												<span class="px-1">{{ editedItem.date_joined }}</span>
+												<span class="px-1">{{ $moment(editedItem.date_joined).fromNow() }}</span>
 											</p>
 											<p class="mb-0">
 												<v-icon class="small-detail-icon">
@@ -254,6 +249,7 @@ export default {
 			first_name: "",
 			last_name: "",
 			username: "",
+			is_superuser: null,
 			is_staff: null
 		},
 		defaultItem: {},
@@ -334,29 +330,29 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.v-input--selection-controls
-	margin-top: 0
-
 #short-member-detail
 	.small-detail-icon
 		margin-top: -4px
 		margin-right: 4px
 .follower-full-name
-	font-size: 18px
-	font-weight: 300
+	font-size: 1.5rem
+	font-weight: 400
 	color: #474646
 	cursor: pointer
 
-#profile-img-avatar
-	transition: all .5s
+.profile-av-row
+	display: flex
+	justify-content: center
 	margin-top: -90px
-	border: 4px solid white
-	@media only screen and (max-width: 245px)
-		height: 100px !important
-		min-width: 100px !important
-		width: 100px !important
-		margin-top: -50px !important
-		border: 2px solid white !important
+	.profile-img-avatar
+		transition: all .5s
+		border: 4px solid white
+		@media only screen and (max-width: 245px)
+			height: 100px !important
+			min-width: 100px !important
+			width: 100px !important
+			margin-top: -50px !important
+			border: 2px solid white !important
 .round-bottom
 	border-radius: 0 0 10px 10px
 </style>

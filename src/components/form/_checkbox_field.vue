@@ -19,6 +19,7 @@
 export default {
 	name: "CheckboxField",
 	props: {
+		/* eslint-disable vue/require-prop-types */
 		value: {
 			required: true
 		},

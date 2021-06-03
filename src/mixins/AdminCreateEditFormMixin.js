@@ -2,7 +2,7 @@ const AdminCreateEditFormMixin = {
 	data() {
 		return {
 			editedIndex: -1,
-			dialog: false,
+			dialog: false
 		}
 	},
 	methods: {
@@ -25,7 +25,6 @@ const AdminCreateEditFormMixin = {
 			this.editedIndex = args.editedIndex
 			this.editedItem = args.editedItem
 			if (this.editedItem.contact) {
-				console.log(this.editedItem)
 				this.editedItem.contact = this.editedItem.contact.substring(4)
 			}
 			this.openDialog()

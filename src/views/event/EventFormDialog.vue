@@ -473,52 +473,8 @@ export default {
 	}
 }
 </script>
-<style lang="scss" scoped>
-#event-form {
-	overflow: hidden !important;
-}
-</style>
 <style lang="sass" scoped>
-.cursor
-	cursor: pointer
-.sticky-dialog-top
-	position: sticky
-	position: -webkit-sticky
-	top: 0
-	z-index: 205
-.v-input--selection-controls
-	margin-top: 0
 .small-detail-icon
 	margin-top: -4px
 	margin-right: 4px
-.v-card__title
-	background-color: #535151 !important
-.cursor
-	cursor: pointer
-.form-title
-	color: white
-	display: block
-	@media only screen and (max-width: 260px)
-		display: none
-#is-main-col
-	::v-deep.v-input--checkbox
-		margin: -5px 0 25px
-		padding: 10px 10px
-		border: 1px solid rgb(156 155 150)
-		border-radius: 3px
-	::v-deep.v-input--checkbox:hover
-		border: 1px solid black
-::v-deep.mx-calendar
-	margin: 0
-	padding: 3px
-	::v-deep.mx-calendar-header
-		background-color: blue
-::v-deep.v-autocomplete__content
-	z-index: 10 !important
-.toolbar-title
-	font-weight: 300 !important
-	margin-left: 10px !important
-	@media only screen and (max-width: 600px)
-		margin-left: 5px !important
-		font-size: 14px !important
 </style>

@@ -13,6 +13,10 @@ export default {
 }
 </script>
 <style lang="scss">
+.cursor {
+	cursor: pointer
+}
+
 .form-title {
 	font-size: 1rem;
 	color: white;

@@ -68,7 +68,8 @@ const actions = {
 	},
 	async create({ commit }, {body: body}) {
 		try {
-			return await $api.post(userUrls.list, body)
+			await $api.post(userUrls.list, body)
+			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
 				commit("SET_CREATE_FORM_ERRORS", e.response.data)
@@ -84,8 +85,9 @@ const actions = {
 		try {
 			const response = await $api.get(userUrls.list)
 			commit(SET_USERS, response)
+			return true
 		} catch (e) {
-			throw e
+			return false
 		}
 	},
 	async filter({ commit }, payload) {
