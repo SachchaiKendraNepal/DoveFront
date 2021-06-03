@@ -406,6 +406,7 @@
 									prepend-inner-icon="mdi-calendar"
 									label="Date of membership"
 									name="date_of_membership"
+									:attach="false"
 									:errors="memberBranchFormErrors"
 								/>
 								<v-col cols="12"

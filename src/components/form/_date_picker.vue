@@ -6,6 +6,7 @@
 			:close-on-content-click="false"
 			transition="scale-transition"
 			offset-y
+			:attach="attach"
 			min-width="auto"
 		>
 			<template #activator="{ on, attrs }">
@@ -70,6 +71,10 @@ export default {
 		rules: {
 			type: Array,
 			default: () => []
+		},
+		/* eslint-disable vue/require-prop-types */
+		attach: {
+			default: "",
 		}
 	},
 	emits: ["input"],
