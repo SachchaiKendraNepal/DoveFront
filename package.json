@@ -13,6 +13,8 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "flickity": "^2.2.1",
+    "gsap": "^3.6.1",
+    "hls.js": "^1.0.5",
     "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
     "roboto-fontface": "*",

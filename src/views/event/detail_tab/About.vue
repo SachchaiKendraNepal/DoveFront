@@ -6,6 +6,9 @@
 		<v-card v-if="event"
 			flat
 		>
+			<v-card-text class="why-idk">
+				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
+			</v-card-text>
 			<v-list two-line>
 				<v-list-item
 					v-for="item in aboutEventInfo"
@@ -47,7 +50,8 @@ export default {
 		aboutEventInfo() {
 			if (!this.event) return []
 			if (!this.event.created_by) return []
-			if (!this.event.organizer) return []
+			if (!this.event.branch) return []
+			console.log(this.statistics)
 			return [
 				{
 					index: 0,
@@ -72,7 +76,7 @@ export default {
 					index: 4,
 					icon: "mdi-earth",
 					field: "Organizer",
-					value: "Registered by " + this.event.created_by.username + " from " + this.event.organizer.name
+					value: "Registered by " + this.event.created_by.username + " from " + this.event.branch.name
 				},
 				{index: 5, icon: "mdi-web", field: "Event Type", value: this.event.type}
 			]

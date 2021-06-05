@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="dialogDelete"
 		dark
-		max-width="520"
+		max-width="1000"
 	>
 		<v-card>
 			<v-card-title class="delete-confirm-title">
@@ -41,11 +41,13 @@ export default {
 		},
 		deleteAction: {
 			type: String,
-			required: true
+			required: false,
+			default: null
 		}
 	},
 	data() {
 		return {
+			actionText: null,
 			dialogDelete: false,
 			itemIdToDelete: null,
 			itemText: null
@@ -61,6 +63,9 @@ export default {
 		initialize(args) {
 			this.itemIdToDelete = args.itemId
 			this.itemText = args.itemText
+			if (this.deleteAction) this.actionText = this.deleteAction
+			else if (args["action"]) this.actionText = args["action"]
+			else this.actionText = null
 			this.openDialog()
 		},
 		openDialog() {
@@ -71,10 +76,15 @@ export default {
 		},
 		async deleteItem() {
 			if (!this.itemIdToDelete) return;
-			const deleted = await this.$store.dispatch(this.deleteAction, {id: this.itemIdToDelete})
+			const deleted = await this.$store.dispatch(this.actionText, {id: this.itemIdToDelete})
 			if (deleted) {
 				await this.openSnack(`${this.modelName} deleted successfully.`, "success")
-				this.$bus.emit("reload")
+				if (this.$route.path.includes("article") || this.$route.path.includes("multimedia")) {
+					this.$bus.emit("route-to-feeds")
+				}
+				else {
+					this.$bus.emit("reload")
+				}
 			}
 			else await this.openSnack(`${this.modelName} delete failed. Try again later.`)
 			this.itemIdToDelete = null

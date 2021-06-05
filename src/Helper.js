@@ -113,5 +113,13 @@ module.exports = {
 			ID = url;
 		}
 		return ID;
-	}
+	},
+	getThumbnailForYoutubeVideo(videoUrl) {
+		const videoId = this.getVideoIdFromYoutubeURL(videoUrl)
+		return `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
+	},
+	ifWriterIsCurrentUser(writerUsername) {
+		const currentUser = this.getCurrentUser()
+		return currentUser.username === writerUsername
+	},
 }

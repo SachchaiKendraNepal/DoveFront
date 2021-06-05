@@ -102,8 +102,14 @@ const actions = {
 
 
 	async getSingle({commit}, {id: id}) {
-		const response = await $api.get(multimediaUrl.set + id)
-		commit("SET_MULTIMEDIA", response)
+		try {
+			const response = await $api.get(multimediaUrl.set + id)
+			commit("SET_MULTIMEDIA", response)
+			return true
+		} catch (e) {
+			return false
+		}
+
 	},
 
 
@@ -125,12 +131,27 @@ const actions = {
 		}
 	},
 
-	async update({commit}, payload) {
-		await $api.put(multimediaUrl + payload.id + "/", payload.body)
+	async patch({commit}, {id: id, body: body}) {
+		try {
+			const response = await $api.patch(multimediaUrl.set + id + "/", body)
+			commit("SET_MULTIMEDIA", response)
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				commit("SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS", e.response.data)
+			}
+			return false
+		}
 	},
 
 	async delete({commit}, payload) {
-		await $api.delete(multimediaUrl + payload.id + "/")
+		try {
+			await $api.delete(multimediaUrl.set + payload.id + "/")
+			return true
+		} catch (e) {
+			return false
+		}
 	},
 
 

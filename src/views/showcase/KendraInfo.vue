@@ -26,7 +26,7 @@
 					:key="index"
 					cols="12" xl="6"
 					lg="6" md="6"
-					sm="6"
+					sm="6" :class="'kendra-col-' + index"
 				>
 					<v-card class="elevation-0 text-center"
 						color="transparent"
@@ -58,6 +58,15 @@
 	</v-card>
 </template>
 <script>
+import {gsap} from "gsap"
+import {ScrollTrigger} from "gsap/ScrollTrigger"
+
+ScrollTrigger.defaults({
+	toggleActions: "restart pause resume pause",
+	scrub: 1
+});
+gsap.registerPlugin(ScrollTrigger)
+
 export default {
 	data: () => ({
 		kendra: [
@@ -69,7 +78,7 @@ export default {
 				branch: "Sachchai Kendra Nepal, Lamachaur"
 			},
 			{
-				image: "https://scontent.fpkr1-1.fna.fbcdn.net/v/t1.6435-9/89533997_2530166857234100_7226294179305881600_n.jpg?_nc_cat=102&ccb=1-3&_nc_sid=cdbe9c&_nc_ohc=kkYrz08l3vcAX96W0a6&_nc_ht=scontent.fpkr1-1.fna&oh=eb000522665afce42e583bc8aa20584a&oe=60B31CBD	",
+				image: require("@/assets/KendraSahaPramukh.jpg"),
 				name: "Sushila Maam",
 				position: "Kendra Saha Pramukh",
 				contact: "+977-9843565147",
@@ -77,6 +86,49 @@ export default {
 			}
 		]
 	}),
+	mounted() {
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: ".repeating-gradient",
+				start: "top center",
+				end: "+=200",
+			},
+			yoyo: true
+		})
+			.from(".repeating-gradient", {
+				duration: 1.5,
+				scale: 2,
+				opacity: 0
+			})
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: "#kendra_motto",
+				start: "bottom bottom",
+				end: "+=300",
+			},
+			yoyo: true
+		})
+			.from("#kendra_name", {
+				scale: 2,
+				opacity: 0,
+				x: -500,
+				duration: .5,
+			}, 0)
+			.from("#kendra_motto", {
+				scale: 2,
+				opacity: 0,
+				duration: .5,
+				x: 500
+			}, 0)
+			.from(".kendra-col-0", {
+				x: -500,
+				duration: 1,
+			}, 1)
+			.from(".kendra-col-1", {
+				x: 500,
+				duration: 1
+			}, 1)
+	}
 }
 </script>
 <style lang="sass" scoped>
@@ -129,13 +181,6 @@ export default {
 }
 .repeating-gradient {
 	background-image: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100px);
+	overflow: hidden;
 }
-//.pramukh {
-//	border: 3px solid #1ecb1e;
-//	background: #1ecb1e;
-//}
-//.saha-pramukh {
-// border: 3px solid #ec47c4;
-//	background: #ec47c4;
-//}
 </style>

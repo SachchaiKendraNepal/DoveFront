@@ -1,143 +1,180 @@
 <template>
-	<v-card
-		:loading="loading"
-		class="ma-0 pa-0 elevation-0"
-	>
-		<base-post-detail
-			v-if="multimediaId"
-			:target="multimedia"
-			:is-article="false"
+	<div>
+		<not-found v-if="postNotAvailable" />
+		<v-card v-else
+			:loading="loading"
+			class="ma-0 pa-0 elevation-0"
 		>
-			<template #imageCarousel>
-				<v-carousel height="100vh"
-					dark
-				>
-					<template #next="{ on, attrs }">
-						<v-btn dark
-							icon
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon>mdi-chevron-right</v-icon>
-						</v-btn>
-					</template>
-					<template #prev="{ on, attrs }">
-						<v-btn dark
-							icon
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon>mdi-chevron-left</v-icon>
-						</v-btn>
-					</template>
-					<v-carousel-item
-						v-for="item in multimedia['multimedia_images']"
-						:key="item.id + 5 * 7"
-						active-class="multimedia-active-image"
-						reverse-transition="fade-transition"
-						transition="fade-transition"
+			<base-post-detail
+				v-if="multimediaId"
+				:target="multimedia"
+				:is-article="false"
+			>
+				<template #imageCarousel>
+					<v-carousel height="calc(100vh - 60px)"
+						dark
+						hide-delimiters
 					>
-						<template #default>
-							<v-card height="100vh"
-								class="rounded-0"
+						<template #next="{ on, attrs }">
+							<v-btn dark
+								icon
+								v-bind="attrs"
+								v-on="on"
 							>
-								<v-img :src="item.image"
-									height="100vh"
-									contain
-								/>
-							</v-card>
+								<v-icon>mdi-chevron-right</v-icon>
+							</v-btn>
 						</template>
-					</v-carousel-item>
-					<v-carousel-item
-						v-for="item in multimedia['multimedia_videos']"
-						:key="item.id + 7 * 11"
-						active-class="multimedia-active-video"
-						reverse-transition="fade-transition"
-						transition="fade-transition"
-					>
-						<template #default>
-							<v-card
-								height="100vh"
-								class="rounded-0"
+						<template #prev="{ on, attrs }">
+							<v-btn dark
+								icon
+								v-bind="attrs"
+								v-on="on"
 							>
-								<video-player
-									:options="{
-										fluid: true,
-										fill: true,
-										autoplay: true,
-										controls: true,
-										sources: [
-											{
-												src: item.video,
-												type: 'video/mp4'
-											}
-										]
-									}"
-								/>
-							</v-card>
+								<v-icon>mdi-chevron-left</v-icon>
+							</v-btn>
 						</template>
-					</v-carousel-item>
-					<v-carousel-item
-						active-class="multimedia-active-video-url"
-						transition="fade-transition"
-						reverse-transition="fade-transition"
-					>
-						<template #default>
-							<v-card
-								v-if="nowPlaying"
-								dark
-								height="100vh"
-								class="rounded-0"
-							>
-								<v-card
-									height="600"
+						<v-carousel-item
+							v-for="item in multimedia['multimedia_images']"
+							:key="item.id + 505700 * 7"
+							active-class="multimedia-active-image"
+							reverse-transition="fade-transition"
+							transition="fade-transition"
+						>
+							<template #default>
+								<v-card height="calc(100vh - 60px)"
 									class="rounded-0"
 								>
-									<youtube-iframe
-										:video-url="nowPlaying"
-										height="600"
+									<v-img :src="item.image"
+										height="calc(100vh - 60px)"
+										contain
+									>
+										<v-btn
+											class="ma-2"
+											fab
+											x-small
+											@click="deleteImage(item.id)"
+										>
+											<v-icon color="error">
+												mdi-delete
+											</v-icon>
+										</v-btn>
+									</v-img>
+								</v-card>
+							</template>
+						</v-carousel-item>
+						<v-carousel-item
+							v-for="item in multimedia['multimedia_videos']"
+							:key="item.id + 700014 * 11"
+							active-class="multimedia-active-video"
+							reverse-transition="fade-transition"
+							transition="fade-transition"
+						>
+							<template #default>
+								<v-card
+									height="calc(100vh - 60px)"
+									class="rounded-0"
+								>
+									<v-btn
+										class="ma-2"
+										fab
+										x-small
+										@click="deleteVideo(item.id)"
+									>
+										<v-icon color="error">
+											mdi-delete
+										</v-icon>
+									</v-btn>
+									<video-player
+										:options="{
+											fluid: true,
+											fill: true,
+											autoplay: true,
+											controls: true,
+											sources: [
+												{
+													src: item.video,
+													type: 'video/mp4'
+												}
+											]
+										}"
 									/>
 								</v-card>
-								<v-list class="rounded-t-0">
-									<v-list-item v-for="(videoUrl, index) in multimedia['multimedia_video_urls']"
-										:key="videoUrl.id"
-										@click="1"
+							</template>
+						</v-carousel-item>
+						<v-carousel-item
+							v-if="multimedia['multimedia_video_urls'].length > 0"
+							active-class="multimedia-active-video-url"
+							transition="fade-transition"
+							reverse-transition="fade-transition"
+						>
+							<template #default>
+								<v-card
+									v-if="nowPlaying"
+									dark
+									height="calc(100vh - 60px)"
+									class="rounded-0"
+								>
+									<v-card
+										height="600"
+										class="rounded-0"
 									>
-										<v-list-item-avatar tile>
-											<v-img class="thumbnail-radius"
-												:src="thumbnail(videoUrl.video_url)"
-											/>
-										</v-list-item-avatar>
-										<v-list-item-content>
-											<div class="video-list-name">
-												Video {{ index + 1 }}
-											</div>
-										</v-list-item-content>
-										<v-list-item-action>
-											<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
-												color="red lighten-1"
-												@click="nowPlaying = videoUrl.video_url"
-											>
-												<v-icon>mdi-play</v-icon>
-											</v-btn>
-											<div v-else
-												class="green--text"
-											>
-												Currently Playing
-											</div>
-										</v-list-item-action>
-									</v-list-item>
-								</v-list>
-							</v-card>
-						</template>
-					</v-carousel-item>
-				</v-carousel>
-			</template>
-			<template #comments>
-				<comments-detail />
-			</template>
-		</base-post-detail>
-	</v-card>
+										<youtube-iframe
+											:video-url="nowPlaying"
+											height="600"
+										/>
+									</v-card>
+									<v-list class="rounded-t-0">
+										<v-list-item v-for="(videoUrl) in multimedia['multimedia_video_urls']"
+											:key="videoUrl.id + 522222 * 5.7"
+											@click="1"
+										>
+											<v-list-item-avatar tile>
+												<v-img class="thumbnail-radius"
+													:src="thumbnail(videoUrl.video_url)"
+												/>
+											</v-list-item-avatar>
+											<v-list-item-content>
+												<div class="video-list-name cursor"
+													@click="nowPlaying = videoUrl.video_url"
+												>
+													{{ videoUrl['yt_info']['title'] }}
+													<span>
+														<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
+															color="red lighten-1"
+														>
+															<v-icon>mdi-play</v-icon>
+														</v-btn>
+														<span v-else>
+															<v-icon color="green">mdi-play</v-icon>
+														</span>
+													</span>
+												</div>
+											</v-list-item-content>
+											<v-list-item-action>
+												<v-btn
+													class="ma-2"
+													fab
+													x-small
+													@click="deleteVideoUrl(videoUrl.id)"
+												>
+													<v-icon color="error">
+														mdi-delete
+													</v-icon>
+												</v-btn>
+											</v-list-item-action>
+										</v-list-item>
+									</v-list>
+								</v-card>
+							</template>
+						</v-carousel-item>
+					</v-carousel>
+				</template>
+				<template #comments>
+					<comments-detail />
+				</template>
+			</base-post-detail>
+		</v-card>
+	</div>
 </template>
 <script>
 import {mapGetters} from "vuex";
@@ -154,6 +191,7 @@ export default {
 		multimediaId: null,
 		loading: false,
 		nowPlaying: null,
+		postNotAvailable: false
 	}),
 	computed: {
 		... mapGetters({
@@ -174,16 +212,30 @@ export default {
 		async init() {
 			this.loading=true
 			this.multimediaId = parseInt(this.$route.params.id)
-			await this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
-			if (this.multimedia["multimedia_video_urls"].length > 0) {
-				this.nowPlaying = this.multimedia["multimedia_video_urls"][0].video_url
-			}
-			this.loading=false
+			this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
+				.then((fetched) => {
+					this.postNotAvailable = !fetched;
+					if (fetched) {
+						if (this.multimedia["multimedia_video_urls"].length > 0) {
+							this.nowPlaying = this.multimedia["multimedia_video_urls"][0].video_url
+						}
+					}
+					this.loading=false
+				})
 		},
 		async getVideoTitle(url) {
 			const id = this.getId(url)
 			const title = await this.$store.dispatch("multimedia/getYTVideoTitle", {id: id})
 			return title
+		},
+		async deleteImage(itemId) {
+
+		},
+		async deleteVideo(itemId) {
+
+		},
+		async deleteVideoUrl(itemId) {
+
 		}
 	}
 }

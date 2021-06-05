@@ -36,6 +36,7 @@
 					</v-icon>
 				</v-avatar>
 			</v-toolbar>
+			<div class="py-4" />
 			<v-card
 				flat
 				class="rounded-0 mx-auto"
@@ -62,7 +63,7 @@
 						"
 					>
 						<v-avatar id="av" class="elevation-4"
-							size="60"
+							size="70"
 						>
 							<v-img
 								:src="getCurrentProfileImage"
@@ -95,7 +96,7 @@
 										<v-chip
 											dense
 											label
-											style="font-size: 10px; font-weight: bold"
+											class="small-bold"
 										>
 											<span v-if="currentUser.member">
 												Member
@@ -118,12 +119,13 @@
 						<v-text-field
 							id="title"
 							v-model="post.title"
-							class="ma-0 pa-0"
+							class="ma-0 pa-0 mt-4"
 							name="title"
 							outlined
 							clearable
 							label="Post Title"
 							hide-details="auto"
+							counter="255"
 							placeholder="Give your activity a title, Kiran!"
 							:error-messages="postCreationFormErrors.title"
 						/>
@@ -137,7 +139,9 @@
 							label="Description"
 							outlined
 							clearable
+							auto-grow
 							hide-details="auto"
+							counter="10000"
 							placeholder="Write something about your activity, Kiran!"
 							:error-messages="postCreationFormErrors.description"
 						/>
@@ -183,10 +187,11 @@
 					</v-col>
 					<v-col v-for="(file, index) in imageURLs"
 						:key="index"
-						class="d-flex justify-center ma-2"
+						class="d-flex justify-center ma-2 pa-2"
 						style="background-color: aliceblue"
 					>
 						<v-badge
+							style="z-index: 5;"
 							bordered
 							overlap
 							color="grey darken-1"
@@ -194,15 +199,21 @@
 							<template #badge>
 								<v-icon
 									x-small
+									class="remove-icon"
 									@click="removeImage(index)"
 								>
 									mdi-close
 								</v-icon>
 							</template>
-							<v-img :src="file" class="image-preview"
-								height="100" max-width="100"
-								contain
-							/>
+							<v-card height="70"
+								dark
+								max-width="100"
+							>
+								<v-img :src="file"
+									height="70"
+									contain
+								/>
+							</v-card>
 						</v-badge>
 					</v-col>
 				</v-row>
@@ -232,6 +243,7 @@
 							<template #badge>
 								<v-icon
 									x-small
+									class="remove-icon"
 									@click="removeVideo_URL(index)"
 								>
 									mdi-close
@@ -258,7 +270,7 @@
 						</p>
 					</v-col>
 					<v-col v-for="(item, index) in videoURLs" :key="index"
-						cols="4"
+						cols="12"
 						class="ma-0 pa-0 d-flex justify-center align-start"
 					>
 						<v-badge
@@ -269,16 +281,27 @@
 							<template #badge>
 								<v-icon
 									x-small
+									class="remove-icon"
 									@click="removeVideo(index)"
 								>
 									mdi-close
 								</v-icon>
 							</template>
-							<v-chip>
-								<a :href="item.videoUrl"
-									target="_blank"
-								>{{ item.name }}</a>
-							</v-chip>
+							<video
+								class="slight-round"
+								width="300"
+								height="200"
+								controls
+							>
+								<source :src="item.videoUrl"
+									:type="item.type"
+								>
+							</video>
+							<!--							<v-chip>-->
+							<!--								<a :href="item.videoUrl"-->
+							<!--									target="_blank"-->
+							<!--								>{{ item.name }}</a>-->
+							<!--							</v-chip>-->
 						</v-badge>
 					</v-col>
 				</v-row>
@@ -411,6 +434,7 @@ const VueUploadComponent = require("vue-upload-component")
 import APlayer from "vue-aplayer"
 import {mapGetters} from "vuex";
 import YoutubeIframe from "@/components/YoutubeIframe";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "StartAPostComponent",
@@ -418,8 +442,8 @@ export default {
 		YoutubeIframe,
 		FileUpload: VueUploadComponent,
 		APlayer,
-		// VideoPlayer: () => import("@/components/VideoPlayer")
 	},
+	mixins: [Snack],
 	emits: ["close-dialog"],
 	data: () => ({
 		currentUser: null,
@@ -516,10 +540,13 @@ export default {
 				})
 				this.audios.push(latestFile)
 			} else if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
+				console.log(latestFile)
 				this.videoURLs.push({
 					playing: false,
+					video: latestFile,
 					name: latestFile.name,
 					videoUrl: latestUrl,
+					type: latestFile.type
 				})
 				this.videos.push(latestFile)
 			}
@@ -572,11 +599,6 @@ export default {
 			this.dialog = true
 			this.uploadVideo = false
 		},
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
-		},
 		async createMultimedia() {
 			// create a multimedia
 			const body = await getFormData({
@@ -605,17 +627,21 @@ export default {
 			return response
 		},
 		async showPostCreationErrorMessages() {
+			console.log(this.postCreationFormErrors)
 			if(this.postCreationFormErrors.video_url) {
 				await this.openSnack("Please add a valid youtube video url for your post")
 			}
 			if(this.postCreationFormErrors.video) {
-				await this.openSnack("Please add a valid video file for your post")
+				await this.openSnack(this.postCreationFormErrors.video[0])
 			}
 			if(this.postCreationFormErrors.audio) {
-				await this.openSnack("Please add a valid audio file for your post")
+				await this.openSnack(this.postCreationFormErrors.audio[0])
 			}
 			if(this.postCreationFormErrors.image) {
-				await this.openSnack("Please add at least an image for your post")
+				await this.openSnack(this.postCreationFormErrors.image[0])
+			}
+			if(this.postCreationFormErrors["non_field_errors"]) {
+				await this.openSnack(this.postCreationFormErrors["non_field_errors"][0])
 			}
 		},
 		async makeMultimedia() {
@@ -631,6 +657,7 @@ export default {
 			if (response === true) {
 				this.closeDialog()
 				await this.resetPostForm()
+				await this.openSnack("Your post is added successfully. An admin approval will make your post visible.", "success")
 			}
 		}
 	}
@@ -665,6 +692,8 @@ export default {
 ::v-deep .size-124
 	font-size: 24px !important
 #av
+	border: 2px white solid
+	background-color: white
 	@media only screen and (max-width: 236px)
 		height: 45px !important
 		min-width: 45px !important
@@ -676,7 +705,12 @@ export default {
 .start-post-av
 	border-radius: 4px !important
 .image-preview
-	border-radius: 10px
+	border-radius: 10px !important
 .slight-round
 	border-radius: 5px
+.small-bold
+	font-size: 10px
+	font-weight: bold
+.remove-icon
+	z-index: 500
 </style>

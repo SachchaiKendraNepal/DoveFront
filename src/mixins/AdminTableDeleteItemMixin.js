@@ -1,9 +1,10 @@
 const AdminTableDeleteItemMixin = {
 	methods: {
-		openAdminDeleteItemDialog(itemId, itemText) {
+		openAdminDeleteItemDialog(itemId, itemText, action=null) {
 			this.$bus.emit("openAdminDeleteDialog", {
 				itemId: itemId,
-				itemText: itemText
+				itemText: itemText,
+				action: action
 			})
 		},
 	}

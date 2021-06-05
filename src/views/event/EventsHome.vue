@@ -5,85 +5,86 @@
 		max-width="1000"
 	>
 		<add-event-card />
-		<div v-if="events.count > 0">
-			<v-toolbar
-				color="transparent"
-				height="60"
-				class="mx-3 event-toolbar"
+		<v-toolbar
+			color="transparent"
+			height="60"
+			class="mx-3 event-toolbar"
+		>
+			<v-toolbar-title class="events-home-title">
+				Events Home
+			</v-toolbar-title>
+			<v-spacer />
+			<v-card class="ma-0 pa-0 mx-4"
+				width="500"
 			>
-				<v-app-bar-nav-icon>
-					<v-icon>mdi-calendar-clock</v-icon>
-				</v-app-bar-nav-icon>
-				<v-spacer />
-				<v-card class="ma-0 pa-0 mx-4"
-					width="500"
-				>
-					<v-text-field
-						v-model="searchEvents"
-						color="red"
-						background-color="lightblue lighten-3"
-						solo
-						dense
-						hide-details
-						label="Search events"
-						prepend-inner-icon="mdi-calendar-search"
-					/>
-				</v-card>
-				<v-menu offset-y>
-					<template #activator="{ on, attrs }">
-						<v-btn
-							icon
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon>mdi-filter</v-icon>
-						</v-btn>
-					</template>
-					<v-list>
-						<v-list-item
-							v-for="(item, index) in filterMenuItems"
-							:key="index"
-						>
-							<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-							<v-list-item-title>{{ item.title }}</v-list-item-title>
-						</v-list-item>
-					</v-list>
-				</v-menu>
-
-				<v-menu offset-y>
-					<template #activator="{ on, attrs }">
-						<v-btn
-							icon
-							v-bind="attrs"
-							v-on="on"
-						>
-							<v-icon>mdi-sort</v-icon>
-						</v-btn>
-					</template>
-					<v-list>
-						<v-list-item
-							v-for="(item, index) in sortMenuItems"
-							:key="index"
-						>
-							<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
-							<v-list-item-title>{{ item.title }}</v-list-item-title>
-						</v-list-item>
-					</v-list>
-				</v-menu>
-			</v-toolbar>
-			<v-col v-for="(item, index) in events"
-				:key="index"
-				cols="12"
-			>
-				<event-home-card :event="item"
-					:card-bg="colors[index % 10]"
+				<v-text-field
+					v-model="searchEvents"
+					color="red lighten-2"
+					solo
+					height="36"
+					hide-details
+					label="Search events"
+					prepend-inner-icon="mdi-calendar-search"
 				/>
-			</v-col>
-		</div>
-		<no-home-data v-else
-			class="ma-3 mb-12"
-			image="https://media.giphy.com/media/YOqgY2wQazNKleTJ5D/source.gif"
-		/>
+			</v-card>
+			<v-menu offset-y>
+				<template #activator="{ on, attrs }">
+					<v-btn
+						icon
+						v-bind="attrs"
+						v-on="on"
+					>
+						<v-icon>mdi-filter</v-icon>
+					</v-btn>
+				</template>
+				<v-list>
+					<v-list-item
+						v-for="(item, index) in filterMenuItems"
+						:key="index"
+					>
+						<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+						<v-list-item-title>{{ item.title }}</v-list-item-title>
+					</v-list-item>
+				</v-list>
+			</v-menu>
+
+			<v-menu offset-y>
+				<template #activator="{ on, attrs }">
+					<v-btn
+						icon
+						v-bind="attrs"
+						v-on="on"
+					>
+						<v-icon>mdi-sort</v-icon>
+					</v-btn>
+				</template>
+				<v-list>
+					<v-list-item
+						v-for="(item, index) in sortMenuItems"
+						:key="index"
+					>
+						<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+						<v-list-item-title>{{ item.title }}</v-list-item-title>
+					</v-list-item>
+				</v-list>
+			</v-menu>
+		</v-toolbar>
+		<v-fade-transition>
+			<div v-if="events.count > 0">
+				<v-col v-for="(item, index) in events.results"
+					:key="index"
+					cols="12"
+				>
+					<event-home-card :event="item"
+						:card-bg="colors[index % 10]"
+					/>
+				</v-col>
+			</div>
+			<no-home-data v-else
+				class="ma-3 mb-12"
+				:image="require('@/assets/noEventsHome.gif')"
+			/>
+		</v-fade-transition>
 	</v-card>
 </template>
 <script>
@@ -129,17 +130,22 @@ export default {
 			events: "event/list"
 		})
 	},
+	watch: {
+		searchEvents: {
+			deep: true,
+			immediate: true,
+			handler(val) {
+				if (val) this.initEvents({search: val, page: 1, is_approved: true})
+			}
+		}
+	},
 	created() {
-		this.initEvents()
+		this.initEvents({is_approved: true})
 	},
 	methods: {
-		async initEvents() {
+		async initEvents(payload) {
 			this.loading = true
-			await this.$store.dispatch("event/filter", {
-				page: 1,
-				is_approved: true
-			})
-			console.log(this.events)
+			await this.$store.dispatch("event/filter", payload)
 			this.loading = false
 		}
 	}
@@ -166,4 +172,9 @@ export default {
 ::v-deep.v-list-item__content
 	padding: 0
 	margin-top: -10px
+.events-home-title
+	font-family: 'Quicksand', sans-serif
+	font-size: 1.1rem
+	font-weight: 600
+	color: #444444
 </style>

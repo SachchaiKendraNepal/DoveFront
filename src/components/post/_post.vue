@@ -21,7 +21,8 @@
 				</v-list-item-title>
 				<v-list-item-subtitle v-if="post.uploaded_by">
 					<code>{{ post.uploaded_by.username }}</code>
-					<span class="uploaded-at">{{ $moment(post.uploaded_at).format("MMMM Do YYYY") }}</span>
+					<span class="subtitle-chip">{{ $moment(post.uploaded_at).format("MMMM Do YYYY") }}</span>
+					<span class="subtitle-chip">{{ (isArticle) ? 'article' : 'multimedia' }}</span>
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
@@ -222,7 +223,7 @@ export default {
 	transform: rotate(30deg) !important
 }
 
-.uploaded-at {
+.subtitle-chip {
 	font-size: .8rem;
 	margin: 2px;
 	padding: 2px;

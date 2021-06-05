@@ -19,7 +19,7 @@
 					<v-col
 						cols="12"
 					>
-						<v-card-text class="pin-header py-0 showcase-blue-color">
+						<v-card-text class="pin-header py-4 showcase-blue-color">
 							Become a part of something great!
 						</v-card-text>
 					</v-col>
@@ -30,7 +30,7 @@
 						<v-avatar
 							color="white"
 							size="90"
-							class="elevation-14"
+							class="elevation-14 bulls-eye-avatar"
 						>
 							<v-icon
 								size="80"
@@ -53,7 +53,7 @@
 					<v-col v-show="$vuetify.breakpoint.smAndUp"
 						cols="12"
 					>
-						<v-card-text class="text-center blue--text text--darken-2">
+						<v-card-text class="view-top-pins text-center blue--text text--darken-2">
 							<h3>
 								See our top pinned items here. <v-icon large>
 									mdi-arrow-right
@@ -66,6 +66,7 @@
 							<v-btn large
 								elevation="4"
 								dark
+								class="explore-pin-btn"
 								color="showcase-blue-bg"
 							>
 								<v-icon>mdi-eye-circle</v-icon>
@@ -123,6 +124,13 @@
 <script>
 import Swiper, { Navigation, Pagination } from "swiper"
 import {mapGetters} from "vuex";
+import {gsap} from "gsap"
+import {ScrollTrigger} from "gsap/ScrollTrigger"
+
+ScrollTrigger.defaults({
+	toggleActions: "restart pause resume pause",
+	scrub: 1
+});
 
 export default {
 	name: "PinnedBarView",
@@ -137,6 +145,62 @@ export default {
 		...mapGetters({
 			pinnedMedias: "post/pinnedPostList"
 		})
+	},
+	mounted() {
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: ".pin-bg-card",
+				start: "top center",
+				end: "+=800",
+			},
+		})
+			.from(".pin-header", {
+				scale: 4,
+				opacity: 0,
+				color: "transparent",
+				duration: 1
+			})
+			.from(".bulls-eye-avatar", {
+				opacity: 20,
+				duration: 2,
+				ease: "ease",
+				rotation: 360*7,
+			})
+		gsap.timeline({
+			scrollTrigger: {
+				trigger: ".pin-bg-card",
+				start: "top center",
+				end: "+=400",
+			},
+		})
+			.from(".explore-pin-btn", {
+				y: 600,
+				opacity: 0,
+				ease: "bounce",
+			})
+			.from(".view-top-pins", {
+				scale: 1.3,
+				opacity: 0,
+				ease: "ease",
+			})
+		const slides = gsap.utils.toArray(".swiper-slide")
+		if (slides.length > 0) {
+			gsap.timeline({
+				scrollTrigger: {
+					trigger: ".pin-bg-card",
+					scrub: 1,
+					start: "top 400px",
+					end: "+=600"
+				}
+			})
+				.from(slides, {
+					opacity: 0,
+					scale: .5,
+					y: 400,
+					ease: "back.out(4)",
+					duration: 2.5
+				})
+		}
 	},
 	async created() {
 		await this.init()
@@ -227,6 +291,7 @@ export default {
 		margin-top: -150px !important
 
 .pin-bg-card
+	overflow: hidden
 	display: flex
 	justify-content: center
 	align-items: center
