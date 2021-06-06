@@ -11,26 +11,42 @@
 				xl="8"
 				lg="8"
 			>
+				<v-card-subtitle class="pb-0">
+					<span class="chip-like">
+						<v-icon class="detail-icon"
+							size="16"
+						>
+							mdi-account-circle
+						</v-icon>
+						{{ getEventCreatorFullName(event.created_by) }}
+					</span>
+					<span class="chip-like">
+						<v-icon class="detail-icon"
+							size="16"
+						>
+							mdi-clock
+						</v-icon>
+						{{ formatDate(event.created_at) }}
+					</span>
+				</v-card-subtitle>
 				<v-card-title
-					class="display-1 cursor-pointer"
+					class="display-1 cursor-pointer pt-0 pb-1"
 					@click="routeToEventDetail(event.id)"
 					v-text="event.title"
 				/>
-				<v-card-subtitle>
-					<v-icon size="16">
-						mdi-account-circle
-					</v-icon>
-					{{ getEventCreatorFullName(event.created_by) }}
-					<v-icon size="16">
-						mdi-city
-					</v-icon>
-					{{ event.organizer.name }}
-					<v-icon size="16">
-						mdi-clock
-					</v-icon> {{ formatDate(event.created_at) }}
+				<v-divider class="mx-3" />
+				<v-card-subtitle class="pt-1">
+					<span class="chip-like transparent">
+						<v-icon size="16"
+							class="detail-icon"
+						>
+							mdi-city
+						</v-icon>
+						{{ event.branch.name }}
+					</span>
 				</v-card-subtitle>
 				<v-card-text class="py-0 pb-2">
-					{{ event.description.substring(0,140) }}
+					{{ event.description }}
 					<span>...</span>
 				</v-card-text>
 
@@ -109,7 +125,12 @@
 							@click="toggleInterestedStatus(event.id)"
 						>
 							<v-icon>mdi-star-circle</v-icon>
-							<span class="button-span">Interested</span>
+							<span v-if="eventStatistics['interested']"
+								class="button-span red--text text--lighten-1"
+							>Remove Interest</span>
+							<span v-else
+								class="green--text"
+							>Add Interest</span>
 							<span class="stat">({{ eventStatistics['interested_count'] }})</span>
 						</v-btn>
 					</v-card-actions>
@@ -120,17 +141,25 @@
 							@click="toggleGoingStatus(event.id)"
 						>
 							<v-icon>mdi-walk</v-icon>
-							<span class="button-span">Going</span>
+							<span v-if="eventStatistics['going']"
+								class="button-span red--text text--lighten-1"
+							>Not Going</span>
+							<span v-else
+								class="green--text"
+							>I Am Going</span>
 							<span class="stat">({{ eventStatistics['going_count'] }})</span>
 						</v-btn>
 					</v-card-actions>
 				</v-row>
 			</v-col>
-			<v-col cols="12"
+			<v-col
+				v-if="event['banner_images'].length > 0"
+				cols="12"
 				xl="4"
 				lg="4"
 			>
-				<v-img :src="event.banner"
+				<v-img
+					:src="event['banner_images'][0]['image']"
 					class="event-banner"
 					max-height="400"
 				/>
@@ -176,7 +205,7 @@ export default {
 		},
 		getEventCreatorFullName(creator) {
 			if (creator!==null) {
-				return creator.first_name + creator.last_name
+				return creator.first_name + " " +  creator.last_name
 			} else return null
 		},
 		async fetchEventStatistics(eventId) {
@@ -233,6 +262,18 @@ export default {
 .stat {
 	font-family: 'Noto Sans JP', sans-serif;
 	color: #ffd76c;
-	padding: 0 2px
+	padding: 0 2px;
+	margin-top: -2px;
+}
+.chip-like {
+	background-color: grey;
+	margin: 0 2px;
+	color: white;
+	padding: 2px;
+	border-radius: 2px;
+	.detail-icon {
+		margin-top: -2px;
+		padding: 0;
+	}
 }
 </style>

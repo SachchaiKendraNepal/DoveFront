@@ -90,6 +90,33 @@ const actions = {
 		}
 	},
 
+	async deleteVideoUrl({commit}, {id: id}) {
+		try {
+			await $api.delete(util.format(eventUrl.videoUrlDetail, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+
+	async deleteVideo({commit}, {id: id}) {
+		try {
+			await $api.delete(util.format(eventUrl.videoDetail, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+
+	async deleteImage({commit}, {id: id}) {
+		try {
+			await $api.delete(util.format(eventUrl.imageDetail, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+
 	async filter({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(eventUrl.list, payload)
@@ -147,6 +174,14 @@ const actions = {
 	async addCommentFor({}, {body: body}) {
 		try {
 			await $api.post(eventUrl.commentList, body)
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async updateComment({}, {id: id, body: body}) {
+		try {
+			await $api.patch(util.format(eventUrl.commentDetail, id), body)
 			return true
 		} catch (e) {
 			return false

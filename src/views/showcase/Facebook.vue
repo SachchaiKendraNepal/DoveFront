@@ -3,20 +3,20 @@
 		<div class="sidebar-social-media-title">
 			<span><u>Follow Us On Facebook</u></span>
 		</div>
-		<div class="facebook-container">
-			<div class="fb-page"
-				data-href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086" data-tabs="timeline"
-				data-height="350"
-				data-small-header="false" data-adapt-container-width="true"
-				data-hide-cover="false" data-show-facepile="true"
-			>
-				<blockquote cite="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086"
-					class="fb-xfbml-parse-ignore"
-				>
-					<a href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086">Sachchai Kendra Nepal</a>
-				</blockquote>
-			</div>
-		</div>
+		<!--		<div class="facebook-container">-->
+		<!--			<div class="fb-page"-->
+		<!--				data-href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086" data-tabs="timeline"-->
+		<!--				data-height="350"-->
+		<!--				data-small-header="false" data-adapt-container-width="true"-->
+		<!--				data-hide-cover="false" data-show-facepile="true"-->
+		<!--			>-->
+		<!--				<blockquote cite="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086"-->
+		<!--					class="fb-xfbml-parse-ignore"-->
+		<!--				>-->
+		<!--					<a href="https://www.facebook.com/Sachhaikendra-Nepal-2186630364921086">Sachchai Kendra Nepal</a>-->
+		<!--				</blockquote>-->
+		<!--			</div>-->
+		<!--		</div>-->
 	</div>
 </template>
 <script>

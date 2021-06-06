@@ -100,12 +100,27 @@ const actions = {
 		}
 	},
 
-	async update({commit}, payload) {
-		await $api.put(articleUrl.set + payload.id + "/", payload.body)
+	async patch({commit}, {id: id, body: body}) {
+		try {
+			const response = await $api.put(articleUrl.set + id + "/", body)
+			commit("SET_ARTICLE", response)
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				commit("SET_ARTICLE_POST_CREATION_FORM_ERRORS", e.response.data)
+			}
+			return false
+		}
 	},
 
 	async delete({commit}, payload) {
-		await $api.delete(articleUrl.set + payload.id + "/")
+		try {
+			await $api.delete(articleUrl.set + payload.id + "/")
+			return true
+		} catch (e) {
+			return false
+		}
 	},
 
 	async approve({}, {id: id}) {

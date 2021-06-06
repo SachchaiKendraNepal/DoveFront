@@ -19,16 +19,17 @@
 				>
 					{{ post.title }}
 				</v-list-item-title>
-				<v-list-item-subtitle v-if="post.uploaded_by">
-					<code>{{ post.uploaded_by.username }}</code>
-					<span class="uploaded-at">{{ $moment(post.uploaded_at).format("MMMM Do YYYY") }}</span>
+				<v-list-item-subtitle v-if="post['uploaded_by']">
+					<code>{{ post['uploaded_by']['username'] }}</code>
+					<span class="subtitle-chip">{{ $moment(post['uploaded_at']).format("MMMM Do YYYY") }}</span>
+					<span class="subtitle-chip">{{ (isArticle) ? 'article' : 'multimedia' }}</span>
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
 				<v-btn icon
 					@click="togglePinStatus"
 				>
-					<v-icon v-if="extraStatus.pinned"
+					<v-icon v-if="extraStatus['pinned']"
 						color="indigo"
 						class="tilt-pin"
 					>
@@ -149,39 +150,29 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (this.isArticle) {
-				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: this.post.id})
-			} else {
-				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: this.post.id})
-			}
+			const actionBase = (this.isArticle) ? "article" : "multimedia"
+			this.extraStatus = await this.$store.dispatch(
+				`${actionBase}/fetchExtraStatus`,
+				{ id: this.post.id }
+			)
+		},
+		async performPostAction(actionText) {
+			const fullActionText = `${(this.isArticle ? "article" : "multimedia")}/${actionText}`
+			await this.$store.dispatch(fullActionText, {id: this.post.id})
+			await this.init()
 		},
 		routeToPostDetail() {
-			if (this.isArticle) router.push({name: "SACHCHAI NEPAL ARTICLE", params: { id: this.post.id }})
-			else router.push({name: "SACHCHAI NEPAL MULTIMEDIA", params: { id: this.post.id }})
+			const routeName = (this.isArticle) ? "SACHCHAI NEPAL ARTICLE" : "SACHCHAI NEPAL MULTIMEDIA"
+			router.push({name: routeName, params: { id: this.post.id }})
 		},
 		async togglePostLoveStatus() {
-			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleLoveStatus", {id: this.post.id})
-			} else {
-				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.post.id})
-			}
-			await this.init()
+			await this.performPostAction("toggleLoveStatus")
 		},
 		async toggleBookmarkStatus() {
-			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.post.id})
-			} else {
-				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.post.id})
-			}
-			await this.init()
+			await this.performPostAction("toggleBookmarkStatus")
 		},
 		async togglePinStatus() {
-			if (this.isArticle) {
-				await this.$store.dispatch("article/togglePinStatus", {id: this.post.id})
-			} else {
-				await this.$store.dispatch("multimedia/togglePinStatus", {id: this.post.id})
-			}
-			await this.init()
+			await this.performPostAction("togglePinStatus")
 		}
 	}
 }
@@ -222,7 +213,7 @@ export default {
 	transform: rotate(30deg) !important
 }
 
-.uploaded-at {
+.subtitle-chip {
 	font-size: .8rem;
 	margin: 2px;
 	padding: 2px;

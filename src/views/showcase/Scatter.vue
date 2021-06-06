@@ -1,108 +1,235 @@
 <template>
-	<v-card min-height="1000"
-		max-width="1000"
-		class="ma-0 pa-0 elevation-0 rounded-0 mx-auto"
+	<v-card max-width="1000"
+		class="mx-auto"
+		flat
+		color="transparent rounded-0"
 	>
-		<v-row
-			class="ma-0 py-16 px-0"
-			align="center"
-			justify="center"
-		>
-			<v-col cols="12"
-				:class="($vuetify.breakpoint.lgAndUp) ? 'shift-top-lg' : 'shift-top'"
-			>
-				<v-row class="ma-0 pa-0"
-					justify="center" align="center"
-				>
-					<about-us-preview />
-				</v-row>
-			</v-col>
-			<v-col
-				cols="12"
-			>
-				<v-card-title class="display-3 text-center py-16 blue-grey--text font-weight-bold">
-					Loved Gallery From Sachchai<span><v-icon color="blue lighten-2"
-						size="100"
-					>mdi-heart</v-icon></span>
-				</v-card-title>
-				<div class="scatter-img-col">
-					<div class="first-scatter-col">
-						<v-card width="300"
-							height="600"
-							class="one scatter-img"
-						>
-							<v-img width="300"
-								height="600"
-								src="https://wallpaperaccess.com/full/26984.jpg"
-								eager
-							/>
-						</v-card>
-						<v-card width="300"
-							height="600"
-							class="two scatter-img"
-						>
-							<v-img width="300"
-								height="600"
-								src="https://i.ibb.co/GJD0DZZ/IMG-8869.jpg"
-								eager
-							/>
-						</v-card>
-					</div>
-					<div class="second-scatter-col">
-						<v-card width="280"
-							height="500"
-							class="scatter-img three"
-						>
-							<v-img width="280"
-								height="500" src="https://i.ibb.co/92FcbRP/IMG-8862.jpg"
-								eager
-							/>
-						</v-card>
-						<v-card width="280"
-							height="500"
-							class="scatter-img
-							four"
-						>
-							<v-img width="280" eager
-								height="500" src="https://www.pixelstalk.net/wp-content/uploads/2016/07/Wallpapers-HD-1080P-3D-Download.jpg"
-							/>
-						</v-card>
-					</div>
-					<div class="last-scatter-col">
-						<v-card class="scatter-img five" width="300"
-							height="600"
-						>
-							<v-img width="300" eager
-								height="600" src="https://newevolutiondesigns.com/images/freebies/hd-wallpaper-1.jpg"
-							/>
-						</v-card>
-					</div>
+		<div style="padding: 200px;" />
+		<div class="demo-wrapper">
+			<section class="scatter-section demo-text">
+				<div class="wrapper text">
+					LOVEDGALLERYFROMUS
 				</div>
-			</v-col>
-		</v-row>
+			</section>
+			<section class="scatter-section demo-gallery">
+				<v-card class="wrapper"
+					height="340" flat
+				>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=102"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=153"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=86"
+						/>
+					</li>
+				</v-card>
+			</section>
+			<section class="scatter-section demo-gallery">
+				<ul class="wrapper">
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=16"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=185"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=67"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=102"
+						/>
+					</li>
+				</ul>
+			</section>
+			<section class="scatter-section demo-gallery">
+				<ul class="wrapper">
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=2"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=117"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=146"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=91"
+						/>
+					</li>
+				</ul>
+			</section>
+			<section class="scatter-section demo-gallery">
+				<ul class="wrapper">
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=12"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=99"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=1"
+						/>
+					</li>
+					<li>
+						<v-img height="340" eager
+							class="scatter-image"
+							src="https://source.unsplash.com/random/1240x874?sig=175"
+						/>
+					</li>
+				</ul>
+			</section>
+			<section class="scatter-section demo-text">
+				<div class="wrapper text">
+					SACHCHAIKENDRANEPAL
+				</div>
+			</section>
+			<div style="padding: 100px;" />
+		</div>
 	</v-card>
 </template>
 <script>
+import {gsap} from "gsap"
+import {ScrollTrigger} from "gsap/ScrollTrigger"
+
+
 export default {
-	name: "ScatterComponent",
-	components: {
-		AboutUsPreview: () => import("@/views/showcase/AboutUsPreview")
+	mounted() {
+		gsap.registerPlugin(ScrollTrigger);
+
+		this.initializeAnimation()
 	},
-	data: () => ({
-		// photoTwo: require("@/assets/IMG_8842.JPG")
-	})
+	methods: {
+		initializeAnimation()  {
+			document.body.style.overflow = "auto";
+			document.scrollingElement.scrollTo(0, 0);
+			gsap.to(document.querySelector(".loader"), { autoAlpha: 0 });
+
+			gsap.utils.toArray(".scatter-section").forEach((section, index) => {
+				const w = section.querySelector(".wrapper");
+				const [x, xEnd] = (index % 2) ? ["100%", (w.scrollWidth - section.offsetWidth) * -1] : [w.scrollWidth * -1, 0];
+				gsap.fromTo(w, {  x  }, {
+					x: xEnd,
+					scrollTrigger: {
+						trigger: section,
+						scrub: 1,
+						start: "top bottom"
+					}
+				});
+			});
+		}
+	}
 }
 </script>
 
-<style lang="scss" scoped>
-.scatter-img {
-	border: 2px solid #ffffff;
-	margin: 8px;
-	overflow: hidden;
+<style scoped>
+/*:root { font-size: 16px }*/
+/*@media (max-width: 500px) { :root { font-size: 14px } }*/
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
-.scatter-img-col {
+
+::selection {
+	background: #87cd33;
+	color: white;
+}
+
+body {
+	overflow: hidden;
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+
+h1 { font-size: 5rem }
+h2 { font-size: 2rem }
+
+li {
+	flex-shrink: 0;
+	width: clamp(500px, 60vw, 800px);
+	padding-right: 1rem;
+}
+
+header {height: 100vh}
+footer {height: 50vh}
+
+:any-link { color: #4e9815; }
+
+.df {display: flex}
+.aic {align-items: center}
+.jcc {justify-content: center}
+
+.loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: black;
+	color: white;
+}
+
+.demo-wrapper {
+	overflow-x: hidden;
+}
+
+.wrapper {
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	padding-left: 1rem;
+	list-style: none;
+}
+
+.demo-gallery:not(.last) {
+	padding-bottom: 1rem;
+}
+
+.demo-text .text {
+	font-size: clamp(4rem, 15vw, 8rem);
+	line-height: 1;
+	font-weight: 900;
+}
+.scatter-image {
+	border-radius: 4px;
 }
 </style>

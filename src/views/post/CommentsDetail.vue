@@ -36,7 +36,7 @@
 						:key="index"
 						class="pl-3 pr-1 comment-item"
 					>
-						<div v-if="ifWriterIsCurrentUser(item.writer.username)">
+						<div v-if="$helper.ifWriterIsCurrentUser(item.writer.username)">
 							<v-btn
 								icon
 								@click="openUpdateCommentDialog(item.comment)"
@@ -156,10 +156,6 @@ export default {
 		},
 		closeUpdateCommentDialog() {
 			this.updateCommentDialog = false
-		},
-		ifWriterIsCurrentUser(commentWriterUsername) {
-			const currentUser = this.$helper.getCurrentUser()
-			return currentUser.username === commentWriterUsername
 		},
 		async init() {
 			this.loading = true

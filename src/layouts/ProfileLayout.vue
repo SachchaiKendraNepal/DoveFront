@@ -14,7 +14,7 @@
 				class="homo-logo elevation-4"
 				size="70"
 			>
-				<span class="display-3">P</span>
+				<v-img :src="require('@/assets/showcase_logo_v1.png')" />
 			</v-avatar>
 
 			<v-spacer />
@@ -53,7 +53,7 @@
 					<template #activator="{ on, attrs }">
 						<v-avatar
 							class="bar-router-link elevation-4 mx-2"
-							color="rgb(204 144 55)"
+							color="rgb(0 81 145)"
 							v-bind="attrs"
 							v-on="on"
 							@click="routeToShowcase()"
@@ -71,7 +71,7 @@
 					<template #activator="{ on, attrs }">
 						<v-avatar
 							class="bar-router-link elevation-4 mx-2"
-							color="rgb(40 132 123)"
+							color="#2a71a9"
 							v-bind="attrs"
 							v-on="on"
 							@click="routeToFeedsPage()"

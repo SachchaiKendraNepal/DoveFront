@@ -12,18 +12,27 @@
 				justify="center" align="center"
 			>
 				<v-col cols="12">
-					<v-img :src="selectedImage"
+					<v-card dark
 						max-width="100%"
 						max-height="80vh"
-						@click.stop="closeImageDialog"
-					/>
+					>
+						<v-img
+							contain
+							:src="selectedImage"
+							max-width="100%"
+							max-height="80vh"
+							@click.stop="closeImageDialog"
+						/>
+					</v-card>
 				</v-col>
 			</v-row>
 		</v-dialog>
-		<v-card v-if="event"
+		<v-card
+			v-if="event"
 			flat
+			class="event-tab"
 		>
-			<v-card-text>
+			<v-card-text v-if="event">
 				<v-row v-if="imageURLs.length > 0"
 					no-gutters
 					justify="center"
@@ -55,7 +64,10 @@
 						</v-badge>
 					</v-col>
 				</v-row>
-				<div class="upload-image-container">
+				<div
+					v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+					class="upload-image-container"
+				>
 					<file-upload
 						id="event-image-uploader"
 						v-model="eventImagesForUpload"
@@ -92,34 +104,60 @@
 					v-for="img in event.images"
 					:key="img.id"
 					class="d-flex child-flex ma-0 pa-2 justify-center"
-					cols="12"
-					xl="3"
-					lg="3"
+					cols="7"
+					xl="4"
+					lg="4"
 					md="4"
 					sm="4"
 				>
+					<v-badge
+						v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+						bordered
+						color="red lighten-1"
+						overlap
+					>
+						<template #badge>
+							<v-icon class="badge-close" color="white"
+								@click="openAdminDeleteItemDialog(img.id, 'image')"
+							>
+								mdi-delete
+							</v-icon>
+						</template>
+						<v-img
+							:src="img.image"
+							class="event-image"
+							max-width="400"
+							height="200"
+							@click.stop="zoomImage(img.image)"
+						/>
+					</v-badge>
 					<v-img
-
+						v-else
 						:src="img.image"
-						class="grey lighten-2 event-image"
-						max-width="300"
+						class="event-image"
 						height="200"
 						@click.stop="zoomImage(img.image)"
 					/>
 				</v-col>
 			</v-row>
 		</v-card>
+		<admin-delete-item-dialog
+			model-name="event"
+			delete-action="event/deleteImage"
+		/>
 	</v-tab-item>
 </template>
 <script>
 import VueUploadComponent from "vue-upload-component"
 import {getFormData} from "@/Helper";
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
 
 export default {
 	name: "EventDetailPhotosTabContent",
 	components: {
 		FileUpload: VueUploadComponent,
 	},
+	mixins: [AdminTableDeleteItemMixin],
 	props: {
 		event: {
 			type: Object,

@@ -6,17 +6,112 @@
 			class="ma-0 pa-0"
 		>
 			<v-col
+				v-if="event['banner_images']"
 				id="cover-column"
 				cols="12"
 				class="pa-0"
 			>
-				<v-img
-					id="event-banner"
-					src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-					height="300"
-					max-width="1000"
-					class="mx-auto"
-				/>
+				<v-fade-transition>
+					<v-img
+						v-if="event['banner_images'].length > 0"
+						:src="event['banner_images'][0]['image']"
+						height="60vh"
+						max-width="1000"
+						class="mx-auto event-banner"
+					>
+						<div
+							v-if="$helper.ifWriterIsCurrentUser(event['created_by']['username'])"
+						>
+							<v-tooltip right>
+								<template #activator="{ on, attrs }">
+									<v-btn
+										v-bind="attrs"
+										fab
+										x-small
+										dark class="ma-2"
+										v-on="on"
+										@click="deleteBannerImage(event['banner_images'][0]['id'])"
+									>
+										<v-icon color="red lighten-1">
+											mdi-delete
+										</v-icon>
+									</v-btn>
+								</template>
+								<span>Remove banner</span>
+							</v-tooltip>
+						</div>
+					</v-img>
+					<div v-else-if="bannerImageToUpload.length > 0">
+						<v-img
+							id="event-banner-to-upload"
+							:src="imageURLs[0]"
+							height="60vh"
+							max-width="1000"
+							class="mx-auto event-banner"
+						>
+							<div class="d-flex align-center justify-space-between">
+								<v-tooltip right>
+									<template #activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											fab
+											x-small
+											dark class="ma-2"
+											v-on="on"
+											@click="cancelBannerUpdate"
+										>
+											<v-icon color="red lighten-1">
+												mdi-close
+											</v-icon>
+										</v-btn>
+									</template>
+									<span>Cancel</span>
+								</v-tooltip>
+								<v-tooltip left>
+									<template #activator="{ on, attrs }">
+										<v-btn
+											v-bind="attrs"
+											fab
+											x-small
+											dark class="ma-2"
+											v-on="on"
+											@click="uploadBanner"
+										>
+											<v-icon color="green lighten-1">
+												mdi-check-circle
+											</v-icon>
+										</v-btn>
+									</template>
+									<span>Set Banner</span>
+								</v-tooltip>
+							</div>
+						</v-img>
+					</div>
+					<v-img
+						v-else
+						src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+						height="60vh"
+						max-width="1000"
+						class="mx-auto event-banner"
+					>
+						<file-upload
+							v-model="bannerImageToUpload"
+							:multiple="false"
+							class="cursor-pointer"
+							@input-filter="inputFilter"
+							@input-file="inputFile"
+						>
+							<v-btn
+								class="ma-2"
+								color="transparent"
+								fab
+								x-small
+							>
+								<v-icon>mdi-pencil</v-icon>
+							</v-btn>
+						</file-upload>
+					</v-img>
+				</v-fade-transition>
 			</v-col>
 			<v-col
 				id="date-row"
@@ -129,7 +224,7 @@
 					<v-card-subtitle v-if="event.description"
 						class="event-description"
 					>
-						{{ event.description.substr(0, 150) }} <span>...</span> <span><i>See more in <code>about</code> section.</i></span>
+						{{ event.description }}
 					</v-card-subtitle>
 					<v-card-subtitle class="event-subtitle">
 						{{ $moment(event.start_date).format('MMMM Do YYYY') }} ●
@@ -142,48 +237,66 @@
 						align="center"
 					>
 						<v-card-actions>
-							<v-btn rounded small
-								color="blue-grey lighten-3"
+							<v-btn
+								:loading="interestedLoading"
+								depressed
 								@click="toggleInterestedStatus"
 							>
-								<v-icon color="blue-grey"
-									small
+								<v-icon small
+									color="purple"
+									class="px-1"
 								>
 									mdi-star-circle
 								</v-icon>
-								<span class="event-action-btn-text">Interested</span>
-								<span>({{ statistics['interested_count'] }})</span>
+								<span v-if="statistics['interested']"
+									class="button-span red--text text--lighten-1 event-action-btn-text"
+								>Remove Interest</span>
+								<span v-else
+									class="purple--text event-action-btn-text"
+								>Add Interest</span>
 							</v-btn>
 						</v-card-actions>
 						<v-card-actions>
-							<v-btn rounded small
-								:color="(event.is_approved) ? 'red lighten-3' : 'green lighten-3'"
+							<v-btn
+								:loading="approvalLoading"
+								depressed
 								@click="toggleApproval"
 							>
 								<v-icon
-									:color="(event.is_approved) ? 'red' : 'green'"
+									class="px-1"
+									color="green"
 									small
 								>
 									mdi-check-circle
 								</v-icon>
-								<span v-if="event.is_approved"
-									class="event-action-btn-text"
+								<span
+									v-if="event.is_approved"
+									class="event-action-btn-text red--text text--lighten-1"
 								>Dis-approve</span>
-								<span v-else>Approve</span>
+								<span
+									v-else
+									class="event-action-btn-text green--text text-darken-2"
+								>Approve</span>
 							</v-btn>
 						</v-card-actions>
 						<v-card-actions>
-							<v-btn rounded small
-								color="indigo lighten-3"
+							<v-btn
+								:loading="goingLoading"
+								depressed
 								@click="toggleGoingStatus"
 							>
-								<v-icon color="indigo"
+								<v-icon
+									color="indigo"
 									small
 								>
 									mdi-walk
 								</v-icon>
-								<span class="event-action-btn-text">Going</span>
-								<span>({{ statistics['going_count'] }})</span>
+								<span v-if="statistics['going']"
+									class="button-span red--text text--lighten-1 event-action-btn-text"
+								>Not Going</span>
+								<span v-else
+									class="indigo--text event-action-btn-text"
+								>I Am Going</span>
 							</v-btn>
 						</v-card-actions>
 						<v-spacer />
@@ -286,8 +399,7 @@
 							show-arrows
 							icons-and-text
 							slider-size="3"
-							slider-color="red"
-							active-class="event-detail-active-tab"
+							slider-color="primary"
 						>
 							<v-tab
 								v-for="(item, index) in eventTabItems"
@@ -305,7 +417,10 @@
 		<v-row class="ma-0 pa-0">
 			<v-card
 				max-width="1000"
-				class="mx-auto my-2"
+				class="ma-0 mx-auto my-6"
+				elevation="0"
+				color="transparent"
+				flat
 			>
 				<v-tabs-items v-model="tab">
 					<event-about-tab-content :event="event" />
@@ -314,15 +429,18 @@
 					<event-multimedia-tab-content :event="event" />
 				</v-tabs-items>
 			</v-card>
+			<div class="py-12" />
 		</v-row>
 	</div>
 </template>
 <script>
 import {mapGetters} from "vuex";
+const VueUploadComponent = require("vue-upload-component")
 
 export default {
 	name: "EventDetailView",
 	components: {
+		FileUpload: VueUploadComponent,
 		EventAboutTabContent: () => import("@/views/event/detail_tab/About"),
 		EventDiscussionsTabContent: () => import("@/views/event/detail_tab/Discussion"),
 		EventPhotosTabContent: () => import("@/views/event/detail_tab/Photos"),
@@ -330,7 +448,12 @@ export default {
 	},
 	data: () => ({
 		loading: true,
+		interestedLoading: false,
+		goingLoading: false,
+		approvalLoading: false,
 		tab: null,
+		bannerImageToUpload: [],
+		imageURLs: [],
 		eventTabItems: [
 			{ title: "about", icon: "mdi-information-variant" },
 			{ title: "discussion", icon: "mdi-account-multiple" },
@@ -352,16 +475,64 @@ export default {
 		}),
 	},
 	async created() {
+		this.$bus.on("reload", async () => await this.init())
 		await this.init()
 	},
+	beforeUnmount() {
+		this.$bus.off("reload")
+	},
 	methods: {
+		cancelBannerUpdate() {
+			console.log(this.bannerImageToUpload)
+		},
+		inputFilter(newFile, oldFile, prevent) {
+			if (newFile && !oldFile) {
+				// Filter file extension
+				if (!/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(newFile.name)) {
+					alert(`Unsupported file ${newFile.name} selected. Please select valid image file.`)
+					return prevent()
+				}
+				if (newFile.size > 4000000) {
+					alert("Please select event banner less than 4 MB.")
+					return prevent()
+				}
+			}
+		},
+		inputFile(latest) {
+			const latestFile = latest.file
+			const latestUrl = URL.createObjectURL(latestFile)
+			if (/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(latestFile.name)) {
+				this.imageURLs.push(latestUrl)
+			}
+		},
+		async uploadBanner() {
+			if (this.event) {
+				console.log(this.event.id)
+				console.log(this.bannerImageToUpload)
+				const eventId = parseInt(this.event.id)
+				try {
+					const body = this.$helper.getFormData({
+						event: eventId,
+						image: this.bannerImageToUpload[0]["file"]
+					})
+					await this.$api.post("/event-banner/", body)
+					await this.init()
+				} catch (e) {
+					this.bannerImageToUpload = []
+				}
+			}
+		},
 		async init() {
 			this.loading=true
-			const eventId = this.$route.params.id
-			await this.$store.dispatch("event/fetchSingle", { id: eventId })
-			await this.$store.dispatch("event/fetchStatistics", { id: eventId })
-			await this.$store.dispatch("event/fetchCommentsFor", { id: eventId })
-			this.loading=false
+			if (this.$route.params) {
+				this.bannerImageToUpload = []
+				this.imageURLs = []
+				const eventId = this.$route.params.id
+				await this.$store.dispatch("event/fetchSingle", {id: eventId})
+				await this.$store.dispatch("event/fetchStatistics", {id: eventId})
+				await this.$store.dispatch("event/fetchCommentsFor", {id: eventId})
+				this.loading = false
+			}
 		},
 		async openSnack(text, color="error") {
 			await this.$store.dispatch("snack/setSnackState", true)
@@ -369,28 +540,43 @@ export default {
 			await this.$store.dispatch("snack/setSnackText", text)
 		},
 		async toggleInterestedStatus() {
+			this.interestedLoading = true
 			const toggled = await this.$store.dispatch("event/toggleInterestedStatus", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.interestedLoading = false
 		},
 		async toggleGoingStatus() {
+			this.goingLoading = true
 			const toggled = await this.$store.dispatch("event/toggleGoingStatus", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.goingLoading = false
 		},
 		async toggleApproval() {
+			this.approvalLoading = true
 			const toggled = await this.$store.dispatch("event/toggleApproval", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.approvalLoading = false
 		},
+		async deleteBannerImage(bannerId) {
+			try {
+				await this.$api.delete("/event-banner/" + bannerId + "/")
+				await this.openSnack("Event banner removed.", "success")
+				await this.init()
+			} catch (e) {
+				await this.openSnack("Event banner remove failed.")
+			}
+		}
 	}
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
 #event-top-row
 	background: linear-gradient(180deg, #9575cd, #eeaaaa, #efcece, #cee7f9)
-#event-banner
-	border-radius: 0 0 10px 10px
+.event-banner
+	border-radius: 0 0 10px 10px !important
 #date-peek-box
 	margin-top: -30px
 	border: 4px solid aliceblue
@@ -418,10 +604,8 @@ export default {
 	font-size: 24px
 	font-family: 'Lemonada', serif
 	font-weight: 600 !important
-.event-detail-active-tab
-	color: #fa3e3b
 .event-action-btn-text
-	font-size: .7rem !important
+	font-size: .79rem !important
 	visibility: visible
 	opacity: 1
 	padding-left: 6px
@@ -436,6 +620,9 @@ export default {
 	max-width: 770px
 	margin: auto auto
 	text-align: center
+.event-tab
+	background: #f1cfe1 !important
+
 </style>
 <style lang="scss">
 .why-idk {

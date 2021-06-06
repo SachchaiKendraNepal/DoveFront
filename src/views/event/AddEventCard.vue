@@ -1,7 +1,6 @@
 <template>
 	<v-card
-		max-width="500"
-		class="mx-ato add-new-event"
+		class="mx-ato add-new-event ma-4"
 		color="orange lighten-4"
 	>
 		<div class="top-section">
@@ -10,6 +9,7 @@
 			>
 				<v-icon size="40"
 					class="px-1"
+					color="red lighten-1"
 				>
 					mdi-calendar-plus
 				</v-icon>
@@ -40,6 +40,13 @@ export default {
 
 <style scoped lang="scss">
 .add-new-event {
+	background-color: #FAD961;
+	background-image: linear-gradient(90deg, #FAD961 0%, #F76B1C 100%);
+
+	color: white;
+
+
+
 	margin: 20px auto;
 	border-radius: 4px !important;
 	.top-section {
@@ -48,7 +55,6 @@ export default {
 			min-height: 100px;
 			font-family: "Acme", sans-serif;
 			font-size: 1.6rem;
-			color: #686868;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -60,7 +66,6 @@ export default {
 	}
 	.bottom-section {
 		height: 70px;
-		color: #616161;
 		font-size: .875rem;
 		min-height: 70px;
 		max-width: 500px;

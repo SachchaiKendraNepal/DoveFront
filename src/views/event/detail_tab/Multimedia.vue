@@ -1,10 +1,13 @@
 <template>
 	<v-tab-item value="tab-multimedia">
-		<v-card flat>
+		<v-card
+			flat
+			class="event-tab"
+		>
 			<v-card-text class="why-idk">
 				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
 			</v-card-text>
-			<v-card-text>
+			<v-card-text v-if="event">
 				<v-row v-if="videoUrls.length>0"
 					no-gutters
 					justify="center"
@@ -70,7 +73,10 @@
 					</v-col>
 				</v-row>
 
-				<div class="upload-image-container">
+				<div
+					v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+					class="upload-image-container"
+				>
 					<file-upload
 						id="multimedia-uploader"
 						v-model="eventVideosForUpload"
@@ -85,7 +91,9 @@
 					</file-upload>
 				</div>
 			</v-card-text>
-			<v-card-text>
+			<v-card-text
+				v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+			>
 				<v-combobox
 					v-model="videoUrls"
 					class="ma-0"
@@ -120,6 +128,7 @@
 				<span class="pl-4 quick-sand-font">Event Videos</span>
 			</v-card-title>
 			<v-row
+				v-if="event.video_urls"
 				class="ma-0 pa-0"
 			>
 				<v-col v-if="event.video_urls.length === 0">
@@ -129,6 +138,7 @@
 				</v-col>
 				<youtube-play-list v-else
 					:video-urls="event.video_urls"
+					:creator="event.created_by"
 				/>
 			</v-row>
 		</v-card>
@@ -141,6 +151,7 @@ import VueUploadComponent from "vue-upload-component";
 export default {
 	name: "EventDetailMultimediaTabContent",
 	components: {
+		YoutubeIframe: () => import("@/components/YoutubeIframe"),
 		YoutubePlayList: () => import("@/components/YoutubePlayList"),
 		FileUpload: VueUploadComponent,
 	},
@@ -220,8 +231,8 @@ export default {
 </script>
 <style lang="scss">
 .video-list-name {
-	font-family: 'Stint Ultra Condensed', cursive;
-	font-size: 1.4rem;
+	font-family: 'Mate SC', serif;
+	font-size: 1.2rem;
 }
 .no-videos {
 	display: flex;

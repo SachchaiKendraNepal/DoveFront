@@ -73,6 +73,9 @@ Vue.component("CheckboxField", () =>
 Vue.component("AdminFormDetailItem", () =>
 	import("@/components/adminForm/_admin_form_detail_item")
 );
+Vue.component("NotFound", () =>
+	import("@/components/404NotFound")
+);
 
 
 Vue.prototype.$api = api

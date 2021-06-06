@@ -7,7 +7,7 @@
 			fixed
 			top
 			left
-			medium
+			small
 			max-height="65"
 			max-width="65"
 			color="#dba520"
@@ -27,9 +27,7 @@
 					fixed
 					top
 					left
-					medium
-					max-height="45"
-					max-width="45"
+					small
 					color="teal"
 					@click="logout"
 				>
@@ -45,9 +43,7 @@
 					fixed
 					top
 					left
-					medium
-					max-height="65"
-					max-width="65"
+					small
 					color="green"
 					@click="routeToRegisterPage"
 				>
@@ -93,14 +89,13 @@ export default {
 
 <style scoped lang="scss">
 .auth-panel-btn {
-	top: 80px;
+	top: 20px;
+	right: 90%;
 }
 .logout {
-	top: 150px;
-	left: 20px;
+	top: 80px;
 }
 .register {
-	top: 150px;
-	left: 20px;
+	top: 80px;
 }
 </style>

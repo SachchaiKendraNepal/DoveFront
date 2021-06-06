@@ -14,49 +14,67 @@
 			/>
 		</v-card>
 		<v-list>
-			<v-list-item v-for="(videoUrl, index) in videoUrls"
+			<v-list-item v-for="(videoUrl) in videoUrls"
 				:key="videoUrl.id"
 				@click="1"
 			>
 				<v-list-item-avatar tile>
 					<v-img class="thumbnail-radius"
-						:src="thumbnail(videoUrl.video_url)"
+						:src="videoUrl['yt_info']['thumbnail_url']"
 					/>
 				</v-list-item-avatar>
 				<v-list-item-content>
-					<div class="video-list-name">
-						Video {{ index + 1 }}
-						<!--						{{ getYTTitle(videoUrl.video_url) }} {{ index }}-->
-						<!--						{{ // titleArray[index] }}-->
+					<div class="video-list-name cursor"
+						@click="nowPlaying = videoUrl.video_url"
+					>
+						{{ videoUrl['yt_info']['title'] }}
+						<span v-if="!(nowPlaying === videoUrl.video_url)">
+							<v-icon>mdi-play</v-icon>
+						</span>
+						<span v-else>
+							<v-icon color="green">
+								mdi-play
+							</v-icon>
+						</span>
 					</div>
 				</v-list-item-content>
 				<v-list-item-action>
-					<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
-						color="red lighten-1"
-						@click="nowPlaying = videoUrl.video_url"
+					<v-btn
+						v-if="$helper.ifWriterIsCurrentUser(creator.username)"
+						class="ma-2"
+						fab
+						x-small
+						@click="openAdminDeleteItemDialog(videoUrl.id, videoUrl['yt_info']['title'])"
 					>
-						<v-icon>mdi-play</v-icon>
+						<v-icon color="error">
+							mdi-delete
+						</v-icon>
 					</v-btn>
-					<div v-else
-						class="green--text"
-					>
-						Currently Playing
-					</div>
 				</v-list-item-action>
 			</v-list-item>
 		</v-list>
+		<admin-delete-item-dialog
+			model-name="event video"
+			delete-action="event/deleteVideoUrl"
+		/>
 	</v-col>
 </template>
 
 <script>
-// const getYoutubeTitle = require("get-youtube-title")
-// import getVideoTitleCheck from "@/ytTitle"
+import Snack from "@/mixins/Snack";
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+
 export default {
 	name: "YoutubePlayList",
 	components: {
 		YoutubeIframe: () => import("@/components/YoutubeIframe")
 	},
+	mixins: [Snack, AdminTableDeleteItemMixin],
 	props: {
+		creator: {
+			type: Object,
+			required: true
+		},
 		videoUrls: {
 			type: Array,
 			required: true
@@ -71,15 +89,6 @@ export default {
 	created() {
 		if (this.videoUrls.length > 0) {
 			this.nowPlaying = this.videoUrls[0].video_url
-		}
-	},
-	methods: {
-		thumbnail(videoUrl) {
-			const youtube_video_id = this.getId(videoUrl)
-			return `//img.youtube.com/vi/${youtube_video_id}/0.jpg`
-		},
-		getId(videoUrl) {
-			return this.$helper.getVideoIdFromYoutubeURL(videoUrl)
 		}
 	}
 }

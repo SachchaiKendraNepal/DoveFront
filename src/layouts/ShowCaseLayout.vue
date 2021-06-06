@@ -21,7 +21,7 @@
 			</template>
 		</v-snackbar>
 		<auth-panel />
-		<org-info-bar />
+		<!--		<org-info-bar />-->
 		<router-view />
 		<home-footer />
 		<scroll-top
@@ -34,7 +34,7 @@ import {mapGetters} from "vuex";
 export default {
 	name: "ShowCaseLayout",
 	components: {
-		OrgInfoBar: () => import("@/views/showcase/OrgInfoBar"),
+		// OrgInfoBar: () => import("@/views/showcase/OrgInfoBar"),
 		AuthPanel: () => import("@/views/showcase/AuthPanel"),
 		ScrollTop: () => import("@/components/ScrollTop"),
 		HomeFooter: () => import("@/views/home/Footer")

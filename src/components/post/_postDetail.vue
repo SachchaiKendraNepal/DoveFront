@@ -4,6 +4,26 @@
 		:loading="loading"
 		class="mx-auto"
 	>
+		<v-toolbar dark
+			height="60"
+			class="rounded-0"
+		>
+			<v-toolbar-title>
+				{{ target.title }}
+			</v-toolbar-title>
+			<v-spacer />
+			<v-btn
+				fab
+				dark
+				x-small
+				color="grey darken-3"
+				@click="$router.push({name: 'HOME'})"
+			>
+				<v-icon>
+					mdi-arrow-left-circle
+				</v-icon>
+			</v-btn>
+		</v-toolbar>
 		<v-snackbar
 			v-model="snack"
 			top
@@ -14,20 +34,6 @@
 		>
 			{{ snackText }}
 		</v-snackbar>
-		<v-btn
-			id="go-back"
-			fab
-			dark
-			fixed
-			top
-			small
-			color="grey darken-3"
-			@click="$router.push({name: 'HOME'})"
-		>
-			<v-icon>
-				mdi-arrow-left-circle
-			</v-icon>
-		</v-btn>
 		<v-row class="ma-0 pa-0">
 			<v-col
 				cols="12"
@@ -50,9 +56,43 @@
 				<div id="magic">
 					<div id="postDetail">
 						<div class="py-2" />
-						<v-card-title class="pt-0 grey--text text--darken-3">
+						<v-card-title
+							v-if="target['uploaded_by']"
+							class="pt-0 grey--text text--darken-3"
+						>
 							{{ target.title }}
+							<span
+								v-if="$helper.getCurrentUser().username === target['uploaded_by']['username']"
+								class="edit-icon"
+							><v-icon size="22"
+								color="primary"
+								@click="openUpdateName"
+							>mdi-pencil</v-icon></span>
 						</v-card-title>
+						<v-slide-y-transition>
+							<v-text-field
+								v-if="showTitleUpdate"
+								v-model="titleToUpdate"
+								class="px-2"
+								counter="255"
+								solo
+								prepend-inner-icon="mdi-text"
+							>
+								<template #append>
+									<v-btn
+										class="send-icon-button"
+										color="indigo"
+										icon
+										x-small
+										@click="updateName"
+									>
+										<v-icon>
+											mdi-send
+										</v-icon>
+									</v-btn>
+								</template>
+							</v-text-field>
+						</v-slide-y-transition>
 						<v-divider />
 						<v-card-subtitle class="post-auth-subtitle">
 							<span>
@@ -60,13 +100,13 @@
 									class="post-auth-icon pr-1"
 								>mdi-account-circle</v-icon>
 							</span>
-							<span v-if="target.uploaded_by">{{ target.uploaded_by.username }}</span>
+							<span v-if="target['uploaded_by']">{{ target['uploaded_by']['username'] }}</span>
 							<span>
 								<v-icon size="16"
 									class="post-auth-icon pl-1"
 								>mdi-calendar-plus</v-icon>
 							</span>
-							{{ formatDate(target.uploaded_at) }}
+							{{ formatDate(target['uploaded_at']) }}
 							<span>
 								<v-icon size="16"
 									class="post-auth-icon"
@@ -75,10 +115,39 @@
 							{{ formatDate(target.approved_at) }}
 						</v-card-subtitle>
 						<v-card-text v-if="target.description"
-							class="py-0"
+							class="py-0 pb-2"
 						>
-							{{ target.description.substr(0,120) }}
+							{{ target.description }}
+							<span><v-btn
+								x-small
+								color="primary"
+								icon
+								@click="openUpdateDescription"
+							><v-icon>mdi-pencil</v-icon></v-btn></span>
 						</v-card-text>
+						<v-slide-y-transition>
+							<v-textarea
+								v-if="showDescriptionUpdate"
+								v-model="descriptionUpdate"
+								class="mx-3"
+								counter="10000"
+								auto-grow solo
+								prepend-inner-icon="mdi-text"
+							>
+								<template #append>
+									<v-btn icon
+										class="send-icon-button"
+										color="indigo"
+										x-small
+										@click="updateDescription"
+									>
+										<v-icon>
+											mdi-send
+										</v-icon>
+									</v-btn>
+								</template>
+							</v-textarea>
+						</v-slide-y-transition>
 						<v-card-text class="py-0">
 							<span>
 								<IconWithTooltip
@@ -106,7 +175,8 @@
 							</span>
 						</v-card-text>
 					</div>
-					<PostDetailActionsComponent v-if="target" :target="target"
+					<PostDetailActionsComponent
+						v-if="target" :target="target"
 						:is-article="isArticle"
 					/>
 				</div>
@@ -163,11 +233,15 @@ export default {
 		loading: false,
 		isFollower: false,
 		isMember: true,
+		showTitleUpdate: false,
+		showDescriptionUpdate: false,
 		comment: {
 			comment: null,
 			article: null,
 			multimedia: null
-		}
+		},
+		titleToUpdate: null,
+		descriptionUpdate: null,
 	}),
 	computed: {
 		...mapGetters({
@@ -183,7 +257,43 @@ export default {
 			}
 		},
 	},
+	created() {
+		console.log(this.target)
+		this.titleToUpdate = this.target.title
+		this.descriptionUpdate = this.target.description
+	},
 	methods: {
+		openUpdateName() {
+			this.showTitleUpdate = !this.showTitleUpdate
+			this.titleToUpdate = this.target.title
+		},
+		openUpdateDescription() {
+			this.showDescriptionUpdate = !this.showDescriptionUpdate
+			this.descriptionUpdate = this.target.description
+		},
+		async updatePost(body) {
+			if (this.isArticle) {
+				await this.$store.dispatch(
+					"article/patch", {
+						id: this.target.id,
+						body: body
+					}
+				)
+			} else {
+				await this.$store.dispatch(
+					"multimedia/patch", {
+						id: this.target.id,
+						body: body
+					}
+				)
+			}
+		},
+		async updateName() {
+			await this.updatePost({ title: this.titleToUpdate })
+		},
+		async updateDescription() {
+			await this.updatePost({ description: this.descriptionUpdate })
+		},
 		formatDate(date) {
 			return this.$moment(date).format("MMMM Do YYYY")
 		},
@@ -217,4 +327,7 @@ export default {
 #go-back
 	top: 80px
 	left: 1%
+.edit-icon
+	margin-top: -6px
+	padding: 0 4px 0 10px
 </style>

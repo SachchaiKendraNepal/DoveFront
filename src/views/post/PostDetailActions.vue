@@ -1,5 +1,6 @@
 <template>
 	<v-row
+		v-if="target['uploaded_by']"
 		id="post-admin-action"
 		no-gutters
 		align="center"
@@ -18,10 +19,10 @@
 					@click="togglePostLoveStatus"
 				>
 					<v-icon v-if="!extraStatus.loved">
-						mdi-heart
+						mdi-heart-outline
 					</v-icon>
 					<v-icon v-else>
-						mdi-heart-outline
+						mdi-heart
 					</v-icon>
 				</v-btn>
 			</template>
@@ -58,6 +59,24 @@
 			</template>
 			<span>Share</span>
 		</v-tooltip>
+		<v-tooltip bottom>
+			<template #activator="{on, attrs}">
+				<v-btn
+					v-if="$helper.ifWriterIsCurrentUser(target['uploaded_by']['username'])"
+					depressed
+					small
+					v-bind="attrs"
+					class="ma-2 py-6"
+					v-on="on"
+					@click="deletePost"
+				>
+					<v-icon>
+						mdi-delete-outline
+					</v-icon>
+				</v-btn>
+			</template>
+			<span>Delete</span>
+		</v-tooltip>
 		<v-tooltip
 			bottom
 		>
@@ -80,11 +99,16 @@
 			</template>
 			<span>Bookmark</span>
 		</v-tooltip>
+		<admin-delete-item-dialog model-name="post" />
 	</v-row>
 </template>
 <script>
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+import Snack from "@/mixins/Snack";
+
 export default {
 	name: "PostDetailActionsComponent",
+	mixins: [AdminTableDeleteItemMixin, Snack],
 	props: {
 		target: {
 			type: Object,
@@ -102,35 +126,38 @@ export default {
 				loved: null,
 				bookmarked: null,
 				love_count: null
-			}
+			},
+			mixinData: {}
 		}
 	},
 	async created() {
+		this.$bus.on("route-to-feeds", async () => await this.$router.push({name: "HOME"}))
 		await this.init()
+	},
+	beforeUnmount() {
+		this.$bus.off("route-to-feeds")
 	},
 	methods: {
 		async init() {
 			const postId = this.$route.params.id
-			if (this.isArticle) {
-				this.extraStatus = await this.$store.dispatch("article/fetchExtraStatus", {id: postId})
-			} else {
-				this.extraStatus = await this.$store.dispatch("multimedia/fetchExtraStatus", {id: postId})
-			}
+			const actionText = (this.isArticle) ? "article" : "multimedia"
+			this.extraStatus = await this.$store.dispatch(`${actionText}/fetchExtraStatus`, {id: postId})
 		},
 		async togglePostLoveStatus() {
-			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleLoveStatus", {id: this.target.id})
-			} else {
-				await this.$store.dispatch("multimedia/toggleLoveStatus", {id: this.target.id})
-			}
+			const actionText = (this.isArticle) ? "article" : "multimedia"
+			await this.$store.dispatch(`${actionText}/toggleLoveStatus`, {id: this.target.id})
 			await this.init()
 		},
-		async toggleBookmarkStatus() {
-			if (this.isArticle) {
-				await this.$store.dispatch("article/toggleBookmarkStatus", {id: this.target.id})
-			} else {
-				await this.$store.dispatch("multimedia/toggleBookmarkStatus", {id: this.target.id})
+		async deletePost() {
+			if(this.$helper.ifWriterIsCurrentUser(this.target["uploaded_by"]["username"])) {
+				const deleteAction = (this.isArticle) ? "article/delete" : "multimedia/delete"
+				this.openAdminDeleteItemDialog(this.target.id, this.target.title, deleteAction)
 			}
+			else await this.openSnack("You are not allowed to perform this action")
+		},
+		async toggleBookmarkStatus() {
+			const actionText = (this.isArticle) ? "article" : "multimedia"
+			await this.$store.dispatch(`${actionText}/toggleBookmarkStatus`, {id: this.target.id})
 			await this.init()
 		},
 	}
