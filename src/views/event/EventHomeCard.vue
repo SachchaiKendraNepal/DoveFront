@@ -125,7 +125,12 @@
 							@click="toggleInterestedStatus(event.id)"
 						>
 							<v-icon>mdi-star-circle</v-icon>
-							<span class="button-span">Interested</span>
+							<span v-if="eventStatistics['interested']"
+								class="button-span red--text text--lighten-1"
+							>Remove Interest</span>
+							<span v-else
+								class="green--text"
+							>Add Interest</span>
 							<span class="stat">({{ eventStatistics['interested_count'] }})</span>
 						</v-btn>
 					</v-card-actions>
@@ -136,7 +141,12 @@
 							@click="toggleGoingStatus(event.id)"
 						>
 							<v-icon>mdi-walk</v-icon>
-							<span class="button-span">Going</span>
+							<span v-if="eventStatistics['going']"
+								class="button-span red--text text--lighten-1"
+							>Not Going</span>
+							<span v-else
+								class="green--text"
+							>I Am Going</span>
 							<span class="stat">({{ eventStatistics['going_count'] }})</span>
 						</v-btn>
 					</v-card-actions>
@@ -252,7 +262,8 @@ export default {
 .stat {
 	font-family: 'Noto Sans JP', sans-serif;
 	color: #ffd76c;
-	padding: 0 2px
+	padding: 0 2px;
+	margin-top: -2px;
 }
 .chip-like {
 	background-color: grey;

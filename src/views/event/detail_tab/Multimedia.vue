@@ -1,6 +1,9 @@
 <template>
 	<v-tab-item value="tab-multimedia">
-		<v-card flat>
+		<v-card
+			flat
+			class="event-tab"
+		>
 			<v-card-text class="why-idk">
 				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
 			</v-card-text>

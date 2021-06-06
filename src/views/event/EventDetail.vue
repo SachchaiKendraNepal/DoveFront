@@ -224,7 +224,7 @@
 					<v-card-subtitle v-if="event.description"
 						class="event-description"
 					>
-						{{ event.description.substr(0, 150) }} <span>...</span> <span><i>See more in <code>about</code> section.</i></span>
+						{{ event.description }}
 					</v-card-subtitle>
 					<v-card-subtitle class="event-subtitle">
 						{{ $moment(event.start_date).format('MMMM Do YYYY') }} ●
@@ -237,48 +237,66 @@
 						align="center"
 					>
 						<v-card-actions>
-							<v-btn rounded small
-								color="blue-grey lighten-3"
+							<v-btn
+								:loading="interestedLoading"
+								depressed
 								@click="toggleInterestedStatus"
 							>
-								<v-icon color="blue-grey"
-									small
+								<v-icon small
+									color="purple"
+									class="px-1"
 								>
 									mdi-star-circle
 								</v-icon>
-								<span class="event-action-btn-text">Interested</span>
-								<span>({{ statistics['interested_count'] }})</span>
+								<span v-if="statistics['interested']"
+									class="button-span red--text text--lighten-1 event-action-btn-text"
+								>Remove Interest</span>
+								<span v-else
+									class="purple--text event-action-btn-text"
+								>Add Interest</span>
 							</v-btn>
 						</v-card-actions>
 						<v-card-actions>
-							<v-btn rounded small
-								:color="(event.is_approved) ? 'red lighten-3' : 'green lighten-3'"
+							<v-btn
+								:loading="approvalLoading"
+								depressed
 								@click="toggleApproval"
 							>
 								<v-icon
-									:color="(event.is_approved) ? 'red' : 'green'"
+									class="px-1"
+									color="green"
 									small
 								>
 									mdi-check-circle
 								</v-icon>
-								<span v-if="event.is_approved"
-									class="event-action-btn-text"
+								<span
+									v-if="event.is_approved"
+									class="event-action-btn-text red--text text--lighten-1"
 								>Dis-approve</span>
-								<span v-else>Approve</span>
+								<span
+									v-else
+									class="event-action-btn-text green--text text-darken-2"
+								>Approve</span>
 							</v-btn>
 						</v-card-actions>
 						<v-card-actions>
-							<v-btn rounded small
-								color="indigo lighten-3"
+							<v-btn
+								:loading="goingLoading"
+								depressed
 								@click="toggleGoingStatus"
 							>
-								<v-icon color="indigo"
+								<v-icon
+									color="indigo"
 									small
 								>
 									mdi-walk
 								</v-icon>
-								<span class="event-action-btn-text">Going</span>
-								<span>({{ statistics['going_count'] }})</span>
+								<span v-if="statistics['going']"
+									class="button-span red--text text--lighten-1 event-action-btn-text"
+								>Not Going</span>
+								<span v-else
+									class="indigo--text event-action-btn-text"
+								>I Am Going</span>
 							</v-btn>
 						</v-card-actions>
 						<v-spacer />
@@ -381,8 +399,7 @@
 							show-arrows
 							icons-and-text
 							slider-size="3"
-							slider-color="red"
-							active-class="event-detail-active-tab"
+							slider-color="primary"
 						>
 							<v-tab
 								v-for="(item, index) in eventTabItems"
@@ -400,7 +417,10 @@
 		<v-row class="ma-0 pa-0">
 			<v-card
 				max-width="1000"
-				class="mx-auto my-2 event-detail-tab-card"
+				class="ma-0 mx-auto my-6"
+				elevation="0"
+				color="transparent"
+				flat
 			>
 				<v-tabs-items v-model="tab">
 					<event-about-tab-content :event="event" />
@@ -428,6 +448,9 @@ export default {
 	},
 	data: () => ({
 		loading: true,
+		interestedLoading: false,
+		goingLoading: false,
+		approvalLoading: false,
 		tab: null,
 		bannerImageToUpload: [],
 		imageURLs: [],
@@ -517,19 +540,25 @@ export default {
 			await this.$store.dispatch("snack/setSnackText", text)
 		},
 		async toggleInterestedStatus() {
+			this.interestedLoading = true
 			const toggled = await this.$store.dispatch("event/toggleInterestedStatus", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.interestedLoading = false
 		},
 		async toggleGoingStatus() {
+			this.goingLoading = true
 			const toggled = await this.$store.dispatch("event/toggleGoingStatus", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.goingLoading = false
 		},
 		async toggleApproval() {
+			this.approvalLoading = true
 			const toggled = await this.$store.dispatch("event/toggleApproval", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
 			else await this.openSnack("Added interest to event failed.")
+			this.approvalLoading = false
 		},
 		async deleteBannerImage(bannerId) {
 			try {
@@ -543,7 +572,7 @@ export default {
 	}
 }
 </script>
-<style lang="sass" scoped>
+<style lang="sass">
 #event-top-row
 	background: linear-gradient(180deg, #9575cd, #eeaaaa, #efcece, #cee7f9)
 .event-banner
@@ -575,10 +604,8 @@ export default {
 	font-size: 24px
 	font-family: 'Lemonada', serif
 	font-weight: 600 !important
-.event-detail-active-tab
-	color: #fa3e3b
 .event-action-btn-text
-	font-size: .7rem !important
+	font-size: .79rem !important
 	visibility: visible
 	opacity: 1
 	padding-left: 6px
@@ -593,12 +620,9 @@ export default {
 	max-width: 770px
 	margin: auto auto
 	text-align: center
-.event-detail-tab-card
-	margin-top: 100px !important
-	margin-bottom: 100px !important
-	@media only screen and (max-width: 1000px)
-		margin-top: 20px !important
-		margin-bottom: 20px !important
+.event-tab
+	background: #f1cfe1 !important
+
 </style>
 <style lang="scss">
 .why-idk {

@@ -3,7 +3,9 @@
 		transition="fade-transition"
 		reverse-transition="fade-transition"
 	>
-		<v-card flat>
+		<v-card flat
+			class="event-tab"
+		>
 			<v-card-text class="why-idk">
 				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
 			</v-card-text>
@@ -11,6 +13,7 @@
 				v-model="myComment"
 				class="pa-4 ma-2"
 				solo
+				background-color="transparent"
 				prepend-inner-icon="mdi-comment"
 				clearable
 				label="Add your comment..."
@@ -28,7 +31,9 @@
 			<v-card-text v-show="discussions.length === 0">
 				No discussions made yet!
 			</v-card-text>
-			<v-list v-if="discussions.count > 0"
+			<v-list
+				v-if="discussions.count > 0"
+				color="transparent"
 				three-line
 			>
 				<v-list-item v-for="(item, index) in discussions.results"
@@ -192,9 +197,9 @@ export default {
 </script>
 <style scoped lang="scss">
 .comment {
-	background-color: #d9ebfa;
+	background-color: #e6bdfc;
 	border-radius: 10px;
-	padding: 10px 5px;
+	padding: 10px;
 	-webkit-line-clamp: unset !important;
 }
 .comment-date {

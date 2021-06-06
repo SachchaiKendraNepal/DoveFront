@@ -77,12 +77,18 @@ export default {
 			multimedias: "multimedia/allMultimedias"
 		})
 	},
-	async created() {
+	async mounted() {
 		await this.initialize()
 	},
 	methods: {
 		async initialize() {
 			this.loadingPosts = true
+			// only fetch if store has not any data 😎
+			if (this.articles && this.multimedias) {
+				this.loadingPosts = false
+				this.sortPostsByUploadedDate()
+				return
+			}
 			await this.$store.dispatch("article/getAllApproved")
 			await this.$store.dispatch("multimedia/getAllApproved")
 			this.sortPostsByUploadedDate()

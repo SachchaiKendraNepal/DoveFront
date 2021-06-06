@@ -102,7 +102,7 @@
 							</template>
 						</v-carousel-item>
 						<v-carousel-item
-							v-if="multimedia['multimedia_video_urls'].length > 0"
+							v-if="multimedia['multimedia_video_urls']"
 							active-class="multimedia-active-video-url"
 							transition="fade-transition"
 							reverse-transition="fade-transition"

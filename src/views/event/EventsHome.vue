@@ -135,15 +135,21 @@ export default {
 			deep: true,
 			immediate: true,
 			handler(val) {
-				if (val) this.initEvents({search: val, page: 1, is_approved: true})
+				if (val) this.initForSearch({search: val, page: 1, is_approved: true})
 			}
 		}
 	},
 	created() {
-		this.initEvents({is_approved: true})
+		this.initForCreatedEvents({is_approved: true})
 	},
 	methods: {
-		async initEvents(payload) {
+		async initForCreatedEvents(payload) {
+			this.loading = true
+			if (this.events["count"]) return
+			await this.$store.dispatch("event/filter", payload)
+			this.loading = false
+		},
+		async initForSearch(payload) {
 			this.loading = true
 			await this.$store.dispatch("event/filter", payload)
 			this.loading = false

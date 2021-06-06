@@ -27,8 +27,10 @@
 				</v-col>
 			</v-row>
 		</v-dialog>
-		<v-card v-if="event"
+		<v-card
+			v-if="event"
 			flat
+			class="event-tab"
 		>
 			<v-card-text v-if="event">
 				<v-row v-if="imageURLs.length > 0"
