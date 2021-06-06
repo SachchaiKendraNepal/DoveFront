@@ -297,11 +297,6 @@
 									:type="item.type"
 								>
 							</video>
-							<!--							<v-chip>-->
-							<!--								<a :href="item.videoUrl"-->
-							<!--									target="_blank"-->
-							<!--								>{{ item.name }}</a>-->
-							<!--							</v-chip>-->
 						</v-badge>
 					</v-col>
 				</v-row>
@@ -540,7 +535,6 @@ export default {
 				})
 				this.audios.push(latestFile)
 			} else if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
-				console.log(latestFile)
 				this.videoURLs.push({
 					playing: false,
 					video: latestFile,
@@ -627,7 +621,6 @@ export default {
 			return response
 		},
 		async showPostCreationErrorMessages() {
-			console.log(this.postCreationFormErrors)
 			if(this.postCreationFormErrors.video_url) {
 				await this.openSnack("Please add a valid youtube video url for your post")
 			}
