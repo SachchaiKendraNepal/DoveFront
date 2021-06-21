@@ -11,6 +11,7 @@ import post from "@/store/modules/post"
 import profile from "@/store/modules/profile"
 import auth from "@/store/modules/auth"
 import member from "@/store/modules/member"
+import status from "@/store/modules/status"
 
 Vue.use(Vuex)
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
 		article,
 		multimedia,
 		snack,
-		post
+		post,
+		status
 	},
 	strict: debug
 })

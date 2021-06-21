@@ -11,17 +11,28 @@
 		>
 			<template #activator="{ on, attrs }">
 				<v-btn
+					v-if="!extraStatus.loved"
 					depressed
 					small
 					class="ma-2 py-6"
 					v-bind="attrs"
 					v-on="on"
-					@click="togglePostLoveStatus"
+					@click="setLove"
 				>
-					<v-icon v-if="!extraStatus.loved">
+					<v-icon>
 						mdi-heart-outline
 					</v-icon>
-					<v-icon v-else>
+				</v-btn>
+				<v-btn
+					v-else
+					depressed
+					small
+					class="ma-2 py-6"
+					v-bind="attrs"
+					v-on="on"
+					@click="revokeLove"
+				>
+					<v-icon>
 						mdi-heart
 					</v-icon>
 				</v-btn>
@@ -82,17 +93,28 @@
 		>
 			<template #activator="{on, attrs}">
 				<v-btn
+					v-if="extraStatus.bookmarked"
 					small
 					depressed
 					class="ma-2 py-6"
 					v-bind="attrs"
 					v-on="on"
-					@click="toggleBookmarkStatus"
+					@click="removeBookmark"
 				>
-					<v-icon v-if="extraStatus.bookmarked">
+					<v-icon>
 						mdi-bookmark
 					</v-icon>
-					<v-icon v-else>
+				</v-btn>
+				<v-btn
+					v-else
+					small
+					depressed
+					class="ma-2 py-6"
+					v-bind="attrs"
+					v-on="on"
+					@click="setBookmark"
+				>
+					<v-icon>
 						mdi-bookmark-outline
 					</v-icon>
 				</v-btn>
@@ -113,11 +135,6 @@ export default {
 		target: {
 			type: Object,
 			required: true
-		},
-		isArticle: {
-			type: Boolean,
-			required: false,
-			default: false
 		}
 	},
 	data() {
@@ -140,25 +157,32 @@ export default {
 	methods: {
 		async init() {
 			const postId = this.$route.params.id
-			const actionText = (this.isArticle) ? "article" : "multimedia"
-			this.extraStatus = await this.$store.dispatch(`${actionText}/fetchExtraStatus`, {id: postId})
+			this.extraStatus = await this.$store.dispatch(
+				"multimedia/fetchMyStatus",
+				{ id: postId }
+			)
 		},
-		async togglePostLoveStatus() {
-			const actionText = (this.isArticle) ? "article" : "multimedia"
-			await this.$store.dispatch(`${actionText}/toggleLoveStatus`, {id: this.target.id})
+		async performAction(action) {
+			await this.$store.dispatch(`multimedia/${action}`, {id: this.target.id})
 			await this.init()
 		},
 		async deletePost() {
 			if(this.$helper.ifWriterIsCurrentUser(this.target["uploaded_by"]["username"])) {
-				const deleteAction = (this.isArticle) ? "article/delete" : "multimedia/delete"
-				this.openAdminDeleteItemDialog(this.target.id, this.target.title, deleteAction)
+				this.openAdminDeleteItemDialog(this.target.id, this.target.title, "multimedia/delete")
 			}
 			else await this.openSnack("You are not allowed to perform this action")
 		},
-		async toggleBookmarkStatus() {
-			const actionText = (this.isArticle) ? "article" : "multimedia"
-			await this.$store.dispatch(`${actionText}/toggleBookmarkStatus`, {id: this.target.id})
-			await this.init()
+		async setBookmark() {
+			await this.performAction("setBookmark")
+		},
+		async removeBookmark() {
+			await this.performAction("removeBookmark")
+		},
+		async setLove() {
+			await this.performAction("setLove")
+		},
+		async revokeLove() {
+			await this.performAction("revokeLove")
 		},
 	}
 }

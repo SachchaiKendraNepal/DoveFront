@@ -10,4 +10,4 @@ const AutocompleteInputChanged = {
 	}
 }
 
-export default  AutocompleteInputChanged
+export default AutocompleteInputChanged

@@ -79,8 +79,10 @@ export default {
 			const deleted = await this.$store.dispatch(this.actionText, {id: this.itemIdToDelete})
 			if (deleted) {
 				await this.openSnack(`${this.modelName} deleted successfully.`, "success")
-				if (this.$route.path.includes("article") || this.$route.path.includes("multimedia")) {
-					this.$bus.emit("route-to-feeds")
+				if (!this.$route.path.includes("admin")) {
+					if (this.$route.path.includes("article") || this.$route.path.includes("multimedia")) {
+						this.$bus.emit("route-to-feeds")
+					}
 				}
 				else {
 					this.$bus.emit("reload")

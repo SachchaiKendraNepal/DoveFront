@@ -9,7 +9,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading events..."
-			class="elevation-1 ma-6"
+			class="elevation-1 mx-4"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -24,18 +24,19 @@
 					color="grey lighten-2"
 				>
 					<v-avatar
-						class="elevation-2 mr-2"
-						size="40"
-						color="grey darken-3"
+						class="elevation-2 table-avatar"
+						size="30"
 					>
-						<v-icon size="25"
+						<v-icon
+							size="20"
 							color="white"
 						>
 							mdi-calendar-text
 						</v-icon>
 					</v-avatar>
-					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp"
-						class="d-table-title"
+					<v-toolbar-title
+						v-show="$vuetify.breakpoint.smAndUp"
+						class="pl-1 table-title"
 					>
 						Sachchai Events
 					</v-toolbar-title>

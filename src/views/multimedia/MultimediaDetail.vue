@@ -10,7 +10,7 @@
 				:target="multimedia"
 				:is-article="false"
 			>
-				<template #imageCarousel>
+				<template #media>
 					<v-carousel height="calc(100vh - 60px)"
 						dark
 						hide-delimiters
@@ -130,7 +130,7 @@
 										>
 											<v-list-item-avatar tile>
 												<v-img class="thumbnail-radius"
-													:src="thumbnail(videoUrl.video_url)"
+													:src="videoUrlThumbnail(videoUrl)"
 												/>
 											</v-list-item-avatar>
 											<v-list-item-content>
@@ -196,18 +196,15 @@ export default {
 	computed: {
 		... mapGetters({
 			multimedia: "multimedia/multimediaDetail"
-		}),
+		})
 	},
 	async created() {
 		await this.init()
 	},
 	methods: {
-		thumbnail(videoUrl) {
-			const youtube_video_id = this.getId(videoUrl)
-			return `//img.youtube.com/vi/${youtube_video_id}/0.jpg`
-		},
-		getId(videoUrl) {
-			return this.$helper.getVideoIdFromYoutubeURL(videoUrl)
+		videoUrlThumbnail(videoUrl) {
+			console.log(videoUrl)
+			return videoUrl["yt_info"]["thumbnail_url"]
 		},
 		async init() {
 			this.loading=true

@@ -18,7 +18,7 @@
 			calculate-widths
 			show-select
 			:single-select="false"
-			class="elevation-3 mx-2"
+			class="elevation-1 mx-4"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -33,14 +33,18 @@
 					color="grey lighten-2"
 				>
 					<v-avatar
-						class="elevation-2 mr-2"
-						size="40"
+						class="elevation-2 table-avatar"
+						size="30"
 					>
-						<v-icon size="30">
+						<v-icon size="20"
+							color="white"
+						>
 							mdi-city-variant
 						</v-icon>
 					</v-avatar>
-					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp"
+						class="table-title pl-1"
+					>
 						Sachchai Branches
 					</v-toolbar-title>
 					<v-divider

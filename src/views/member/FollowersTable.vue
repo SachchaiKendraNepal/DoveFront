@@ -9,7 +9,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading followers..."
-			class="elevation-1 ma-6"
+			class="elevation-1 mx-4"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -24,14 +24,19 @@
 					color="grey lighten-2"
 				>
 					<v-avatar
-						class="elevation-2 mr-2"
-						size="40"
+						class="elevation-2 table-avatar"
+						size="30"
 					>
-						<v-icon size="30">
+						<v-icon size="20"
+							color="white"
+						>
 							mdi-account-supervisor-circle
 						</v-icon>
 					</v-avatar>
-					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+					<v-toolbar-title
+						v-show="$vuetify.breakpoint.smAndUp"
+						class="table-title pl-1"
+					>
 						Sachchai Followers
 					</v-toolbar-title>
 					<v-divider

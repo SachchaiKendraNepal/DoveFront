@@ -46,7 +46,8 @@
 					:color="item.color"
 					size="22"
 					:tooltip="item.text"
-					:is-disabled="true"
+					:is-disabled="item.disabled"
+					:to="item.to"
 				/>
 			</v-card-actions>
 		</v-row>
@@ -54,6 +55,8 @@
 </template>
 
 <script>
+import {gsap} from "gsap"
+
 export default {
 	name: "AddPostBoxComponent",
 	components: {
@@ -63,15 +66,22 @@ export default {
 	emits: ["close-post-dialog"],
 	data: () => ({
 		actionButtons: [
-			{icon: "mdi-camera", text: "Images", color: "#3aaada"},
-			{icon: "mdi-music", text: "Audios", color: "#9896f2"},
-			{icon: "mdi-video", text: "Videos", color: "#009688"},
-			{icon: "mdi-calendar-text", text: "Event", color: "#c21d98"},
-			{icon: "mdi-post", text: "Write Article", color: "#ef7e37"},
+			{icon: "mdi-camera", text: "Images", color: "#3aaada", disabled: true, to: ""},
+			{icon: "mdi-music", text: "Audios", color: "#9896f2", disabled: true, to: ""},
+			{icon: "mdi-video", text: "Videos", color: "#009688", disabled: true, to: ""},
+			{icon: "mdi-calendar-text", text: "Event", color: "#c21d98", disabled: true, to: ""},
+			{icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/editor"},
 		],
 		dialog: false,
 		writePostIcon: require("@/assets/write_post_icon.jpg")
 	}),
+	mounted() {
+		gsap.from("#start-post-card", {
+			scale: 0,
+			opacity: 0,
+			duration: .5
+		})
+	},
 	methods: {
 		openStartPostBoxDialog() {
 			this.$bus.emit("open-start-post-dialog")
