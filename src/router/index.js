@@ -19,6 +19,16 @@ const routes = [
 		component: HomeLayout,
 		children: [
 			{
+				path: "/home/article/:id",
+				name: "SACHCHAI NEPAL ARTICLE",
+				component: () => import("@/components/ArticleDetail")
+			},
+			{
+				path: "editor",
+				name: "Editor",
+				component: () => import("@/views/home/Editor")
+			},
+			{
 				path: "feeds",
 				name: "HOME",
 				component: () => import("@/views/home/Home")
@@ -61,11 +71,6 @@ const routes = [
 		]
 	},
 	// Detail Views (Requires Full Page)
-	{
-		path: "/home/article/:id",
-		name: "SACHCHAI NEPAL ARTICLE",
-		component: () => import("@/views/article/ArticleDetail")
-	},
 	{
 		path: "/home/multimedia/:id",
 		name: "SACHCHAI NEPAL MULTIMEDIA",
@@ -135,19 +140,19 @@ const routes = [
 			{
 				path: "article",
 				name: "ARTICLES ADMINISTRATION",
-				component: () => import("@/views/article/Articles")
+				component: () => import("@/views/article/ArticleTable")
 			},
 			// TODO create real
 			{
 				path: "pin",
 				name: "PINS ADMINISTRATION",
-				component: () => import("@/views/article/Articles")
+				component: () => import("@/views/article/ArticleTable")
 			},
 
 			{
 				path: "multimedia",
 				name: "MULTIMEDIA ADMINISTRATION",
-				component: () => import("@/views/multimedia/Multimedias")
+				component: () => import("@/views/multimedia/MultimediaTable")
 			},
 			{
 				path: "event",
@@ -182,14 +187,14 @@ const routes = [
 		component: () => import("@/layouts/ProfileLayout"),
 		children: [
 			{
-				path: "post",
-				name: "PROFILE POSTS",
-				component: () => import("@/views/profile/PostsTab")
+				path: "event",
+				name: "PROFILE EVENTS",
+				component: () => import("@/views/profile/EventsTab")
 			},
 			{
 				path: "about",
 				name: "ABOUT ME",
-				component: () => import("@/views/profile/AboutTab")
+				component: () => import("@/views/profile/AboutMeTab")
 			},
 			{
 				path: "photo",
