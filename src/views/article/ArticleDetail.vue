@@ -59,7 +59,7 @@ export default {
 	}),
 	computed: {
 		... mapGetters({
-			article: "article/articleDetail"
+			article: "article/detail"
 		})
 	},
 	async created() {
@@ -70,7 +70,7 @@ export default {
 			this.loading = true
 			this.postId = parseInt(this.$route.params.id)
 
-			const fetched = await this.$store.dispatch("article/getSingle", {id: this.postId})
+			const fetched = await this.$store.dispatch("article/fetchSingle", {id: this.postId})
 			this.postNotAvailable = !fetched;
 			this.loading=false
 		}

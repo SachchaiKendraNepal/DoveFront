@@ -57,7 +57,7 @@
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.approval_status="{ item }">
-				<v-switch v-model="item.is_approved"
+				<v-switch v-model="item['is_approved']"
 					color="grey darken-2"
 					disabled
 				/>
@@ -69,7 +69,7 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.actions="{ item }">
 				<v-icon
-					v-if="!item.is_approved"
+					v-if="!item['is_approved']"
 					small
 					color="green"
 					class="mr-2"
@@ -92,6 +92,24 @@
 					@click="openAdminDeleteItemDialog(item.id, item.title)"
 				>
 					mdi-delete
+				</v-icon>
+				<v-icon
+					v-if="!item['is_pinned']"
+					small
+					color="primary"
+					style="transform: rotate(30deg)"
+					@click="pin(item)"
+				>
+					mdi-pin-outline
+				</v-icon>
+				<v-icon
+					v-else
+					small
+					color="primary"
+					style="transform: rotate(30deg)"
+					@click="unpin(item)"
+				>
+					mdi-pin
 				</v-icon>
 			</template>
 			<template #no-data>
@@ -144,19 +162,36 @@ export default {
 			articles: "article/list"
 		})
 	},
-	async created() {
-		await this.initialize()
-	},
 	methods: {
 		async initialize(val) {
 			this.loading = true
 			if (!val) val = 1
 			await this.$store.dispatch("article/filter", {
-				page: val
+				page: val,
+				completed_writing: true,
 			})
 			this.items = this.articles
 			this.totalItems = this.articles.count
 			this.loading = false
+		},
+		async pin(item) {
+			const res = await this.$store.dispatch("article/pin", {id: item.id})
+			if (res) {
+				await this.initialize(this.options.page)
+				await this.openSnack("Article pin success.", "success")
+			} else {
+				await this.openSnack("Article pin failed. Try again.")
+			}
+		},
+		async unpin(item) {
+			const res = await this.$store.dispatch("article/unpin", {id: item.id})
+			if (res) {
+				await this.initialize(this.options.page)
+				await this.openSnack("Article pin revoked.", "success")
+			} else {
+				await this.openSnack("Article pin revoke failed. Try again.")
+			}
+
 		}
 	}
 }
