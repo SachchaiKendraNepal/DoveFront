@@ -11,7 +11,7 @@
 				:key="item.id"
 				class="pl-0"
 			>
-				<v-avatar size="40"
+				<v-avatar size="45"
 					tile
 					class="d-flex justify-content-center ma-2 elevation-4 comment-avatar"
 					:color="colors[index % 10]"
@@ -31,7 +31,7 @@
 						<code
 							class="comment-created-at mx-1"
 						>
-							{{ item.created_at }}
+							{{ $moment(item.created_at).fromNow() }}
 						</code>
 						<v-icon small>
 							mdi-reply-circle
@@ -74,11 +74,6 @@ export default {
 		postId: {
 			type: Number,
 			required: true
-		},
-		isArticle: {
-			type: Boolean,
-			default: false,
-			required: false
 		}
 	},
 	data: () => ({
@@ -96,7 +91,6 @@ export default {
 		],
 		comment: {
 			comment: null,
-			article: null,
 			multimedia: null
 		},
 		latestCommentTime: null,
@@ -109,17 +103,10 @@ export default {
 		async init() {
 
 			let response
-			if (this.isArticle) {
-				response = await this.$store.dispatch(
-					"article/fetchCommentsForId",
-					{id: this.postId}
-				)
-			} else {
-				response = await this.$store.dispatch(
-					"multimedia/fetchCommentsForId",
-					{id: this.postId}
-				)
-			}
+			response = await this.$store.dispatch(
+				"multimedia/fetchCommentsForId",
+				{id: this.postId}
+			)
 			// only show 2 comments in comment history
 			if (response.count === 0) response = []
 			else if (response.count <= 6) response = response.results
@@ -132,15 +119,8 @@ export default {
 			}
 		},
 		async addCommentToPost() {
-			if (this.isArticle) {
-				this.comment.article = this.postId
-				delete this.comment.multimedia
-			}
-			else {
-				this.comment.multimedia = this.postId
-				delete this.comment.article
-			}
-			const posted = await this.$store.dispatch("post/postComment", {body: this.comment})
+			this.comment.multimedia = this.postId
+			const posted = await this.$store.dispatch("multimedia/postComment", { body: this.comment })
 			if (posted === true) {
 				this.comment.comment = ""
 				await this.init()

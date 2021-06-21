@@ -4,9 +4,10 @@
 		:loading="loading"
 		class="mx-auto"
 	>
-		<v-toolbar dark
+		<v-toolbar
+			dark
 			height="60"
-			class="rounded-0"
+			tile
 		>
 			<v-toolbar-title>
 				{{ target.title }}
@@ -34,40 +35,41 @@
 		>
 			{{ snackText }}
 		</v-snackbar>
-		<v-row class="ma-0 pa-0">
+		<v-row no-gutters>
 			<v-col
 				cols="12"
 				xl="9"
 				lg="9"
 				md="8"
-				class="ma-0 pa-0"
 			>
-				<slot name="imageCarousel" />
-				<slot name="videoCarousel" />
-				<slot name="audios" />
+				<slot name="media" />
 			</v-col>
 			<v-col
 				cols="12"
 				xl="3"
 				lg="3"
 				md="4"
-				class="ma-0 pa-0"
 			>
 				<div id="magic">
 					<div id="postDetail">
 						<div class="py-2" />
 						<v-card-title
 							v-if="target['uploaded_by']"
-							class="pt-0 grey--text text--darken-3"
+							class="pt-0 grey--text text--darken-3 display-1"
 						>
-							{{ target.title }}
-							<span
-								v-if="$helper.getCurrentUser().username === target['uploaded_by']['username']"
-								class="edit-icon"
-							><v-icon size="22"
-								color="primary"
-								@click="openUpdateName"
-							>mdi-pencil</v-icon></span>
+							<div>
+								{{ target.title }}
+								<v-btn icon
+									@click="openUpdateName"
+								>
+									<v-icon v-if="ifWriterIsCurrentUser"
+										size="22"
+										color="primary"
+									>
+										mdi-pencil
+									</v-icon>
+								</v-btn>
+							</div>
 						</v-card-title>
 						<v-slide-y-transition>
 							<v-text-field
@@ -97,18 +99,21 @@
 						<v-card-subtitle class="post-auth-subtitle">
 							<span>
 								<v-icon size="16"
+									color="primary"
 									class="post-auth-icon pr-1"
 								>mdi-account-circle</v-icon>
 							</span>
-							<span v-if="target['uploaded_by']">{{ target['uploaded_by']['username'] }}</span>
+							<span v-if="target['uploaded_by']">{{ writer }}</span>
 							<span>
 								<v-icon size="16"
+									color="teal"
 									class="post-auth-icon pl-1"
 								>mdi-calendar-plus</v-icon>
 							</span>
-							{{ formatDate(target['uploaded_at']) }}
+							{{ formatDate(target['timestamp']) }}
 							<span>
 								<v-icon size="16"
+									color="green"
 									class="post-auth-icon"
 								>mdi-calendar-check</v-icon>
 							</span>
@@ -148,62 +153,72 @@
 								</template>
 							</v-textarea>
 						</v-slide-y-transition>
-						<v-card-text class="py-0">
+						<v-divider />
+						<v-card-text class="py-6 d-flex justify-center align-center">
 							<span>
 								<IconWithTooltip
+									class="px-2"
 									icon="mdi-check-decagram"
-									color="green darken-1"
+									:color="(target.is_approved) ? 'green darken-1' : 'grey darken-1'"
 									tooltip="Approved"
 								/>
 								<IconWithTooltip
-									v-if="isFollower"
+									class="px-2"
 									icon="mdi-account-music"
 									color="blue darken-1"
 									tooltip="Follower"
 								/>
 								<IconWithTooltip
-									v-if="isMember"
+									v-if="ifWriterIsMember"
+									class="px-1"
 									icon="mdi-account-network"
 									color="blue darken-1"
 									tooltip="Member"
 								/>
 								<IconWithTooltip
-									icon="mdi-post"
+									class="px-2"
+									icon="mdi-video"
 									color="orange darken-3"
-									tooltip="Article"
+									tooltip="Multimedia"
 								/>
 							</span>
 						</v-card-text>
+						<v-divider />
 					</div>
 					<PostDetailActionsComponent
 						v-if="target" :target="target"
-						:is-article="isArticle"
 					/>
 				</div>
-				<slot name="comments" />
+			</v-col>
+			<v-col cols="12">
 				<v-row
 					id="post-comment-from-detail"
 					justify="center"
 					align="center"
 					class="ma-0 pa-2 alice-blue"
 				>
-					<v-text-field
-						v-model="comment.comment"
-						class="comment mr-1"
-						solo
-						placeholder="Add a comment"
-						hide-details="auto"
-						clearable
-					>
-						<template #append>
-							<v-icon class="send-icon-button"
-								color="primary"
-								@click="addCommentToPost"
-							>
-								mdi-send
-							</v-icon>
-						</template>
-					</v-text-field>
+					<v-col cols="12">
+						<slot name="comments" />
+					</v-col>
+					<v-col cols="12">
+						<v-text-field
+							v-model="comment.comment"
+							class="comment mr-1"
+							solo
+							placeholder="Add a comment"
+							hide-details="auto"
+							clearable
+						>
+							<template #append>
+								<v-icon class="send-icon-button"
+									color="primary"
+									@click="addCommentToPost"
+								>
+									mdi-send
+								</v-icon>
+							</template>
+						</v-text-field>
+					</v-col>
 				</v-row>
 			</v-col>
 		</v-row>
@@ -256,9 +271,18 @@ export default {
 				this.$store.dispatch("snack/setSnackState", v)
 			}
 		},
+		ifWriterIsCurrentUser() {
+			return this.$helper.getCurrentUser().username === this.target["uploaded_by"]["username"]
+		},
+		writer() {
+			return this.target["uploaded_by"]["username"]
+		},
+		ifWriterIsMember() {
+			const writer = this.target["uploaded_by"]
+			return writer.member !== null
+		}
 	},
 	created() {
-		console.log(this.target)
 		this.titleToUpdate = this.target.title
 		this.descriptionUpdate = this.target.description
 	},
@@ -290,9 +314,11 @@ export default {
 		},
 		async updateName() {
 			await this.updatePost({ title: this.titleToUpdate })
+			this.showTitleUpdate = false
 		},
 		async updateDescription() {
 			await this.updatePost({ description: this.descriptionUpdate })
+			this.showDescriptionUpdate = false
 		},
 		formatDate(date) {
 			return this.$moment(date).format("MMMM Do YYYY")
@@ -316,9 +342,6 @@ export default {
 <style lang="sass" scoped>
 .alice-blue
 	background-color: aliceblue
-.scrollable-y
-	height: 150px
-	overflow-y: auto
 .post-auth-icon
 	margin-top: -2px
 .post-auth-subtitle

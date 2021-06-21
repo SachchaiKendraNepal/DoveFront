@@ -26,16 +26,22 @@
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
-				<v-btn icon
-					@click="togglePinStatus"
+				<v-btn v-if="extraStatus['pinned']"
+					icon
+					@click="revokePin"
 				>
-					<v-icon v-if="extraStatus['pinned']"
+					<v-icon
 						color="indigo"
 						class="tilt-pin"
 					>
 						mdi-pin
 					</v-icon>
-					<v-icon v-else
+				</v-btn>
+				<v-btn v-else
+					icon
+					@click="setPin"
+				>
+					<v-icon
 						color="indigo"
 						class="tilt-pin"
 					>
@@ -56,14 +62,22 @@
 		>
 			<v-card-actions class="ma-0 pa-0">
 				<v-btn
+					v-if="extraStatus.loved"
 					icon
 					color="black"
-					@click="togglePostLoveStatus"
+					@click="revokeLove"
 				>
-					<v-icon v-if="extraStatus.loved">
+					<v-icon>
 						mdi-heart
 					</v-icon>
-					<v-icon v-else>
+				</v-btn>
+				<v-btn
+					v-else
+					icon
+					color="black"
+					@click="love"
+				>
+					<v-icon>
 						mdi-heart-outline
 					</v-icon>
 				</v-btn>
@@ -85,18 +99,25 @@
 			<v-spacer class="post-action-spacer" />
 			<v-card-actions class="ma-0 pa-0">
 				<v-avatar
+					v-if="!extraStatus.bookmarked"
 					v-ripple
 					tile
 					class="bookmark-avatar"
-					@click="toggleBookmarkStatus"
+					@click="setBookmark"
 				>
 					<v-img
-						v-if="!extraStatus.bookmarked"
 						:src="bookmarkImage"
 						height="70"
 					/>
+				</v-avatar>
+				<v-avatar
+					v-else
+					v-ripple
+					tile
+					class="bookmark-avatar"
+					@click="removeBookmark"
+				>
 					<v-img
-						v-else
 						:src="bookmarkedImage"
 						height="70"
 					/>
@@ -104,16 +125,11 @@
 			</v-card-actions>
 		</v-row>
 		<p v-if="extraStatus.love_count > 0"
-			class="mb-1 mx-4 love-count"
+			class="mb-0 mx-4 love-count"
 		>
-			<span>{{ extraStatus.love_count }}</span>&nbsp;Love Reacts
-			<v-icon size="20">
-				mdi-heart
-			</v-icon>
+			<span>{{ extraStatus.love_count }}</span>&nbsp;Love {{ (extraStatus.love_count > 1) ? 'Reacts' : 'React' }}
 		</p>
-		<post-comment :post-id="post.id"
-			:is-article="isArticle"
-		/>
+		<post-comment :post-id="post.id" />
 	</v-card>
 </template>
 
@@ -150,14 +166,13 @@ export default {
 	},
 	methods: {
 		async init() {
-			const actionBase = (this.isArticle) ? "article" : "multimedia"
 			this.extraStatus = await this.$store.dispatch(
-				`${actionBase}/fetchExtraStatus`,
+				"multimedia/fetchMyStatus",
 				{ id: this.post.id }
 			)
 		},
 		async performPostAction(actionText) {
-			const fullActionText = `${(this.isArticle ? "article" : "multimedia")}/${actionText}`
+			const fullActionText = `multimedia/${actionText}`
 			await this.$store.dispatch(fullActionText, {id: this.post.id})
 			await this.init()
 		},
@@ -165,14 +180,23 @@ export default {
 			const routeName = (this.isArticle) ? "SACHCHAI NEPAL ARTICLE" : "SACHCHAI NEPAL MULTIMEDIA"
 			router.push({name: routeName, params: { id: this.post.id }})
 		},
-		async togglePostLoveStatus() {
-			await this.performPostAction("toggleLoveStatus")
+		async love() {
+			await this.performPostAction("setLove")
 		},
-		async toggleBookmarkStatus() {
-			await this.performPostAction("toggleBookmarkStatus")
+		async revokeLove() {
+			await this.performPostAction("revokeLove")
 		},
-		async togglePinStatus() {
+		async setBookmark() {
+			await this.performPostAction("setBookmark")
+		},
+		async removeBookmark() {
+			await this.performPostAction("removeBookmark")
+		},
+		async setPin() {
 			await this.performPostAction("togglePinStatus")
+		},
+		async revokePin() {
+			await this.performPostAction("revokePinStatus")
 		}
 	}
 }
@@ -182,11 +206,11 @@ export default {
 .cursor
 	cursor: pointer
 .love-count
-	font-size: 14px
+	font-size: 12px
 	font-family: 'Fira Sans', sans-serif
 	font-weight: 500
 	span
-		font-size: 16px
+		font-size: 14px
 	span:hover
 		color: #c40909
 		zoom: 120%
