@@ -2,24 +2,32 @@
 	<v-card v-if="articles"
 		:loading="loading"
 		flat
-		max-width="650" class="mx-auto rounded-0"
+		tile
+		max-width="900" class="mx-auto"
 		color="transparent"
 	>
-		<div class="library-title">
-			<v-icon size="40"
-				color="red lighten-1"
+		<v-card class="ma-3 py-2"
+			tile flat
+		>
+			<v-chip-group
+				multiple
+				active-class="primary--text"
+				show-arrows
 			>
-				mdi-newspaper
-			</v-icon>
-			Articles Library
-		</div>
-		<article-post
-			v-for="post in articles"
+				<v-chip v-for="tag in tags"
+					:key="tag"
+				>
+					{{ tag }}
+				</v-chip>
+			</v-chip-group>
+		</v-card>
+		<article-card
+			v-for="post in articles.results"
 			:key="post.id"
-			:post="post"
-			:is-article="true"
-			class="mb-3"
+			:article="post"
+			class="ma-3"
 		/>
+		<div class="py-16" />
 	</v-card>
 </template>
 
@@ -29,19 +37,32 @@ import {mapGetters} from "vuex";
 export default {
 	name: "Articles",
 	components: {
-		ArticlePost: () => import("@/components/Article"),
+		ArticleCard: () => import("@/components/ArticleCard"),
 	},
 	data: () => ({
-		loading: false
+		loading: false,
+		tags: [
+			"Work",
+			"Home Improvement",
+			"Vacation",
+			"Food",
+			"Drawers",
+			"Shopping",
+			"Art",
+			"Tech",
+			"Creative Writing",
+		],
 	}),
 	computed: {
 		...mapGetters({
-			articles: "article/allArticles"
+			articles: "article/list"
 		})
 	},
 	async created() {
 		this.loading = true
-		await this.$store.dispatch("article/getAllApproved")
+		await this.$store.dispatch("article/filter", {
+			is_approved: true
+		})
 		this.loading = false
 	}
 }

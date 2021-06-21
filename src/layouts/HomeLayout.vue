@@ -83,16 +83,7 @@
 			</div>
 		</v-app-bar>
 
-		<v-snackbar
-			v-model="snack"
-			top
-			right
-			:timeout="3000"
-			:color="snackColor"
-			class="home-snack"
-		>
-			{{ snackText }}
-		</v-snackbar>
+		<the-snackbar />
 
 		<v-card
 			light
@@ -168,10 +159,12 @@
 <script>
 import router from "@/router"
 import {mapGetters} from "vuex";
+import TheSnackbar from "@/components/TheSnackbar";
 
 export default {
 	name: "SacchaiHomeLayout",
 	components: {
+		TheSnackbar,
 		ProfileDropdown: () => import("@/views/home/ProfileDropdown"),
 		UserClip: () => import("@/views/home/UserClip"),
 		HomeFooter: () => import("@/views/home/Footer"),

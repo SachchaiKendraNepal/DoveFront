@@ -1,15 +1,20 @@
 <template>
-	<div
-		class="comment-container mx-2"
+	<v-card color="transparent"
+		flat
+		:loading="loading"
 	>
 		<v-list v-if="comments"
-			class="comment-histories"
 			two-line
 			dense
 		>
-			<v-list-item v-for="(item, index) in comments"
+			<v-list-item
+				v-if="comments.results.length === 0"
+				style="border-radius: 4px;"
+			>
+				Be the first to comment!
+			</v-list-item>
+			<v-list-item v-for="(item, index) in comments.results" v-else
 				:key="item.id"
-				class="pl-0"
 			>
 				<v-avatar size="45"
 					tile
@@ -41,6 +46,16 @@
 						{{ item.comment }}
 					</v-list-item-subtitle>
 				</v-list-item-content>
+				<v-list-item-action
+					v-if="$helper.ifWriterIsCurrentUser(item.writer.username)"
+				>
+					<v-btn icon
+						color="red lighten-1"
+						@click="deleteConfirmMyComment(item)"
+					>
+						<v-icon>mdi-delete</v-icon>
+					</v-btn>
+				</v-list-item-action>
 			</v-list-item>
 		</v-list>
 		<v-divider class="my-2" />
@@ -48,8 +63,7 @@
 			<v-text-field
 				v-model="comment.comment"
 				class="comment"
-				outlined
-				dense
+				solo
 				hide-details="auto"
 				placeholder="Add a comment"
 				@keyup="submitIfEnterIsPressed"
@@ -57,26 +71,24 @@
 				<template #append>
 					<v-icon class="send-icon-button"
 						color="primary"
-						@click="addCommentToPost"
+						@click="postComment"
 					>
 						mdi-send
 					</v-icon>
 				</template>
 			</v-text-field>
 		</div>
-	</div>
+	</v-card>
 </template>
 
 <script>
+import Snack from "@/mixins/Snack";
+
 export default {
-	name: "CommentComponent",
-	props: {
-		postId: {
-			type: Number,
-			required: true
-		}
-	},
+	name: "ArticleCommentsView",
+	mixins: [Snack],
 	data: () => ({
+		loading: false,
 		colors: [
 			"#1F7087",
 			"#731231",
@@ -91,9 +103,8 @@ export default {
 		],
 		comment: {
 			comment: null,
-			multimedia: null
+			article: null
 		},
-		latestCommentTime: null,
 		comments: null
 	}),
 	async created() {
@@ -101,26 +112,23 @@ export default {
 	},
 	methods: {
 		async init() {
-
+			this.loading = true
 			let response
 			response = await this.$store.dispatch(
-				"multimedia/fetchCommentsForId",
-				{id: this.postId}
+				"article/fetchCommentsForId",
+				{ id: this.$route.params.id }
 			)
-			// only show 2 comments in comment history
-			if (response.count === 0) response = []
-			else if (response.count <= 6) response = response.results
-			else if (response.count > 6) response = response.results.slice(0, 6)
 			this.comments = response
+			this.loading = false
 		},
 		async submitIfEnterIsPressed(e) {
 			if (e.keyCode === 13) {
 				await this.addCommentToPost()
 			}
 		},
-		async addCommentToPost() {
-			this.comment.multimedia = this.postId
-			const posted = await this.$store.dispatch("multimedia/postComment", { body: this.comment })
+		async postComment() {
+			this.comment.article = this.$route.params.id
+			const posted = await this.$store.dispatch("article/postComment", { body: this.comment })
 			if (posted === true) {
 				this.comment.comment = ""
 				await this.init()
@@ -128,6 +136,20 @@ export default {
 				await this.openSnack("Internal server error. Please try again later")
 			} else {
 				await this.openSnack(posted.comment[0])
+			}
+		},
+		async deleteMyComment(item) {
+			const resp = await this.$store.dispatch("article/removeComment", {id: item.id})
+			if (resp) {
+				await this.openSnack("Your comment removed successfully.", "success")
+				await this.init()
+			} else {
+				await this.openSnack("Comment remove failed. Please try again.")
+			}
+		},
+		async deleteConfirmMyComment(item) {
+			if (this.$helper.ifWriterIsCurrentUser(item.writer.username)) {
+				confirm("Are you sure you want to delete your comment?") && await this.deleteMyComment(item)
 			}
 		}
 	}

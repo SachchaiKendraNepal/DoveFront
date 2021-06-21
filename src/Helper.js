@@ -122,4 +122,7 @@ module.exports = {
 		const currentUser = this.getCurrentUser()
 		return currentUser.username === writerUsername
 	},
+	getAccessToken() {
+		return localStorage.getItem("sachchaiAccessToken")
+	}
 }

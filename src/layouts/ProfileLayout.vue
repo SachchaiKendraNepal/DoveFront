@@ -14,7 +14,7 @@
 				class="homo-logo elevation-4"
 				size="70"
 			>
-				<v-img :src="require('@/assets/showcase_logo_v1.png')" />
+				<v-img :src="require('@/assets/smallDoveSolidLogo.png')" />
 			</v-avatar>
 
 			<v-spacer />
@@ -152,7 +152,8 @@
 					</p>
 				</div>
 			</v-col>
-			<v-col id="divider-column"
+			<v-col
+				id="divider-column"
 				cols="12"
 				class="pa-0"
 			>
@@ -286,10 +287,10 @@ export default {
 		profileDrawer: false,
 		group: null,
 		currentItem: "About",
-		logo: require("@/assets/sacchai_logo.jpg"),
+		logo: require("@/assets/peace-pegion-layered.png"),
 		profileTabItems: [
 			{icon: "mdi-information-variant", text: "About", to: "/profile/about"},
-			{icon: "mdi-post", text: "Posts", to: "/profile/post"},
+			{icon: "mdi-calendar", text: "Events", to: "/profile/event"},
 			{icon: "mdi-folder-multiple-image", text: "Photos", to: "/profile/photo"},
 			{icon: "mdi-camcorder", text: "Multimedia", to: "/profile/multimedia"}
 		],
@@ -299,7 +300,18 @@ export default {
 			{icon: "mdi-account-cog", text: "Settings", functionName: "openSettingsDialog"},
 		],
 	}),
+	created() {
+		this.init()
+	},
 	methods: {
+		init() {
+			this.loading = true
+			const userId = this.$helper.getCurrentUser().id
+			this.$store.dispatch("article/filter", { uploaded_by: userId })
+			this.$store.dispatch("multimedia/filter", { uploaded_by: userId })
+			this.$store.dispatch("event/filter", { uploaded_by: userId })
+			this.loading = false
+		},
 		routeToShowcase() {
 			router.push({name: "SACHCHAI SHOWCASE"})
 		},

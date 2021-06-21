@@ -1,22 +1,6 @@
 <template>
 	<div id="settings">
-		<v-snackbar
-			v-model="snack"
-			:timeout="3000"
-		>
-			{{ snackText }}
-
-			<template #action="{ attrs }">
-				<v-btn
-					:color="snackColor"
-					text
-					v-bind="attrs"
-					@click="snack = false"
-				>
-					Close
-				</v-btn>
-			</template>
-		</v-snackbar>
+		<the-snackbar />
 		<v-app-bar app
 			color="grey darken-4" dark
 		>
@@ -119,6 +103,32 @@
 						<v-list-item-title>{{ item.title }}</v-list-item-title>
 					</v-list-item-content>
 				</v-list-item>
+				<v-list-group
+					v-for="drawerGroup in drawerGroupItems"
+					:key="drawerGroup.name"
+					:value="false"
+				>
+					<template #prependIcon>
+						<v-icon>
+							{{ drawerGroup.icon }}
+						</v-icon>
+					</template>
+					<template #activator>
+						<v-list-item-content>
+							<v-list-item-title>{{ drawerGroup.name }}</v-list-item-title>
+						</v-list-item-content>
+					</template>
+					<v-list-item v-for="(item) in drawerGroup.items"
+						:key="item.to"
+						:to="item.to"
+						link
+					>
+						<v-list-item-icon><v-icon>{{ item.icon }}</v-icon></v-list-item-icon>
+						<v-list-item-content>
+							<v-list-item-title>{{ item.title }}</v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
+				</v-list-group>
 			</v-list>
 		</v-navigation-drawer>
 		<v-main>
@@ -146,9 +156,11 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import TheSnackbar from "@/components/TheSnackbar";
 
 export default {
 	name: "SettingsLayout",
+	components: {TheSnackbar},
 	data() {
 		return {
 			drawer: true,
@@ -156,32 +168,37 @@ export default {
 			defaultProfileImage: require("@/assets/defaultProfileImage.png"),
 			drawerItems: [
 				{ title: "Home", icon: "mdi-home", to: "/admin/home" },
-				{ title: "Followers", icon: "mdi-account-multiple", to: "/admin/follower" },
-				{ title: "Members", icon: "mdi-account-tie", to: "/admin/member" },
+				{ title: "Follower", icon: "mdi-account-multiple", to: "/admin/follower" },
+				{ title: "Member", icon: "mdi-account-tie", to: "/admin/member" },
 				{ title: "Branch", icon: "mdi-city", to: "/admin/branch" },
-				{ title: "Multimedias", icon: "mdi-video-vintage", to: "/admin/multimedia" },
-				{ title: "Articles", icon: "mdi-post", to: "/admin/article" },
-				{ title: "Pins", icon: "mdi-pin", to: "/admin/pin" },
-				{ title: "Showcase Images", icon: "mdi-image", to: "/admin/showcase-image" },
+				{ title: "Article", icon: "mdi-post", to: "/admin/article" },
+				{ title: "Multimedia", icon: "mdi-video-vintage", to: "/admin/multimedia" },
 				{ title: "Events", icon: "mdi-calendar-multiple", to: "/admin/event" },
-				{ title: "Districts", icon: "mdi-map-marker-multiple-outline", to: "/admin/district" },
 				{ title: "Ads", icon: "mdi-cash-usd", to: "/admin/ad" }
+			],
+			drawerGroupItems: [
+				{
+					name: "Showcase",
+					icon: "mdi-view-dashboard",
+					items: [
+						{ title: "Map", icon: "mdi-map-marker", to: "/admin/showcase/map" },
+						{ title: "Slider", icon: "mdi-image-move", to: "/admin/showcase/slider" },
+						{ title: "Gallery", icon: "mdi-image-multiple", to: "/admin/showcase/gallery" },
+						{ title: "About Us", icon: "mdi-information", to: "/admin/showcase/about-us" },
+						{ title: "Contact Us", icon: "mdi-phone", to: "/admin/showcase/contact" },
+					]
+				},
+				{
+					name: "Location",
+					icon: "mdi-web",
+					items: [
+						{ title: "Districts", icon: "mdi-map-marker-multiple-outline", to: "/admin/district" },
+					]
+				}
 			],
 		}
 	},
 	computed: {
-		...mapGetters({
-			snackText: "snack/snackText",
-			snackColor: "snack/snackColor"
-		}),
-		snack: {
-			get() {
-				return this.$store.state.snack.snack
-			},
-			set(v) {
-				this.$store.dispatch("snack/setSnackState", v)
-			}
-		},
 		getCurrentProfileImage() {
 			if (this.currentUser && this.currentUser.profile["profile_images"].length > 0) {
 				return this.currentUser.profile["profile_images"][0].image
@@ -231,5 +248,13 @@ export default {
 	border: 4px solid aliceblue;
 	background: aliceblue;
 	margin-top: -50px
+}
+.table-title {
+	font-size: 1rem;
+	font-weight: 500;
+}
+.table-avatar {
+	border: 2px solid #2d9494;
+	background-color: #2d9494;
 }
 </style>

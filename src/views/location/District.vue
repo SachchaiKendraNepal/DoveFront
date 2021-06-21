@@ -13,7 +13,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading districts..."
-			class="elevation-1 mx-2"
+			class="elevation-1 mx-4"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -28,14 +28,19 @@
 					color="grey lighten-2"
 				>
 					<v-avatar
-						class="elevation-2 mr-2"
-						size="40"
+						class="elevation-2 table-avatar"
+						size="30"
 					>
-						<v-icon size="30">
+						<v-icon color="white"
+							size="20"
+						>
 							mdi-map-marker-multiple-outline
 						</v-icon>
 					</v-avatar>
-					<v-toolbar-title v-show="$vuetify.breakpoint.smAndUp">
+					<v-toolbar-title
+						v-show="$vuetify.breakpoint.smAndUp"
+						class="table-title pl-1"
+					>
 						Districts
 					</v-toolbar-title>
 					<v-divider

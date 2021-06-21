@@ -70,77 +70,7 @@
 					</v-row>
 				</v-card>
 			</v-col>
-			<v-col cols="12"
-				class="pa-0"
-			>
-				<v-card-title class="stat-summary">
-					Statistics Summary
-				</v-card-title>
-			</v-col>
-			<v-card
-				v-for="(item, i) in items"
-				:key="i"
-				:color="item.color"
-				dark
-				width="310"
-				class="ma-4"
-			>
-				<div class="d-flex flex-no-wrap justify-space-between">
-					<div>
-						<v-card-title
-							class="headline"
-							v-text="item.title"
-						/>
-
-						<v-card-subtitle v-text="item.artist" />
-						<v-card-actions class="pa-0">
-							<v-btn
-								fab
-								icon
-								height="40px"
-								width="40px"
-								:disabled="['Articles', 'Multimedia'].includes(item.title)"
-								@click.stop="handle_function_call(item.add)"
-							>
-								<v-icon>mdi-plus</v-icon>
-							</v-btn>
-							<v-btn
-								fab
-								icon
-								height="40px"
-								width="40px"
-								:to="item.view"
-							>
-								<v-icon>mdi-eye</v-icon>
-							</v-btn>
-						</v-card-actions>
-					</div>
-
-					<v-avatar
-						class="ma-3 elevation-4"
-						:size="
-							$vuetify.breakpoint.smAndUp
-								? 125
-								: 80
-						"
-						tile
-						color="grey"
-						style="border-radius:10px !important;"
-					>
-						<span
-							class="white--text display-2"
-							:class="
-								$vuetify.breakpoint.smAndUp
-									? 'display-2'
-									: 'display-1'"
-						>{{ item.count }}</span>
-					</v-avatar>
-				</div>
-			</v-card>
-			<event-form-dialog />
-			<branch-form-dialog />
-			<follower-form-dialog />
-			<member-form-dialog />
+			<model-summary />
 		</v-row>
 	</v-card>
 </template>
@@ -148,69 +78,11 @@
 export default {
 	name: "SettingsHomeView",
 	components: {
-		EventFormDialog: () => import("@/views/event/EventFormDialog"),
-		BranchFormDialog: () => import("@/views/branch/BranchFormDialog"),
-		FollowerFormDialog: () => import("@/views/member/FollowersFormDialog"),
-		MemberFormDialog: () => import("@/views/member/MemberFormDialog")
+		ModelSummary: () => import("@/views/settings/ModelSummary"),
 	},
 	data: () => ({
 		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
-		currentUser: null,
-		items: [
-			{
-				color: "#1F7087",
-				count: 500,
-				title: "Followers",
-				artist: "Manage Sachchai Nepal Followers",
-				view: "/admin/follower",
-				add: "openAddFollowerFormDialog"
-			},
-			{
-				color: "#952175",
-				count: 200,
-				title: "Members",
-				artist: "Manage Sachchai Nepal Members",
-				view: "/admin/member",
-				add: "openAddMemberFormDialog"
-			},
-			{
-				color: "#cd430a",
-				count: 15,
-				title: "Branch",
-				artist: "Manage Sachchai Nepal Branches",
-				view: "/admin/branch",
-				add: "openAddBranchFormDialog"
-			},
-			{
-				color: "#057253",
-				count: 40,
-				title: "Articles",
-				artist: "Manage Sachchai Nepal Articles",
-				view: "/admin/article"
-			},
-			{
-				color: "#053f72",
-				count: 40,
-				title: "Multimedia",
-				artist: "Manage Sachchai Nepal Multimedia",
-				view: "/admin/multimedia"
-			},
-			{
-				color: "rgb(201 44 33)",
-				count: 40,
-				title: "Events",
-				artist: "Manage Sachchai Nepal Events",
-				add: "openAddEventFormDialog",
-				view: "/admin/event"
-			},
-			{
-				color: "rgb(69 26 145)",
-				count: 40,
-				title: "Ads",
-				artist: "Sachchai Nepal Advertisements",
-				view: "/admin/ad"
-			},
-		],
+		currentUser: null
 	}),
 	computed: {
 		getCurrentProfileImage() {
@@ -220,26 +92,9 @@ export default {
 			else return this.defaultProfileImage
 		}
 	},
-	created() {
+	async created() {
 		this.currentUser = this.$helper.getCurrentUser()
 	},
-	methods: {
-		handle_function_call(function_name) {
-			this[function_name]()
-		},
-		openAddBranchFormDialog() {
-			this.$bus.emit("open-branch-form-dialog-add-item")
-		},
-		openAddEventFormDialog() {
-			this.$bus.emit("open-event-form-dialog-add-item")
-		},
-		openAddFollowerFormDialog() {
-			this.$bus.emit("open-follower-form-dialog-add-item")
-		},
-		openAddMemberFormDialog() {
-			this.$bus.emit("open-member-form-dialog-add-item")
-		}
-	}
 }
 </script>
 <style lang="sass" scoped>
@@ -248,15 +103,6 @@ export default {
 	font-size: 20px
 	color: white
 	min-height: 100%
-.stat-summary
-	margin: 10px 0 0 15px
-	padding: 0
-	font-size: 22px
-	color: darkslategrey
-	font-family: "Chilanka", sans-serif
-	font-weight: bold
-	border-bottom: 1px solid grey
-	max-width: 1000px
 .profile-avatar
 	border: 4px solid gold
 	background-color: gold

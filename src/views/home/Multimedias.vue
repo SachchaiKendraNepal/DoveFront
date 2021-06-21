@@ -27,7 +27,7 @@
 import {mapGetters} from "vuex";
 
 export default {
-	name: "Articles",
+	name: "Multimedias",
 	components: {
 		MultimediaPost: () => import("@/components/Multimedia"),
 	},
@@ -37,13 +37,13 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			multimedias: "multimedia/allMultimedias"
+			multimedias: "multimedia/list"
 		})
 	},
 	async created() {
 		this.loading = true
 		await this.$store.dispatch("multimedia/getAllApproved")
-		this.posts = this.posts.concat(this.multimedias)
+		this.posts = this.posts.concat(this.multimedias.results)
 		this.loading = false
 	}
 }

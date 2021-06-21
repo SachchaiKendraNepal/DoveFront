@@ -1,4 +1,6 @@
 {
+  "base_url": "http://localhost:8000",
+  "modelStatus": "status",
   "user": {
     "list": "user",
     "detail": "user/%s",
@@ -44,29 +46,44 @@
     "addVideoUrlList": "event/%s/video-url-list"
   },
   "article": {
-    "set": "/article/",
-    "createWithList": "/create-article",
-    "toggleApproval": "/article/%s/toggle-approval",
-    "images": "/article/%s/image",
-    "toggleLove": "/article/%s/toggle-love",
-    "toggleBookmark": "/article/%s/toggle-bookmark",
-    "togglePin": "article/%s/toggle-pin-status",
-    "extraStatus": "article-status/%s",
-    "comment": "comment/?article=%s"
+    "set": "article/",
+    "detail": "article/%s/",
+    "createWithList": "create-article",
+    "toggleApproval": "article/%s/approve",
+    "images": "article/%s/image",
+    "toggleLove": "article/%s/love",
+    "toggleBookmark": "article/%s/bookmark",
+    "togglePin": "article/%s/pin",
+    "extraStatus": "article/%s/status",
+    "commentList": "article-comment/",
+    "commentDetail": "article-comment/%s/",
+    "startWriting": "start-writing",
+    "completeWriting": "article/%s/complete-writing"
+  },
+  "articleImage": {
+    "list": "article-image/",
+    "detail": "article-image/%s/",
+    "coverList": "article-cover/",
+    "coverDetail": "article-cover/%s/"
+  },
+  "articleImageUrl": {
+    "list": "article-image-url/",
+    "detail": "article-image-url/%s/"
   },
   "multimedia": {
-    "set": "/multimedia/",
-    "createWithList": "/create-multimedia",
-    "toggleApproval": "/multimedia/%s/toggle-approval",
-    "images": "/multimedia/%s/image",
-    "audios": "/multimedia/%s/audio",
-    "videos": "/multimedia/%s/video",
-    "videoUrls": "/multimedia/%s/video-url",
-    "toggleLove": "/multimedia/%s/toggle-love",
-    "toggleBookmark": "/multimedia/%s/toggle-bookmark",
-    "togglePin": "multimedia/%s/toggle-pin-status",
-    "extraStatus": "multimedia-status/%s",
-    "comment": "comment/?multimedia=%s"
+    "set": "multimedia/",
+    "createWithList": "create-multimedia",
+    "toggleApproval": "multimedia/%s/approve",
+    "images": "multimedia/%s/image",
+    "sounds": "multimedia/%s/audio",
+    "videos": "multimedia/%s/video",
+    "videoUrls": "multimedia/%s/video-url",
+    "toggleLove": "multimedia/%s/love",
+    "toggleBookmark": "multimedia/%s/bookmark",
+    "togglePin": "multimedia/%s/pin",
+    "extraStatus": "multimedia/%s/status",
+    "commentList": "multimedia-comment/",
+    "commentDetail": "multimedia-comment/%s/"
   },
   "post": {
     "comment": "comment/",

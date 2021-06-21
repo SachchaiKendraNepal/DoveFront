@@ -65,8 +65,8 @@ const mutations = {
 }
 
 const getters = {
-	allMultimedias: state => {
-		return state.multimedias.results
+	list: state => {
+		return state.multimedias
 	},
 	multimediaPostCreationFormErrors: state => {
 		return state.multimediaPostCreationFormErrors
@@ -100,6 +100,10 @@ const actions = {
 		commit("SET_MULTIMEDIAS", response)
 	},
 
+	async filter({commit}, payload) {
+		const response = await $api.getWithPayload(multimediaUrl.set, payload)
+		commit("SET_MULTIMEDIAS", response)
+	},
 
 	async getSingle({commit}, {id: id}) {
 		try {
@@ -109,9 +113,7 @@ const actions = {
 		} catch (e) {
 			return false
 		}
-
 	},
-
 
 	async getAllApproved({commit}) {
 		const response = await $api.get(multimediaUrl.set + "?is_approved=true")
@@ -163,49 +165,16 @@ const actions = {
 			return false
 		}
 	},
-
-	async fetchImagesFor({commit}, {id: id}) {
+	async disapprove({}, {id: id}) {
 		try {
-			const response = await $api.get(util.format(multimediaUrl.images, id))
-			commit("SET_MULTIMEDIA_IMAGES", response)
-			return response
+			await $api.delete(util.format(multimediaUrl.toggleApproval, id))
+			return true
 		} catch (e) {
 			return false
 		}
 	},
 
-	async fetchSoundsFor({commit}, {id: id}) {
-		try {
-			const response = await $api.get(util.format(multimediaUrl.audios, id))
-			commit("SET_MULTIMEDIA_SOUNDS", response)
-			return response
-		} catch (e) {
-			return false
-		}
-	},
-
-	async fetchVideosFor({commit}, {id: id}) {
-		try {
-			const response = await $api.get(util.format(multimediaUrl.videos, id))
-			commit("SET_MULTIMEDIA_VIDEOS", response)
-			return response
-		} catch (e) {
-			return false
-		}
-	},
-
-
-	async fetchVideoUrlsFor({commit}, {id: id}) {
-		try {
-			const response = await $api.get(util.format(multimediaUrl.videoUrls, id))
-			commit("SET_MULTIMEDIA_VIDEO_URLS", response)
-			return response
-		} catch (e) {
-			return false
-		}
-	},
-
-	async fetchExtraStatus({commit}, {id: id}) {
+	async fetchMyStatus({commit}, {id: id}) {
 		try {
 			const response = await $api.get(util.format(multimediaUrl.extraStatus, id))
 			commit("SET_MULTIMEDIA_EXTRA_STATUS", response)
@@ -215,19 +184,36 @@ const actions = {
 		}
 	},
 
-	async toggleLoveStatus({}, {id: id}) {
+	async setLove({}, {id: id}) {
 		try {
-			const response = await $api.post(util.format(multimediaUrl.toggleLove, id))
-			return !!response.success;
+			await $api.post(util.format(multimediaUrl.toggleLove, id))
+			return true;
+		} catch (e) {
+			return false
+		}
+	},
+	async revokeLove({}, {id: id}) {
+		try {
+			await $api.delete(util.format(multimediaUrl.toggleLove, id))
+			return true;
 		} catch (e) {
 			return false
 		}
 	},
 
-	async toggleBookmarkStatus({}, {id: id}) {
+	async setBookmark({}, {id: id}) {
 		try {
-			const response = await $api.post(util.format(multimediaUrl.toggleBookmark, id))
-			return !!response.success;
+			await $api.post(util.format(multimediaUrl.toggleBookmark, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async removeBookmark({}, {id: id}) {
+		try {
+			await $api.delete(util.format(multimediaUrl.toggleBookmark, id))
+			return true
 		} catch (e) {
 			return false
 		}
@@ -235,8 +221,17 @@ const actions = {
 
 	async togglePinStatus({}, {id: id}) {
 		try {
-			const response = await $api.post(util.format(multimediaUrl.togglePin, id))
-			return !!response.success;
+			await $api.post(util.format(multimediaUrl.togglePin, id))
+			return true;
+		} catch (e) {
+			return false
+		}
+	},
+
+	async revokePinStatus({}, {id: id}) {
+		try {
+			await $api.post(util.format(multimediaUrl.togglePin, id))
+			return true;
 		} catch (e) {
 			return false
 		}
@@ -244,28 +239,41 @@ const actions = {
 
 	async fetchCommentsForId({}, {id: id}) {
 		try {
-			return await $api.getWithPayload(urls.post.comment, {multimedia: id})
+			return await $api.getWithPayload(urls.multimedia.commentList, {multimedia: id})
 		} catch (e) {
 			return false
 		}
 	},
 
-	async getYTVideoTitle({}, {id: id}) {
-		const DEFAULT_KEY = Buffer.from("QUl6YVN5QjBRNGdUaG1zMkp0LTZTZ01ZajR1ZFlLZlZmWE5zcmNj", "base64") + ""
-
-		let url = "https://www.googleapis.com/youtube/v3/videos"
-
+	async postComment({}, {body: body}) {
 		try {
-			const response = await $api.getWithPayload(url, {
-				key: DEFAULT_KEY,
-				part: "snippet",
-				id: id
-			})
-			return response.items[0]["snippet"].title
+			await $api.post(urls.multimedia.commentList, body)
+			return true
 		} catch (e) {
-			return "Video"
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				return e.response.data
+			}
+			return 500
 		}
+	},
 
+	async updateComment({}, {id: id, comment: comment}) {
+		try{
+			await $api.patch(util.format(urls.multimedia.commentDetail, id), {comment: comment})
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async deleteComment({}, {id: id}) {
+		try {
+			await $api.delete(util.format(urls.multimedia.commentDetail, id))
+			return true
+		} catch (e) {
+			return false
+		}
 	}
 }
 

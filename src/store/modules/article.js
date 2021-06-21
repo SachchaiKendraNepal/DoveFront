@@ -7,22 +7,14 @@ const articleUrl = urls.article
 
 export const SET_ARTICLES = "SET_ARTICLES"
 export const SET_ARTICLE = "SET_ARTICLE"
-export const SET_ARTICLE_POST_CREATION_FORM_ERRORS = "SET_ARTICLE_POST_CREATION_FORM_ERRORS"
+export const SET_FORM_ERRORS = "SET_FORM_ERRORS"
 export const SET_ARTICLE_IMAGES = "SET_ARTICLE_IMAGES"
 export const SET_ARTICLE_EXTRA_STATUS = "SET_ARTICLE_EXTRA_STATUS"
 
-const defaultArticlePostCreationFormErrors = {
-	image: null,
-	title: null,
-	description: null
-}
-
 const state = {
 	articles: {},
-	article: {},
-	articlePostCreationFormErrors: {
-		... defaultArticlePostCreationFormErrors
-	},
+	article: null,
+	formErrors: {},
 	articleImages: {},
 	articleExtraStatus: {}
 }
@@ -34,7 +26,7 @@ const mutations = {
 	[SET_ARTICLE](state, value) {
 		state.article = value
 	},
-	[SET_ARTICLE_POST_CREATION_FORM_ERRORS](state, value) {
+	[SET_FORM_ERRORS](state, value) {
 		state.articlePostCreationFormErrors = value
 	},
 	[SET_ARTICLE_IMAGES](state, value) {
@@ -46,69 +38,40 @@ const mutations = {
 }
 
 const getters = {
-	allArticles: state => {
-		return state.articles.results
-	},
-	articleDetail: state => {
-		return state.article
-	},
-	articlePostCreationFormErrors: state => {
-		return state.articlePostCreationFormErrors
-	},
-	allArticleImages: state => {
-		return state.articleImages.data
-	},
-	articleExtraStatusDetail: state => {
-		return state.articleExtraStatus
-	}
+	list: state => state.articles,
+	detail: state => state.article,
+	formErrors: state => state.formErrors
 }
 
 const actions = {
-	clearArticlePostCreationFormErrors({ commit }) {
-		commit("SET_ARTICLE_POST_CREATION_FORM_ERRORS", { ... defaultArticlePostCreationFormErrors })
+	clearFormErrors({ commit }) {
+		commit("SET_FORM_ERRORS", {})
 	},
-	async getAll({commit}) {
-		const response = await $api.get(articleUrl.set)
+
+	async filter({commit}, payload) {
+		const response = await $api.getWithPayload(articleUrl.set, payload)
 		commit("SET_ARTICLES", response)
 	},
 
-	async getSingle({ commit }, {id: id}) {
+	async fetchSingle({ commit }, {id: id}) {
 		try {
-			const response = await $api.get(articleUrl.set + id)
+			const response = await $api.get(util.format(articleUrl.detail, id))
 			commit("SET_ARTICLE", response)
 			return true
 		} catch (e) {
-			return false
-		}
-	},
-
-	async getAllApproved({commit}) {
-		const response = await $api.get(articleUrl.set + "?is_approved=true")
-		commit("SET_ARTICLES", response)
-	},
-
-	async createArticlePost({commit}, body) {
-		try {
-			const resp = await $api.post(articleUrl.createWithList, body)
-			return !!resp.success;
-		} catch (e) {
-			const status = parseInt(e.response.status.toString())
-			if (status === 400 || status === 404) {
-				commit("SET_ARTICLE_POST_CREATION_FORM_ERRORS", e.response.data)
-			}
 			return false
 		}
 	},
 
 	async patch({commit}, {id: id, body: body}) {
 		try {
-			const response = await $api.put(articleUrl.set + id + "/", body)
+			const response = await $api.patch(articleUrl.set + id + "/", body)
 			commit("SET_ARTICLE", response)
 			return true
 		} catch (e) {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {
-				commit("SET_ARTICLE_POST_CREATION_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
@@ -132,48 +95,92 @@ const actions = {
 		}
 	},
 
-	async fetchImagesForArticle({commit}, {id: id}) {
+	async fetchMyStatus({}, {id: id}) {
 		try {
-			const response = await $api.get(util.format(articleUrl.images, id))
-			commit("SET_ARTICLE_IMAGES", response)
-			return response
+			return await $api.get(util.format(articleUrl.extraStatus, id))
 		} catch (e) {
 			return false
 		}
 	},
 
-	async fetchExtraStatus({commit}, {id: id}) {
+	async disapprove({}, {id: id}) {
 		try {
-			const response = await $api.get(util.format(articleUrl.extraStatus, id))
-			commit("SET_ARTICLE_EXTRA_STATUS", response)
-			return response
+			await $api.delete(util.format(articleUrl.toggleApproval, id))
+			return true
 		} catch (e) {
 			return false
 		}
 	},
 
-	async toggleLoveStatus({}, {id: id}) {
+	async pin({}, {id: id}) {
+		console.log(id)
 		try {
-			const response = await $api.post(util.format(articleUrl.toggleLove, id))
-			return !!response.success;
+			await $api.post(util.format(articleUrl.togglePin, id))
+			return true
 		} catch (e) {
 			return false
 		}
 	},
 
-	async toggleBookmarkStatus({}, {id: id}) {
+	async unpin({}, {id: id}) {
 		try {
-			const response = await $api.post(util.format(articleUrl.toggleBookmark, id))
-			return !!response.success;
+			await $api.delete(util.format(articleUrl.togglePin, id))
+			return true
 		} catch (e) {
 			return false
 		}
 	},
 
-	async togglePinStatus({}, {id: id}) {
+	async love({}, {id: id}) {
 		try {
-			const response = await $api.post(util.format(articleUrl.togglePin, id))
-			return !!response.success;
+			await $api.post(util.format(articleUrl.toggleLove, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async unsetLove({}, {id: id}) {
+		try {
+			await $api.delete(util.format(articleUrl.toggleLove, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async bookmark({}, {id: id}) {
+		try {
+			await $api.post(util.format(articleUrl.toggleBookmark, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async revokeBookmark({}, {id: id}) {
+		try {
+			await $api.delete(util.format(articleUrl.toggleBookmark, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async startWriting({commit}) {
+		try {
+			const response = await $api.post(articleUrl.startWriting)
+			commit("SET_ARTICLE", response)
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+
+	async completeWriting({commit}, {id: id}) {
+		try {
+			await $api.post(util.format(articleUrl.completeWriting, id))
+			return true
 		} catch (e) {
 			return false
 		}
@@ -181,7 +188,48 @@ const actions = {
 
 	async fetchCommentsForId({}, {id: id}) {
 		try {
-			return await $api.getWithPayload(urls.post.comment, {article: id})
+			return await $api.getWithPayload(articleUrl.commentList, {article: id})
+		} catch (e) {
+			return false
+		}
+	},
+	async removeComment({}, {id: id}) {
+		try {
+			await $api.delete(util.format(articleUrl.commentDetail, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async postComment({}, {body: body}) {
+		try {
+			await $api.post(articleUrl.commentList, body)
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400) {
+				return e.response.data
+			}
+			return false
+		}
+	},
+
+	async addCoverImage({}, body) {
+		try {
+			await $api.post(urls.articleImage.coverList, body)
+			return true
+		} catch (e) {
+			const status = parseInt(e.response.status.toString())
+			if (status === 400 || status === 404) {
+				return e.response.data
+			}
+			return false
+		}
+	},
+	async deleteCover({}, {id: id}) {
+		try {
+			await $api.delete(util.format(urls.articleImage.coverDetail, id))
+			return true
 		} catch (e) {
 			return false
 		}
