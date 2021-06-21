@@ -32,51 +32,10 @@
 						<profile-photos-tab />
 					</v-tab-item>
 					<v-tab-item class="multimedia-info-tab-item">
-						<v-card flat>
-							<v-card-title class="pb-0">
-								My Videos
-							</v-card-title>
-							<v-row justify="start"
-								align="center"
-							>
-								<v-col
-									v-for="(item, keyring) in multimediaVideos"
-									:key="keyring"
-									cols="12"
-									xl="6"
-									lg="6"
-									md="6"
-								>
-									<!--									<vue-player-->
-									<!--										:v-model="item.playing"-->
-									<!--										:src="item.videoUrl"-->
-									<!--										:poster="item.videoPosterImageUrl"-->
-									<!--										:title="item.videoPosterTitle"-->
-									<!--										class="mx-4 my-3"-->
-									<!--									/>-->
-								</v-col>
-							</v-row>
-						</v-card>
+						<my-multimedia />
 					</v-tab-item>
 					<v-tab-item class="articles-tab-item">
-						<v-card flat
-							class="ma-4"
-						>
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-						</v-card>
-					</v-tab-item>
-					<v-tab-item class="bookmarks-tab-item">
-						<v-card flat
-							class="ma-4"
-						>
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-							<article-post :post="articlePost" />
-						</v-card>
+						<my-articles />
 					</v-tab-item>
 				</v-tabs>
 			</v-card>
@@ -108,67 +67,32 @@
 export default {
 	name: "ProfileAboutTabView",
 	components: {
+		MyArticles: () => import("@/views/profile/MyArticles"),
+		MyMultimedia: () => import("@/views/profile/MyMultimedia"),
 		MyPersonalInfo: () => import("@/views/profile/MyPersonalInfo"),
 		MyBranchInfo: () => import("@/views/profile/MyBranchInfo"),
 		ProfilePhotosTab: () => import("@/views/profile/ProfilePhotosTab"),
 		TabItemCard: () => import("@/components/ProfileTabItem"),
-		ArticlePost: () => import("@/components/Article"),
 	},
 	data: () => ({
 		patchDialog: false,
 		textToUpdate: null,
 		fieldToUpdate: null,
 
-
-
-		multimediaVideos: [
-			{
-				id: 1,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-				duration: null
-			},
-			{
-				id: 2,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-				duration: null
-			},
-			{
-				id: 3,
-				playing: false,
-				videoUrl: "http://techslides.com/demos/sample-videos/small.mp4",
-				videoPosterImageUrl: "https://i.ytimg.com/vi/ilqTywuUon8/movieposter.jpg",
-				videoPosterTitle: "ALICE IN THE WONDERLAND",
-				duration: null
-			}
-		],
 		profileAboutTabItems: [
 			{text: "Personal", icon: "mdi-account-circle"},
 			{text: "Branch", icon: "mdi-city"},
 			{text: "Photos", icon: "mdi-camera-front-variant"},
 			{text: "Multimedia", icon: "mdi-surround-sound"},
 			{text: "Articles", icon: "mdi-format-text-variant"},
-			{text: "Bookmarks", icon: "mdi-bookmark"}
 		],
-		currentActiveTab: "Personal",
 		locationItems: [
 			{icon: "mdi-city", field: "Branch", value: "Pokhara Kendra Branch"},
 			{icon: "mdi-account-cowboy-hat", field: "Position", value: "Leader"},
 			{icon: "mdi-check-bold", field: "Status", value: "Approved"},
 			{icon: "mdi-calendar-check", field: "Approved at", value: "Nov 3 2012"},
 			{icon: "mdi-account-check", field: "Approved by", value: "Bot589"},
-		],
-		articlePost: {
-			id: 1,
-			title: "Our Changing Planet",
-			author: "Kurt Wagner",
-			description: "Visit ten places on our planet that are undergoing the biggest changes today."
-		},
+		]
 	})
 }
 </script>
