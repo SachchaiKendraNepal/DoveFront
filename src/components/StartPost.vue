@@ -141,7 +141,7 @@
 							clearable
 							auto-grow
 							hide-details="auto"
-							counter="10000"
+							counter="2048"
 							placeholder="Write something about your activity, Kiran!"
 							:error-messages="postCreationFormErrors.description"
 						/>
@@ -300,8 +300,8 @@
 						</v-badge>
 					</v-col>
 				</v-row>
-				<v-row v-if="audios.length > 0"
-					id="audio-preview-pane"
+				<v-row v-if="sounds.length > 0"
+					id="sound-preview-pane"
 					justify="space-around"
 					align="center"
 					class="ma-0 pa-0 px-4 pb-3"
@@ -311,10 +311,10 @@
 							<span><v-icon size="20"
 								class="mb-1"
 							>mdi-music</v-icon></span>
-							AUDIO PREVIEW PANE
+							SOUND PREVIEW PANE
 						</p>
 					</v-col>
-					<v-col v-for="(item, index) in audioURLs" :key="index"
+					<v-col v-for="(item, index) in soundURLs" :key="index"
 						cols="3"
 						class="ma-2 d-flex justify-center"
 					>
@@ -328,7 +328,7 @@
 							<template #badge>
 								<v-icon
 									x-small
-									@click="removeAudio(index)"
+									@click="removeSound(index)"
 								>
 									mdi-close
 								</v-icon>
@@ -448,7 +448,7 @@ export default {
 		playing: false,
 		flexButtonsFile: [
 			{icon: "mdi-camera", tooltip: "Upload photo", color: "#3aaada"},
-			{icon: "mdi-music", tooltip: "Upload audio", color: "#9896f2"},
+			{icon: "mdi-music", tooltip: "Upload sound", color: "#9896f2"},
 			{icon: "mdi-video", tooltip: "Add video url", color: "#009688"},
 		],
 		flexButtonsTag:
@@ -461,12 +461,12 @@ export default {
 			description: "",
 		},
 		images: [],
-		audios: [],
+		sounds: [],
 		videos: [],
 		video_urls: [],
 		// fields to show uploaded look on UI
 		imageURLs: [],
-		audioURLs: [],
+		soundURLs: [],
 		videoURLs: [],
 		video_URLs: [],
 		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
@@ -479,7 +479,7 @@ export default {
 	computed: {
 		...mapGetters({
 			multimediaPostCreationFormErrors: "multimedia/multimediaPostCreationFormErrors",
-			articlePostCreationFormErrors: "article/articlePostCreationFormErrors"
+			articlePostCreationFormErrors: "article/formErrors"
 		}),
 		getCurrentProfileImage() {
 			const currentUser = this.$helper.getCurrentUser()
@@ -500,18 +500,18 @@ export default {
 	methods: {
 		async resetPostForm() {
 			await this.$store.dispatch("multimedia/clearMultimediaPostCreationFormErrors")
-			await this.$store.dispatch("article/clearArticlePostCreationFormErrors")
+			await this.$store.dispatch("article/clearFormErrors")
 			this.post = {
 				title: "",
 				description: "",
 			}
 			this.images = []
-			this.audios = []
+			this.sounds = []
 			this.videos = []
 			this.video_urls = []
 			// fields to show uploaded look on UI
 			this.imageURLs = []
-			this.audioURLs = []
+			this.soundURLs = []
 			this.videoURLs = []
 			this.video_URLs = []
 		},
@@ -527,13 +527,13 @@ export default {
 				this.imageURLs.push(latestUrl)
 				this.images.push(latestFile)
 			} else if (/\.(mp3)$/i.test(latestFile.name)) {
-				this.audioURLs.push({
+				this.soundURLs.push({
 					title: "Kiran Parajuli",
 					artist: "KIRAN",
 					src: latestUrl,
 					pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
 				})
-				this.audios.push(latestFile)
+				this.sounds.push(latestFile)
 			} else if (/\.(webm|mp4|mpeg|flv)$/i.test(latestFile.name)) {
 				this.videoURLs.push({
 					playing: false,
@@ -581,9 +581,9 @@ export default {
 			this.videoURLs.splice(index, 1)
 			this.videos.splice(index, 1)
 		},
-		removeAudio(index) {
-			this.audios.splice(index, 1)
-			this.audioURLs.splice(index, 1)
+		removeSound(index) {
+			this.sounds.splice(index, 1)
+			this.soundURLs.splice(index, 1)
 		},
 		closeDialog() {
 			this.resetPostForm()
@@ -597,7 +597,7 @@ export default {
 			// create a multimedia
 			const body = await getFormData({
 				...this.post,
-				audio: this.audios,
+				sound: this.sounds,
 				image: this.images,
 				video: this.videos,
 				video_url: this.video_urls
@@ -608,18 +608,6 @@ export default {
 			}
 			return response
 		},
-		async createArticle() {
-			// create an article
-			const body = getFormData({
-				...this.post,
-				image: this.images
-			})
-			const response = await this.$store.dispatch("article/createArticlePost", body)
-			if (response === false) {
-				this.postCreationFormErrors = this.articlePostCreationFormErrors
-			}
-			return response
-		},
 		async showPostCreationErrorMessages() {
 			if(this.postCreationFormErrors.video_url) {
 				await this.openSnack("Please add a valid youtube video url for your post")
@@ -627,8 +615,8 @@ export default {
 			if(this.postCreationFormErrors.video) {
 				await this.openSnack(this.postCreationFormErrors.video[0])
 			}
-			if(this.postCreationFormErrors.audio) {
-				await this.openSnack(this.postCreationFormErrors.audio[0])
+			if(this.postCreationFormErrors.sound) {
+				await this.openSnack(this.postCreationFormErrors.sound[0])
 			}
 			if(this.postCreationFormErrors.image) {
 				await this.openSnack(this.postCreationFormErrors.image[0])
@@ -639,15 +627,11 @@ export default {
 		},
 		async makeMultimedia() {
 			let response
-			if (this.video_urls.length > 0 || this.videos.length > 0) {
-				response = await this.createMultimedia()
-			} else {
-				response = await this.createArticle()
-			}
+			response = await this.createMultimedia()
 			if (response === false) {
 				await this.showPostCreationErrorMessages()
 			}
-			if (response === true) {
+			else {
 				this.closeDialog()
 				await this.resetPostForm()
 				await this.openSnack("Your post is added successfully. An admin approval will make your post visible.", "success")
