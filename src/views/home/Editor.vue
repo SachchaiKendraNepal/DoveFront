@@ -14,7 +14,7 @@
 			<v-toolbar flat>
 				<v-app-bar-nav-icon style="font-size: 1.4rem;">
 					<v-avatar>
-						<v-img :src="require('@/assets/startWriting.png')" />
+						<v-img :src="require('@/assets/start_writing.png')" />
 					</v-avatar>
 				</v-app-bar-nav-icon>
 				<v-toolbar-title class="pl-1 start-writing">
@@ -223,7 +223,7 @@ export default {
 	}),
 	computed: {
 		getTopImage() {
-			return require("@/assets/uploadImage.png")
+			return require("@/assets/upload_image_icon.png")
 		},
 		...mapGetters({
 			onGoingArticle: "article/detail"

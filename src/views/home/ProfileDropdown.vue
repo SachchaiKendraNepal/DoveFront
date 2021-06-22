@@ -95,7 +95,7 @@
 <script>
 export default {
 	data: () => ({
-		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		og_items: [{ text: "Home", icon: "mdi-home", to: "/home/feeds" }],
 		my_items: [{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/about"}],
 		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],

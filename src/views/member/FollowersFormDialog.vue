@@ -232,7 +232,7 @@ export default {
 	name: "FollowerFormDialog",
 	mixins: [AdminCreateEditFormMixin, Snack],
 	data: () => ({
-		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		userData: null,
 		profileData: null,
 		editedItem: {

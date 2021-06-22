@@ -81,7 +81,7 @@ export default {
 		ModelSummary: () => import("@/views/settings/ModelSummary"),
 	},
 	data: () => ({
-		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		currentUser: null
 	}),
 	computed: {

@@ -469,7 +469,7 @@ export default {
 		soundURLs: [],
 		videoURLs: [],
 		video_URLs: [],
-		defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		postCreationFormErrors: {
 			title: null,
 			description: null,

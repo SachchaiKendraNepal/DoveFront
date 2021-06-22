@@ -72,7 +72,7 @@ export default {
 		return {
 			overlay: false,
 			resetPwPage: {
-				image: require("@/assets/forgetPassword.png"),
+				image: require("@/assets/forget_password.png"),
 				pageIcon: "mdi-lock-reset",
 				title: "Reset your password",
 				subtitle: "Provide <b>username / email</b> to reset your password. <br/> Reset password link will be sent to your email address."

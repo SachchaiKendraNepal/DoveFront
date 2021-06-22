@@ -3,25 +3,30 @@
 		class="overflow-hidden rounded-0"
 	>
 		<v-app-bar
-			id="home-app-bar"
 			dark
 			fixed
-			height="auto"
-			color="rgb(43 112 167)"
+			height="100"
+			color="rgb(104 179 230)"
 		>
-			<v-avatar
-				color="#1e6cab"
-				class="homo-logo elevation-4"
-				size="70"
+			<v-app-bar-nav-icon light />
+			<div class="px-2" />
+			<v-card
+				flat
+				color="transparent"
+				height="55"
+				width="55"
 			>
-				<v-img :src="require('@/assets/smallDoveSolidLogo.png')" />
-			</v-avatar>
-
+				<v-img
+					contain
+					height="55"
+					width="55"
+					:src="require('@/assets/peace-pegion.png')"
+				/>
+			</v-card>
 			<v-spacer />
-
 			<v-card
 				light
-				color="rgb(88 171 237)"
+				color="rgb(180 218 247)"
 				class="elevation-12 top-tab-wrapper"
 			>
 				<v-tabs
@@ -40,52 +45,53 @@
 					>
 						{{ item.text }}
 						<v-icon
-							size="30"
+							size="22"
 						>
 							{{ item.icon }}
 						</v-icon>
 					</v-tab>
 				</v-tabs>
 			</v-card>
-
-			<div class="d-flex align-center">
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-avatar
-							class="bar-router-link elevation-4 mx-2"
-							color="rgb(0 81 145)"
-							v-bind="attrs"
-							v-on="on"
-							@click="routeToShowcase()"
+			<v-spacer />
+			<v-tooltip bottom>
+				<template #activator="{ on, attrs }">
+					<v-btn
+						small
+						fab
+						color="blue lighten-1"
+						v-bind="attrs"
+						v-on="on"
+						@click="routeToShowcase()"
+					>
+						<v-icon small
+							dark
 						>
-							<v-icon size="24"
-								color="grey lighten-3"
-							>
-								mdi-view-dashboard
-							</v-icon>
-						</v-avatar>
-					</template>
-					<span>Showcase</span>
-				</v-tooltip>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-avatar
-							class="bar-router-link elevation-4 mx-2"
-							color="#2a71a9"
-							v-bind="attrs"
-							v-on="on"
-							@click="routeToFeedsPage()"
+							mdi-view-dashboard
+						</v-icon>
+					</v-btn>
+				</template>
+				<span>Showcase</span>
+			</v-tooltip>
+			<div class="px-1" />
+			<v-tooltip bottom>
+				<template #activator="{ on, attrs }">
+					<v-btn
+						fab
+						small
+						color="#287bbd"
+						v-bind="attrs"
+						v-on="on"
+						@click="routeToFeedsPage()"
+					>
+						<v-icon small
+							dark
 						>
-							<v-icon size="24"
-								color="grey lighten-3"
-							>
-								mdi-post
-							</v-icon>
-						</v-avatar>
-					</template>
-					<span>Feeds Page</span>
-				</v-tooltip>
-			</div>
+							mdi-post
+						</v-icon>
+					</v-btn>
+				</template>
+				<span>Feeds Page</span>
+			</v-tooltip>
 		</v-app-bar>
 		<v-card
 			light

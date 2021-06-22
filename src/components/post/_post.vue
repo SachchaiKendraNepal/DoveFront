@@ -98,30 +98,20 @@
 			</v-card-actions>
 			<v-spacer class="post-action-spacer" />
 			<v-card-actions class="ma-0 pa-0">
-				<v-avatar
+				<v-btn
 					v-if="!extraStatus.bookmarked"
-					v-ripple
-					tile
-					class="bookmark-avatar"
+					icon
 					@click="setBookmark"
 				>
-					<v-img
-						:src="bookmarkImage"
-						height="70"
-					/>
-				</v-avatar>
-				<v-avatar
+					<v-icon>mdi-bookmark-outline</v-icon>
+				</v-btn>
+				<v-btn
 					v-else
-					v-ripple
-					tile
-					class="bookmark-avatar"
+					icon
 					@click="removeBookmark"
 				>
-					<v-img
-						:src="bookmarkedImage"
-						height="70"
-					/>
-				</v-avatar>
+					<v-icon>mdi-bookmark</v-icon>
+				</v-btn>
 			</v-card-actions>
 		</v-row>
 		<p v-if="extraStatus.love_count > 0"
@@ -153,8 +143,6 @@ export default {
 		}
 	},
 	data: () => ({
-		bookmarkImage: require("@/assets/bookmark-ribbon.png"),
-		bookmarkedImage: require("@/assets/bookmarked-ribbon.png"),
 		extraStatus: {
 			loved: null,
 			bookmarked: null,

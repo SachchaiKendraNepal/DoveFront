@@ -41,7 +41,7 @@ export default {
 		return {
 			en: true,
 			overlay: false,
-			banner: require("@/assets/sacchai_banner_v1.jpg"),
+			banner: require("@/assets/sacchai_banner.jpg"),
 			footer: require("@/assets/sacchai_banner_foot_reprised.jpg")
 		}
 	}

@@ -71,14 +71,14 @@ export default {
 	data: () => ({
 		kendra: [
 			{
-				image: require("@/assets/KendraPramukh.jpg"),
+				image: require("@/assets/kendra_pramukh.jpg"),
 				name: "Prakash Sir",
 				position: "Kendra Pramukh",
 				contact: "+977-9843565897",
 				branch: "Sachchai Kendra Nepal, Lamachaur"
 			},
 			{
-				image: require("@/assets/KendraSahaPramukh.jpg"),
+				image: require("@/assets/kendra_saha_pramukh.jpg"),
 				name: "Sushila Maam",
 				position: "Kendra Saha Pramukh",
 				contact: "+977-9843565147",

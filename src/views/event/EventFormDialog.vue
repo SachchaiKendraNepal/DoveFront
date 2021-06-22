@@ -409,7 +409,7 @@ export default {
 		}),
 		getBannerImage() {
 			if (this.editedItem.banner) return this.editedItem.banner
-			else return require("@/assets/defaultEventImage.jpeg")
+			else return require("@/assets/default_event_image.jpeg")
 		}
 	},
 

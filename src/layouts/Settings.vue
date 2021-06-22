@@ -165,7 +165,7 @@ export default {
 		return {
 			drawer: true,
 			currentUser: null,
-			defaultProfileImage: require("@/assets/defaultProfileImage.png"),
+			defaultProfileImage: require("@/assets/default_profile_image.png"),
 			drawerItems: [
 				{ title: "Home", icon: "mdi-home", to: "/admin/home" },
 				{ title: "Follower", icon: "mdi-account-multiple", to: "/admin/follower" },

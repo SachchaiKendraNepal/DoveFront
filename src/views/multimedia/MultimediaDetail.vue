@@ -203,7 +203,6 @@ export default {
 	},
 	methods: {
 		videoUrlThumbnail(videoUrl) {
-			console.log(videoUrl)
 			return videoUrl["yt_info"]["thumbnail_url"]
 		},
 		async init() {
