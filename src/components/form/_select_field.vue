@@ -12,7 +12,7 @@
 			:type="type"
 			autocomplete="off"
 			hide-details="auto"
-			:prepend-inner-icon="prependInnerIcon"
+			:prepend-inner-icon="icon"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
 		/>
@@ -49,7 +49,7 @@ export default {
 			type: Array,
 			required: true,
 		},
-		prependInnerIcon: {
+		icon: {
 			type: String,
 			required: true
 		},

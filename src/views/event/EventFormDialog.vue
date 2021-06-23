@@ -203,7 +203,7 @@
 						v-model="editedItem.title"
 						label="title"
 						name="title"
-						prepend-inner-icon="mdi-form-textbox"
+						icon="mdi-form-textbox"
 						:errors="formErrors"
 					/>
 					<text-area
@@ -212,7 +212,7 @@
 						auto-grow
 						label="description"
 						name="description"
-						prepend-inner-icon="mdi-script-text"
+						icon="mdi-script-text"
 						:errors="formErrors"
 					/>
 					<branch-field
@@ -227,7 +227,7 @@
 						label="Type of event"
 						name="type"
 						:select-items="eventTypeOptions"
-						prepend-inner-icon="mdi-call-merge"
+						icon="mdi-call-merge"
 						:errors="formErrors"
 					/>
 					<text-field
@@ -235,7 +235,7 @@
 						label="Contact"
 						type="number"
 						name="contact"
-						prepend-inner-icon="mdi-phone-classic"
+						icon="mdi-phone-classic"
 						:errors="formErrors"
 					/>
 					<admin-form-group-title
@@ -244,7 +244,7 @@
 					/>
 					<date-picker-field
 						v-model="editedItem.start_date"
-						prepend-inner-icon="mdi-calendar"
+						icon="mdi-calendar"
 						label="Start Date"
 						name="start_date"
 						:errors="formErrors"
@@ -254,7 +254,7 @@
 						label="Duration"
 						name="duration"
 						hint="This is the number of days the event will go on."
-						prepend-inner-icon="mdi-av-timer"
+						icon="mdi-av-timer"
 						:errors="formErrors"
 					/>
 					<select-field
@@ -263,7 +263,7 @@
 						label="Time Of Day"
 						name="time_of_day"
 						:select-items="timeOfDayOptions"
-						prepend-inner-icon="mdi-white-balance-sunny"
+						icon="mdi-white-balance-sunny"
 						:errors="formErrors"
 					/>
 					<admin-form-group-title
@@ -275,7 +275,7 @@
 						v-model="editedItem.venue"
 						label="Venue"
 						name="venue"
-						prepend-inner-icon="mdi-home-roof"
+						icon="mdi-home-roof"
 						hint="Where is the event going to be organized?"
 						:errors="formErrors"
 					/>

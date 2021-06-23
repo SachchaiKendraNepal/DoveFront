@@ -17,6 +17,7 @@
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>

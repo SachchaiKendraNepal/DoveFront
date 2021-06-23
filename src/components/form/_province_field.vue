@@ -15,6 +15,7 @@
 			:error-messages="getErrorMessage"
 			prepend-inner-icon="mdi-office-building-marker-outline"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
