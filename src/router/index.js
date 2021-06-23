@@ -221,6 +221,16 @@ const routes = [
 				name: "LOCATION",
 				component: () => import("@/views/profile/LocationInfo")
 			},
+			{
+				path: "branch",
+				name: "MY BRANCH",
+				component: () => import("@/views/profile/MyBranchInfo")
+			},
+			{
+				path: "membership",
+				name: "MEMBERSHIP INFORMATION",
+				component: () => import("@/views/profile/Membership")
+			},
 		],
 	},
 ]

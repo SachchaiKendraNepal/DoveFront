@@ -78,7 +78,7 @@ export default {
 		items: [
 			{text: "Location", icon: "mdi-map-marker", to: "/profile/location"},
 			{text: "Branches", icon: "mdi-city", to: "/profile/branch"},
-			{text: "Settings", icon: "mdi-camera-front-variant", to: "/profile/setting"},
+			{text: "Membership", icon: "mdi-camera-front-variant", to: "/profile/membership"},
 			{text: "Feedbacks", icon: "mdi-surround-sound", to: "/profile/feedback"},
 			{text: "Contributions", icon: "mdi-bird", to: "/profile/contribution"},
 		],
