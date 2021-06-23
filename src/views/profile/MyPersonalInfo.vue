@@ -1,42 +1,14 @@
 <template>
 	<v-card flat>
-		<v-list two-line>
-			<v-list-item-group
-				v-for="(item, i) in personalItems"
-				:key="i"
-			>
-				<v-list-item>
-					<v-list-item-icon v-show="
-						$vuetify.breakpoint.width > 405
-					"
-					>
-						<v-icon
-							color="indigo"
-						>
-							{{ item.icon }}
-						</v-icon>
-					</v-list-item-icon>
-
-					<v-list-item-content>
-						<v-list-item-title class="wrap-title">
-							{{ item.value }}
-						</v-list-item-title>
-						<v-list-item-subtitle>{{ item.field }}</v-list-item-subtitle>
-					</v-list-item-content>
-				</v-list-item>
-				<v-divider
-					v-if="i < personalItems.length - 1"
-					:key="i"
-					inset
-				/>
-			</v-list-item-group>
-		</v-list>
+		<profile-list :items="personalItems" />
 	</v-card>
 </template>
 
 <script>
+import ProfileList from "@/components/ProfileList";
 export default {
 	name: "MyPersonalInfo",
+	components: {ProfileList},
 	data: () => ({
 	}),
 	computed: {
@@ -69,7 +41,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

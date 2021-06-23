@@ -216,6 +216,11 @@ const routes = [
 				name: "EDIT DETAIL",
 				component: () => import("@/views/profile/EditProfile")
 			},
+			{
+				path: "location",
+				name: "LOCATION",
+				component: () => import("@/views/profile/LocationInfo")
+			},
 		],
 	},
 ]

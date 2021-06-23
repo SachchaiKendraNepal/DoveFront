@@ -145,6 +145,12 @@ export default {
 	}),
 	created() {
 		this.init()
+		this.$bus.on("close-sidebar", () => {
+			this.mini = true
+		})
+	},
+	beforeUnmount() {
+		this.$bus.off("close-sidebar")
 	},
 	methods: {
 		init() {

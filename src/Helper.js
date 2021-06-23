@@ -98,6 +98,13 @@ module.exports = {
 	getCurrentUser() {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
+	getCurrentProfileImage() {
+		const currentUser = this.getCurrentUser()
+		if (currentUser && currentUser.profile["profile_images"].length > 0) {
+			return currentUser.profile["profile_images"][0].image
+		}
+		else return false
+	},
 	isUserLoggedIn() {
 		const currentUser = this.getCurrentUser()
 		return typeof currentUser === "object";

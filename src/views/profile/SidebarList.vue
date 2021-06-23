@@ -5,9 +5,21 @@
 				class="px-2"
 				style="height: 80px;"
 			>
-				<v-list-item-avatar>
-					<v-img src="https://randomuser.me/api/portraits/men/85.jpg" />
+				<v-list-item-avatar v-if="$helper.getCurrentProfileImage()">
+					<v-img
+						:src="$helper.getCurrentProfileImage()"
+					/>
 				</v-list-item-avatar>
+				<v-list-item-avatar
+					v-else
+					color="blue"
+					class="ma-0 pa-0 d-flex justify-center"
+				>
+					<span class="headline white--text">
+						{{ $helper.getCurrentUser().username[0].toUpperCase() }}
+					</span>
+				</v-list-item-avatar>
+				<div class="px-2" />
 
 				<v-list-item-title>
 					<h4>{{ $helper.getCurrentUser().username }}</h4>
@@ -26,15 +38,14 @@
 				<v-list-item v-for="(p, index) in personalInformation"
 					:key="index"
 					:to="p.to"
+					@click="$bus.emit('close-sidebar')"
 				>
 					<v-list-item-icon>
 						<v-icon size="22">
 							{{ p.icon }}
 						</v-icon>
 					</v-list-item-icon>
-					<v-list-item-title class="nav-link"
-						@click="$bus.emit('open-edit-profile-dialog')"
-					>
+					<v-list-item-title class="nav-link">
 						{{ p.text }}
 					</v-list-item-title>
 				</v-list-item>
@@ -43,6 +54,8 @@
 				v-for="item in items"
 				:key="item.text"
 				link
+				:to="item.to"
+				@click="$bus.emit('close-sidebar')"
 			>
 				<v-list-item-icon>
 					<v-icon>{{ item.icon }}</v-icon>
@@ -63,11 +76,11 @@ export default {
 	name: "SidebarList",
 	data: () => ({
 		items: [
-			{text: "Location", icon: "mdi-map-marker"},
-			{text: "Branches", icon: "mdi-city"},
-			{text: "Settings", icon: "mdi-camera-front-variant"},
-			{text: "Feedbacks", icon: "mdi-surround-sound"},
-			{text: "Contributions", icon: "mdi-bird"},
+			{text: "Location", icon: "mdi-map-marker", to: "/profile/location"},
+			{text: "Branches", icon: "mdi-city", to: "/profile/branch"},
+			{text: "Settings", icon: "mdi-camera-front-variant", to: "/profile/setting"},
+			{text: "Feedbacks", icon: "mdi-surround-sound", to: "/profile/feedback"},
+			{text: "Contributions", icon: "mdi-bird", to: "/profile/contribution"},
 		],
 		personalInformation: [
 			{text: "About", icon: "mdi-information-variant", to: "/profile/home"},

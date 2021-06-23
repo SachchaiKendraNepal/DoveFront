@@ -4,12 +4,11 @@
 		min-height="100vh"
 		:loading="loading"
 	>
-		<div class="py-8" />
 		<v-row v-if="currentUser"
 			class="ma-0 pa-0"
 		>
-			<AdminFormGroupTitle icon="mdi-account-circle"
-				text="Update Follower Information"
+			<profile-form-header icon="mdi-account-circle"
+				title="Update Your Information"
 			/>
 			<text-field
 				v-model="currentUser.first_name"
@@ -44,8 +43,8 @@
 				:errors="followerFormErrors"
 				@change="patchFollower({ email: currentUser.email })"
 			/>
-			<AdminFormGroupTitle icon="mdi-face"
-				text="Update Profile Information"
+			<profile-form-header icon="mdi-face"
+				title="Update Profile Information"
 			/>
 			<text-field
 				v-model="currentUser.profile.contact"
@@ -73,9 +72,9 @@
 				:errors="formErrors"
 				@change="patchProfile({ birth_date: profile.birth_date })"
 			/>
-			<admin-form-group-title
+			<profile-form-header
 				icon="mdi-map-marker"
-				text="Location Information"
+				title="Location Information"
 			/>
 			<text-field v-model="profile.home_town"
 				label="Home town" name="home_town"
@@ -151,9 +150,11 @@
 import {mapGetters} from "vuex";
 import Snack from "@/mixins/Snack";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
+import ProfileFormHeader from "@/components/_profile_form_header";
 
 export default {
 	name: "ChangePassword",
+	components: {ProfileFormHeader},
 	mixins: [Snack],
 	props: {
 		value: Boolean
