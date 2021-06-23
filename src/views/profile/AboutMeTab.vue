@@ -11,27 +11,6 @@
 		>
 			<my-personal-info />
 		</v-card>
-		<v-dialog v-model="patchDialog"
-			dark
-		>
-			<v-card max-width="600">
-				<v-card-text>
-					<v-text-field
-						v-model="textToUpdate"
-						hide-details
-						solo
-					>
-						<template #append>
-							<v-btn class="send-icon-btn">
-								<v-icon color="primary">
-									mdi-send
-								</v-icon>
-							</v-btn>
-						</template>
-					</v-text-field>
-				</v-card-text>
-			</v-card>
-		</v-dialog>
 	</v-card>
 </template>
 <script>
@@ -43,19 +22,7 @@ export default {
 		ProfileRow,
 		HeaderToolbar,
 		MyPersonalInfo: () => import("@/views/profile/MyPersonalInfo"),
-	},
-	data: () => ({
-		patchDialog: false,
-		textToUpdate: null,
-		fieldToUpdate: null,
-		locationItems: [
-			{icon: "mdi-city", field: "Branch", value: "Pokhara Kendra Branch"},
-			{icon: "mdi-account-cowboy-hat", field: "Position", value: "Leader"},
-			{icon: "mdi-check-bold", field: "Status", value: "Approved"},
-			{icon: "mdi-calendar-check", field: "Approved at", value: "Nov 3 2012"},
-			{icon: "mdi-account-check", field: "Approved by", value: "Bot589"},
-		]
-	})
+	}
 }
 </script>
 <style lang="sass" scoped>
