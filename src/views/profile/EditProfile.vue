@@ -5,7 +5,9 @@
 		:loading="loading"
 	>
 		<div class="py-8" />
-		<v-row class="ma-0 pa-0">
+		<v-row v-if="currentUser"
+			class="ma-0 pa-0"
+		>
 			<AdminFormGroupTitle icon="mdi-account-circle"
 				text="Update Follower Information"
 			/>
@@ -15,7 +17,7 @@
 				name="first_name"
 				icon="mdi-format-text"
 				:errors="followerFormErrors"
-				@change="updateFollower"
+				@change="patchFollower({ first_name: currentUser.first_name })"
 			/>
 			<text-field
 				v-model="currentUser.last_name"
@@ -23,7 +25,7 @@
 				name="last_name"
 				icon="mdi-format-text"
 				:errors="followerFormErrors"
-				@change="updateFollower"
+				@change="patchFollower({ last_name: currentUser.last_name })"
 			/>
 			<text-field
 				v-model="currentUser.username"
@@ -31,7 +33,7 @@
 				name="username"
 				icon="mdi-account-circle"
 				:errors="followerFormErrors"
-				@change="updateFollower"
+				@change="patchFollower({ username: currentUser.username })"
 			/>
 			<text-field
 				v-model="currentUser.email"
@@ -40,19 +42,19 @@
 				name="email"
 				icon="mdi-at"
 				:errors="followerFormErrors"
-				@change="updateFollower"
+				@change="patchFollower({ email: currentUser.email })"
 			/>
 			<AdminFormGroupTitle icon="mdi-face"
 				text="Update Profile Information"
 			/>
 			<text-field
-				v-model="profile.contact"
+				v-model="currentUser.profile.contact"
 				type="number"
 				label="Contact"
 				name="contact"
 				icon="mdi-phone"
 				:errors="formErrors"
-				@change="updateProfile"
+				@change="patchProfile({ contact: profile.contact })"
 			/>
 			<text-area
 				v-model="profile.bio"
@@ -61,7 +63,7 @@
 				counter="1024"
 				icon="mdi-text-account"
 				:errors="formErrors"
-				@change="updateProfile"
+				@change="patchProfile({ bio: profile.bio })"
 			/>
 			<date-picker-field
 				v-model="profile.birth_date"
@@ -69,7 +71,7 @@
 				name="birth_date"
 				icon="mdi-cake-variant"
 				:errors="formErrors"
-				@change="updateProfile"
+				@change="patchProfile({ birth_date: profile.birth_date })"
 			/>
 			<admin-form-group-title
 				icon="mdi-map-marker"
@@ -79,45 +81,68 @@
 				label="Home town" name="home_town"
 				icon="mdi-home-map-marker"
 				counter="64"
-				@change="updateProfile"
+				:errors="formErrors"
+				@change="patchProfile({ home_town: profile.home_town })"
 			/>
 			<country-field
 				id="country"
 				v-model="profile.country"
+				:province="profile.province"
 				:errors="formErrors"
-				@change="updateProfile"
+				@change="patchProfile({country: profile.country })"
 			/>
 			<province-field
 				id="province"
 				v-model="profile.province"
+				:country="profile.country"
+				:district="profile.district"
 				:errors="formErrors"
-				@change="updateProfile"
+				@change="patchProfile({ province: profile.province })"
 			/>
 			<district-field
 				v-model="profile.district"
+				:province="profile.province"
+				:municipality="profile.municipality"
+				:vdc="profile.vdc"
 				:errors="formErrors"
+				@change="patchProfile({ district: profile.district })"
 			/>
 			<municipality-field
 				v-model="profile.municipality"
+				:district="profile.district"
+				:ward="profile.municipality_ward"
+				:vdc="profile.vdc"
 				:errors="formErrors"
+				@change="patchProfile({ municipality: profile.municipality })"
 			/>
 			<municipality-ward-field
 				v-model="profile.municipality_ward"
+				:municipality="profile.municipality"
+				:vdc="profile.vdc"
 				:errors="formErrors"
+				@change="patchProfile({ municipality_ward: profile.municipality_ward })"
 			/>
 			<vdc-field
 				v-model="profile.vdc"
+				:district="profile.district"
+				:ward="profile.vdc_ward"
+				:municipality="profile.municipality"
 				:errors="formErrors"
+				@change="patchProfile({ vdc: profile.vdc })"
 			/>
 			<vdc-ward-field
 				v-model="profile.vdc_ward"
+				:municipality="profile.municipality"
+				:vdc="profile.vdc"
 				:errors="formErrors"
+				@change="patchProfile({ vdc_ward: profile.vdc_ward })"
 			/>
 			<text-field v-model="profile.current_city"
 				label="Current city" name="current_city"
 				icon="mdi-map-marker-radius"
 				counter="64"
-				@change="updateProfile"
+				:errors="formErrors"
+				@change="patchProfile({ current_city: profile.current_city })"
 			/>
 		</v-row>
 	</v-card>
@@ -125,6 +150,7 @@
 <script>
 import {mapGetters} from "vuex";
 import Snack from "@/mixins/Snack";
+import CountryAutocomplete from "@/mixins/CountryAutocomplete";
 
 export default {
 	name: "ChangePassword",
@@ -134,14 +160,16 @@ export default {
 	},
 	data: () => ({
 		loading: null,
-		currentUser: null,
 		profile: {},
 	}),
 	computed: {
 		...mapGetters({
 			formErrors: "profile/updateFormErrors",
-			followerFormErrors: "user/userCreateFormErrors"
-		})
+			followerFormErrors: "user/userCreateFormErrors",
+		}),
+		currentUser() {
+			return this.$helper.getCurrentUser()
+		}
 	},
 	async created() {
 		await this.init()
@@ -149,22 +177,31 @@ export default {
 	methods: {
 		async init() {
 			this.loading=true
-			this.currentUser = this.$helper.getCurrentUser()
 			this.profile = { ...this.currentUser.profile}
-			if (this.profile.contact) this.profile.contact = this.profile.contact.substring(4)
+			if (this.currentUser.profile.contact) {
+				this.currentUser.profile.contact = this.currentUser.profile.contact.substring(4)
+			}
 			this.loading=false
 		},
-		async updateFollower() {
+		async patchProfile(body) {
+			this.loading = true
+			const res = await this.$store.dispatch("profile/update", {
+				id: this.currentUser.id,
+				body: body,
+				myProfile: true
+			})
+			await this.openSnack("Profile updated successfully.", "success")
+			if (res === true) {
+				await this.openSnack("Profile updated successfully.", "success")
+			} else if (res === false) await this.openSnack("Profile updated failed. Try again.")
+			else await this.openSnack("Please fill valid data.")
+			this.loading = false
+		},
+		async patchFollower(body) {
 			this.loading=true
-			const patchData = {
-				username: this.currentUser.username,
-				first_name: this.currentUser.first_name,
-				last_name: this.currentUser.last_name,
-				email: this.currentUser.email
-			}
 			const res = await this.$store.dispatch("user/update", {
 				id: this.currentUser.id,
-				body: patchData,
+				body: body,
 				myProfile: true
 			})
 			if (res === true) {
@@ -178,23 +215,13 @@ export default {
 			const patchData = {
 				contact: this.profile.contact,
 				bio: this.profile.bio,
-				birth_date: this.profile.birth_date,
-				country: this.profile.country,
-				province: this.profile.province,
-				district: this.profile.district,
-				municipality: this.profile.municipality,
-				vdc: this.profile.vdc,
-				municipality_ward: this.profile.municipality_ward,
-				vdc_ward: this.profile.vdc_ward
+				birth_date: this.profile.birth_date
 			}
 			const res = await this.$store.dispatch("profile/update", {
 				id: this.currentUser.profile.id,
 				body: patchData
 			})
-			if (res === true) {
-				await this.openSnack("Profile updated successfully.", "success")
-			} else if (res === false) await this.openSnack("Profile updated failed. Try again.")
-			else await this.openSnack("Please fill valid data.")
+
 			this.loading = false
 		}
 	}

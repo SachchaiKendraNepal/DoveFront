@@ -6,11 +6,11 @@
 			:items="municipalities.results"
 			:loading="municipalitiesLoading"
 			solo
-			clearable
+			:clearable="(ward === null)"
+			:disabled="(ward !== null || district === null || vdc !== null)"
 			attach=""
 			item-text="name"
 			item-value="id"
-			:disabled="!selectedDistrict"
 			:label="'Select municipality'.toUpperCase()"
 			placeholder="Start typing"
 			hide-details="auto"
@@ -46,6 +46,15 @@ export default {
 		value: {
 			required: true
 		},
+		district: {
+			required: true
+		},
+		ward: {
+			required: true
+		},
+		vdc: {
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -55,11 +64,15 @@ export default {
 	emits: ["input"],
 	data() {
 		return {
-			name: "municipality",
-			mixinData: {
-				setter: "location/setSelectedMunicipality"
-			}
+			name: "municipality"
 		}
 	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterMunicipality", {
+				search: this.value.name
+			})
+		}
+	}
 }
 </script>

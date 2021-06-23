@@ -11,7 +11,7 @@
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
-			:disabled="!selectedVdc"
+			:disabled="(vdc === null)"
 			:label="'Select vdc ward'.toUpperCase()"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
@@ -46,6 +46,9 @@ export default {
 		value: {
 			required: true
 		},
+		vdc: {
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -54,11 +57,15 @@ export default {
 	},
 	data() {
 		return {
-			name: "vdc_ward",
-			mixinData: {
-				setter: "location/setSelectedVdcWard"
-			}
+			name: "vdc_ward"
 		}
 	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterVdcWard", {
+				search: this.value.name
+			})
+		}
+	}
 }
 </script>

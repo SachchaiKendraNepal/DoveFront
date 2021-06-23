@@ -10,8 +10,6 @@ const VdcAutocomplete = {
 	computed: {
 		...mapGetters({
 			vdcs: "location/vdcsList",
-			selectedDistrict: "location/selectedDistrictId",
-			selectedMunicipality: "location/selectedMunicipalityId"
 		}),
 	},
 	watch: {
@@ -20,7 +18,7 @@ const VdcAutocomplete = {
 				this.vdcsLoading = true
 				await this.$store.dispatch("location/filterVdc", {
 					search: val,
-					district: (this.selectedDistrict) ? this.selectedDistrict : ""
+					district: (this.district) ? this.district.id : ""
 				})
 				this.vdcsLoading = false
 			}
