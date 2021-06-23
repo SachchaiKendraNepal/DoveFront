@@ -107,9 +107,13 @@ const actions = {
 			throw e
 		}
 	},
-	async update({ commit }, {id: id, body: body}) {
+	async update({ commit }, {id: id, body: body, myProfile: myProfile }) {
 		try {
-			await $api.patch(util.format(userUrls.detail, id), body)
+			const res = await $api.patch(util.format(userUrls.detail, id), body)
+			if (myProfile) {
+				localStorage.removeItem("currentUser")
+				localStorage.setItem("currentUser", JSON.stringify(res))
+			}
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
