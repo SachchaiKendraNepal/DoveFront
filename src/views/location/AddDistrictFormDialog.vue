@@ -19,13 +19,14 @@
 								name="name"
 								label="Name"
 								:errors="addFormErrors"
-								prepend-inner-icon="mdi-format-title"
+								icon="mdi-format-title"
 							/>
 						</v-col>
 						<v-col cols="12">
 							<country-field
 								v-model="editedItem.country"
 								:items="countries.results"
+								:province="editedItem.province"
 								:loading="countriesLoading"
 								:errors="addFormErrors"
 							/>
@@ -34,6 +35,8 @@
 							<province-field
 								v-model="editedItem.province"
 								:items="provinces.results"
+								:country="editedItem.country"
+								:district="null"
 								:loading="provincesLoading"
 								:errors="addFormErrors"
 							/>

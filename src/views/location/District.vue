@@ -154,8 +154,6 @@ export default {
 				},
 				{ text: "ID", value: "id" },
 				{ text: "NAME", value: "name" },
-				{ text: "PROVINCE", value: "province.name" },
-				{ text: "COUNTRY", value: "province.country.name" },
 				{ text: "CREATED AT", value: "created_at" },
 				{ text: "UPDATED AT", value: "updated_at" }
 			],
