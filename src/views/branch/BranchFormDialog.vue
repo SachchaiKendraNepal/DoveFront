@@ -166,7 +166,7 @@
 						label="Name"
 						name="name"
 						:errors="formErrors"
-						prepend-inner-icon="mdi-form-textbox"
+						icon="mdi-form-textbox"
 					/>
 					<text-field
 						v-model="editedItem.contact"
@@ -174,12 +174,12 @@
 						name="contact"
 						type="number"
 						:errors="formErrors"
-						prepend-inner-icon="mdi-phone-classic"
+						icon="mdi-phone-classic"
 					/>
 					<text-area
 						id="slogan"
 						v-model="editedItem.slogan"
-						prepend-inner-icon="mdi-text"
+						icon="mdi-text"
 						label="Slogan"
 						name="slogan"
 						:errors="formErrors"
@@ -189,8 +189,6 @@
 						icon="mdi-map-marker"
 						text="Location Information"
 					/>
-
-
 					<country-field
 						id="country"
 						v-model="editedItem.country"
@@ -209,22 +207,22 @@
 					<municipality-field
 						id="municipality"
 						v-model="editedItem.municipality"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<municipality-ward-field
 						id="municipality-ward"
 						v-model="editedItem.municipality_ward"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<vdc-field
 						id="vdc"
 						v-model="editedItem.vdc"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 					<vdc-ward-field
 						id="vdc-ward"
 						v-model="editedItem.vdc_ward"
-						:error-messages="formErrors"
+						:errors="formErrors"
 					/>
 
 					<v-col cols="12"

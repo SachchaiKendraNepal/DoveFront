@@ -8,10 +8,12 @@
 			placeholder="Start typing"
 			:type="type"
 			:hint="hint"
+			:counter="counter"
 			hide-details="auto"
 			:error-messages="getErrorMessage"
-			:prepend-inner-icon="prependInnerIcon"
+			:prepend-inner-icon="icon"
 			@input="$emit('input', $event)"
+			@change="$emit('change', $event)"
 		/>
 	</v-col>
 </template>
@@ -48,11 +50,14 @@ export default {
 			required: false,
 			default: () => {}
 		},
-		prependInnerIcon: {
+		icon: {
 			type: String,
 			required: true
+		},
+		counter: {
+			default: false
 		}
 	},
-	emits: ["input"],
+	emits: ["input", "change"],
 }
 </script>

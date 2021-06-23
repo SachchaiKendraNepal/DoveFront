@@ -10,7 +10,6 @@ const VdcWardAutocomplete = {
 	computed: {
 		...mapGetters({
 			vdcWards: "location/vdcWardsList",
-			selectedVdc: "location/selectedVdcId"
 		}),
 	},
 	watch: {
@@ -19,7 +18,7 @@ const VdcWardAutocomplete = {
 				this.vdcWardsLoading = true
 				await this.$store.dispatch("location/filterVdcWard", {
 					search: val,
-					vdc: (this.selectedVdc) ? this.selectedVdc : ""
+					vdc: (this.vdc) ? this.vdc.id : ""
 				})
 				this.vdcWardsLoading = false
 			}

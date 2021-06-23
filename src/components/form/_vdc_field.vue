@@ -7,16 +7,17 @@
 			:loading="vdcsLoading"
 			attach=""
 			solo
-			clearable
+			:clearable="(ward === null)"
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
-			:disabled="!selectedDistrict"
+			:disabled="(ward !== null || district === null ||municipality !== null)"
 			:label="'Select vdc'.toUpperCase()"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-google-maps"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
@@ -45,6 +46,15 @@ export default {
 		value: {
 			required: true
 		},
+		district: {
+			required: true
+		},
+		ward: {
+			required: true
+		},
+		municipality: {
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -54,11 +64,15 @@ export default {
 	emits: ["input"],
 	data() {
 		return {
-			name: "vdc",
-			mixinData: {
-				setter: "location/setSelectedVdc"
-			}
+			name: "vdc"
 		}
 	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterVdc", {
+				search: this.value.name
+			})
+		}
+	}
 }
 </script>

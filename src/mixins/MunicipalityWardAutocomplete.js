@@ -9,9 +9,7 @@ const MunicipalityWardAutocomplete = {
 	},
 	computed: {
 		...mapGetters({
-			municipalityWards: "location/municipalityWardsList",
-			selectedMunicipality: "location/selectedMunicipalityId",
-			selectedVdc: "location/selectedVdcId"
+			municipalityWards: "location/municipalityWardsList"
 		}),
 	},
 	watch: {
@@ -20,7 +18,7 @@ const MunicipalityWardAutocomplete = {
 				this.municipalityWardsLoading = true
 				await this.$store.dispatch("location/filterMunicipalityWard", {
 					search: val,
-					municipality: (this.selectedMunicipality) ? this.selectedMunicipality : ""
+					municipality: (this.municipality) ? this.municipality.id : ""
 				})
 				this.municipalityWardsLoading = false
 			}

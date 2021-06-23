@@ -11,12 +11,13 @@
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
-			:disabled="!selectedMunicipality"
+			:disabled="(vdc !== null || municipality === null)"
 			:label="'Select municipality ward'.toUpperCase()"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
@@ -45,6 +46,12 @@ export default {
 		value: {
 			required: true
 		},
+		municipality: {
+			required: true
+		},
+		vdc: {
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -54,11 +61,16 @@ export default {
 	emits: ["input"],
 	data() {
 		return {
-			name: "municipality_ward",
-			mixinData: {
-				setter: "location/setSelectedMunicipalityWard"
-			}
+			name: "municipality_ward"
 		}
 	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterMunicipalityWard", {
+				search: this.value.name,
+				municipality: (this.municipality) ? this.municipality.id : ""
+			})
+		}
+	}
 }
 </script>

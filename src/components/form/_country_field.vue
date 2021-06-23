@@ -8,7 +8,8 @@
 			:items="countries.results"
 			:loading="countriesLoading"
 			solo
-			clearable
+			:clearable="(province === null)"
+			:disabled="(province !== null)"
 			item-text="name"
 			item-value="id"
 			:label="'Select country'.toUpperCase()"
@@ -18,6 +19,7 @@
 			placeholder="Start typing"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
@@ -46,6 +48,10 @@ export default {
 		value: {
 			required: true
 		},
+		province: {
+			required: true,
+			type: Object
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -55,10 +61,14 @@ export default {
 	emits: ["input"],
 	data() {
 		return {
-			name: "country",
-			mixinData: {
-				setter: "location/setSelectedCountry"
-			}
+			name: "country"
+		}
+	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterCountries", {
+				search: this.value.name
+			})
 		}
 	},
 }

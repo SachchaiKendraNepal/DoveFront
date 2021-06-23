@@ -6,15 +6,16 @@
 			:items="provinces.results"
 			:loading="provincesLoading"
 			solo
-			clearable
+			:clearable="(district === null)"
+			:disabled="(district !== null)"
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
 			:label="'Select province'.toUpperCase()"
-			:disabled="!selectedCountry"
 			:error-messages="getErrorMessage"
 			prepend-inner-icon="mdi-office-building-marker-outline"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
@@ -43,6 +44,12 @@ export default {
 		value: {
 			required: true
 		},
+		country: {
+			required: true
+		},
+		district: {
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
@@ -53,9 +60,13 @@ export default {
 	data() {
 		return {
 			name: "province",
-			mixinData: {
-				setter: "location/setSelectedProvince"
-			}
+		}
+	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("location/filterProvinces", {
+				search: this.value.name
+			})
 		}
 	},
 }

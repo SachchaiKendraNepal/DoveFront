@@ -238,12 +238,6 @@ export default {
 		width: 0 !important
 </style>
 <style lang="scss">
-.v-label {
-	font-size: 14px !important;
-}
-.v-input {
-	font-size: 14px !important;
-}
 .profile-av-nav {
 	border: 4px solid aliceblue;
 	background: aliceblue;

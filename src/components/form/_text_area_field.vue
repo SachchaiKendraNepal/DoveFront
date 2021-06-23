@@ -9,8 +9,8 @@
 			:label="label.toUpperCase()"
 			placeholder="Start typing"
 			:error-messages="getErrorMessage"
-			:prepend-inner-icon="prependInnerIcon"
-			counter
+			:prepend-inner-icon="icon"
+			:counter="counter"
 			@input="$emit('input', $event)"
 		/>
 	</v-col>
@@ -34,12 +34,16 @@ export default {
 			type: String,
 			required: true
 		},
+		counter: {
+			type: String,
+			required: true
+		},
 		errors: {
 			type: Object,
 			required: false,
 			default: () => {}
 		},
-		prependInnerIcon: {
+		icon: {
 			type: String,
 			required: true
 		}

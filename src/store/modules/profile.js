@@ -5,34 +5,25 @@ const profileUrs = urls.profile
 
 export const SET_PROFILE = "SET_PROFILE"
 export const SET_PROFILE_IMAGES = "SET_PROFILE_IMAGES"
-export const SET_USER_PROFILE_FORM_ERRORS = "SET_USER_PROFILE_FORM_ERRORS"
-
-
-const defaultFormErrors = {
-	current_city: null,
-	contact: null,
-	country: null,
-	province: null,
-	district: null
-}
+export const SET_PROFILE_FORM_ERRORS = "SET_PROFILE_FORM_ERRORS"
 
 
 const state = {
 	profile: {},
 	profileImage: {},
-	formErrors: {
-		...defaultFormErrors
-	}
+	formErrors: {}
 }
 
 const mutations = {
 	[SET_PROFILE](state, value) {
+		localStorage.removeItem("currentUser")
+		localStorage.setItem("currentUser", JSON.stringify(value))
 		return state.profile = value
 	},
 	[SET_PROFILE_IMAGES](state, value) {
 		return state.profileImage = value
 	},
-	[SET_USER_PROFILE_FORM_ERRORS](state, value) {
+	[SET_PROFILE_FORM_ERRORS](state, value) {
 		return state.formErrors = value
 	}
 }
@@ -43,7 +34,7 @@ const getters = {
 
 const actions = {
 	clearFormErrors({commit}) {
-		commit("SET_USER_PROFILE_FORM_ERRORS", { ...defaultFormErrors })
+		commit("SET_PROFILE_FORM_ERRORS", {})
 	},
 	async update({commit}, {id: id, body: body}) {
 		try {
@@ -55,7 +46,7 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_USER_PROFILE_FORM_ERRORS", e.response.data)
+				commit("SET_PROFILE_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}

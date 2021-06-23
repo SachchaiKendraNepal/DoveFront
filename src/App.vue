@@ -13,6 +13,12 @@ export default {
 }
 </script>
 <style lang="scss">
+.v-label {
+	font-size: 14px !important;
+}
+.v-input {
+	font-size: 14px !important;
+}
 .cursor {
 	cursor: pointer
 }

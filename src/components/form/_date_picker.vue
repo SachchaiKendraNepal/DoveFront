@@ -13,7 +13,7 @@
 				<v-text-field
 					:value="value"
 					:label="label.toUpperCase()"
-					:prepend-inner-icon="prependInnerIcon"
+					:prepend-inner-icon="icon"
 					:name="name"
 					:hint="hint"
 					readonly
@@ -26,6 +26,7 @@
 					:rules="rules"
 					v-on="on"
 					@input="$emit('input', $event)"
+					@change="$emit('change', $event)"
 				/>
 			</template>
 			<v-date-picker
@@ -64,7 +65,7 @@ export default {
 			type: String,
 			default: null,
 		},
-		prependInnerIcon: {
+		icon: {
 			type: String,
 			required: true
 		},
@@ -77,12 +78,13 @@ export default {
 			default: "",
 		}
 	},
-	emits: ["input"],
+	emits: ["input", "change"],
 	data: () => ({
 		menu: false,
 	}),
 	methods: {
 		save(date) {
+			this.$emit("change", date)
 			this.$refs.menu.save(date)
 		},
 	},

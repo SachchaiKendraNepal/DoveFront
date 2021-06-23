@@ -1,99 +1,28 @@
 <template>
-	<tab-item-card>
-		<template #content>
-			<v-card id="about-follower-card"
-				class="ma-2"
-				color="transparent"
-			>
-				<v-tabs
-					id="about-tab"
-					vertical
-					color="primary"
-				>
-					<v-tab
-						v-for="(tab, index) in profileAboutTabItems"
-						:key="index"
-						class="justify-start full-width px-3"
-					>
-						<v-icon left>
-							{{ tab.icon }}
-						</v-icon>
-						<span v-show="$vuetify.breakpoint.mdAndUp"
-							class="text-capitalize"
-						>{{ tab.text }}</span>
-					</v-tab>
-					<v-tab-item class="personal-info-tab-item">
-						<my-personal-info />
-					</v-tab-item>
-					<v-tab-item class="branch-info-tab-item">
-						<my-branch-info />
-					</v-tab-item>
-					<v-tab-item class="photos-info-tab-item">
-						<profile-photos-tab />
-					</v-tab-item>
-					<v-tab-item class="multimedia-info-tab-item">
-						<my-multimedia />
-					</v-tab-item>
-					<v-tab-item class="articles-tab-item">
-						<my-articles />
-					</v-tab-item>
-				</v-tabs>
-			</v-card>
-			<v-dialog v-model="patchDialog"
-				dark
-			>
-				<v-card max-width="600">
-					<v-card-text>
-						<v-text-field
-							v-model="textToUpdate"
-							hide-details
-							solo
-						>
-							<template #append>
-								<v-btn class="send-icon-btn">
-									<v-icon color="primary">
-										mdi-send
-									</v-icon>
-								</v-btn>
-							</template>
-						</v-text-field>
-					</v-card-text>
-				</v-card>
-			</v-dialog>
-		</template>
-	</tab-item-card>
+	<v-card flat
+		tile
+	>
+		<profile-row />
+		<header-toolbar />
+
+		<v-card id="about-follower-card"
+			class="ma-2"
+			color="transparent"
+		>
+			<my-personal-info />
+		</v-card>
+	</v-card>
 </template>
 <script>
+import ProfileRow from "@/views/profile/ProfileRow";
+import HeaderToolbar from "@/views/profile/HeaderToolbar";
 export default {
 	name: "ProfileAboutTabView",
 	components: {
-		MyArticles: () => import("@/views/profile/MyArticles"),
-		MyMultimedia: () => import("@/views/profile/MyMultimedia"),
+		ProfileRow,
+		HeaderToolbar,
 		MyPersonalInfo: () => import("@/views/profile/MyPersonalInfo"),
-		MyBranchInfo: () => import("@/views/profile/MyBranchInfo"),
-		ProfilePhotosTab: () => import("@/views/profile/ProfilePhotosTab"),
-		TabItemCard: () => import("@/components/ProfileTabItem"),
-	},
-	data: () => ({
-		patchDialog: false,
-		textToUpdate: null,
-		fieldToUpdate: null,
-
-		profileAboutTabItems: [
-			{text: "Personal", icon: "mdi-account-circle"},
-			{text: "Branch", icon: "mdi-city"},
-			{text: "Photos", icon: "mdi-camera-front-variant"},
-			{text: "Multimedia", icon: "mdi-surround-sound"},
-			{text: "Articles", icon: "mdi-format-text-variant"},
-		],
-		locationItems: [
-			{icon: "mdi-city", field: "Branch", value: "Pokhara Kendra Branch"},
-			{icon: "mdi-account-cowboy-hat", field: "Position", value: "Leader"},
-			{icon: "mdi-check-bold", field: "Status", value: "Approved"},
-			{icon: "mdi-calendar-check", field: "Approved at", value: "Nov 3 2012"},
-			{icon: "mdi-account-check", field: "Approved by", value: "Bot589"},
-		]
-	})
+	}
 }
 </script>
 <style lang="sass" scoped>
