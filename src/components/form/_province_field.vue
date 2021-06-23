@@ -7,7 +7,7 @@
 			:loading="provincesLoading"
 			solo
 			:clearable="(district === null)"
-			:disabled="(district !== null)"
+			:disabled="(district !== null || country === null)"
 			item-text="name"
 			item-value="id"
 			hide-details="auto"

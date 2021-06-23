@@ -50,7 +50,6 @@ export default {
 		},
 		province: {
 			required: true,
-			type: Object
 		},
 		errors: {
 			type: Object,

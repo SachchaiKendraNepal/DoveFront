@@ -18,7 +18,11 @@ const VdcAutocomplete = {
 				this.vdcsLoading = true
 				await this.$store.dispatch("location/filterVdc", {
 					search: val,
-					district: (this.district) ? this.district.id : ""
+					district: (this.district)
+						? (typeof this.district === "object")
+							? this.district.id
+							: this.district
+						: ""
 				})
 				this.vdcsLoading = false
 			}

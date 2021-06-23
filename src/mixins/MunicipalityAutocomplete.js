@@ -18,7 +18,11 @@ const MunicipalityAutocomplete = {
 				this.municipalitiesLoading = true
 				await this.$store.dispatch("location/filterMunicipality", {
 					search: val,
-					district: (this.district) ? this.district.id : ""
+					district: (this.district)
+						? (typeof this.district === "object")
+							? this.district.id
+							: this.district
+						: ""
 				})
 				this.municipalitiesLoading = false
 			}

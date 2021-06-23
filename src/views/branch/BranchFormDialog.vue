@@ -182,6 +182,7 @@
 						icon="mdi-text"
 						label="Slogan"
 						name="slogan"
+						counter="512"
 						:errors="formErrors"
 					/>
 
@@ -189,39 +190,56 @@
 						icon="mdi-map-marker"
 						text="Location Information"
 					/>
+
 					<country-field
 						id="country"
 						v-model="editedItem.country"
+						:province="editedItem.province"
 						:errors="formErrors"
 					/>
 					<province-field
 						id="province"
 						v-model="editedItem.province"
+						:country="editedItem.country"
+						:district="editedItem.district"
 						:errors="formErrors"
 					/>
 					<district-field
 						id="district"
 						v-model="editedItem.district"
+						:province="editedItem.province"
+						:municipality="editedItem.municipality"
+						:vdc="editedItem.vdc"
 						:errors="formErrors"
 					/>
 					<municipality-field
 						id="municipality"
 						v-model="editedItem.municipality"
+						:district="editedItem.district"
+						:ward="editedItem.municipality_ward"
+						:vdc="editedItem.vdc"
 						:errors="formErrors"
 					/>
 					<municipality-ward-field
 						id="municipality-ward"
 						v-model="editedItem.municipality_ward"
+						:municipality="editedItem.municipality"
+						:vdc="editedItem.vdc"
 						:errors="formErrors"
 					/>
 					<vdc-field
 						id="vdc"
 						v-model="editedItem.vdc"
+						:district="editedItem.district"
+						:ward="editedItem.vdc_ward"
+						:municipality="editedItem.municipality"
 						:errors="formErrors"
 					/>
 					<vdc-ward-field
 						id="vdc-ward"
 						v-model="editedItem.vdc_ward"
+						:municipality="editedItem.municipality"
+						:vdc="editedItem.vdc"
 						:errors="formErrors"
 					/>
 
@@ -256,7 +274,7 @@
 <script>
 import router from "@/router";
 import {mapGetters} from "vuex";
-import {cookCreateData, cookEditData, getFormData} from "@/Helper";
+import {getFormData} from "@/Helper";
 import Snack from "@/mixins/Snack";
 import AdminCreateEditFormMixin from "@/mixins/AdminCreateEditFormMixin";
 
@@ -283,7 +301,15 @@ export default {
 			is_approved: false,
 			imageForUpload: []
 		},
-		defaultItem: {},
+		defaultItem: {
+			country: null,
+			province: null,
+			district: null,
+			municipality: null,
+			municipality_ward: null,
+			vdc: null,
+			vdc_ward: null,
+		},
 		mixinData: {
 			clearFormErrorAction: "branch/clearFormErrors"
 		},

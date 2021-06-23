@@ -8,7 +8,7 @@
 			attach=""
 			solo
 			:clearable="((municipality === null) && (vdc === null))"
-			:disabled="((municipality !== null) || (vdc !== null))"
+			:disabled="((municipality !== null) || (vdc !== null) || (province === null))"
 			item-text="name"
 			item-value="id"
 			hide-details="auto"

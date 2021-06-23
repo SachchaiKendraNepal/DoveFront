@@ -18,7 +18,11 @@ const MunicipalityWardAutocomplete = {
 				this.municipalityWardsLoading = true
 				await this.$store.dispatch("location/filterMunicipalityWard", {
 					search: val,
-					municipality: (this.municipality) ? this.municipality.id : ""
+					municipality: (this.municipality)
+						? (typeof this.municipality === "number")
+							? this.municipality
+							: this.municipality.id
+						: ""
 				})
 				this.municipalityWardsLoading = false
 			}

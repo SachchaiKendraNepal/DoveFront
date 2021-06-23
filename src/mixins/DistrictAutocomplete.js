@@ -19,7 +19,11 @@ const DistrictAutocomplete = {
 				this.districtsLoading = true
 				await this.$store.dispatch("location/filterDistricts", {
 					search: val,
-					province: (this.province) ? this.province.id : ""
+					province: (this.province)
+						? (typeof this.province === "object")
+							? this.province.id
+							: this.province
+						: ""
 				})
 				this.districtsLoading = false
 			}
