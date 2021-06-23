@@ -192,7 +192,7 @@ const routes = [
 				component: () => import("@/views/profile/EventsTab")
 			},
 			{
-				path: "about",
+				path: "home",
 				name: "ABOUT ME",
 				component: () => import("@/views/profile/AboutMeTab")
 			},
@@ -205,6 +205,16 @@ const routes = [
 				path: "multimedia",
 				name: "MY MULTIMEDIAS",
 				component: () => import("@/views/profile/MultimediaTab")
+			},
+			{
+				path: "change-password",
+				name: "CHANGE PASSWORD",
+				component: () => import("@/views/profile/ChangePassword")
+			},
+			{
+				path: "edit-detail",
+				name: "EDIT DETAIL",
+				component: () => import("@/views/profile/EditProfile")
 			},
 		],
 	},
