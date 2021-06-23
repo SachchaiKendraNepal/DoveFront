@@ -28,28 +28,7 @@
 
 <script>
 export default {
-	name: "HeaderToolbar",
-	data: () => ({
-		profileActionItems: [
-			{icon: "mdi-pencil", text: "Edit profile", functionName: "openEditProfileDialog"},
-			{icon: "mdi-arrow-horizontal-lock", text: "Change password", functionName: "openChangePasswordDialog"},
-			{icon: "mdi-account-cog", text: "Settings", functionName: "openSettingsDialog"},
-		],
-	}),
-	methods: {
-		handle_function_call(function_name) {
-			this[function_name]()
-		},
-		openEditProfileDialog() {
-			this.$bus.emit("open-edit-profile-dialog")
-		},
-		openChangePasswordDialog() {
-			this.$bus.emit("open-change-password-dialog")
-		},
-		openSettingsDialog() {
-			console.log("here setting")
-		}
-	}
+	name: "HeaderToolbar"
 }
 </script>
 

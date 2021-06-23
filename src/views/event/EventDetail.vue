@@ -507,8 +507,6 @@ export default {
 		},
 		async uploadBanner() {
 			if (this.event) {
-				console.log(this.event.id)
-				console.log(this.bannerImageToUpload)
 				const eventId = parseInt(this.event.id)
 				try {
 					const body = this.$helper.getFormData({

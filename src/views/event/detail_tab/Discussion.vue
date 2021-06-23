@@ -158,7 +158,6 @@ export default {
 		},
 		async makeComment() {
 			if (this.myComment === null) return
-			console.log(this.event.id, this.myComment)
 			const posted = await this.$store.dispatch("event/addCommentFor", {
 				body: {
 					event: this.event.id,
@@ -172,7 +171,6 @@ export default {
 		},
 		async updateComment() {
 			if (this.commentToUpdate === null) return
-			console.log(this.event.id, this.myComment)
 			const posted = await this.$store.dispatch("event/updateComment", {
 				id: this.commentIdToUpdate,
 				body: {

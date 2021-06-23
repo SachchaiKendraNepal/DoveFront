@@ -113,7 +113,6 @@ const actions = {
 	},
 
 	async pin({}, {id: id}) {
-		console.log(id)
 		try {
 			await $api.post(util.format(articleUrl.togglePin, id))
 			return true

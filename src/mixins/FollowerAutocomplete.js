@@ -19,7 +19,6 @@ const FollowerAutocomplete = {
 				await this.$store.dispatch("user/filter", {
 					search: val
 				})
-				console.log(this.followers)
 				this.followersLoading = false
 			}
 		}

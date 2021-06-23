@@ -337,7 +337,6 @@ export default {
 									var formData = new FormData();
 									formData.append("image", file)
 									formData.append("article", article.id)
-									console.log(formData.get("image"))
 									return $.ajax({
 										url: `${urls.base_url}/api/${urls.articleImage.list}`,
 										type: "post",
@@ -368,7 +367,6 @@ export default {
 			})
 		},
 		async saveDraft() {
-			console.log(this.tags)
 			const outputData = await this.editor.save()
 			const res = await this.$store.dispatch("article/patch", {
 				id: this.onGoingArticle.id,

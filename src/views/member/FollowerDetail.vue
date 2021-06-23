@@ -321,8 +321,6 @@ export default {
 			return this.formatDate(this.follower.member.approved_at)
 		},
 		getMemberApprovedBy() {
-			console.log(this.follower)
-			// return "none"
 			if (!this.follower) return "None"
 			if (!this.follower.member) return "None"
 			if (!this.follower.member.approved_by) return "None"
