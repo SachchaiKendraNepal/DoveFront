@@ -27,7 +27,6 @@
 				Start a post
 			</p>
 		</div>
-		<start-post-box />
 		<v-divider />
 		<v-row
 			id="start-post-actions"
@@ -35,22 +34,36 @@
 			justify="space-around"
 			align="center"
 		>
-			<v-card-actions
+			<depressed-button
 				v-for="(item, index) in actionButtons"
 				:key="index"
-				class="ma-0 pa-0"
-			>
-				<depressed-button
-					:icon="item.icon"
-					:text="item.text"
-					:color="item.color"
-					size="22"
-					:tooltip="item.text"
-					:is-disabled="item.disabled"
-					:to="item.to"
-				/>
-			</v-card-actions>
+				:icon="item.icon"
+				:text="item.text"
+				:color="item.color"
+				size="22"
+				:tooltip="item.text"
+				@click.stop="openStartPostBoxDialog"
+			/>
+			<depressed-button
+				:icon="eventButton.icon"
+				:text="eventButton.text"
+				:color="eventButton.color"
+				size="22"
+				:tooltip="eventButton.text"
+				@click.stop="openAddEventFormDialog"
+			/>
+			<depressed-button
+				:icon="startArticleButton.icon"
+				:text="startArticleButton.text"
+				:color="startArticleButton.color"
+				size="22"
+				:tooltip="startArticleButton.text"
+				:is-disabled="startArticleButton.disabled"
+				:to="startArticleButton.to"
+			/>
 		</v-row>
+		<event-form-dialog :fullscreen="false" />
+		<start-post-box />
 	</v-card>
 </template>
 
@@ -60,6 +73,7 @@ import {gsap} from "gsap"
 export default {
 	name: "AddPostBoxComponent",
 	components: {
+		EventFormDialog: () => import("@/views/event/EventFormDialog"),
 		StartPostBox: () => import("@/components/StartPost"),
 		DepressedButton: () => import("@/components/DepressedTooltipButton")
 	},
@@ -69,9 +83,9 @@ export default {
 			{icon: "mdi-camera", text: "Images", color: "#3aaada", disabled: true, to: ""},
 			{icon: "mdi-music", text: "Audios", color: "#9896f2", disabled: true, to: ""},
 			{icon: "mdi-video", text: "Videos", color: "#009688", disabled: true, to: ""},
-			{icon: "mdi-calendar-text", text: "Event", color: "#c21d98", disabled: true, to: ""},
-			{icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/editor"},
 		],
+		eventButton: {icon: "mdi-calendar-text", text: "Event", color: "#c21d98", disabled: false, to: ""},
+		startArticleButton: {icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/editor"},
 		dialog: false,
 		writePostIcon: require("@/assets/write_post_icon.jpg")
 	}),
@@ -85,6 +99,10 @@ export default {
 	methods: {
 		openStartPostBoxDialog() {
 			this.$bus.emit("open-start-post-dialog")
+		},
+		openAddEventFormDialog() {
+			console.log("here1")
+			this.$bus.emit("open-event-form-dialog-add-item")
 		},
 	}
 }

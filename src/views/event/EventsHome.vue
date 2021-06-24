@@ -1,10 +1,9 @@
 <template>
 	<v-card :loading="loading"
-		flat class="rounded-0 mx-auto"
+		flat class="rounded-0 mx-auto my-8"
 		color="transparent"
 		max-width="1000"
 	>
-		<add-event-card />
 		<v-toolbar
 			color="transparent"
 			height="60"
@@ -81,7 +80,7 @@
 				</v-col>
 			</div>
 			<no-home-data v-else
-				class="ma-3 mb-12"
+				class="ma-3"
 				:image="require('@/assets/noEventsHome.gif')"
 			/>
 		</v-fade-transition>
@@ -89,14 +88,12 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-import NoHomeData from "@/components/NoHomeData";
 
 export default {
 	name: "EventsHomeComponent",
 	components: {
-		NoHomeData,
+		NoHomeData: () => import("@/components/NoHomeData"),
 		EventHomeCard: () => import("@/views/event/EventHomeCard"),
-		AddEventCard: () => import("@/views/event/AddEventCard"),
 	},
 	data: () => ({
 		loading: false,
