@@ -1,8 +1,8 @@
 <template>
-	<div
-		class="no-post"
+	<v-card
+		color="transparent"
+		class="no-post py-3"
 	>
-		<div class="py-3" />
 		<v-chip color="purple lighten-5"
 			label
 		>
@@ -21,7 +21,7 @@
 		<v-chip color="blue lighten-4">
 			{{ bottomText }}
 		</v-chip>
-	</div>
+	</v-card>
 </template>
 
 <script>
