@@ -9,6 +9,7 @@
 				:disabled="isDisabled"
 				:to="to"
 				v-on="on"
+				@click="$emit('click', $event)"
 			>
 				<v-icon
 					:size="size"
@@ -67,7 +68,8 @@ export default {
 			type: String,
 			default: ""
 		}
-	}
+	},
+	emits: ["click"]
 }
 </script>
 <style lang="sass" scoped>
