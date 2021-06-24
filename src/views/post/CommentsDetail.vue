@@ -1,15 +1,16 @@
 <template>
-	<v-card :loading="loading">
-		<v-toolbar
-			dark
-			height="50"
-		>
+	<v-card
+		dark
+		:loading="loading"
+	>
+		<v-toolbar height="50">
 			<v-toolbar-title class="comment-headline">
 				Comments
 			</v-toolbar-title>
 		</v-toolbar>
 		<v-list v-if="comments.count > 0"
 			two-line
+			color="grey darken-3"
 		>
 			<template v-for="(item, index) in comments.results">
 				<v-subheader
@@ -87,7 +88,6 @@
 						>
 							<code class="detail-code">
 								<v-icon size="16"
-									color="grey darken-4"
 									class="detail-icon"
 								>
 									mdi-account-circle
@@ -222,7 +222,7 @@ export default {
 </script>
 <style lang="sass" scoped>
 .comment
-	background-color: #d9ebfa
+	background-color: #6d6d6f
 	font-size: .87rem
 	border-radius: 4px
 	padding: 10px

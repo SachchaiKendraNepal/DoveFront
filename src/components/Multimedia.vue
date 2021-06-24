@@ -13,8 +13,8 @@
 							height="400"
 							contain
 							:src="$helper.getThumbnailForYoutubeVideo(post['multimedia_video_urls'][0]['video_url'])"
-							class="youtube-thumbnail"
-							@click="dialog=true"
+							class="youtube-thumbnail cursor"
+							@click="$router.push({ name: 'SACHCHAI NEPAL MULTIMEDIA', params: { id: post.id }})"
 						>
 							<div class="video-icon">
 								<v-icon
@@ -37,7 +37,6 @@
 							contain
 							class="youtube-thumbnail"
 							:src="post['multimedia_images'][0]['image']"
-							@click="dialog=true"
 						>
 							<div class="video-icon">
 								<v-icon
@@ -51,89 +50,6 @@
 					</v-card>
 				</v-col>
 			</v-row>
-			<v-dialog v-model="dialog">
-				<v-card
-					dark
-					height="600"
-					width="98vw"
-					class="mx-auto"
-				>
-					<v-carousel
-						show-arrows
-						width="98vw"
-						height="600"
-						hide-delimiters
-					>
-						<template #next="{ on, attrs }">
-							<v-btn dark
-								icon
-								v-bind="attrs"
-								v-on="on"
-							>
-								<v-icon>mdi-chevron-right</v-icon>
-							</v-btn>
-						</template>
-						<template #prev="{ on, attrs }">
-							<v-btn dark
-								icon
-								v-bind="attrs"
-								v-on="on"
-							>
-								<v-icon>mdi-chevron-left</v-icon>
-							</v-btn>
-						</template>
-						<v-carousel-item
-							v-for="item in post['multimedia_images']"
-							:key="item.id + 5 * 7"
-							:src="item.image"
-							transition="fade-transition"
-							reverse-transition="fade-transition"
-						/>
-						<v-carousel-item v-for="(item, index) in post['multimedia_videos']"
-							:key="item.id + 7 * 11"
-							transition="fade-transition"
-							reverse-transition="fade-transition"
-						>
-							<template #default>
-								<v-card height="600"
-									max-width="1000" class="mx-auto"
-									:class="'video-player-' + index"
-								>
-									<video-player
-										:options="{
-											fluid: true,
-											fill: true,
-											autoplay: false,
-											controls: true,
-											sources: [
-												{
-													src: item.video,
-													type: 'video/mp4'
-												}
-											]
-										}"
-									/>
-								</v-card>
-							</template>
-						</v-carousel-item>
-						<v-carousel-item v-for="item in post['multimedia_video_urls']"
-							:key="item.id + 11 * 13"
-							transition="fade-transition"
-							reverse-transition="fade-transition"
-						>
-							<template #default>
-								<v-card height="600"
-									max-width="1000" class="mx-auto"
-								>
-									<youtube-iframe :video-url="item.video_url"
-										height="600"
-									/>
-								</v-card>
-							</template>
-						</v-carousel-item>
-					</v-carousel>
-				</v-card>
-			</v-dialog>
 		</template>
 	</base-post-card>
 </template>
@@ -141,8 +57,6 @@
 export default {
 	name: "MultimediaComponent",
 	components: {
-		YoutubeIframe: () => import("@/components/YoutubeIframe"),
-		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostCard: () => import("@/components/post/_post")
 	},
 	props: {
