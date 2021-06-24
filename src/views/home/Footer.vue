@@ -272,7 +272,10 @@ export default {
 	position: relative;
 	display: block;
 	width: calc(450% + 1.3px);
-	height: 800px;
+	height: 750px;
+	@media only screen and (max-width: 500px) {
+		height: 1000px;
+	}
 }
 
 .custom-shape-divider-bottom-1620494480 .shape-fill {

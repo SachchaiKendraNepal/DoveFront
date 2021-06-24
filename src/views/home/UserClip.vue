@@ -1,46 +1,41 @@
 <template>
-	<v-card
-		id="profile-clip"
-		class="mx-auto pb-1"
-		flat
-		color="transparent"
+	<v-list-item two-line
+		class="px-2"
+		style="height: 70px"
 	>
-		<v-list-item>
-			<v-list-item-content class="text-center pb-0">
-				<v-list-item-subtitle>Happy New Year!</v-list-item-subtitle>
-				<v-list-item-title
-					id="user-name"
-					class="mb-2"
+		<v-list-item-avatar v-if="$helper.getCurrentProfileImage()">
+			<v-img
+				:src="$helper.getCurrentProfileImage()"
+			/>
+		</v-list-item-avatar>
+		<v-list-item-avatar
+			v-else
+			color="blue"
+			class="ma-0 pa-0 d-flex justify-center"
+		>
+			<span class="headline white--text">
+				{{ $helper.getCurrentUser().username[0].toUpperCase() }}
+			</span>
+		</v-list-item-avatar>
+		<v-list-item-content class="pl-6">
+			<v-list-item-title class="full-name">
+				{{ currentUser.first_name }} {{ currentUser.last_name }}
+			</v-list-item-title>
+			<v-list-item-subtitle>
+				<v-icon small
+					color="orange"
 				>
-					{{ currentUser.first_name }} {{ currentUser.last_name }}
-				</v-list-item-title>
-			</v-list-item-content>
-		</v-list-item>
-		<div class="text-center">
-			<v-chip
-				label
-				class="mr-2"
-				color="primary"
-			>
-				<v-icon left>
 					mdi-account-group
 				</v-icon>
-				FOLLOWER
-			</v-chip>
-
-			<v-chip
-				v-if="currentUser.is_superuser"
-				color="grey darken-3"
-				label
-				text-color="white"
-			>
-				<v-icon left>
+				<v-icon small
+					color="black"
+					class="ml-1"
+				>
 					mdi-account-cog
 				</v-icon>
-				ADMIN
-			</v-chip>
-		</div>
-	</v-card>
+			</v-list-item-subtitle>
+		</v-list-item-content>
+	</v-list-item>
 </template>
 <script>
 export default {
@@ -54,11 +49,7 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-#profile-clip
-	border-radius: 0
-	#cover-image
-		border-radius: 0 5px 5px 0
-	#user-name
-		font-size: 25px !important
-		font-weight: 300 !important
+.full-name
+	font-size: 1rem
+	font-weight: 500
 </style>

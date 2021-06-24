@@ -122,7 +122,6 @@
 </template>
 
 <script>
-import router from "@/router"
 import ProfileHeaderTab from "@/components/ProfileHeaderTab";
 import SidebarList from "@/views/profile/SidebarList";
 import TheSnackbar from "@/components/TheSnackbar";
@@ -136,9 +135,6 @@ export default {
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
-		profileDrawer: false,
-		group: null,
-		currentItem: "About",
 		drawer: true,
 		mini: true,
 		currentUser: null,
@@ -159,13 +155,10 @@ export default {
 			this.loading = false
 		},
 		routeToShowcase() {
-			router.push({name: "SACHCHAI SHOWCASE"})
+			this.$router.push({name: "SACHCHAI SHOWCASE"})
 		},
 		routeToFeedsPage() {
-			router.push({name: "HOME"})
-		},
-		toggleHomeDrawer() {
-			this.profileDrawer = !this.profileDrawer
+			this.$router.push({name: "HOME"})
 		},
 	},
 }

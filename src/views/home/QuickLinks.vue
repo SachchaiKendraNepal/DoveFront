@@ -1,5 +1,7 @@
 <template>
 	<v-list>
+		<user-clip />
+		<v-divider />
 		<v-list-group
 			v-for="item in items"
 			:key="item.title"
@@ -34,31 +36,22 @@
 <script>
 export default {
 	name: "QuickLinksComponent",
+	components: {
+		UserClip: () => import("@/views/home/UserClip"),
+	},
 	data: () => ({
 		items: [
 			{
 				color: "grey darken-3",
 				action: "mdi-star-circle",
 				items: [
-					{ title: "My Profile", icon: "mdi-account-circle", to: "/profile/about" },
-					{ title: "My Posts", icon: "mdi-post", to: "/profile/post" },
-					{ title: "My Photos", icon: "mdi-image", to: "/profile/photo" },
-					{ title: "My Medias", icon: "mdi-video-vintage", to: "/profile/multimedia" },
-					{ title: "My Bookmarks", icon: "mdi-bookmark" },
+					{ title: "My Profile", icon: "mdi-account-circle", to: "/profile/home" },
+					{ title: "My Posts", icon: "mdi-post", to: "/profile/articles" },
+					{ title: "My Photos", icon: "mdi-image", to: "/profile/images" },
+					{ title: "My Medias", icon: "mdi-video-vintage", to: "/profile/multimedias" },
+					{ title: "My Medias", icon: "mdi-video-vintage", to: "/profile/bookmarks" },
 				],
 				title: "My Links",
-			},
-			{
-				color: "indigo",
-				action: "mdi-city",
-				items: [
-					{ title: "All Branches", icon: "mdi-home-group", to: "/home/branch" },
-					{ title: "Province", icon: "mdi-office-building-marker-outline" },
-					{ title: "District", icon: "mdi-map-marker-multiple-outline" },
-					{ title: "Municipality", icon: "mdi-google-maps" },
-					{ title: "VDC", icon: "mdi-home-map-marker" },
-				],
-				title: "Branch",
 			},
 			{
 				color: "red darken-1",
@@ -95,10 +88,10 @@ export default {
 				color: "blue darken-4",
 				action: "mdi-earth",
 				items: [
-					{ title: "Motivation", icon: "mdi-run" },
+					{ title: "Social", icon: "mdi-run" },
 					{ title: "Health", icon: "mdi-bottle-tonic-plus" },
 					{ title: "Peace", icon: "mdi-peace" },
-					{ title: "Dance", icon: "mdi-dance-ballroom" },
+					{ title: "Satsang", icon: "mdi-dance-ballroom" },
 				],
 				title: "Our Services",
 			},

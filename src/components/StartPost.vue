@@ -66,8 +66,10 @@
 							size="70"
 						>
 							<v-img
-								:src="getCurrentProfileImage"
+								v-if="$helper.getCurrentProfileImage()"
+								:src="$helper.getCurrentProfileImage()"
 							/>
+							<v-img :src="defaultProfileImage" />
 						</v-avatar>
 					</v-col>
 					<v-col
@@ -481,13 +483,6 @@ export default {
 			multimediaPostCreationFormErrors: "multimedia/multimediaPostCreationFormErrors",
 			articlePostCreationFormErrors: "article/formErrors"
 		}),
-		getCurrentProfileImage() {
-			const currentUser = this.$helper.getCurrentUser()
-			if (currentUser && currentUser.profile["profile_images"].length > 0) {
-				return currentUser.profile["profile_images"][0].image
-			}
-			else return this.defaultProfileImage
-		}
 	},
 	async created() {
 		this.currentUser = this.$helper.getCurrentUser()

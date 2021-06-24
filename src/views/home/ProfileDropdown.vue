@@ -11,13 +11,23 @@
 		>
 			<template #activator="{ attrs, on }">
 				<v-card
+					v-if="$helper.getCurrentProfileImage()"
 					class="rounded-b-circle profile-card"
-					:img="getCurrentProfileImage"
+					:img="$helper.getCurrentProfileImage()"
 					height="45"
 					width="45"
 					v-bind="attrs"
 					v-on="on"
 				/>
+				<v-btn v-else
+					fab
+					small
+					color="deep-purple"
+					v-bind="attrs"
+					v-on="on"
+				>
+					<span class="headline">{{ $helper.getCurrentUser().username[0].toUpperCase() }}</span>
+				</v-btn>
 			</template>
 			<v-list
 				rounded
@@ -101,15 +111,6 @@ export default {
 		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],
 		log_items: [{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }]
 	}),
-	computed: {
-		getCurrentProfileImage() {
-			const currentUser = this.$helper.getCurrentUser()
-			if (currentUser && currentUser.profile["profile_images"].length > 0) {
-				return currentUser.profile["profile_images"][0].image
-			}
-			else return this.defaultProfileImage
-		}
-	}
 }
 </script>
 <style lang="sass" scoped>
