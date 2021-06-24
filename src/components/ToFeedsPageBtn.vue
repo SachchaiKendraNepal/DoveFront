@@ -1,37 +1,31 @@
 <template>
-	<v-tooltip bottom>
+	<v-tooltip left>
 		<template #activator="{ on, attrs }">
 			<v-btn
 				fab
-				small
 				:color="color"
+				small
 				v-bind="attrs"
+				@click="$router.push({name: 'HOME'})"
 				v-on="on"
-				@click="$router.push({name: 'SACHCHAI SHOWCASE'})"
 			>
-				<v-icon size="20"
-					color="grey lighten-3"
-				>
-					mdi-view-dashboard
+				<v-icon size="20">
+					mdi-post
 				</v-icon>
 			</v-btn>
 		</template>
-		<span>Showcase</span>
+		<span>Feeds Page</span>
 	</v-tooltip>
 </template>
 
 <script>
 export default {
-	name: "ToShowcaseBtn",
+	name: "ToFeedsPageBtn",
 	props: {
 		color: {
 			type: String,
-			default: "#7e57c2"
+			default: "grey darken-3"
 		}
 	}
 }
 </script>
-
-<style scoped>
-
-</style>

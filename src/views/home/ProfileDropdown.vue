@@ -34,42 +34,11 @@
 				dense
 				color="teal lighten-5"
 			>
-				<v-list-item-group>
-					<v-list-item
-						v-for="(item, i) in og_items"
-						:key="i"
-						:to="item.to"
-					>
-						<v-list-item-icon>
-							<v-icon v-text="item.icon" />
-						</v-list-item-icon>
-						<v-list-item-content>
-							<v-list-item-title v-text="item.text" />
-						</v-list-item-content>
-					</v-list-item>
-				</v-list-item-group>
-				<v-divider class="my-1" />
-				<v-list-item-group>
-					<v-list-item
-						v-for="(item, i) in my_items"
-						:key="i"
-						:to="item.to"
-					>
-						<v-list-item-icon>
-							<v-icon v-text="item.icon" />
-						</v-list-item-icon>
-						<v-list-item-content>
-							<v-list-item-title v-text="item.text" />
-						</v-list-item-content>
-					</v-list-item>
-				</v-list-item-group>
-				<v-divider class="my-1" />
 				<v-list-item-group
-					color="primary"
+					v-for="(item, i) in items"
+					:key="i"
 				>
 					<v-list-item
-						v-for="(item, i) in cog_items"
-						:key="i"
 						:to="item.to"
 					>
 						<v-list-item-icon>
@@ -79,23 +48,9 @@
 							<v-list-item-title v-text="item.text" />
 						</v-list-item-content>
 					</v-list-item>
-				</v-list-item-group>
-				<v-divider class="my-1" />
-				<v-list-item-group
-					color="primary"
-				>
-					<v-list-item
-						v-for="(item, i) in log_items"
-						:key="i"
-						:to="item.to"
-					>
-						<v-list-item-icon>
-							<v-icon v-text="item.icon" />
-						</v-list-item-icon>
-						<v-list-item-content>
-							<v-list-item-title v-text="item.text" />
-						</v-list-item-content>
-					</v-list-item>
+					<v-divider v-if="i +1 !== items.length"
+						class="my-1"
+					/>
 				</v-list-item-group>
 			</v-list>
 		</v-menu>
@@ -106,10 +61,12 @@
 export default {
 	data: () => ({
 		defaultProfileImage: require("@/assets/default_profile_image.png"),
-		og_items: [{ text: "Home", icon: "mdi-home", to: "/home/feeds" }],
-		my_items: [{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/home"}],
-		cog_items: [{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" }],
-		log_items: [{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }]
+		items: [
+			{ text: "Feeds", icon: "mdi-home", to: "/home/feeds" },
+			{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/home"},
+			{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" },
+			{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }
+		]
 	}),
 }
 </script>

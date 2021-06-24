@@ -47,45 +47,8 @@
 				<profile-header-tab :show-arrows="false" />
 			</v-card>
 			<v-spacer />
-			<v-tooltip bottom>
-				<template #activator="{ on, attrs }">
-					<v-btn
-						small
-						fab
-						color="blue lighten-1"
-						v-bind="attrs"
-						v-on="on"
-						@click="routeToShowcase()"
-					>
-						<v-icon small
-							dark
-						>
-							mdi-view-dashboard
-						</v-icon>
-					</v-btn>
-				</template>
-				<span>Showcase</span>
-			</v-tooltip>
 			<div class="px-1" />
-			<v-tooltip bottom>
-				<template #activator="{ on, attrs }">
-					<v-btn
-						fab
-						small
-						color="#287bbd"
-						v-bind="attrs"
-						v-on="on"
-						@click="routeToFeedsPage()"
-					>
-						<v-icon small
-							dark
-						>
-							mdi-post
-						</v-icon>
-					</v-btn>
-				</template>
-				<span>Feeds Page</span>
-			</v-tooltip>
+			<profile-dropdown />
 		</v-app-bar>
 		<v-card
 			light
@@ -125,10 +88,12 @@
 import ProfileHeaderTab from "@/components/ProfileHeaderTab";
 import SidebarList from "@/views/profile/SidebarList";
 import TheSnackbar from "@/components/TheSnackbar";
+import ProfileDropdown from "@/views/home/ProfileDropdown";
 
 export default {
 	name: "ProfileLayout",
 	components: {
+		ProfileDropdown,
 		TheSnackbar,
 		SidebarList,
 		ProfileHeaderTab,
@@ -153,12 +118,6 @@ export default {
 			this.loading = true
 			this.currentUser = this.$helper.getCurrentUser()
 			this.loading = false
-		},
-		routeToShowcase() {
-			this.$router.push({name: "SACHCHAI SHOWCASE"})
-		},
-		routeToFeedsPage() {
-			this.$router.push({name: "HOME"})
 		},
 	},
 }

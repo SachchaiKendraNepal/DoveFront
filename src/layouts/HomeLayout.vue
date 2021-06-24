@@ -120,11 +120,9 @@ export default {
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
 	data: () => ({
-		drawer: true,
+		homeDrawer: false,
 		mini: true,
 		logo: require("@/assets/showcase_logo_v1.png"),
-
-		homeDrawer: false
 	}),
 	methods: {
 		toggleHomeDrawer() {
