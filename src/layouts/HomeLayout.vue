@@ -69,7 +69,7 @@
 		<v-card
 			light
 			max-width="1000"
-			color="deep-purple lighten-4"
+			color="rgb(221 161 221)"
 			class="mx-auto rounded-t-0 aux-home-tab-card elevation-12"
 		>
 			<home-tabs :arrows="true" />
@@ -205,5 +205,8 @@ export default {
 <style lang="scss" scoped>
 .purple-gradient {
 	background-image: linear-gradient( 111.5deg,  rgba(254,210,255,1) -7.2%, rgba(115,9,112,1) 100.2% );
+}
+.aux-tab-gradient {
+
 }
 </style>

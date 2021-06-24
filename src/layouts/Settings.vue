@@ -144,23 +144,16 @@
 				</v-row>
 			</v-container>
 		</v-main>
-		<v-footer padless>
-			<v-col
-				class="text-center"
-				cols="12"
-			>
-				©️ {{ new Date().getFullYear() }} — <strong>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
-			</v-col>
-		</v-footer>
+		<small-footer />
 	</div>
 </template>
 <script>
-import {mapGetters} from "vuex";
 import TheSnackbar from "@/components/TheSnackbar";
+import SmallFooter from "@/components/SmallFooter";
 
 export default {
 	name: "SettingsLayout",
-	components: {TheSnackbar},
+	components: {SmallFooter, TheSnackbar},
 	data() {
 		return {
 			drawer: true,
