@@ -10,15 +10,15 @@
 			close-delay="1"
 		>
 			<template #activator="{ attrs, on }">
-				<v-card
-					v-if="$helper.getCurrentProfileImage()"
-					class="rounded-b-circle profile-card"
-					:img="$helper.getCurrentProfileImage()"
-					height="45"
-					width="45"
+				<v-avatar v-if="$helper.getCurrentProfileImage()"
+					size="45"
 					v-bind="attrs"
 					v-on="on"
-				/>
+				>
+					<v-img
+						:src="$helper.getCurrentProfileImage()"
+					/>
+				</v-avatar>
 				<v-btn v-else
 					fab
 					small
@@ -26,7 +26,7 @@
 					v-bind="attrs"
 					v-on="on"
 				>
-					<span class="headline">{{ $helper.getCurrentUser().username[0].toUpperCase() }}</span>
+					<span class="headline">{{ $helper.getCurrentUserInitials() }}</span>
 				</v-btn>
 			</template>
 			<v-list

@@ -71,8 +71,7 @@ export default {
 		async logout() {
 			const currentUser = this.$helper.getCurrentUser()
 			if (!currentUser) {
-				localStorage.removeItem("sachchaiAccessToken")
-				localStorage.removeItem("currentUser")
+				this.$helper.clearApplicationData()
 				await this.$router.push({name: "LOG IN"})
 			} else {
 				const isUserLoggedOut = await this.$store.dispatch(

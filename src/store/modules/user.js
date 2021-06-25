@@ -1,5 +1,6 @@
-const util = require("util")
+import $helper from "@/Helper";
 import $api from "@/handler/axios"
+const util = require("util")
 import urls from "@/urls.json"
 const userUrls = urls.user
 
@@ -87,8 +88,13 @@ const actions = {
 		}
 	},
 	async fetchById({ commit }, {id: id}) {
-		const response = await $api.get(util.format(userUrls.detail, id))
-		commit("SET_USER", response)
+		try {
+			const response = await $api.get(util.format(userUrls.detail, id))
+			commit("SET_USER", response)
+			return true
+		} catch {
+			return false
+		}
 	},
 	async fetchAll({ commit }) {
 		try {
@@ -111,8 +117,7 @@ const actions = {
 		try {
 			const res = await $api.patch(util.format(userUrls.detail, id), body)
 			if (myProfile) {
-				localStorage.removeItem("currentUser")
-				localStorage.setItem("currentUser", JSON.stringify(res))
+				$helper.setCurrentUser(res)
 			}
 			return true
 		} catch (e) {

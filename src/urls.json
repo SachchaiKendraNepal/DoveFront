@@ -96,7 +96,11 @@
     "userProfile": "user/%s/profile",
     "detail": "profile/%s",
     "imageList": "profile-image/",
-    "imageDetail": "profile-image/%s/"
+    "imageDetail": "profile-image/%s/",
+    "coverList": "cover-image/",
+    "coverDetail": "cover-image/%s/",
+    "setActiveProfileImage": "profile-image/%s/set-active",
+    "setActiveCoverImage": "cover-image/%s/set-active"
   },
   "location":{
     "countryList": "country/",
