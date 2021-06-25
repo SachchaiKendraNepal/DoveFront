@@ -48,10 +48,18 @@
 							<v-list-item-title v-text="item.text" />
 						</v-list-item-content>
 					</v-list-item>
-					<v-divider v-if="i +1 !== items.length"
-						class="my-1"
-					/>
+					<v-divider class="my-1" />
 				</v-list-item-group>
+				<v-list-item
+					@click="logout"
+				>
+					<v-list-item-icon>
+						<v-icon v-text="logoutItem.icon" />
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title v-text="logoutItem.text" />
+					</v-list-item-content>
+				</v-list-item>
 			</v-list>
 		</v-menu>
 	</div>
@@ -65,9 +73,15 @@ export default {
 			{ text: "Feeds", icon: "mdi-home", to: "/home/feeds" },
 			{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/home"},
 			{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" },
-			{ text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }
-		]
+		],
+		logoutItem: { text: "Log Out", icon: "mdi-logout", to: "/auth/login", divider: true }
 	}),
+	methods: {
+		logout() {
+			this.$helper.clearApplicationData()
+			this.$router.push({ name: "LOG IN"})
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
