@@ -54,7 +54,15 @@
 								class="profile-avatar"
 								size="130"
 							>
-								<v-img :src="getCurrentProfileImage" />
+								<v-img
+									v-if="$helper.getCurrentProfileImage()"
+									:src="$helper.getCurrentProfileImage()"
+								/>
+								<span v-else
+									class="display-1"
+								>
+									{{ $helper.getCurrentUser().username[0] }}
+								</span>
 							</v-avatar>
 							<div class="text-center py-4">
 								<v-chip
@@ -81,17 +89,8 @@ export default {
 		ModelSummary: () => import("@/views/settings/ModelSummary"),
 	},
 	data: () => ({
-		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		currentUser: null
 	}),
-	computed: {
-		getCurrentProfileImage() {
-			if (this.currentUser && this.currentUser.profile["profile_images"].length > 0) {
-				return this.currentUser.profile["profile_images"][0].image
-			}
-			else return this.defaultProfileImage
-		}
-	},
 	async created() {
 		this.currentUser = this.$helper.getCurrentUser()
 	},

@@ -89,6 +89,8 @@ import ProfileHeaderTab from "@/components/ProfileHeaderTab";
 import SidebarList from "@/views/profile/SidebarList";
 import TheSnackbar from "@/components/TheSnackbar";
 import ProfileDropdown from "@/views/home/ProfileDropdown";
+import {mapGetters} from "vuex";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "ProfileLayout",
@@ -99,24 +101,36 @@ export default {
 		ProfileHeaderTab,
 		ScrollUp: () => import("@/components/ScrollTop")
 	},
+	mixins: [Snack],
 	data: () => ({
 		drawer: true,
 		mini: true,
-		currentUser: null,
 	}),
+	computed: {
+		...mapGetters({
+			currentUser: "user/detail"
+		})
+	},
 	created() {
 		this.init()
 		this.$bus.on("close-sidebar", () => {
 			this.mini = true
 		})
+		this.$bus.on("refresh-me", this.init)
 	},
 	beforeUnmount() {
 		this.$bus.off("close-sidebar")
+		this.$bus.off("refresh-me")
 	},
 	methods: {
-		init() {
+		async init() {
 			this.loading = true
-			this.currentUser = this.$helper.getCurrentUser()
+			const fetch = await this.$store.dispatch(
+				"user/fetchById",
+				{ id: this.$helper.getCurrentUser().id }
+			)
+			if (!fetch) await this.openSnack("Sorry. We're trying to fix the problem soon. Please be with us!")
+			this.$helper.setCurrentUser(this.currentUser)
 			this.loading = false
 		},
 	},

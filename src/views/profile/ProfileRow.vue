@@ -11,7 +11,7 @@
 		>
 			<v-img
 				height="300"
-				:src="profile.cover"
+				:src="$helper.getCurrentCoverImage()"
 			/>
 		</v-card>
 		<v-card
@@ -24,32 +24,30 @@
 				class="profile-avatar"
 				size="200"
 			>
-				<v-img :src="profile.image" />
+				<v-img
+					v-if="$helper.getCurrentProfileImage()"
+					:src="$helper.getCurrentProfileImage()"
+				/>
+				<span v-else
+					class="display-4 grey--text"
+				>
+					{{ $helper.getCurrentUser().username[0].toUpperCase() }}
+				</span>
 			</v-avatar>
 		</v-card>
 		<div class="py-2" />
 		<h1 class="text-center">
-			{{ profile.name }}
+			{{ $helper.getCurrentUser().first_name }} {{ $helper.getCurrentUser().last_name }}
 		</h1>
 		<v-card-text class="text-center pt-2">
-			{{ profile.bio }}
+			{{ $helper.getCurrentUser().profile.bio }}
 		</v-card-text>
 	</v-card>
 </template>
 
 <script>
 export default {
-	name: "ProfileRow",
-	data: () => ({
-		profile: {
-			name: "Kiran Parajuli",
-			bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada." +
-				" Proin eget tortor risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum" +
-				" dolor sit amet, consectetur adipiscing elit.",
-			image: "https://image.freepik.com/free-vector/beard-man-barber-shop-logo-vector-illustration_56473-434.jpg",
-			cover: "https://media.nature.com/lw800/magazine-assets/d41586-020-01390-w/d41586-020-01390-w_17974388.jpg"
-		}
-	})
+	name: "ProfileRow"
 }
 </script>
 

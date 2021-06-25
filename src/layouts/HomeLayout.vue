@@ -60,8 +60,6 @@
 				<home-tabs />
 			</v-card>
 			<v-spacer />
-			<div class="px-2" />
-			<to-showcase-btn />
 			<div class="px-1" />
 			<profile-dropdown />
 		</v-app-bar>
@@ -106,12 +104,10 @@
 <script>
 import TheSnackbar from "@/components/TheSnackbar";
 import HomeTabs from "@/views/home/Tabs";
-import ToShowcaseBtn from "@/components/ToShowcaseBtn";
 
 export default {
 	name: "SacchaiHomeLayout",
 	components: {
-		ToShowcaseBtn,
 		HomeTabs,
 		TheSnackbar,
 		ProfileDropdown: () => import("@/views/home/ProfileDropdown"),

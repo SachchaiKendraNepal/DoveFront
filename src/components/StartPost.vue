@@ -69,7 +69,9 @@
 								v-if="$helper.getCurrentProfileImage()"
 								:src="$helper.getCurrentProfileImage()"
 							/>
-							<v-img :src="defaultProfileImage" />
+							<v-img v-else
+								:src="defaultProfileImage"
+							/>
 						</v-avatar>
 					</v-col>
 					<v-col
@@ -443,7 +445,6 @@ export default {
 	mixins: [Snack],
 	emits: ["close-dialog"],
 	data: () => ({
-		currentUser: null,
 		files: [],
 		dialog: false,
 		uploadVideo: false,
@@ -483,9 +484,11 @@ export default {
 			multimediaPostCreationFormErrors: "multimedia/multimediaPostCreationFormErrors",
 			articlePostCreationFormErrors: "article/formErrors"
 		}),
+		currentUser() {
+			return this.$helper.getCurrentUser()
+		}
 	},
 	async created() {
-		this.currentUser = this.$helper.getCurrentUser()
 		this.$bus.on("open-start-post-dialog", this.openDialog)
 		await this.resetPostForm()
 	},
@@ -523,8 +526,8 @@ export default {
 				this.images.push(latestFile)
 			} else if (/\.(mp3)$/i.test(latestFile.name)) {
 				this.soundURLs.push({
-					title: "Kiran Parajuli",
-					artist: "KIRAN",
+					title: "Sachchai Sounds",
+					artist: this.currentUser.username,
 					src: latestUrl,
 					pic: "https://bd.gaadicdn.com/processedimages/hero/passion-pro-110/640X309/passion-pro-1105e5ddca2e3a50.jpg",
 				})
@@ -541,7 +544,7 @@ export default {
 			}
 		},
 		/**
-		 * Pretreatment
+		 * Pre treatment
 		 * @return undefined
 		 * @param newFile
 		 * @param oldFile

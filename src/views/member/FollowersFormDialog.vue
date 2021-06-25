@@ -52,8 +52,8 @@
 							cols="12"
 						>
 							<v-img
-								:src="fetchCurrentCoverImage"
-								height="200"
+								v-if="$helper.getCurrentCoverImage()"
+								:src="$helper.getCurrentProfileImage()"
 							/>
 						</v-col>
 						<v-col cols="12"
@@ -63,7 +63,13 @@
 								class="profile-img-avatar"
 								size="180"
 							>
-								<v-img :src="getCurrentProfileImage" />
+								<v-img
+									v-if="$helper.getCurrentProfileImage()"
+									:src="$helper.getCurrentProfileImage()"
+								/>
+								<span v-else
+									class="headline"
+								>{{ $helper.getCurrentUser().username[0].toUpperCase() }}</span>
 							</v-avatar>
 						</v-col>
 						<v-col
@@ -253,17 +259,6 @@ export default {
 		...mapGetters({
 			formErrors: "user/userCreateFormErrors",
 		}),
-		getCurrentProfileImage() {
-			if (
-				this.editedIndex === -1 ||
-				this.editedItem.profile["profile_images"].length === 0
-			)
-				return this.defaultProfileImage
-			return this.editedItem.profile["profile_images"][0].image
-		},
-		fetchCurrentCoverImage() {
-			return "https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-		}
 	},
 	async created() {
 		this.$bus.on("open-follower-form-dialog-add-item", this.openCreateDialog)
