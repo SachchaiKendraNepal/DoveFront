@@ -1,4 +1,5 @@
 import axios from "axios"
+import $helper from "@/Helper"
 
 const api = {
 	setHeaders: function (contentType) {
@@ -8,9 +9,9 @@ const api = {
 				"Content-Type": contentType || "application/json",
 				Accept: "application/json",
 				Authorization:
-				typeof localStorage.getItem("sachchaiAccessToken") !== "string"
+				typeof $helper.getAccessToken() !== "string"
 					? null
-					: `Token ${localStorage.getItem("sachchaiAccessToken")}`
+					: `Token ${$helper.getAccessToken()}`
 			}
 		})
 	},

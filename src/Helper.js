@@ -9,70 +9,7 @@ const keysToIgnore = [
 	"updated_at"
 ]
 
-const requiredObjectsForBranch = ["country", "province", "district", "vdc", "vdc_ward", "municipality", "municipality_ward"]
-const requiredObjectsForEvent = ["country", "province", "district", "organizer", "vdc", "vdc_ward", "municipality", "municipality_ward"]
-
 module.exports = {
-	/**
-	 * Cooks create data for a model
-	 *
-	 * @param {string} imageKey name of image key
-	 * @param {Object} rawData editedItem to be parsed
-	 *
-	 * @return {Object}
-	 */
-	cookCreateData(imageKey, rawData) {
-		// remove image from object if not added
-		if (rawData.imageForUpload !== undefined) {
-			rawData[imageKey] = rawData.imageForUpload[0]
-		} else delete rawData[imageKey]
-		return rawData
-	},
-	/**
-	 * Cooks edit data for a model
-	 * @param {string} target Either "branch" or "event"
-	 * @param {Object} rawData editedItem to be parsed
-	 * @param {string} imageKey name of image key
-	 *
-	 * @return {Object}
-	 */
-	cookEditData(target, rawData, imageKey) {
-		const body = {}
-		let objArray = []
-		// get required objects to be id'ed
-		if (target === "branch") objArray = requiredObjectsForBranch
-		else if (target === "event") objArray = requiredObjectsForEvent
-		// get id from objects
-		objArray.forEach(model => {
-			if (rawData[model] !== undefined && rawData[model] !== null) {
-				if (typeof rawData[model] === "object") {
-					body[model] = rawData[model].id
-				}
-			}
-		})
-		// think about image field
-		if (rawData.imageForUpload !== undefined) {
-			body[imageKey] = rawData.imageForUpload[0]
-		}
-
-		// copy entire rawData to a separate body
-		for (const [key, value] of Object.entries(rawData)) {
-			if(!body.hasOwnProperty(key)) {
-				body[key] = value
-			}
-		}
-		// remove image from object if not changed
-		if (rawData.imageForUpload !== undefined) {
-			body[imageKey] = rawData.imageForUpload[0]
-		} else delete body[imageKey]
-		return body
-	},
-	/**
-	 * Return form data for provided raw object
-	 * @param {Object} data raw data to be parsed
-	 *
-	 * @return {FormData}
-	 */
 	getFormData(data) {
 		let formData = new FormData()
 		for (const [key, value] of Object.entries(data)) {
@@ -95,15 +32,32 @@ module.exports = {
 		}
 		return false
 	},
+	clearApplicationData() {
+		localStorage.removeItem("currentUser")
+		localStorage.removeItem("sachchaiAccessToken")
+	},
+	setCurrentUser(currentUser) {
+		localStorage.removeItem("currentUser")
+		localStorage.setItem("currentUser", JSON.stringify(currentUser))
+	},
+	setAccessToken(token) {
+		localStorage.removeItem("sachchaiAccessToken")
+		localStorage.setItem("sachchaiAccessToken", token)
+	},
+	getAccessToken() {
+		return localStorage.getItem("sachchaiAccessToken")
+	},
 	getCurrentUser() {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
 	getCurrentProfileImage() {
-		const currentUser = this.getCurrentUser()
-		if (currentUser && currentUser.profile["profile_images"].length > 0) {
-			return currentUser.profile["profile_images"][0].image
-		}
-		else return false
+		return this.getCurrentUser()["active_profile_image"]
+	},
+	getCurrentCoverImage() {
+		const defaultCover = require("@/assets/default_cover_img.jpg")
+		const img = this.getCurrentUser()["active_cover_image"]
+		if (!img) return defaultCover
+		return img
 	},
 	isUserLoggedIn() {
 		const currentUser = this.getCurrentUser()
@@ -129,7 +83,4 @@ module.exports = {
 		const currentUser = this.getCurrentUser()
 		return currentUser.username === writerUsername
 	},
-	getAccessToken() {
-		return localStorage.getItem("sachchaiAccessToken")
-	}
 }

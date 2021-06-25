@@ -1,9 +1,5 @@
 import $api from "@/handler/axios";
-
-function clearApplication() {
-	localStorage.removeItem("sachchaiAccessToken")
-	localStorage.removeItem("currentUser")
-}
+import $helper from "@/Helper"
 
 const state = {}
 
@@ -14,17 +10,14 @@ const mutations = {}
 const actions = {
 	async login({}, user) {
 		// always remove preserved/cached localStorage item at first
-		clearApplication()
+		$helper.clearApplicationData()
 		try {
 			const response = await $api.post("login", user)
 			if (response.token) {
-				// save currentUser at localStorage
-				localStorage.setItem("currentUser", JSON.stringify(response.data))
-				// save new access token at localStorage
-				localStorage.setItem("sachchaiAccessToken", response.token)
+				$helper.setCurrentUser(response.data)
+				$helper.setAccessToken(response.token)
 				return true
 			} else {
-				clearApplication()
 				return false
 			}
 		} catch (e) {
@@ -38,7 +31,7 @@ const actions = {
 	async logout({}, username) {
 		try {
 			await $api.post("logout", { username: username })
-			clearApplication()
+			$helper.clearApplicationData()
 			return true
 		} catch (e) {
 			const status = (e.response) ? parseInt(e.response.status.toString()) : "500"
@@ -46,7 +39,7 @@ const actions = {
 				return `Username: ${e.response.data.username[0]}`
 			} else if (status === 404) return e.response.data.detail
 			else {
-				clearApplication()
+				$helper.clearApplicationData()
 				return true
 			}
 		}
