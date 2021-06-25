@@ -14,7 +14,7 @@
 			class="ma-0 pa-0 d-flex justify-center"
 		>
 			<span class="headline white--text">
-				{{ $helper.getCurrentUser().username[0].toUpperCase() }}
+				{{ $helper.getCurrentUserInitials() }}
 			</span>
 		</v-list-item-avatar>
 		<v-list-item-content class="pl-6">

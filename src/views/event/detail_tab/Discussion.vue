@@ -43,7 +43,7 @@
 						:color="colors[index % 10]"
 						class="d-flex justify-content-center ma-2"
 					>
-						<span class="white--text headline">{{ item.writer.username[0].toUpperCase() }}</span>
+						<span class="white--text headline">{{ $helper.getCurrentUserInitials(item.writer) }}</span>
 					</v-avatar>
 
 					<v-list-item-content>

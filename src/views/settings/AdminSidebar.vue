@@ -13,7 +13,7 @@
 				color="grey lighten-2"
 			>
 				<span class="headline grey--text text--darken-1">
-					{{ currentUser.username[0].toUpperCase() }}
+					{{ $helper.getCurrentUserInitials() }}
 				</span>
 			</v-list-item-avatar>
 			<v-list-item-content class="py-0">

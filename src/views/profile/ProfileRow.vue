@@ -31,7 +31,7 @@
 				<span v-else
 					class="display-4 grey--text"
 				>
-					{{ $helper.getCurrentUser().username[0].toUpperCase() }}
+					{{ $helper.getCurrentUserInitials() }}
 				</span>
 			</v-avatar>
 		</v-card>

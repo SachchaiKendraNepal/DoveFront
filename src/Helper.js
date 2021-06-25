@@ -50,8 +50,11 @@ module.exports = {
 	getCurrentUser() {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
+	getUsernameInitials(value) {
+		return value.username[0].toUpperCase()
+	},
 	getCurrentUserInitials() {
-		return JSON.parse(localStorage.getItem("currentUser")).username[0].toUpperCase()
+		return this.getUsernameInitials(this.getCurrentUser())
 	},
 	getCurrentProfileImage() {
 		return this.getCurrentUser()["active_profile_image"]

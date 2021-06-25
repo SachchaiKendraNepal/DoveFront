@@ -39,7 +39,7 @@
 							style="border-radius: 4px !important;"
 						>
 							<span class="white--text headline">
-								{{ item.writer.username[0].toUpperCase() }}
+								{{ $helper.getUsernameInitials(item.writer) }}
 							</span>
 						</v-avatar>
 						<v-dialog

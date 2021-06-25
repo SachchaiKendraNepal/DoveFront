@@ -35,7 +35,7 @@
 					:color="getAvColor"
 					class="d-flex justify-center author-av"
 				>
-					<span class="text-uppercase headline white--text">{{ article.created_by.username[0] }}</span>
+					<span class="text-uppercase headline white--text">{{ $helper.getUsernameInitials(article.created_by) }}</span>
 				</v-list-item-avatar>
 				<v-list-item-content>
 					<v-list-item-subtitle class="d-flex justify-start">

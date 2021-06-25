@@ -69,7 +69,7 @@
 								/>
 								<span v-else
 									class="headline"
-								>{{ $helper.getCurrentUser().username[0].toUpperCase() }}</span>
+								>{{ $helper.getCurrentUserInitials() }}</span>
 							</v-avatar>
 						</v-col>
 						<v-col

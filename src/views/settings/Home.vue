@@ -61,7 +61,7 @@
 								<span v-else
 									class="display-1"
 								>
-									{{ $helper.getCurrentUser().username[0] }}
+									{{ $helper.getCurrentUserInitials() }}
 								</span>
 							</v-avatar>
 							<div class="text-center py-4">

@@ -23,7 +23,7 @@
 					:style="'border: ' + colors[index % 10]"
 				>
 					<span class="white--text headline">
-						{{ item.writer.username[0].toUpperCase() }}
+						{{ $helper.getCurrentUserInitials(item.writer) }}
 					</span>
 				</v-avatar>
 				<v-list-item-content class="pl-0">
