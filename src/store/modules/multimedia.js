@@ -1,21 +1,15 @@
 import $api from "@/handler/axios"
 import urls from "@/urls.json"
-import {SET_ARTICLE_EXTRA_STATUS} from "@/store/modules/article";
 
 const multimediaUrl = urls.multimedia
 const util = require("util")
 
 export const SET_MULTIMEDIAS = "SET_MULTIMEDIAS"
 export const SET_MULTIMEDIA = "SET_MULTIMEDIA"
-export const SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS = "SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS"
-export const SET_MULTIMEDIA_IMAGES = "SET_MULTIMEDIA_IMAGES"
-export const SET_MULTIMEDIA_SOUNDS = "SET_MULTIMEDIA_SOUNDS"
-export const SET_MULTIMEDIA_VIDEOS = "SET_MULTIMEDIA_VIDEOS"
-export const SET_MULTIMEDIA_VIDEO_URLS = "SET_MULTIMEDIA_VIDEO_URLS"
-export const SET_MULTIMEDIA_EXTRA_STATUS = "SET_MULTIMEDIA_EXTRA_STATUS"
+export const SET_FORM_ERRORS = "SET_FORM_ERRORS"
 
 
-const defaultMultimediaPostCreationFormErrors = {
+const defaultFormErrors = {
 	video: null,
 	audio: null,
 	image: null,
@@ -27,13 +21,9 @@ const defaultMultimediaPostCreationFormErrors = {
 const state = {
 	multimedias: {},
 	multimedia: {},
-	multimediaPostCreationFormErrors: {
-		... defaultMultimediaPostCreationFormErrors
+	formErrors: {
+		... defaultFormErrors
 	},
-	multimediaImages: {},
-	multimediaSounds: {},
-	multimediaVideos: {},
-	multimediaVideoUrls: {},
 	multimediaExtraStatus: {}
 }
 
@@ -44,56 +34,26 @@ const mutations = {
 	[SET_MULTIMEDIA](state, value) {
 		state.multimedia = value
 	},
-	[SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS](state, value) {
-		state.multimediaPostCreationFormErrors = value
+	[SET_FORM_ERRORS](state, value) {
+		state.formErrors = value
 	},
-	[SET_MULTIMEDIA_IMAGES](state, value) {
-		state.multimediaImages = value
-	},
-	[SET_MULTIMEDIA_SOUNDS](state, value) {
-		state.multimediaSounds = value
-	},
-	[SET_MULTIMEDIA_VIDEOS](state, value) {
-		state.multimediaVideos = value
-	},
-	[SET_MULTIMEDIA_VIDEO_URLS](state, value) {
-		state.multimediaVideoUrls = value
-	},
-	[SET_MULTIMEDIA_EXTRA_STATUS](state, value) {
-		state.multimediaExtraStatus = value
-	}
 }
 
 const getters = {
 	list: state => {
 		return state.multimedias
 	},
-	multimediaPostCreationFormErrors: state => {
-		return state.multimediaPostCreationFormErrors
-	},
-	allMultimediaImages: state => {
-		return state.multimediaImages.data
-	},
-	allMultimediaSounds: state => {
-		return state.multimediaSounds.data
-	},
-	allMultimediaVideos: state => {
-		return state.multimediaVideos.data
-	},
-	allMultimediaVideoUrls: state => {
-		return state.multimediaVideoUrls.data
+	formErrors: state => {
+		return state.formErrors
 	},
 	multimediaDetail: state => {
 		return state.multimedia
 	},
-	multimediaExtraStatusDetail: state => {
-		return state.multimediaExtraStatus
-	}
 }
 
 const actions = {
-	clearMultimediaPostCreationFormErrors({ commit }) {
-		commit("SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS", { ... defaultMultimediaPostCreationFormErrors })
+	clearFormErrors({ commit }) {
+		commit("SET_FORM_ERRORS", { ... defaultFormErrors })
 	},
 	async getAll({commit}) {
 		const response = await $api.get(multimediaUrl.set)
@@ -127,7 +87,7 @@ const actions = {
 		} catch (e) {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {
-				commit("SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
@@ -141,15 +101,39 @@ const actions = {
 		} catch (e) {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {
-				commit("SET_MULTIMEDIA_POST_CREATION_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
 	},
 
-	async delete({commit}, payload) {
+	async delete({}, payload) {
 		try {
-			await $api.delete(multimediaUrl.set + payload.id + "/")
+			await $api.delete(util.format(multimediaUrl.detail, payload.id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async deleteVideoUrl({}, {id: id}) {
+		try {
+			await $api.delete(util.format(multimediaUrl.videoUrlDetail, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async deleteVideo({}, {id: id}) {
+		try {
+			await $api.delete(util.format(multimediaUrl.videoDetail, id))
+			return true
+		} catch (e) {
+			return false
+		}
+	},
+	async deleteImage({}, {id: id}) {
+		try {
+			await $api.delete(util.format(multimediaUrl.imageDetail, id))
 			return true
 		} catch (e) {
 			return false
@@ -176,9 +160,7 @@ const actions = {
 
 	async fetchMyStatus({commit}, {id: id}) {
 		try {
-			const response = await $api.get(util.format(multimediaUrl.extraStatus, id))
-			commit("SET_MULTIMEDIA_EXTRA_STATUS", response)
-			return response
+			return await $api.get(util.format(multimediaUrl.extraStatus, id))
 		} catch (e) {
 			return false
 		}

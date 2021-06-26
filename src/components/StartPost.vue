@@ -481,7 +481,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			multimediaPostCreationFormErrors: "multimedia/multimediaPostCreationFormErrors",
+			multimediaPostCreationFormErrors: "multimedia/formErrors",
 			articlePostCreationFormErrors: "article/formErrors"
 		}),
 		currentUser() {
@@ -497,7 +497,7 @@ export default {
 	},
 	methods: {
 		async resetPostForm() {
-			await this.$store.dispatch("multimedia/clearMultimediaPostCreationFormErrors")
+			await this.$store.dispatch("multimedia/clearFormErrors")
 			await this.$store.dispatch("article/clearFormErrors")
 			this.post = {
 				title: "",
