@@ -1,9 +1,11 @@
 <template>
-	<v-list-item two-line
-		class="px-2"
-		style="height: 70px"
+	<v-list-item
+		class="clip-item"
+		two-line
 	>
-		<v-list-item-avatar v-if="$helper.getCurrentProfileImage()">
+		<v-list-item-avatar v-if="$helper.getCurrentProfileImage()"
+			class="clip-avatar"
+		>
 			<v-img
 				:src="$helper.getCurrentProfileImage()"
 			/>
@@ -17,9 +19,9 @@
 				{{ $helper.getCurrentUserInitials() }}
 			</span>
 		</v-list-item-avatar>
-		<v-list-item-content class="pl-6">
+		<v-list-item-content>
 			<v-list-item-title class="full-name">
-				{{ currentUser.first_name }} {{ currentUser.last_name }}
+				<h4>{{ currentUser.first_name }} {{ currentUser.last_name }} </h4>
 			</v-list-item-title>
 			<v-list-item-subtitle>
 				<v-icon small
@@ -28,7 +30,7 @@
 					mdi-account-group
 				</v-icon>
 				<v-icon small
-					color="black"
+					color="grey"
 					class="ml-1"
 				>
 					mdi-account-cog
@@ -50,6 +52,14 @@ export default {
 </script>
 <style lang="sass" scoped>
 .full-name
-	font-size: 1rem
-	font-weight: 500
+	//font-size: 1rem
+	//font-weight: 500
+.clip-item
+	padding: 0 8px
+	height: 70px
+.clip-item:hover
+	transition: all .5s ease
+	.clip-avatar
+		background-color: #efbdee
+		border: 2px solid #efbdee
 </style>

@@ -16,19 +16,11 @@
 							class="youtube-thumbnail cursor"
 							@click="$router.push({ name: 'SACHCHAI NEPAL MULTIMEDIA', params: { id: post.id }})"
 						>
-							<div class="video-icon">
-								<v-icon
-									size="40"
-									color="white"
-								>
-									mdi-video
-								</v-icon>
-							</div>
 							<v-img
 								class="yt-video-icon"
 								:src="require('@/assets/yt-icon.png')"
-								height="60"
-								width="80"
+								height="30"
+								width="40"
 							/>
 						</v-img>
 						<v-img
@@ -40,7 +32,7 @@
 						>
 							<div class="video-icon">
 								<v-icon
-									size="40"
+									size="20"
 									color="white"
 								>
 									mdi-video

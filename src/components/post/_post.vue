@@ -4,12 +4,12 @@
 		color="white"
 	>
 		<v-list-item>
-			<v-list-item-avatar v-if="post.uploaded_by.profile['profile_images'].length > 0"
-				size="54"
-				class="author-avatar"
+			<v-list-item-avatar v-if="post['uploaded_by']['active_profile_image']"
+				size="50"
+				class="elevation-4"
 			>
 				<v-img
-					:src="post.uploaded_by.profile['profile_images'][0].image"
+					:src="post['uploaded_by']['active_profile_image']"
 				/>
 			</v-list-item-avatar>
 			<v-list-item-content>
@@ -212,9 +212,6 @@ export default {
 	display: block
 	@media only screen and (max-width: 250px)
 		display: none
-.author-avatar
-	background-color: goldenrod
-	border: 2px solid goldenrod
 </style>
 <style lang="scss">
 .post-actions-row {

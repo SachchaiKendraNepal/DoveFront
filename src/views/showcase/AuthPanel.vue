@@ -58,9 +58,11 @@
 
 <script>
 import router from "@/router";
+import Snack from "@/mixins/Snack";
 
 export default {
 	name: "AuthPanel",
+	mixins: [Snack],
 	data: () => ({
 		toggle: false
 	}),
@@ -70,7 +72,7 @@ export default {
 		},
 		async logout() {
 			const currentUser = this.$helper.getCurrentUser()
-			if (!currentUser) {
+			if (!currentUser || (typeof currentUser === "object" && !currentUser.username)) {
 				this.$helper.clearApplicationData()
 				await this.$router.push({name: "LOG IN"})
 			} else {
