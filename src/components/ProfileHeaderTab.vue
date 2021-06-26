@@ -32,9 +32,9 @@ export default {
 	data: () => ({
 		profileTabItems: [
 			{icon: "mdi-information-variant", text: "About", to: "/profile/home"},
-			{icon: "mdi-calendar", text: "Events", to: "/profile/event"},
-			{icon: "mdi-folder-multiple-image", text: "Photos", to: "/profile/photo"},
-			{icon: "mdi-camcorder", text: "Multimedia", to: "/profile/multimedia"}
+			{icon: "mdi-image", text: "Photos", to: "/profile/photo"},
+			{icon: "mdi-camcorder", text: "Multimedia", to: "/profile/multimedia"},
+			{icon: "mdi-calendar", text: "Events", to: "/profile/event"}
 		],
 	})
 }
