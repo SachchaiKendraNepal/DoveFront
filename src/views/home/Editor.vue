@@ -311,7 +311,7 @@ export default {
 									formData.append("image_url", url)
 									formData.append("article", article.id)
 									return $.ajax({
-										url: `${urls.base_url}/api/${urls.articleImageUrl.list}`,
+										url: `${process.env.VUE_APP_BACKEND_HOST}/api/${urls.articleImageUrl.list}`,
 										type: "post",
 										headers: {
 											"Authorization": "Token " + getAccessToken()
@@ -338,7 +338,7 @@ export default {
 									formData.append("image", file)
 									formData.append("article", article.id)
 									return $.ajax({
-										url: `${urls.base_url}/api/${urls.articleImage.list}`,
+										url: `${process.env.VUE_APP_BACKEND_HOST}/api/${urls.articleImage.list}`,
 										type: "post",
 										headers: {
 											"Authorization": "Token " + getAccessToken()

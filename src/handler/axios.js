@@ -1,10 +1,11 @@
 import axios from "axios"
 import $helper from "@/Helper"
+const BACKEND_HOST = process.env.VUE_APP_BACKEND_HOST
 
 const api = {
 	setHeaders: function (contentType) {
 		return axios.create({
-			baseURL: "http://localhost:8000/api/",
+			baseURL: `${BACKEND_HOST}/api/`,
 			headers: {
 				"Content-Type": contentType || "application/json",
 				Accept: "application/json",

@@ -24,7 +24,6 @@
     "@fortawesome/fontawesome-free": "^5.15.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "dotenv": "^10.0.0",
     "editorjs-drag-drop": "^0.1.3",
     "editorjs-html": "^3.3.1",
     "editorjs-undo": "^0.1.6",

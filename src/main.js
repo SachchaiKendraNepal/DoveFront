@@ -15,7 +15,6 @@ import moment from "moment"
 import helper from "@/Helper"
 import "video.js/dist/video-js.css"
 
-
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.component(APlayer)
