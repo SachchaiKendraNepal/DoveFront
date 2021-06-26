@@ -139,6 +139,8 @@
 				<youtube-play-list v-else
 					:video-urls="event.video_urls"
 					:creator="event.created_by"
+					model-name="event video"
+					delete-action="event/deleteVideoUrl"
 				/>
 			</v-row>
 		</v-card>
