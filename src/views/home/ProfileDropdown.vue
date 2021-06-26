@@ -70,6 +70,7 @@ export default {
 	data: () => ({
 		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		items: [
+			{ text: "Showcase", icon: "mdi-image-filter-vintage", to: "/" },
 			{ text: "Feeds", icon: "mdi-home", to: "/home/feeds" },
 			{ text: "Profile", icon: "mdi-account-circle-outline", to: "/profile/home"},
 			{ text: "Settings", icon: "mdi-cog-outline", divider: true, to: "/admin/home" },
