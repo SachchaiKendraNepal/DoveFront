@@ -18,6 +18,12 @@ import "video.js/dist/video-js.css"
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.component(APlayer)
+Vue.component("ProfileNoContent", () =>
+	import("@/components/ProfileNoContent.vue")
+);
+Vue.component("CardImg", () =>
+	import("@/components/CardImage.vue")
+);
 Vue.component("TextField", () =>
 	import("@/components/form/_text_field")
 );
