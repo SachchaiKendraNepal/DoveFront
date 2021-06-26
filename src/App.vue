@@ -22,7 +22,9 @@ export default {
 .cursor {
 	cursor: pointer
 }
-
+.slight-up {
+	margin-top: -4px;
+}
 .form-title {
 	font-size: 1rem;
 	color: white;
