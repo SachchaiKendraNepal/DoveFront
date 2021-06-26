@@ -1,70 +1,108 @@
 <template>
-	<tab-item-card>
-		<template #content>
-			<v-card class="ma-2 pa-0">
-				<v-card-title class="headline pb-0">
-					My Videos
-				</v-card-title>
-				<v-row
-					justify="start"
-					align="center"
-					class="ma-0 pa-1"
+	<v-card class="ma-2 pa-0"
+		flat
+		min-height="83vh"
+	>
+		<div class="py-6" />
+		<StartAPostComponent />
+		<v-btn block
+			height="45"
+			@click="$bus.emit('open-start-post-dialog')"
+		>
+			<v-icon>mdi-video-vintage</v-icon>
+			<span class="pl-2">add new multimedia</span>
+		</v-btn>
+		<profile-no-content
+			v-if="myMultimedias.length === 0"
+			:text="noContentText"
+		/>
+		<div v-else>
+			<v-tabs
+				v-model="tab"
+				class="my-6"
+				background-color="transparent"
+				color="purple"
+				grow
+			>
+				<v-tab
+					v-for="(item, index) in items"
+					:key="index"
 				>
-					<v-col
-						v-for="(item, keyring) in multimediaVideos"
-						:key="keyring"
-						cols="12"
-						class="ma-0 pa-2"
-						xl="3"
-						lg="4"
-						md="4"
-						sm="6"
-					>
-						<div class="video-container round-touch">
-							<iframe :src="prepareEmbedUrl(item.videoUrl)"
-								frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen
-							/>
-						</div>
-					</v-col>
-				</v-row>
-			</v-card>
-		</template>
-	</tab-item-card>
+					{{ item.title }}
+				</v-tab>
+			</v-tabs>
+			<v-tabs-items v-model="tab">
+				<v-tab-item>
+					<profile-no-content
+						v-if="videoUrls.length === 0"
+						text="You have not uploaded any videos yet."
+					/>
+					<youtube-play-list
+						:creator="$helper.getCurrentUser()"
+						model-name="multimedia video"
+						delete-action="multimedia/deleteVideoUrl"
+						:video-urls="videoUrls"
+					/>
+				</v-tab-item>
+				<v-tab-item>
+					<profile-no-content
+						v-if="videos.length === 0"
+						text="You have not uploaded any videos yet."
+					/>
+					<video-play-list
+						v-else
+						:creator="$helper.getCurrentUser()"
+						:videos="videos"
+						model-name="multimedia video"
+						delete-action="multimedia/deleteVideo"
+					/>
+				</v-tab-item>
+			</v-tabs-items>
+		</div>
+	</v-card>
 </template>
 <script>
 
+import StartAPostComponent from "@/components/StartPost.vue";
+import YoutubePlayList from "@/components/YoutubePlayList.vue";
+import VideoPlayList from "@/components/VideoPlayList.vue";
+
 export default {
 	name: "ProfileMultimediaTabView",
-	components: {
-		TabItemCard: () => import("@/components/ProfileTabItem"),
-	},
+	components: {VideoPlayList, YoutubePlayList, StartAPostComponent},
 	data: () => ({
-		multimediaVideos: [
-			{
-				id: 1,
-				playing: false,
-				videoUrl: "https://www.youtube.com/watch?v=gDFUYsXHiv0&ab_channel=Sachhaikendranepal",
-			},
-			{
-				id: 2,
-				playing: false,
-				videoUrl: "https://www.youtube.com/watch?v=zutF2cYlOHI&ab_channel=Sachhaikendranepal",
-				duration: null
-			},
-			{
-				id: 3,
-				playing: false,
-				videoUrl: "https://www.youtube.com/watch?v=2m_K_ilFSTY&ab_channel=Sachhaikendranepal",
-			}
+		tab: null,
+		items: [
+			{title: "Youtube Videos"},
+			{title: "Uploaded Videos"}
 		],
+		noContentText: "You do not have uploaded any videos yet." +
+			" You can create a new multimedia item with some informative" +
+			" videos about your experience with Sachchai Kendra Nepal."
 	}),
-	methods: {
-		getId(url) {
-			return this.$helper.getVideoIdFromYoutubeURL(url)
+	computed: {
+		myMultimedias() {
+			console.log(this.$helper.getCurrentUser()["my_multimedias"])
+			return this.$helper.getCurrentUser()["my_multimedias"]
 		},
-		prepareEmbedUrl(url) {
-			return `https://www.youtube.com/embed/${this.getId(url)}`
+		videoUrls() {
+			let temp = []
+			this.myMultimedias.forEach(multimedia => {
+				multimedia["multimedia_video_urls"].forEach(videoUrl => {
+					temp.push(videoUrl)
+				})
+			})
+			return temp
+		},
+		videos() {
+			let temp = []
+			this.myMultimedias.forEach(multimedia => {
+				multimedia["multimedia_videos"].forEach(video => {
+					video["title"] = multimedia.title
+					temp.push(video)
+				})
+			})
+			return temp
 		}
 	}
 }
