@@ -6,7 +6,7 @@
 		:subtitle="loginPage.subtitle"
 		menu-title="Not a follower yet"
 		:menu-items="menuItems"
-		height="500"
+		height="400"
 	>
 		<template #form>
 			<v-form

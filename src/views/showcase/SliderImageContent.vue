@@ -47,10 +47,11 @@
 	</v-row>
 </template>
 <script>
-import router from "@/router"
+import Snack from "@/mixins/Snack.js";
 
 export default {
 	name: "SliderImageContent",
+	mixins: [Snack],
 	data: () => ({
 		item: {
 			context: "Sachchai kendra nepal presents",
@@ -60,7 +61,11 @@ export default {
 	}),
 	methods: {
 		routeToFeedsPage() {
-			router.push({name: "HOME"})
+			if (!this.$helper.getCurrentUser()) {
+				this.openSnack("You are not logged in. Please login or register view our feeds pages.")
+				this.$router.push({name: "LOG IN"})
+			}
+			else this.$router.push({name: "HOME"})
 		},
 	}
 }
