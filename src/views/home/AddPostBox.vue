@@ -85,7 +85,7 @@ export default {
 			{icon: "mdi-video", text: "Videos", color: "#009688", disabled: true, to: ""},
 		],
 		eventButton: {icon: "mdi-calendar-text", text: "Event", color: "#c21d98", disabled: false, to: ""},
-		startArticleButton: {icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/editor"},
+		startArticleButton: {icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/start-article"},
 		dialog: false,
 		writePostIcon: require("@/assets/write_post_icon.jpg")
 	}),

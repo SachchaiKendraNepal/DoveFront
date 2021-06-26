@@ -24,7 +24,7 @@ const routes = [
 				component: () => import("@/components/ArticleDetail")
 			},
 			{
-				path: "editor",
+				path: "start-article",
 				name: "Editor",
 				component: () => import("@/views/home/Editor")
 			},
