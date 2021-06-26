@@ -2,13 +2,9 @@
 	<v-col
 		v-if="nowPlaying"
 		cols="12"
-		class="ma-0"
+		class="ma-0 pa-0"
 	>
-		<v-card
-			max-width="1000"
-			height="400"
-			class="ma-0 pa-0 mx-0"
-		>
+		<v-card height="400">
 			<youtube-iframe :video-url="nowPlaying"
 				height="400"
 			/>
@@ -28,14 +24,16 @@
 						@click="nowPlaying = videoUrl.video_url"
 					>
 						{{ videoUrl['yt_info']['title'] }}
-						<span v-if="!(nowPlaying === videoUrl.video_url)">
-							<v-icon>mdi-play</v-icon>
-						</span>
-						<span v-else>
-							<v-icon color="green">
-								mdi-play
-							</v-icon>
-						</span>
+						<v-icon v-if="!(nowPlaying === videoUrl.video_url)"
+							class="slight-up"
+						>
+							mdi-play
+						</v-icon>
+						<v-icon class="slight-up"
+							color="green"
+						>
+							mdi-play
+						</v-icon>
 					</div>
 				</v-list-item-content>
 				<v-list-item-action>
@@ -54,8 +52,8 @@
 			</v-list-item>
 		</v-list>
 		<admin-delete-item-dialog
-			model-name="event video"
-			delete-action="event/deleteVideoUrl"
+			:model-name="modelName"
+			:delete-action="deleteAction"
 		/>
 	</v-col>
 </template>
@@ -77,6 +75,14 @@ export default {
 		},
 		videoUrls: {
 			type: Array,
+			required: true
+		},
+		modelName: {
+			type: String,
+			required: true
+		},
+		deleteAction: {
+			type: String,
 			required: true
 		}
 	},
