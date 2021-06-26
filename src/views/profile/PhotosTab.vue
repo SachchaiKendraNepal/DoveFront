@@ -1,6 +1,7 @@
 <template>
 	<v-card tile
 		flat
+		min-height="85vh"
 	>
 		<v-card-title class="text-center justify-center py-6">
 			<h1 class="font-weight-bold display-3 teal--text">
@@ -29,24 +30,42 @@
 			<v-tab-item>
 				<cover-images />
 			</v-tab-item>
+			<v-tab-item>
+				<my-article-images />
+			</v-tab-item>
+			<v-tab-item>
+				<my-multimedia-images />
+			</v-tab-item>
+			<v-tab-item>
+				<my-event-images />
+			</v-tab-item>
 		</v-tabs-items>
 	</v-card>
 </template>
 <script>
 import ProfileImages from "@/views/profile/ProfileImages";
 import CoverImages from "@/views/profile/CoverImages";
+import MyArticleImages from "@/views/profile/MyArticleImages.vue";
+import MyMultimediaImages from "@/views/profile/MyMultimediaImages.vue";
+import MyEventImages from "@/views/profile/MyEventImages.vue";
 
 export default {
 	name: "ProfilePhotosTabView",
-	components: {CoverImages, ProfileImages},
+	components: {
+		MyEventImages,
+		MyMultimediaImages,
+		MyArticleImages,
+		CoverImages,
+		ProfileImages
+	},
 	data(){
 		return {
 			tab: null,
 			items: [
 				{title: "Profile"},
 				{title: "Cover"},
-				{title: "Multimedia"},
 				{title: "Article"},
+				{title: "Multimedia"},
 				{title: "Event"},
 			],
 		}
@@ -54,3 +73,8 @@ export default {
 
 }
 </script>
+<style>
+.rotate {
+	transform: rotate(310deg)
+}
+</style>

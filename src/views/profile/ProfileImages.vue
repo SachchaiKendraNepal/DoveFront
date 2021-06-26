@@ -3,112 +3,88 @@
 		v-if="currentUser"
 		flat
 	>
-		<v-card-text>
-			<v-fab-transition>
-				<v-card v-if="profile_image_to_upload"
-					dark
-					height="150"
-					width="150"
+		<v-fab-transition>
+			<card-img
+				v-if="profile_image_to_upload"
+				max-width="150"
+				height="150"
+				:src="profileImageToUploadBlobUrl"
+			/>
+		</v-fab-transition>
+		<div class="py-2" />
+		<v-file-input
+			v-model="profile_image_to_upload"
+			:loading="profile_input_loading"
+			filled
+			show-size
+			chips
+			clear-icon="mdi-close"
+			clearable
+			accept="image/*"
+			:placeholder="'Add new profile image'.toUpperCase()"
+			prepend-icon=""
+			prepend-inner-icon="mdi-clipboard-account"
+		>
+			<template #append>
+				<v-btn
+					style="margin-top: -4px !important;"
+					icon
+					small
+					class="ma-0 pa-0"
+					@click="uploadImage"
 				>
-					<v-img
-						height="150"
-						max-width="150"
-						:src="profileImageToUploadBlobUrl"
-					/>
-				</v-card>
-			</v-fab-transition>
-			<div class="py-2" />
-			<v-file-input
-				v-model="profile_image_to_upload"
-				:loading="profile_input_loading"
-				filled
-				show-size
-				chips
-				clear-icon="mdi-close"
-				clearable
-				accept="image/*"
-				:placeholder="'Add new profile image'.toUpperCase()"
-				prepend-icon=""
-				prepend-inner-icon="mdi-clipboard-account"
-			>
-				<template #append>
-					<v-btn
-						style="margin-top: -4px !important;"
-						icon
-						small
-						class="ma-0 pa-0"
-						@click="uploadImage"
+					<v-icon
+						size="28"
+						class="ma-0 pa-0 rotate"
+						color="teal"
 					>
-						<v-icon
-							size="28"
-							class="ma-0 pa-0"
-							color="teal"
-							style="transform: rotate(310deg)"
-						>
-							mdi-send
-						</v-icon>
-					</v-btn>
-				</template>
-			</v-file-input>
-		</v-card-text>
-		<v-card-text>
-			<v-card v-if="profileImages.length === 0"
-				flat tile
-				height="50vh"
-			>
-				<h3
-					class="text-center"
+						mdi-send
+					</v-icon>
+				</v-btn>
+			</template>
+		</v-file-input>
+		<profile-no-content v-if="profileImages.length === 0"
+			text="No profile image found for you. Please upload a new one and set your profile picture!"
+		/>
+		<v-card v-else>
+			<v-row no-gutters>
+				<v-col v-for="img in profileImages"
+					:key="img.id"
+					cols="4"
+					class="ma-1"
 				>
-					No profile images. Try uploading new one!
-				</h3>
-			</v-card>
-			<v-card v-else>
-				<v-row no-gutters>
-					<v-col v-for="img in profileImages"
-						:key="img.id"
-						cols="4"
-						class="d-flex justify-space-around flex-wrap py-3"
+					<card-img
+						height="230"
+						:src="img.image"
 					>
-						<v-card height="230"
-							width="230" dark
+						<v-btn icon
+							class="action-btn"
+							@click="confirmDelete(img.id)"
 						>
-							<v-img
-								:src="img.image"
-								height="230"
-							>
-								<div class="d-flex justify-space-between ma-1">
-									<v-btn icon
-										small
-										@click="confirmDelete(img.id)"
-									>
-										<v-icon color="error"
-											small
-										>
-											mdi-delete
-										</v-icon>
-									</v-btn>
-									<v-tooltip bottom>
-										<template #activator="{on, attrs}">
-											<v-btn icon
-												v-bind="attrs"
-												v-on="on"
-												@click="setActiveConfirm(img.id)"
-											>
-												<v-icon :color="(img.active) ? 'orange lighten-2' : ''">
-													mdi-star
-												</v-icon>
-											</v-btn>
-										</template>
-										<span v-if="img.active">Active Profile Image</span>
-										<span v-else>Set as active</span>
-									</v-tooltip>
-								</div>
-							</v-img>
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-card>
-		</v-card-text>
+							<v-icon color="error">
+								mdi-delete
+							</v-icon>
+						</v-btn>
+						<v-tooltip bottom>
+							<template #activator="{on, attrs}">
+								<v-btn icon
+									v-bind="attrs"
+									class="action-btn"
+									v-on="on"
+									@click="setActiveConfirm(img.id)"
+								>
+									<v-icon :color="(img.active) ? 'orange lighten-2' : ''">
+										mdi-star
+									</v-icon>
+								</v-btn>
+							</template>
+							<span v-if="img.active">Active Profile Image</span>
+							<span v-else>Set as active</span>
+						</v-tooltip>
+					</card-img>
+				</v-col>
+			</v-row>
+		</v-card>
 	</v-card>
 </template>
 
@@ -187,6 +163,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.img-toolbar {
+	font-size: .875rem;
+	cursor: pointer !important;
+}
 </style>

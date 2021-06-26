@@ -2,112 +2,87 @@
 	<v-card
 		flat
 	>
-		<v-card-text>
-			<v-fab-transition>
-				<v-card v-if="cover_image_to_upload"
-					dark
-					height="150"
-					width="300"
+		<v-fab-transition>
+			<card-img
+				v-if="cover_image_to_upload"
+				height="300"
+				:src="coverImageToUploadBlobUrl"
+			/>
+		</v-fab-transition>
+		<div class="py-2" />
+		<v-file-input
+			v-model="cover_image_to_upload"
+			:loading="cover_input_loading"
+			filled
+			show-size
+			chips
+			clear-icon="mdi-close"
+			clearable
+			accept="image/*"
+			:placeholder="'Add new cover image'.toUpperCase()"
+			prepend-icon=""
+			prepend-inner-icon="mdi-image-area"
+		>
+			<template #append>
+				<v-btn
+					style="margin-top: -4px !important;"
+					icon
+					small
+					class="ma-0 pa-0"
+					@click="uploadImage"
 				>
-					<v-img
-						height="150"
-						width="300"
-						:src="coverImageToUploadBlobUrl"
-					/>
-				</v-card>
-			</v-fab-transition>
-			<div class="py-2" />
-			<v-file-input
-				v-model="cover_image_to_upload"
-				:loading="cover_input_loading"
-				filled
-				show-size
-				chips
-				clear-icon="mdi-close"
-				clearable
-				accept="image/*"
-				:placeholder="'Add new cover image'.toUpperCase()"
-				prepend-icon=""
-				prepend-inner-icon="mdi-image-area"
-			>
-				<template #append>
-					<v-btn
-						style="margin-top: -4px !important;"
-						icon
-						small
-						class="ma-0 pa-0"
-						@click="uploadImage"
+					<v-icon
+						size="28"
+						class="ma-0 pa-0 rotate"
+						color="teal"
 					>
-						<v-icon
-							size="28"
-							class="ma-0 pa-0"
-							color="teal"
-							style="transform: rotate(310deg)"
-						>
-							mdi-send
-						</v-icon>
-					</v-btn>
-				</template>
-			</v-file-input>
-		</v-card-text>
-		<v-card-text>
-			<v-card v-if="coverImages.length === 0"
-				flat tile
-				height="50vh"
-			>
-				<h3
-					class="text-center"
+						mdi-send
+					</v-icon>
+				</v-btn>
+			</template>
+		</v-file-input>
+		<profile-no-content v-if="coverImages.length === 0"
+			text="No cover image found for you. Please upload a new one and set background for your profile picture!"
+		/>
+		<v-card v-else>
+			<v-row no-gutters>
+				<v-col v-for="img in coverImages"
+					:key="img.id"
+					cols="12"
+					class="d-flex justify-space-around flex-wrap pa-2"
 				>
-					No cover images. Try uploading new one!
-				</h3>
-			</v-card>
-			<v-card v-else>
-				<v-row no-gutters>
-					<v-col v-for="img in coverImages"
-						:key="img.id"
-						cols="12"
-						class="d-flex justify-space-around flex-wrap pa-2"
+					<card-img height="230"
+						:src="img.image"
 					>
-						<v-card height="230"
-							dark
+						<v-btn icon
+							small
+							class="action-btn"
+							@click="confirmDelete(img.id)"
 						>
-							<v-img
-								:src="img.image"
-								height="230"
-							>
-								<div class="d-flex justify-space-between ma-1">
-									<v-btn icon
-										small
-										@click="confirmDelete(img.id)"
-									>
-										<v-icon color="error"
-											small
-										>
-											mdi-delete
-										</v-icon>
-									</v-btn>
-									<v-tooltip bottom>
-										<template #activator="{on, attrs}">
-											<v-btn icon
-												v-bind="attrs"
-												v-on="on"
-												@click="confirmSetActive(img.id)"
-											>
-												<v-icon :color="(img.active) ? 'orange lighten-2' : ''">
-													mdi-star
-												</v-icon>
-											</v-btn>
-										</template>
-										<span v-if="img.active">Active Cover Image</span>
-										<span v-else>Set as active</span>
-									</v-tooltip>
-								</div>
-							</v-img>
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-card>
-		</v-card-text>
+							<v-icon color="error">
+								mdi-delete
+							</v-icon>
+						</v-btn>
+						<v-tooltip bottom>
+							<template #activator="{on, attrs}">
+								<v-btn icon
+									v-bind="attrs"
+									class="action-btn"
+									v-on="on"
+									@click="confirmSetActive(img.id)"
+								>
+									<v-icon :color="(img.active) ? 'orange lighten-2' : ''">
+										mdi-star
+									</v-icon>
+								</v-btn>
+							</template>
+							<span v-if="img.active">Active Cover Image</span>
+							<span v-else>Set as active</span>
+						</v-tooltip>
+					</card-img>
+				</v-col>
+			</v-row>
+		</v-card>
 	</v-card>
 </template>
 

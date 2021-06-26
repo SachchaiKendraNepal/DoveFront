@@ -9,7 +9,9 @@
 			class="rounded-0"
 			color="rgb(251 250 241)"
 		>
-			<v-card-title class="grey darken-3">
+			<v-card-title
+				:class="(fullscreen) ? 'grey darken-3' : 'indigo lighten-1'"
+			>
 				<v-avatar
 					color="grey darken-2"
 					size="40"
