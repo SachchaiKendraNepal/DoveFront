@@ -38,8 +38,10 @@ const getters = {
 
 
 const actions = {
-	async fetchPinnedPosts({commit}) {
-		const response = await $api.get(urls.post.listPinnedMedia)
+	async fetchPinnedMultimedia({commit}) {
+		const response = await $api.getWithPayload(urls.multimedia.set, {
+			is_pinned: true
+		})
 		commit(SET_PINNED_POST, response)
 	},
 	async fetchLovedPosts({commit}) {
