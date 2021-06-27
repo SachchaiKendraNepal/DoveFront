@@ -347,18 +347,18 @@
 																label="Role name"
 																name="role_name"
 																:rules="[rules.required]"
-																prepend-inner-icon="mdi-account-key"
+																icon="mdi-account-key"
 															/>
 															<date-picker-field
 																v-model="editedItemBranchMemberRole.from_date[item.id]"
-																prepend-inner-icon="mdi-calendar"
+																icon="mdi-calendar"
 																label="From Date"
 																name="from_date"
 																:rules="[rules.required]"
 															/>
 															<date-picker-field
 																v-model="editedItemBranchMemberRole.to_date[item.id]"
-																prepend-inner-icon="mdi-calendar"
+																icon="mdi-calendar"
 																label="To date"
 																name="to_date"
 																:rules="[rules.required]"
@@ -403,7 +403,7 @@
 								</v-col>
 								<date-picker-field
 									v-model="defaultMemberBranch.date_of_membership"
-									prepend-inner-icon="mdi-calendar"
+									icon="mdi-calendar"
 									label="Date of membership"
 									name="date_of_membership"
 									:attach="false"
