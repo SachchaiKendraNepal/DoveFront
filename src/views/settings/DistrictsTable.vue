@@ -1,10 +1,5 @@
 <template>
-	<v-card v-if="items"
-		max-width="1000"
-		class="mx-auto"
-		flat
-	>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table :options.sync="options"
 			:headers="headers"
@@ -13,7 +8,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading districts..."
-			class="elevation-1 mx-4"
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -127,8 +122,7 @@
 			model-name="district"
 			delete-action="location/deleteDistrict"
 		/>
-		<div class="py-6" />
-	</v-card>
+	</div>
 </template>
 
 <script>

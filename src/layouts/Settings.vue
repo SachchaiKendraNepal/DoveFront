@@ -4,7 +4,7 @@
 		<v-app-bar
 			app
 			dark
-			color="grey darken-4"
+			color="admin-nav"
 		>
 			<v-app-bar-nav-icon @click="mini= !(mini)">
 				<v-icon v-if="mini">
@@ -26,6 +26,7 @@
 			app
 			permanent
 			dark
+			color="admin-nav"
 		>
 			<admin-sidebar />
 		</v-navigation-drawer>
@@ -35,9 +36,18 @@
 			>
 				<v-row no-gutters>
 					<v-col cols="12">
-						<transition name="setting">
-							<router-view />
-						</transition>
+						<v-card
+							flat tile
+							max-width="1200"
+							min-height="88vh"
+							class="mx-auto px-4"
+						>
+							<div class="py-6" />
+							<transition name="setting">
+								<router-view />
+							</transition>
+							<div class="py-6" />
+						</v-card>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -102,5 +112,8 @@ export default {
 .table-avatar {
 	border: 2px solid #2d9494;
 	background-color: #2d9494;
+}
+.admin-nav {
+	background-image: radial-gradient( circle 590px at 8.2% 13.8%,  rgba(18,35,60,1) 0%, #181818 90% );
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
-	<v-card>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table :options.sync="options"
 			:headers="headers"
@@ -9,7 +8,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading followers..."
-			class="elevation-1 mx-4"
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -125,12 +124,11 @@
 				</v-btn>
 			</template>
 		</v-data-table>
-		<div class="py-6" />
 		<admin-delete-item-dialog
 			model-name="follower"
 			delete-action="user/delete"
 		/>
-	</v-card>
+	</div>
 </template>
 <script>
 import {mapGetters} from "vuex";

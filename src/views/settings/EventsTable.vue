@@ -8,7 +8,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading events..."
-			class="elevation-1 mx-4"
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,

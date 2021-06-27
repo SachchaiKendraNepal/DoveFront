@@ -1,6 +1,5 @@
 <template>
-	<v-card>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table :options.sync="options"
 			:headers="headers"
@@ -8,8 +7,8 @@
 			:server-items-length="getTotalPaginationData"
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
-			loading-text="Loading articles..."
-			class="elevation-1 mx-4"
+			loading-text="Loading multimedias..."
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -23,21 +22,23 @@
 					color="grey lighten-2"
 				>
 					<v-app-bar-nav-icon>
-						<v-avatar class="table-avatar elevation-4"
+						<v-avatar
+							class="table-avatar elevation-4"
 							size="30"
 						>
-							<v-icon color="white"
+							<v-icon
+								color="white"
 								size="20"
 							>
-								mdi-bird
+								mdi-video
 							</v-icon>
 						</v-avatar>
 					</v-app-bar-nav-icon>
 					<v-toolbar-title
 						v-show="$vuetify.breakpoint.smAndUp"
-						class="pl-1 table-title"
+						class="table-title pl-1"
 					>
-						Sachchai Nepal Articles
+						Sachchai Nepal Multimedias
 					</v-toolbar-title>
 					<v-spacer />
 					<v-text-field v-model="search"
@@ -52,15 +53,15 @@
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
-			<template #item.timestamp="{ item }">
-				{{ $moment(item.timestamp).fromNow() }}
-			</template>
-			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.approval_status="{ item }">
-				<v-switch v-model="item['is_approved']"
+				<v-switch v-model="item.is_approved"
 					color="grey darken-2"
 					disabled
 				/>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.timestamp="{ item }">
+				{{ $moment(item.timestamp).fromNow() }}
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.approver="{ item }">
@@ -69,7 +70,7 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.actions="{ item }">
 				<v-icon
-					v-if="!item['is_approved']"
+					v-if="!item.is_approved"
 					small
 					color="green"
 					class="mr-2"
@@ -93,24 +94,6 @@
 				>
 					mdi-delete
 				</v-icon>
-				<v-icon
-					v-if="!item['is_pinned']"
-					small
-					color="primary"
-					style="transform: rotate(30deg)"
-					@click="pin(item)"
-				>
-					mdi-pin-outline
-				</v-icon>
-				<v-icon
-					v-else
-					small
-					color="primary"
-					style="transform: rotate(30deg)"
-					@click="unpin(item)"
-				>
-					mdi-pin
-				</v-icon>
 			</template>
 			<template #no-data>
 				<v-btn
@@ -122,20 +105,20 @@
 			</template>
 		</v-data-table>
 		<admin-delete-item-dialog
-			model-name="article"
-			delete-action="article/delete"
+			model-name="multimedia"
+			delete-action="multimedia/delete"
 		/>
-		<div class="py-6" />
-	</v-card>
+	</div>
 </template>
 <script>
 import {mapGetters} from "vuex";
-import AdminTableList from "@/mixins/AdminTableList";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
 import ToggleApproval from "@/mixins/ToggleApproval";
+import AdminTableList from "@/mixins/AdminTableList";
+import multimedia from "@/store/modules/multimedia";
 
 export default {
-	name: "ArticleListView",
+	name: "MultimediaView",
 	mixins: [
 		AdminTableList,
 		AdminTableDeleteItemMixin,
@@ -144,55 +127,41 @@ export default {
 	data() {
 		return {
 			headers: [
-				{text: "ACTIONS", value: "actions", sortable: false},
-				{text: "ID", value: "id"},
-				{text: "TITLE", value: "title"},
-				{text: "WRITER", value: "created_by.username"},
-				{text: "STATUS", value: "approval_status"},
-				{text: "APPROVER", value: "approver"},
-				{text: "TIMESTAMP", value: "timestamp"}
+				{ text: "ACTIONS", value: "actions", sortable: false },
+				{ text: "ID", value: "id" },
+				{ text: "TITLE", value: "title" },
+				{ text: "WRITER", value: "uploaded_by.username" },
+				{ text: "STATUS", value: "approval_status" },
+				{ text: "APPROVER", value: "approver" },
+				{ text: "TIMESTAMP", value: "timestamp" },
 			],
 			mixinData: {
-				modelName: "article"
+				modelName: "multimedia"
 			}
 		}
 	},
 	computed: {
 		... mapGetters({
-			articles: "article/list"
+			multimedias: "multimedia/list"
 		})
+	},
+	async created() {
+		await this.initialize()
 	},
 	methods: {
 		async initialize(val) {
 			this.loading = true
 			if (!val) val = 1
-			await this.$store.dispatch("article/filter", {
-				page: val,
-				completed_writing: true,
+			await this.$store.dispatch("multimedia/filter", {
+				page: val
 			})
-			this.items = this.articles
-			this.totalItems = this.articles.count
+			this.items = this.multimedias
+			this.totalItems = this.multimedias.count
 			this.loading = false
 		},
-		async pin(item) {
-			const res = await this.$store.dispatch("article/pin", {id: item.id})
-			if (res) {
-				await this.initialize(this.options.page)
-				await this.openSnack("Article pin success.", "success")
-			} else {
-				await this.openSnack("Article pin failed. Try again.")
-			}
-		},
-		async unpin(item) {
-			const res = await this.$store.dispatch("article/unpin", {id: item.id})
-			if (res) {
-				await this.initialize(this.options.page)
-				await this.openSnack("Article pin revoked.", "success")
-			} else {
-				await this.openSnack("Article pin revoke failed. Try again.")
-			}
-
-		}
 	}
 }
 </script>
+<style lang="sass" scoped>
+
+</style>

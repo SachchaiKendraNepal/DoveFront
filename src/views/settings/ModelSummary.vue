@@ -3,7 +3,7 @@
 		class="pa-0"
 	>
 		<v-card-title class="stat-summary">
-			Statistics Summary
+			Model Summary
 		</v-card-title>
 		<v-row class="ma-0 pa-0">
 			<v-col

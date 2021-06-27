@@ -1,5 +1,5 @@
 <template>
-	<v-list dark>
+	<v-list color="transparent">
 		<v-list-item class="pl-2">
 			<v-list-item-avatar
 				v-if="$helper.getCurrentProfileImage()"
@@ -24,7 +24,7 @@
 			</v-list-item-content>
 		</v-list-item>
 
-		<v-divider class="mt-2 mx-4" />
+		<v-divider class="my-2 mx-4" />
 		<v-list-item
 			v-for="(item, index) in drawerItems"
 			:key="index"
@@ -77,25 +77,33 @@ export default {
 			{ title: "Article", icon: "mdi-post", to: "/admin/article" },
 			{ title: "Multimedia", icon: "mdi-video-vintage", to: "/admin/multimedia" },
 			{ title: "Events", icon: "mdi-calendar-multiple", to: "/admin/event" },
-			{ title: "Ads", icon: "mdi-cash-usd", to: "/admin/ad" }
+			{ title: "Advertisements", icon: "mdi-cash-usd", to: "/admin/ad" },
+			{ title: "About Us", icon: "mdi-information", to: "/admin/about-us" },
+			{ title: "Contact Us", icon: "mdi-phone", to: "/admin/contact-us" },
+			{ title: "Feedbacks", icon: "mdi-comment-quote", to: "/admin/feedback" },
+			{ title: "Our Services", icon: "mdi-face-agent", to: "/admin/service" },
 		],
 		drawerGroupItems: [
 			{
 				name: "Showcase",
 				icon: "mdi-view-dashboard",
 				items: [
-					{ title: "Map", icon: "mdi-map-marker", to: "/admin/showcase/map" },
-					{ title: "Slider", icon: "mdi-image-move", to: "/admin/showcase/slider" },
-					{ title: "Gallery", icon: "mdi-image-multiple", to: "/admin/showcase/gallery" },
-					{ title: "About Us", icon: "mdi-information", to: "/admin/showcase/about-us" },
-					{ title: "Contact Us", icon: "mdi-phone", to: "/admin/showcase/contact" },
+					{ title: "Map", icon: "mdi-map-marker", to: "/admin/showcase-map" },
+					{ title: "Gallery", icon: "mdi-image-multiple", to: "/admin/showcase-gallery" },
+					{ title: "Kendra Information", icon: "mdi-star", to: "/admin/kendra-information" },
 				]
 			},
 			{
 				name: "Location",
-				icon: "mdi-web",
+				icon: "mdi-map-marker-circle",
 				items: [
+					{ title: "Countries", icon: "mdi-web", to: "/admin/country" },
+					{ title: "Provinces", icon: "mdi-office-building-marker-outline", to: "/admin/province" },
 					{ title: "Districts", icon: "mdi-map-marker-multiple-outline", to: "/admin/district" },
+					{ title: "Municipalities", icon: "mdi-google-maps", to: "/admin/municipality" },
+					{ title: "Municipality Wards", icon: "mdi-numeric-7-box", to: "/admin/municipality-ward" },
+					{ title: "VDCs", icon: "mdi-google-maps", to: "/admin/vdc" },
+					{ title: "VDC Wards", icon: "mdi-numeric-10-box", to: "/admin/vdc-ward" },
 				]
 			}
 		],

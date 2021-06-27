@@ -1,6 +1,5 @@
 <template>
-	<v-card>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table :options.sync="options"
 			:headers="headers"
@@ -9,7 +8,7 @@
 			:items-per-page="getItemsPerPageCount"
 			:loading="loading"
 			loading-text="Loading members..."
-			class="elevation-1 mx-4"
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -140,8 +139,7 @@
 			model-name="member"
 			delete-action="member/delete"
 		/>
-		<div class="py-6" />
-	</v-card>
+	</div>
 </template>
 
 <script>

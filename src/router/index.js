@@ -110,12 +110,12 @@ const routes = [
 			{
 				path: "follower",
 				name: "FOLLOWERS ADMINISTRATION",
-				component: () => import("@/views/member/FollowersTable")
+				component: () => import("@/views/settings/FollowersTable")
 			},
 			{
 				path: "member",
 				name: "MEMBERS ADMINISTRATION",
-				component: () => import("@/views/member/MembersTable")
+				component: () => import("@/views/settings/MembersTable")
 			},
 			{
 				path: "follower/:id",
@@ -125,7 +125,7 @@ const routes = [
 			{
 				path: "branch",
 				name: "BRANCHES ADMINISTRATION",
-				component: () => import("@/views/branch/BranchTable")
+				component: () => import("@/views/settings/BranchTable")
 			},
 			{
 				path: "branch/:id",
@@ -133,51 +133,90 @@ const routes = [
 				component: () => import("@/views/branch/BranchDetail")
 			},
 			{
+				path: "country",
+				name: "COUNTRY ADMINISTRATION",
+				component: () => import("@/views/settings/CountriesTable.vue")
+			},
+			{
+				path: "province",
+				name: "PROVINCE ADMINISTRATION",
+				component: () => import("@/views/settings/ProvincesTable.vue")
+			},
+			{
 				path: "district",
 				name: "DISTRICT ADMINISTRATION",
-				component: () => import("@/views/location/District")
+				component: () => import("@/views/settings/DistrictsTable.vue")
+			},
+			{
+				path: "municipality",
+				name: "MUNICIPALITY ADMINISTRATION",
+				component: () => import("@/views/settings/MunicipalitiesTable.vue")
+			},
+			{
+				path: "municipality-ward",
+				name: "MUNICIPALITY WARD ADMINISTRATION",
+				component: () => import("@/views/settings/MunicipalityWardsTable.vue")
+			},
+			{
+				path: "vdc",
+				name: "VDC ADMINISTRATION",
+				component: () => import("@/views/settings/VDCsTable.vue")
+			},
+			{
+				path: "vdc-ward",
+				name: "VDC WARD ADMINISTRATION",
+				component: () => import("@/views/settings/VDCWardsTable.vue")
 			},
 			{
 				path: "article",
 				name: "ARTICLES ADMINISTRATION",
-				component: () => import("@/views/article/ArticleTable")
-			},
-			// TODO create real
-			{
-				path: "pin",
-				name: "PINS ADMINISTRATION",
-				component: () => import("@/views/article/ArticleTable")
+				component: () => import("@/views/settings/ArticlesTable.vue")
 			},
 
 			{
 				path: "multimedia",
 				name: "MULTIMEDIA ADMINISTRATION",
-				component: () => import("@/views/multimedia/MultimediaTable")
+				component: () => import("@/views/settings/MultimediasTable.vue")
 			},
 			{
 				path: "event",
 				name: "EVENTS ADMINISTRATION",
-				component: () => import("@/views/event/EventsTable")
+				component: () => import("@/views/settings/EventsTable")
 			},
 			{
-				path: "event/:id",
-				name: "EVENT ADMINISTRATION",
-				component: () => import("@/views/event/EventDetail")
-			},
-			{
-				path: "showcase-image",
-				name: "SHOWCASE IMAGES ADMINISTRATION",
-				component: () => import("@/views/settings/ShowcaseImage")
+				path: "showcase-gallery",
+				name: "SHOWCASE GALLERY ADMINISTRATION",
+				component: () => import("@/views/settings/ShowcaseImage.vue")
 			},
 			{
 				path: "ad",
 				name: "ADS ADMINISTRATION",
-				component: () => import("@/views/ads/Ads")
+				component: () => import("@/views/settings/AdsTable")
 			},
 			{
-				path: "ad/:id",
-				name: "AD ADMINISTRATION",
-				component: () => import("@/views/ads/AdDetail")
+				path: "about-us",
+				name: "ABOUT US ADMINISTRATION",
+				component: () => import("@/views/settings/AboutUsTable")
+			},
+			{
+				path: "contact-us",
+				name: "CONTACT US ADMINISTRATION",
+				component: () => import("@/views/settings/ContactUsTable")
+			},
+			{
+				path: "service",
+				name: "SERVICES ADMINISTRATION",
+				component: () => import("@/views/settings/ServicesTable")
+			},
+			{
+				path: "feedback",
+				name: "ABOUT US ADMINISTRATION",
+				component: () => import("@/views/settings/AboutUsTable")
+			},
+			{
+				path: "showcase-map",
+				name: "MAP ADMINISTRATION",
+				component: () => import("@/views/settings/MapAdmin.vue")
 			},
 		]
 	},

@@ -167,7 +167,7 @@
 </template>
 <script>
 export default {
-	name: "SliderImageTable",
+	name: "AdvertisementAdministrationTable",
 	data: () => ({
 		dialog: false,
 		dialogDelete: false,

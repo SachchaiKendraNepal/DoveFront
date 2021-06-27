@@ -1,10 +1,5 @@
 <template>
-	<v-card v-if="items"
-		max-width="1000"
-		class="mx-auto rounded-0"
-		flat
-	>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table v-model="selected" :options.sync="options"
 			loading-text="Branches Loading..."
@@ -18,7 +13,7 @@
 			calculate-widths
 			show-select
 			:single-select="false"
-			class="elevation-1 mx-4"
+			class="elevation-1"
 			:footer-props="{
 				showFirstLastPage: true,
 				disableItemsPerPage: true,
@@ -171,12 +166,11 @@
 				</v-btn>
 			</template>
 		</v-data-table>
-		<div class="py-6" />
 		<admin-delete-item-dialog
 			model-name="branch"
 			delete-action="branch/delete"
 		/>
-	</v-card>
+	</div>
 </template>
 
 <script>
