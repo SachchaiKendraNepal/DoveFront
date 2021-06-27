@@ -68,6 +68,17 @@ const actions = {
 			return false
 		}
 	},
+	async patch({commit}, {id: id, body: body}) {
+		try {
+			await $api.patch(util.format(eventUrl.detail, id), body)
+			return true
+		} catch(e) {
+			if (parseInt(e.response.status.toString()) === 400) {
+				commit("SET_EVENT_FORM_ERRORS", e.response.data)
+			}
+			return false
+		}
+	},
 
 	async update({commit}, {id: id, body: body}) {
 		try {
@@ -127,9 +138,18 @@ const actions = {
 		}
 	},
 
-	async toggleApproval({commit}, {id: id}) {
+	async approve({commit}, {id: id}) {
 		try {
-			await $api.post(util.format(eventUrl.toggleApproval, id))
+			await $api.put(util.format(eventUrl.toggleApproval, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+
+	async disapprove({commit}, {id: id}) {
+		try {
+			await $api.delete(util.format(eventUrl.toggleApproval, id))
 			return true
 		} catch {
 			return false

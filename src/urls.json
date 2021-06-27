@@ -27,7 +27,7 @@
   "event": {
     "list": "event/",
     "detail": "event/%s/",
-    "toggleApproval": "event/%s/toggle-approval",
+    "toggleApproval": "event/%s/approve",
     "imageList": "event-image/",
     "imageDetail": "event-image/%s/",
     "videoUrlList": "event-video-url/",

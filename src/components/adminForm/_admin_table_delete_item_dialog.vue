@@ -54,13 +54,13 @@ export default {
 		}
 	},
 	created() {
-		this.$bus.on("openAdminDeleteDialog", this.initialize)
+		this.$bus.on("openAdminDeleteDialog", this.init)
 	},
 	beforeUnmount() {
 		this.$bus.off("openAdminDeleteDialog")
 	},
 	methods: {
-		initialize(args) {
+		init(args) {
 			this.itemIdToDelete = args.itemId
 			this.itemText = args.itemText
 			if (this.deleteAction) this.actionText = this.deleteAction
