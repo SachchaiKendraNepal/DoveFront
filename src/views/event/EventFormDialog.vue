@@ -207,6 +207,7 @@
 						name="title"
 						icon="mdi-form-textbox"
 						:errors="formErrors"
+						@change="patchEvent({title: editedItem.title})"
 					/>
 					<text-area
 						id="event-description"
@@ -217,12 +218,14 @@
 						name="description"
 						icon="mdi-script-text"
 						:errors="formErrors"
+						@change="patchEvent({description: editedItem.description})"
 					/>
 					<branch-field
 						id="event-branch"
 						v-model="editedItem.branch"
 						label="Organizer (Branch)"
 						:errors="formErrors"
+						@change="patchEvent({branch: editedItem.branch})"
 					/>
 					<select-field
 						id="event-type"
@@ -232,6 +235,7 @@
 						:select-items="eventTypeOptions"
 						icon="mdi-call-merge"
 						:errors="formErrors"
+						@change="patchEvent({type: editedItem.type})"
 					/>
 					<text-field
 						v-model="editedItem.contact"
@@ -240,17 +244,20 @@
 						name="contact"
 						icon="mdi-phone-classic"
 						:errors="formErrors"
+						@change="patchEvent({contact: editedItem.contact})"
 					/>
 					<admin-form-group-title
 						icon="mdi-calendar-clock"
 						text="Timeline Information"
 					/>
+
 					<date-picker-field
 						v-model="editedItem.start_date"
 						icon="mdi-calendar"
 						label="Start Date"
 						name="start_date"
 						:errors="formErrors"
+						@change="patchEvent({start_date: editedItem.start_date})"
 					/>
 					<text-field
 						v-model="editedItem.duration"
@@ -259,6 +266,7 @@
 						hint="This is the number of days the event will go on."
 						icon="mdi-av-timer"
 						:errors="formErrors"
+						@change="patchEvent({duration: editedItem.duration})"
 					/>
 					<select-field
 						id="event-time-of-day"
@@ -268,6 +276,7 @@
 						:select-items="timeOfDayOptions"
 						icon="mdi-white-balance-sunny"
 						:errors="formErrors"
+						@change="patchEvent({time_of_day: editedItem.time_of_day})"
 					/>
 					<admin-form-group-title
 						icon="mdi-map-marker"
@@ -281,12 +290,14 @@
 						icon="mdi-home-roof"
 						hint="Where is the event going to be organized?"
 						:errors="formErrors"
+						@change="patchEvent({venue: editedItem.venue})"
 					/>
 					<country-field
 						id="country"
 						v-model="editedItem.country"
 						:province="editedItem.province"
 						:errors="formErrors"
+						@change="patchEvent({country: editedItem.country})"
 					/>
 					<province-field
 						id="province"
@@ -294,6 +305,7 @@
 						:country="editedItem.country"
 						:district="editedItem.district"
 						:errors="formErrors"
+						@change="patchEvent({province: editedItem.province})"
 					/>
 					<district-field
 						id="district"
@@ -302,6 +314,7 @@
 						:municipality="editedItem.municipality"
 						:vdc="editedItem.vdc"
 						:errors="formErrors"
+						@change="patchEvent({district: editedItem.district})"
 					/>
 					<municipality-field
 						id="municipality"
@@ -310,6 +323,7 @@
 						:ward="editedItem.municipality_ward"
 						:vdc="editedItem.vdc"
 						:errors="formErrors"
+						@change="patchEvent({municipality: editedItem.municipality})"
 					/>
 					<municipality-ward-field
 						id="municipality-ward"
@@ -317,6 +331,7 @@
 						:municipality="editedItem.municipality"
 						:vdc="editedItem.vdc"
 						:errors="formErrors"
+						@change="patchEvent({municipality_ward: editedItem.municipality_ward})"
 					/>
 					<vdc-field
 						id="vdc"
@@ -325,6 +340,7 @@
 						:ward="editedItem.vdc_ward"
 						:municipality="editedItem.municipality"
 						:errors="formErrors"
+						@change="patchEvent({vdc: editedItem.vdc})"
 					/>
 					<vdc-ward-field
 						id="vdc-ward"
@@ -332,6 +348,7 @@
 						:municipality="editedItem.municipality"
 						:vdc="editedItem.vdc"
 						:errors="formErrors"
+						@change="patchEvent({vdc_ward: editedItem.vdc_ward})"
 					/>
 					<v-col cols="12"
 						class="pa-0 pb-16 text-center"
@@ -345,6 +362,7 @@
 							Cancel
 						</v-btn>
 						<v-btn
+							v-if="editedIndex === -1"
 							color="blue lighten-5"
 							class="blue--text ma-1"
 							depressed
@@ -377,6 +395,7 @@ export default {
 			default: true
 		}
 	},
+	emits: ["reload"],
 	data: () => ({
 		timeOfDayOptions: [
 			"Morning",
@@ -453,7 +472,7 @@ export default {
 			const created = await this.$store.dispatch("event/create", {body: eventData})
 			if (created) {
 				this.closeCreateEditDialog()
-				this.$bus.emit("reload")
+				this.$emit("reload")
 				await this.openSnack("Event added.", "success")
 			} else {
 				if (this.formErrors["non_field_errors"]) {
@@ -463,34 +482,33 @@ export default {
 				}
 			}
 		},
-
-		async updateEvent(eventData) {
-			const updated = await this.$store.dispatch(
-				"event/update",
-				{
-					id: this.editedItem.id,
-					body: eventData
-				}
-			)
-			if (updated) {
-				this.closeCreateEditDialog()
-				this.$bus.emit("reload")
-				await this.openSnack("Event updated.", "success")
-			} else {
-				if (this.formErrors["non_field_errors"]) {
-					await this.openSnack(this.formErrors["non_field_errors"][0])
+		async patchEvent(body){
+			if (this.editedIndex > -1) {
+				const updated = await this.$store.dispatch(
+					"event/patch",
+					{
+						id: this.editedItem.id,
+						body: body
+					}
+				)
+				if (updated) {
+					await this.$store.dispatch("event/clearFormErrors")
+					this.$emit("reload")
+					await this.openSnack("Event updated.", "success")
 				} else {
-					await this.openSnack("Event update failed. Try again")
+					if (this.formErrors["non_field_errors"]) {
+						await this.openSnack(this.formErrors["non_field_errors"][0])
+					} else {
+						await this.openSnack("Event update failed. Try again")
+					}
 				}
 			}
 		},
 
+
 		async save() {
 			const eventData = getFormData(this.editedItem)
-			if (this.editedIndex > -1) {
-				await this.updateEvent(eventData)
-			}
-			else {
+			if (this.editedIndex === -1) {
 				await this.createEvent(eventData)
 			}
 		},

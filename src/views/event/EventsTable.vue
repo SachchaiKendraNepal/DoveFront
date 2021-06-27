@@ -1,6 +1,5 @@
 <template>
-	<v-card>
-		<div class="py-6" />
+	<div>
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-data-table :options.sync="options"
 			:headers="headers"
@@ -77,7 +76,7 @@
 						</v-icon>
 						<span v-if="$vuetify.breakpoint.smAndUp">Event</span>
 					</v-btn>
-					<event-form-dialog />
+					<event-form-dialog @reload="initialize" />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -132,17 +131,29 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.actions="{ item }">
 				<v-icon
+					v-if="item.is_approved"
 					v-ripple
-					class="mr-2"
+					class="ma-1"
+					color="red"
+					size="22"
+					@click="revokeApprove(item)"
+				>
+					mdi-close
+				</v-icon>
+				<v-icon
+					v-else
+					v-ripple
+					class="ma-1"
 					color="success"
 					size="22"
-					@click="toggleApproval(item)"
+					@click="approve(item)"
 				>
 					mdi-check
 				</v-icon>
+
 				<v-icon
 					v-ripple
-					class="mr-2"
+					class="ma-1"
 					color="primary"
 					size="20"
 					@click="openEditEventFormDialog(item)"
@@ -151,6 +162,7 @@
 				</v-icon>
 				<v-icon
 					v-ripple
+					class="ma-1"
 					color="red"
 					size="20"
 					@click="openAdminDeleteItemDialog(item.id, item.title)"
@@ -171,8 +183,7 @@
 			model-name="event"
 			delete-action="event/delete"
 		/>
-		<div class="py-6" />
-	</v-card>
+	</div>
 </template>
 
 <script>
@@ -206,7 +217,7 @@ export default {
 			{ text: "DURATION (days)", value: "duration" },
 		],
 		mixinData: {
-			modelName: "Event",
+			modelName: "event",
 			toggleApprovalAction: "event/toggleApproval"
 		}
 	}),
@@ -214,6 +225,12 @@ export default {
 		...mapGetters({
 			events: "event/list",
 		})
+	},
+	created() {
+		this.$bus.on("reload", () => this.initialize(this.options.page))
+	},
+	beforeUnmount() {
+		this.$bus.off("reload")
 	},
 	methods: {
 		getDurationChipColor(value) {
@@ -234,18 +251,22 @@ export default {
 			}
 		},
 		getMunicipalityOrVdcName(item) {
-			return (item.vdc !== null) ? item.vdc.name : item.municipality.name
+			return (item.vdc !== null)
+				? item.vdc.name
+				: (item.municipality)
+					? item.municipality.name
+					: ""
 		},
 		getWardNameOfItem(item) {
-			if (item.vdc_ward) {
-				if (item.vdc_ward["name"]) return item.vdc_ward["name"]
-			} else if (item.municipality_ward) {
-				if (item.municipality_ward["name"]) return item.municipality_ward["name"]
-			}
+			return (item.vdc_ward !== null)
+				? item.vdc_ward.name
+				: (item.municipality_ward)
+					? item.municipality_ward.name
+					: ""
 		},
-		async initialize(val) {
+		async initialize(val=null) {
 			this.loading = true
-			if (!val) val = 1
+			if (!val) val = this.options.page
 			await this.$store.dispatch("event/filter", {page: val})
 			this.items = this.events
 			this.totalItems = this.events.count

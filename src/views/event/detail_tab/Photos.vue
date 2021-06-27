@@ -1,206 +1,138 @@
 <template>
-	<v-tab-item value="tab-photos">
-		<v-card-text class="why-idk">
-			Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
-		</v-card-text>
-		<v-dialog
-			v-model="fullScreenDialog"
-			max-width="90vw"
-			max-height="90vh"
+	<v-card
+		v-if="event"
+		flat
+		class="event-tab"
+	>
+		<v-row v-if="imageURLs.length > 0"
+			no-gutters
+			justify="center"
+			align="center"
 		>
-			<v-row class="ma-0 pa-0"
-				justify="center" align="center"
+			<v-col v-for="(imageUrl, index) in imageURLs" :key="index"
+				cols="12" xl="4"
+				md="4"
+				lg="4" sm="4"
+				class="image-to-upload-col"
 			>
-				<v-col cols="12">
-					<v-card dark
-						max-width="100%"
-						max-height="80vh"
-					>
-						<v-img
-							contain
-							:src="selectedImage"
-							max-width="100%"
-							max-height="80vh"
-							@click.stop="closeImageDialog"
-						/>
-					</v-card>
-				</v-col>
-			</v-row>
-		</v-dialog>
-		<v-card
-			v-if="event"
-			flat
-			class="event-tab"
-		>
-			<v-card-text v-if="event">
-				<v-row v-if="imageURLs.length > 0"
-					no-gutters
-					justify="center"
-					align="center"
+				<v-img
+					class="image-to-upload" :src="imageUrl"
+					max-width="220"
+					height="130"
 				>
-					<v-col v-for="(imageUrl, index) in imageURLs" :key="index"
-						cols="12" xl="4"
-						md="4"
-						lg="4" sm="4"
-						class="image-to-upload-col"
+					<v-btn fab
+						x-small class="ma-2"
 					>
-						<v-badge
-							bordered
-							color="error"
-							overlap
+						<v-icon class="badge-close"
+							@click="removeUploadToImage(index)"
 						>
-							<template #badge>
-								<v-icon class="badge-close"
-									@click="removeUploadToImage(index)"
-								>
-									mdi-close
-								</v-icon>
-							</template>
-							<v-img
-								class="image-to-upload" :src="imageUrl"
-								max-width="220"
-								height="130"
-							/>
-						</v-badge>
-					</v-col>
-				</v-row>
-				<div
-					v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
-					class="upload-image-container"
-				>
-					<file-upload
-						id="event-image-uploader"
-						v-model="eventImagesForUpload"
-						:multiple="true"
-						class="cursor-pointer"
-						@input-file="inputImageFile"
-						@input-filter="inputImageFilter"
-					>
-						<div class="upload-image">
-							Add image to event
-						</div>
-					</file-upload>
-				</div>
-				<div v-if="images.length > 0"
-					class="d-flex justify-center pa-2"
-				>
-					<v-btn color="orange"
-						dark
-						@click="uploadEventImages"
-					>
-						Upload
+							mdi-close
+						</v-icon>
 					</v-btn>
+				</v-img>
+			</v-col>
+		</v-row>
+		<v-card-text v-if="event.created_by">
+			<div
+				v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+				class="upload-image-container"
+			>
+				<div class="upload-image cursor"
+					@click="$refs.eventImageInput.click()"
+				>
+					Add image to event
+				</div>
+				<input
+					v-show="false"
+					id="event-image-input"
+					ref="eventImageInput"
+					class="file-input"
+					type="file"
+					multiple
+					accept="image/*"
+					@change="eventImagesForUploadChanged"
+				>
+			</div>
+			<div v-if="images.length > 0"
+				class="d-flex justify-center pa-2"
+			>
+				<v-btn color="orange"
+					dark
+					@click="uploadEventImages"
+				>
+					Upload
+				</v-btn>
+			</div>
+		</v-card-text>
+		<div v-if="event.images">
+			<v-card-text v-if="event.images.length === 0">
+				<div class="no-photos">
+					No photos added yet!
 				</div>
 			</v-card-text>
-			<div v-if="event.images">
-				<v-card-text v-if="event.images.length === 0">
-					<div class="no-photos">
-						No photos added yet!
-					</div>
-				</v-card-text>
-			</div>
-			<v-row class="ma-0 pa-2">
-				<v-col
-					v-for="img in event.images"
-					:key="img.id"
-					class="d-flex child-flex ma-0 pa-2 justify-center"
-					cols="7"
-					xl="4"
-					lg="4"
-					md="4"
-					sm="4"
+		</div>
+		<v-row no-gutters
+			class="pa-1"
+		>
+			<v-col
+				v-for="img in event.images"
+				:key="img.id"
+				class="pa-1"
+				cols="12"
+				xl="4"
+				lg="4"
+				md="4"
+				sm="4"
+			>
+				<card-img
+					:src="img.image"
+					height="200"
 				>
-					<v-badge
-						v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
-						bordered
-						color="red lighten-1"
-						overlap
+					<v-btn icon
+						class="action-btn"
 					>
-						<template #badge>
-							<v-icon class="badge-close" color="white"
-								@click="openAdminDeleteItemDialog(img.id, 'image')"
-							>
-								mdi-delete
-							</v-icon>
-						</template>
-						<v-img
-							:src="img.image"
-							class="event-image"
-							max-width="400"
-							height="200"
-							@click.stop="zoomImage(img.image)"
-						/>
-					</v-badge>
-					<v-img
-						v-else
-						:src="img.image"
-						class="event-image"
-						height="200"
-						@click.stop="zoomImage(img.image)"
-					/>
-				</v-col>
-			</v-row>
-		</v-card>
+						<v-icon class="badge-close" color="error"
+							@click="openAdminDeleteItemDialog(img.id, 'image')"
+						>
+							mdi-delete
+						</v-icon>
+					</v-btn>
+				</card-img>
+			</v-col>
+		</v-row>
 		<admin-delete-item-dialog
 			model-name="event"
 			delete-action="event/deleteImage"
 		/>
-	</v-tab-item>
+	</v-card>
 </template>
 <script>
-import VueUploadComponent from "vue-upload-component"
 import {getFormData} from "@/Helper";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+import {mapGetters} from "vuex";
 
 export default {
-	name: "EventDetailPhotosTabContent",
-	components: {
-		FileUpload: VueUploadComponent,
-	},
+	name: "EventPhotos",
 	mixins: [AdminTableDeleteItemMixin],
-	props: {
-		event: {
-			type: Object,
-			required: true
-		}
-	},
 	data: () => ({
 		eventImagesForUpload: [],
 		images: [],
 		imageURLs: [],
-		selectedImage: null,
-		fullScreenDialog: false,
 	}),
+	computed: {
+		...mapGetters({
+			event: "event/detail"
+		})
+	},
 	methods: {
-		closeImageDialog() {
-			this.fullScreenDialog = false
-			this.selectedImage = null
-		},
-		zoomImage(url) {
-			this.fullScreenDialog=true
-			this.selectedImage = url
-		},
-		inputImageFile(latest) {
-			const latestFile = latest.file
-			const latestUrl = URL.createObjectURL(latestFile)
-			if (/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(latestFile.name)) {
-				this.imageURLs.push(latestUrl)
-				this.images.push(latestFile)
-			}
-		},
-		inputImageFilter(newFile, oldFile, prevent) {
-			if (newFile && !oldFile) {
-				// Filter file extension
-				if (!/\.(jpeg|jpe|jpg|gif|png)$/i.test(newFile.name)) {
-					alert("Unsupported file type selected. Please select valid image file.")
-					return prevent()
-				}
-			}
-			// Create a blob field
-			newFile.blob = ""
-			let URL = window.URL || window.webkitURL
-			if (URL && URL.createObjectURL) {
-				newFile.blob = URL.createObjectURL(newFile.file)
+		eventImagesForUploadChanged(e) {
+			if (e.target.getAttribute("id") === "event-image-input") {
+				let URL = window.URL || window.webkitURL
+				e.target.files.forEach(file => {
+					this.images.push(file)
+					this.imageURLs.push(URL.createObjectURL(file))
+				})
+
 			}
 		},
 		async uploadEventImages() {
@@ -250,9 +182,10 @@ export default {
 	width: 100%;
 }
 .image-to-upload-col {
-	height: 135px;
+	min-height: 160px;
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	.image-to-upload {
 		margin: 4px 8px;
 		border: 2px solid #ffebeb;

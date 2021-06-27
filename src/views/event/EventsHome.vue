@@ -74,9 +74,7 @@
 					:key="index"
 					cols="12"
 				>
-					<event-home-card :event="item"
-						:card-bg="colors[index % 10]"
-					/>
+					<event-home-card :event="item" />
 				</v-col>
 			</div>
 			<no-home-data v-else
@@ -98,18 +96,6 @@ export default {
 	data: () => ({
 		loading: false,
 		searchEvents: "",
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#6d190d",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
 		filterMenuItems: [
 			{ title: "By Status", icon: "mdi-check" },
 			{ title: "By Type", icon: "mdi-call-merge" },

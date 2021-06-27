@@ -5,322 +5,20 @@
 		<v-row id="event-top-row"
 			class="ma-0 pa-0"
 		>
-			<v-col
-				v-if="event['banner_images']"
-				id="cover-column"
-				cols="12"
+			<banner-column :event="event"
+				@refresh-event="init"
+			/>
+			<date-column :event="event" />
+			<top-info-column :event="event" />
+			<actions :event="event" />
+			<v-col cols="12"
 				class="pa-0"
 			>
-				<v-fade-transition>
-					<v-img
-						v-if="event['banner_images'].length > 0"
-						:src="event['banner_images'][0]['image']"
-						height="60vh"
-						max-width="1000"
-						class="mx-auto event-banner"
-					>
-						<div
-							v-if="$helper.ifWriterIsCurrentUser(event['created_by']['username'])"
-						>
-							<v-tooltip right>
-								<template #activator="{ on, attrs }">
-									<v-btn
-										v-bind="attrs"
-										fab
-										x-small
-										dark class="ma-2"
-										v-on="on"
-										@click="deleteBannerImage(event['banner_images'][0]['id'])"
-									>
-										<v-icon color="red lighten-1">
-											mdi-delete
-										</v-icon>
-									</v-btn>
-								</template>
-								<span>Remove banner</span>
-							</v-tooltip>
-						</div>
-					</v-img>
-					<div v-else-if="bannerImageToUpload.length > 0">
-						<v-img
-							id="event-banner-to-upload"
-							:src="imageURLs[0]"
-							height="60vh"
-							max-width="1000"
-							class="mx-auto event-banner"
-						>
-							<div class="d-flex align-center justify-space-between">
-								<v-tooltip right>
-									<template #activator="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											fab
-											x-small
-											dark class="ma-2"
-											v-on="on"
-											@click="cancelBannerUpdate"
-										>
-											<v-icon color="red lighten-1">
-												mdi-close
-											</v-icon>
-										</v-btn>
-									</template>
-									<span>Cancel</span>
-								</v-tooltip>
-								<v-tooltip left>
-									<template #activator="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											fab
-											x-small
-											dark class="ma-2"
-											v-on="on"
-											@click="uploadBanner"
-										>
-											<v-icon color="green lighten-1">
-												mdi-check-circle
-											</v-icon>
-										</v-btn>
-									</template>
-									<span>Set Banner</span>
-								</v-tooltip>
-							</div>
-						</v-img>
-					</div>
-					<v-img
-						v-else
-						src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-						height="60vh"
-						max-width="1000"
-						class="mx-auto event-banner"
-					>
-						<file-upload
-							v-model="bannerImageToUpload"
-							:multiple="false"
-							class="cursor-pointer"
-							@input-filter="inputFilter"
-							@input-file="inputFile"
-						>
-							<v-btn
-								class="ma-2"
-								color="transparent"
-								fab
-								x-small
-							>
-								<v-icon>mdi-pencil</v-icon>
-							</v-btn>
-						</file-upload>
-					</v-img>
-				</v-fade-transition>
-			</v-col>
-			<v-col
-				id="date-row"
-				cols="12"
-				class="pa-0"
-			>
-				<v-card
-					id="date-peek-box"
-					width="100"
-					height="100"
-					class="mx-auto"
-				>
-					<v-card color="red"
-						height="25"
-					>
-						<v-card-text class="date-month">
-							{{ $moment(event.start_date).format("MMM") }}
-						</v-card-text>
-					</v-card>
-					<v-card-text class="text-center display-3 pa-0 pt-1 text--darken-3 blue--text">
-						<b>{{ $moment(event.start_date).format("DD") }}</b>
-					</v-card-text>
-				</v-card>
+				<v-divider class="mx-auto" />
 			</v-col>
 			<v-col cols="12"
 				class="pa-0"
 			>
-				<v-card
-					:loading="loading"
-					class="mx-auto"
-					max-width="1000"
-					flat
-					color="transparent"
-				>
-					<v-card-title class="event-title">
-						{{ event.title }}
-						<span>
-							<v-card-actions>
-								<v-chip
-									v-if="event.is_main"
-									label
-									dark
-									color="blue"
-									class="mr-2 mb-1"
-								>
-									<v-icon left>
-										mdi-map-marker-star
-									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Main Event</b>
-									<v-icon right>
-										mdi-church
-									</v-icon>
-								</v-chip>
-								<v-chip
-									v-if="event.type === 'General Meeting'"
-									label
-									dark
-									class="mb-1"
-									color="green lighten-1"
-								>
-									<v-icon
-										left
-										color="white"
-									>
-										mdi-clipboard-account
-									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">General Meeting</b>
-									<v-icon right>
-										mdi-city
-									</v-icon>
-								</v-chip>
-								<v-chip
-									v-if="event.type === 'Board Meeting'"
-									label
-									dark
-									class="mb-1"
-									color="indigo lighten-1"
-								>
-									<v-icon
-										left
-										color="white"
-									>
-										mdi-clock-time-eleven
-									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Board Meeting</b>
-									<v-icon right>
-										mdi-city
-									</v-icon>
-								</v-chip>
-								<v-chip
-									v-if="event.type === 'Satsang'"
-									label
-									dark
-									class="mb-1"
-								>
-									<v-icon
-										left
-										color="white"
-									>
-										mdi-dove
-									</v-icon>
-									<b v-show="$vuetify.breakpoint.smAndUp">Satsang</b>
-									<v-icon right>
-										mdi-city
-									</v-icon>
-								</v-chip>
-							</v-card-actions>
-						</span>
-					</v-card-title>
-					<v-card-subtitle v-if="event.description"
-						class="event-description"
-					>
-						{{ event.description }}
-					</v-card-subtitle>
-					<v-card-subtitle class="event-subtitle">
-						{{ $moment(event.start_date).format('MMMM Do YYYY') }} ●
-						{{ event.timeOfDay }} ●
-						{{ event.duration }} days ●
-						{{ event.venue }}
-					</v-card-subtitle>
-					<v-row class="ma-0 pa-0"
-						justify="center"
-						align="center"
-					>
-						<v-card-actions>
-							<v-btn
-								:loading="interestedLoading"
-								depressed
-								@click="toggleInterestedStatus"
-							>
-								<v-icon small
-									color="purple"
-									class="px-1"
-								>
-									mdi-star-circle
-								</v-icon>
-								<span v-if="statistics['interested']"
-									class="button-span red--text text--lighten-1 event-action-btn-text"
-								>Remove Interest</span>
-								<span v-else
-									class="purple--text event-action-btn-text"
-								>Add Interest</span>
-							</v-btn>
-						</v-card-actions>
-						<v-card-actions>
-							<v-btn
-								:loading="approvalLoading"
-								depressed
-								@click="toggleApproval"
-							>
-								<v-icon
-									class="px-1"
-									color="green"
-									small
-								>
-									mdi-check-circle
-								</v-icon>
-								<span
-									v-if="event.is_approved"
-									class="event-action-btn-text red--text text--lighten-1"
-								>Dis-approve</span>
-								<span
-									v-else
-									class="event-action-btn-text green--text text-darken-2"
-								>Approve</span>
-							</v-btn>
-						</v-card-actions>
-						<v-card-actions>
-							<v-btn
-								:loading="goingLoading"
-								depressed
-								@click="toggleGoingStatus"
-							>
-								<v-icon
-									color="indigo"
-									small
-								>
-									mdi-walk
-								</v-icon>
-								<span v-if="statistics['going']"
-									class="button-span red--text text--lighten-1 event-action-btn-text"
-								>Not Going</span>
-								<span v-else
-									class="indigo--text event-action-btn-text"
-								>I Am Going</span>
-							</v-btn>
-						</v-card-actions>
-						<v-spacer />
-						<v-card-actions>
-							<v-tooltip bottom>
-								<template #activator="{ on, attrs }">
-									<v-btn icon v-bind="attrs"
-										v-on="on"
-									>
-										<v-icon color="red darken-2">
-											mdi-delete
-										</v-icon>
-									</v-btn>
-								</template>
-								<span>Delete Event</span>
-							</v-tooltip>
-						</v-card-actions>
-					</v-row>
-				</v-card>
-				<v-col cols="12"
-					class="pa-0"
-				>
-					<v-divider class="mx-auto" />
-				</v-col>
 				<v-col cols="12"
 					class="pa-0"
 				>
@@ -347,130 +45,86 @@
 							</v-avatar>
 							<v-spacer />
 							<v-tabs
-								v-show="$vuetify.breakpoint.mdAndUp"
 								v-model="tab"
 								background-color="transparent"
 								centered
 								icons-and-text
 								slider-size="3"
-								slider-color="red"
-								active-class="event-detail-active-tab"
+								slider-color="primary"
 							>
 								<v-tab
 									v-for="(item, index) in eventTabItems"
 									:key="index"
-									:href="'#tab-' + item.title"
 								>
 									{{ item.title }}
 									<v-icon>{{ item.icon }}</v-icon>
 								</v-tab>
 							</v-tabs>
 							<v-spacer />
-							<v-menu offset-y
-								nudge-left="30"
-								transition="slide-y-transition"
-							>
-								<template #activator="{ on, attrs }">
-									<v-btn
-										color="primary"
-										dark
-										v-bind="attrs"
-										icon
-										v-on="on"
-									>
-										<v-icon>mdi-dots-vertical</v-icon>
-									</v-btn>
-								</template>
-								<v-list>
-									<v-list-item
-										v-for="(item, index) in eventActions"
-										:key="index"
-									>
-										<v-list-item-title>{{ item.title }}</v-list-item-title>
-									</v-list-item>
-								</v-list>
-							</v-menu>
 						</v-toolbar>
-						<v-tabs
-							v-show="$vuetify.breakpoint.smAndDown"
-							v-model="tab"
-							background-color="transparent"
-							centered
-							show-arrows
-							icons-and-text
-							slider-size="3"
-							slider-color="primary"
-						>
-							<v-tab
-								v-for="(item, index) in eventTabItems"
-								:key="index"
-								:href="'#tab-' + item.title"
-							>
-								{{ item.title }}
-								<v-icon>{{ item.icon }}</v-icon>
-							</v-tab>
-						</v-tabs>
+					</v-card>
+				</v-col>
+				<v-col cols="12">
+					<v-card max-width="1000"
+						class="mx-auto"
+						color="transparent"
+					>
+						<v-tabs-items v-model="tab">
+							<v-tab-item>
+								<about-event />
+							</v-tab-item>
+							<v-tab-item>
+								<event-discussion />
+							</v-tab-item>
+							<v-tab-item>
+								<event-photos />
+							</v-tab-item>
+							<v-tab-item>
+								<event-multimedias />
+							</v-tab-item>
+						</v-tabs-items>
 					</v-card>
 				</v-col>
 			</v-col>
-		</v-row>
-		<v-row class="ma-0 pa-0">
-			<v-card
-				max-width="1000"
-				class="ma-0 mx-auto my-6"
-				elevation="0"
-				color="transparent"
-				flat
-			>
-				<v-tabs-items v-model="tab">
-					<event-about-tab-content :event="event" />
-					<event-discussions-tab-content :event="event" />
-					<event-photos-tab-content :event="event" />
-					<event-multimedia-tab-content :event="event" />
-				</v-tabs-items>
-			</v-card>
-			<div class="py-12" />
 		</v-row>
 	</div>
 </template>
 <script>
 import {mapGetters} from "vuex";
-const VueUploadComponent = require("vue-upload-component")
+import BannerColumn from "@/views/event/detail_views/BannerColumn.vue";
+import DateColumn from "@/views/event/detail_views/DateColumn.vue";
+import TopInfoColumn from "@/views/event/detail_views/TopInfoColumn.vue";
+import Actions from "@/views/event/detail_views/Actions.vue";
+import AboutEvent from "@/views/event/detail_tab/About.vue";
+import EventDiscussion from "@/views/event/detail_tab/Discussion.vue";
+import EventPhotos from "@/views/event/detail_tab/Photos.vue";
+import EventMultimedias from "@/views/event/detail_tab/Multimedia.vue";
 
 export default {
 	name: "EventDetailView",
 	components: {
-		FileUpload: VueUploadComponent,
-		EventAboutTabContent: () => import("@/views/event/detail_tab/About"),
-		EventDiscussionsTabContent: () => import("@/views/event/detail_tab/Discussion"),
-		EventPhotosTabContent: () => import("@/views/event/detail_tab/Photos"),
-		EventMultimediaTabContent: () => import("@/views/event/detail_tab/Multimedia")
+		EventMultimedias,
+		EventPhotos,
+		EventDiscussion,
+		AboutEvent,
+		Actions,
+		TopInfoColumn,
+		DateColumn,
+		BannerColumn
 	},
 	data: () => ({
 		loading: true,
-		interestedLoading: false,
-		goingLoading: false,
-		approvalLoading: false,
 		tab: null,
-		bannerImageToUpload: [],
-		imageURLs: [],
 		eventTabItems: [
 			{ title: "about", icon: "mdi-information-variant" },
 			{ title: "discussion", icon: "mdi-account-multiple" },
 			{ title: "photos", icon: "mdi-image" },
 			{ title: "multimedia", icon: "mdi-video-vintage" },
 		],
-		eventActions: [
-			{ title: "Click Me" },
-			{ title: "Click Me" },
-			{ title: "Click Me" },
-			{ title: "Click Me 2" }
-		]
 	}),
 	computed: {
 		...mapGetters({
 			event: "event/detail",
-			statistics: "event/statisticsDetail",
 			comments: "event/commentsList"
 		}),
 	},
@@ -482,49 +136,9 @@ export default {
 		this.$bus.off("reload")
 	},
 	methods: {
-		cancelBannerUpdate() {
-			console.log(this.bannerImageToUpload)
-		},
-		inputFilter(newFile, oldFile, prevent) {
-			if (newFile && !oldFile) {
-				// Filter file extension
-				if (!/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(newFile.name)) {
-					alert(`Unsupported file ${newFile.name} selected. Please select valid image file.`)
-					return prevent()
-				}
-				if (newFile.size > 4000000) {
-					alert("Please select event banner less than 4 MB.")
-					return prevent()
-				}
-			}
-		},
-		inputFile(latest) {
-			const latestFile = latest.file
-			const latestUrl = URL.createObjectURL(latestFile)
-			if (/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(latestFile.name)) {
-				this.imageURLs.push(latestUrl)
-			}
-		},
-		async uploadBanner() {
-			if (this.event) {
-				const eventId = parseInt(this.event.id)
-				try {
-					const body = this.$helper.getFormData({
-						event: eventId,
-						image: this.bannerImageToUpload[0]["file"]
-					})
-					await this.$api.post("/event-banner/", body)
-					await this.init()
-				} catch (e) {
-					this.bannerImageToUpload = []
-				}
-			}
-		},
 		async init() {
 			this.loading=true
 			if (this.$route.params) {
-				this.bannerImageToUpload = []
-				this.imageURLs = []
 				const eventId = this.$route.params.id
 				await this.$store.dispatch("event/fetchSingle", {id: eventId})
 				await this.$store.dispatch("event/fetchStatistics", {id: eventId})
@@ -532,49 +146,13 @@ export default {
 				this.loading = false
 			}
 		},
-		async openSnack(text, color="error") {
-			await this.$store.dispatch("snack/setSnackState", true)
-			await this.$store.dispatch("snack/setSnackColor", color)
-			await this.$store.dispatch("snack/setSnackText", text)
-		},
-		async toggleInterestedStatus() {
-			this.interestedLoading = true
-			const toggled = await this.$store.dispatch("event/toggleInterestedStatus", {id: this.event.id})
-			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
-			else await this.openSnack("Added interest to event failed.")
-			this.interestedLoading = false
-		},
-		async toggleGoingStatus() {
-			this.goingLoading = true
-			const toggled = await this.$store.dispatch("event/toggleGoingStatus", {id: this.event.id})
-			if (toggled) await this.$store.dispatch("event/fetchStatistics", { id: this.$route.params.id})
-			else await this.openSnack("Added interest to event failed.")
-			this.goingLoading = false
-		},
-		async toggleApproval() {
-			this.approvalLoading = true
-			const toggled = await this.$store.dispatch("event/toggleApproval", {id: this.event.id})
-			if (toggled) await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
-			else await this.openSnack("Added interest to event failed.")
-			this.approvalLoading = false
-		},
-		async deleteBannerImage(bannerId) {
-			try {
-				await this.$api.delete("/event-banner/" + bannerId + "/")
-				await this.openSnack("Event banner removed.", "success")
-				await this.init()
-			} catch (e) {
-				await this.openSnack("Event banner remove failed.")
-			}
-		}
 	}
 }
 </script>
 <style lang="sass">
 #event-top-row
 	background: linear-gradient(180deg, #9575cd, #eeaaaa, #efcece, #cee7f9)
-.event-banner
-	border-radius: 0 0 10px 10px !important
+
 #date-peek-box
 	margin-top: -30px
 	border: 4px solid aliceblue
@@ -619,7 +197,7 @@ export default {
 	margin: auto auto
 	text-align: center
 .event-tab
-	background: #f1cfe1 !important
+	background: #f1dceb !important
 
 </style>
 <style lang="scss">

@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		:loading="loading"
-		:color="cardBg"
+		:color="colors[event.id % 10]"
 		dark
 	>
 		<v-row class="ma-0 pa-0"
@@ -129,7 +129,7 @@
 								class="button-span red--text text--lighten-1"
 							>Remove Interest</span>
 							<span v-else
-								class="green--text"
+								class="green--text button-span"
 							>Add Interest</span>
 							<span class="stat">({{ eventStatistics['interested_count'] }})</span>
 						</v-btn>
@@ -145,7 +145,7 @@
 								class="button-span red--text text--lighten-1"
 							>Not Going</span>
 							<span v-else
-								class="green--text"
+								class="green--text button-span"
 							>I Am Going</span>
 							<span class="stat">({{ eventStatistics['going_count'] }})</span>
 						</v-btn>
@@ -153,13 +153,13 @@
 				</v-row>
 			</v-col>
 			<v-col
-				v-if="event['banner_images'].length > 0"
+				v-if="event['banner_images']"
 				cols="12"
 				xl="4"
 				lg="4"
 			>
 				<v-img
-					:src="event['banner_images'][0]['image']"
+					:src="event['banner_images']['image']"
 					class="event-banner"
 					max-height="400"
 				/>
@@ -174,14 +174,22 @@ export default {
 		event: {
 			type: Object,
 			required: true
-		},
-		cardBg: {
-			type: String,
-			required: true
 		}
 	},
 	data() {
 		return {
+			colors: [
+				"#1F7087",
+				"#731231",
+				"#254f0d",
+				"#6d190d",
+				"#952175",
+				"#64410d",
+				"#952175",
+				"#105414",
+				"#60250f",
+				"#10405f",
+			],
 			loading: false,
 			interestedLoading: false,
 			goingStatusLoading: false,
@@ -266,7 +274,7 @@ export default {
 	margin-top: -2px;
 }
 .chip-like {
-	background-color: grey;
+	background-color: #474747;
 	margin: 0 2px;
 	color: white;
 	padding: 2px;

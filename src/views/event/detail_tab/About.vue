@@ -1,60 +1,45 @@
 <template>
-	<v-tab-item value="tab-about"
-		transition="fade-transition"
-		reverse-transition="fade-transition"
+	<v-card
+		v-if="event"
+		class="event-tab"
 	>
-		<v-card
-			v-if="event"
-			flat
-			elevation="24"
-			class="event-tab"
+		<v-list
+			class="about-event-list"
+			two-line
+			color="transparent"
 		>
-			<v-card-text class="why-idk">
-				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
-			</v-card-text>
-			<v-list
-				class="about-event-list"
-				two-line
-				color="transparent"
+			<v-list-item
+				v-for="(item, index) in aboutEventInfo"
+				:key="item.field"
 			>
-				<v-list-item
-					v-for="(item, index) in aboutEventInfo"
-					:key="item.field"
-				>
-					<v-list-item-avatar><v-icon>{{ item.icon }}</v-icon></v-list-item-avatar>
-					<v-list-item-content>
-						<v-list-item-title class="grey--text text--darken-3">
-							{{ item.field.toUpperCase() }}
-						</v-list-item-title>
-						<v-list-item-subtitle>
-							<div>
-								<p class="mb-0">
-									{{ item.value }}
-								</p>
-							</div>
-						</v-list-item-subtitle>
-						<v-divider v-if="index !== aboutEventInfo.length"
-							class="mt-1"
-						/>
-					</v-list-item-content>
-				</v-list-item>
-			</v-list>
-		</v-card>
-	</v-tab-item>
+				<v-list-item-avatar><v-icon>{{ item.icon }}</v-icon></v-list-item-avatar>
+				<v-list-item-content>
+					<v-list-item-title class="grey--text text--darken-3">
+						{{ item.field.toUpperCase() }}
+					</v-list-item-title>
+					<v-list-item-subtitle>
+						<div>
+							<p class="mb-0">
+								{{ item.value }}
+							</p>
+						</div>
+					</v-list-item-subtitle>
+					<v-divider v-if="index !== aboutEventInfo.length"
+						class="mt-1"
+					/>
+				</v-list-item-content>
+			</v-list-item>
+		</v-list>
+	</v-card>
 </template>
 <script>
 import {mapGetters} from "vuex";
 
 export default {
-	name: "EventDetailAboutTabContent",
-	props: {
-		event: {
-			type: Object,
-			required: true
-		}
-	},
+	name: "AboutEvent",
 	computed: {
 		...mapGetters({
+			event: "event/detail",
 			statistics: "event/statisticsDetail",
 		}),
 		aboutEventInfo() {

@@ -1,167 +1,160 @@
 <template>
-	<v-tab-item value="tab-multimedia">
-		<v-card
-			flat
-			class="event-tab"
-		>
-			<v-card-text class="why-idk">
-				Nulla porttitor accumsan tincidunt. Donec sollicitudin molestie malesuada. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin molestie malesuada.s
-			</v-card-text>
-			<v-card-text v-if="event">
-				<v-row v-if="videoUrls.length>0"
-					no-gutters
-					justify="center"
-					align="center"
-					class="pb-4"
-				>
-					<v-col v-for="(videoUrl, index) in videoUrls" :key="index"
-						cols="12" xl="4"
-						md="4"
-						lg="4" sm="4"
-						class="ma-2"
-					>
-						<v-badge
-							bordered
-							color="error"
-							overlap
-						>
-							<template #badge>
-								<v-icon class="badge-close"
-									@click="removeVideoUrls(index)"
-								>
-									mdi-close
-								</v-icon>
-							</template>
-							<youtube-iframe
-								:video-url="videoUrl"
-								class="rounded"
-							/>
-						</v-badge>
-					</v-col>
-				</v-row>
-				<v-row v-if="videos.length>0"
-					no-gutters
-					justify="center"
-					align="center"
-					class="pb-4"
-				>
-					<v-col v-for="(video, index) in videosToUpload" :key="index"
-						cols="12" xl="4"
-						md="4"
-						lg="4" sm="4"
-					>
-						<v-badge
-							bordered
-							overlap
-							color="grey darken-2"
-						>
-							<template #badge>
-								<v-icon
-									x-small
-									class="badge-close"
-									@click="removeVideo(index)"
-								>
-									mdi-close
-								</v-icon>
-							</template>
-							<div class="video-item-to-upload">
-								<a :href="video.videoUrl"
-									target="_blank"
-								>{{ video.name }}</a>
-							</div>
-						</v-badge>
-					</v-col>
-				</v-row>
-
-				<div
-					v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
-					class="upload-image-container"
-				>
-					<file-upload
-						id="multimedia-uploader"
-						v-model="eventVideosForUpload"
-						:multiple="true"
-						class="cursor-pointer"
-						@input-file="inputVideoFile"
-						@input-filter="inputVideoFilter"
-					>
-						<div class="upload-image">
-							Add video to event
-						</div>
-					</file-upload>
-				</div>
-			</v-card-text>
-			<v-card-text
-				v-if="$helper.ifWriterIsCurrentUser(event.created_by.username)"
+	<v-card
+		v-if="event"
+		flat
+		class="event-tab"
+	>
+		<v-card-text v-if="event.created_by">
+			<v-row v-if="videoUrls.length>0"
+				no-gutters
+				justify="center"
+				align="center"
+				class="pb-4"
 			>
-				<v-combobox
-					v-model="videoUrls"
-					class="ma-0"
-					:items="[]"
-					label="Video URL"
-					type="url"
-					clearable
-					multiple
-					outlined
-					small-chips
-					hide-selected
-					deletable-chips
-					hide-details="auto"
-					prepend-inner-icon="mdi-video"
-					hint="Type youtube video url and press enter to add a new one."
-				/>
-			</v-card-text>
-			<v-card-text v-if="videos.length > 0 || videoUrls.length > 0">
-				<div class="d-flex justify-center pa-2">
-					<v-btn color="orange"
-						dark
-						@click="uploadEventVideos"
+				<v-col v-for="(videoUrl, index) in videoUrls" :key="index"
+					cols="12" xl="4"
+					md="4"
+					lg="4" sm="4"
+					class="ma-2"
+				>
+					<v-badge
+						bordered
+						color="error"
+						overlap
 					>
-						Upload
-					</v-btn>
-				</div>
-			</v-card-text>
-			<v-card-title class="headline pb-0">
-				<v-icon large>
-					mdi-video
-				</v-icon>
-				<span class="pl-4 quick-sand-font">Event Videos</span>
-			</v-card-title>
-			<v-row
-				v-if="event.video_urls"
-				class="ma-0 pa-0"
-			>
-				<v-col v-if="event.video_urls.length === 0">
-					<div class="no-videos">
-						No videos added yet!
-					</div>
+						<template #badge>
+							<v-icon class="badge-close"
+								@click="removeVideoUrls(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<youtube-iframe
+							:video-url="videoUrl"
+							class="rounded"
+						/>
+					</v-badge>
 				</v-col>
+			</v-row>
+			<v-row v-if="videos.length>0"
+				no-gutters
+				justify="center"
+				align="center"
+				class="pb-4"
+			>
+				<v-col v-for="(video, index) in videosToUpload" :key="index"
+					cols="12" xl="4"
+					md="4"
+					lg="4" sm="4"
+				>
+					<v-badge
+						bordered
+						overlap
+						color="grey darken-2"
+					>
+						<template #badge>
+							<v-icon
+								x-small
+								class="badge-close"
+								@click="removeVideo(index)"
+							>
+								mdi-close
+							</v-icon>
+						</template>
+						<div class="video-item-to-upload">
+							<a :href="video.videoUrl"
+								target="_blank"
+							>{{ video.name }}</a>
+						</div>
+					</v-badge>
+				</v-col>
+			</v-row>
+			<div
+				v-if="ifWriterIsCurrentUser"
+				class="upload-image-container"
+			>
+				<file-upload
+					id="multimedia-uploader"
+					v-model="eventVideosForUpload"
+					:multiple="true"
+					class="cursor-pointer"
+					@input-file="inputVideoFile"
+					@input-filter="inputVideoFilter"
+				>
+					<div class="upload-image">
+						Add video to event
+					</div>
+				</file-upload>
+			</div>
+		</v-card-text>
+		<v-card-text
+			v-if="ifWriterIsCurrentUser"
+		>
+			<v-combobox
+				v-model="videoUrls"
+				class="ma-0"
+				:items="[]"
+				label="Video URL"
+				type="url"
+				clearable
+				multiple
+				outlined
+				small-chips
+				hide-selected
+				deletable-chips
+				hide-details="auto"
+				prepend-inner-icon="mdi-video"
+				hint="Type youtube video url and press enter to add a new one."
+			/>
+		</v-card-text>
+		<v-card-text v-if="videos.length > 0 || videoUrls.length > 0">
+			<div class="d-flex justify-center pa-2">
+				<v-btn color="orange"
+					dark
+					@click="uploadEventVideos"
+				>
+					Upload
+				</v-btn>
+			</div>
+		</v-card-text>
+		<v-card-title class="headline pb-0">
+			<v-icon large>
+				mdi-video
+			</v-icon>
+			<span class="pl-4 quick-sand-font">Event Videos</span>
+		</v-card-title>
+		<v-row
+			v-if="event.video_urls"
+			class="ma-0 pa-0"
+		>
+			<v-col>
+				<div
+					v-if="event.video_urls.length === 0"
+					class="no-videos"
+				>
+					No videos added yet!
+				</div>
 				<youtube-play-list v-else
 					:video-urls="event.video_urls"
 					:creator="event.created_by"
 					model-name="event video"
 					delete-action="event/deleteVideoUrl"
 				/>
-			</v-row>
-		</v-card>
-	</v-tab-item>
+			</v-col>
+		</v-row>
+	</v-card>
 </template>
 <script>
 import {getFormData} from "@/Helper";
 import VueUploadComponent from "vue-upload-component";
+import {mapGetters} from "vuex";
 
 export default {
-	name: "EventDetailMultimediaTabContent",
+	name: "EventMultimedias",
 	components: {
 		YoutubeIframe: () => import("@/components/YoutubeIframe"),
 		YoutubePlayList: () => import("@/components/YoutubePlayList"),
 		FileUpload: VueUploadComponent,
-	},
-	props: {
-		event: {
-			type: Object,
-			required: true
-		}
 	},
 	data: () => ({
 		eventVideosForUpload: [],
@@ -169,6 +162,16 @@ export default {
 		videoUrls: [],
 		videosToUpload: [],
 	}),
+	computed: {
+		...mapGetters({
+			event: "event/detail"
+		}),
+		ifWriterIsCurrentUser() {
+			if (!this.event) return false
+			if (!this.event.created_by) return false
+			return this.$helper.ifWriterIsCurrentUser(this.event.created_by.username)
+		}
+	},
 	methods: {
 		inputVideoFile(latest) {
 			const latestFile = latest.file
