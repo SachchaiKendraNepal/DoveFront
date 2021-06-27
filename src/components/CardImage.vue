@@ -5,17 +5,19 @@
 		:max-width="maxWidth"
 	>
 		<v-dialog v-model="fullscreen">
-			<v-img :src="src">
-				<v-btn fab
-					dark
-					x-small
-					color="grey darken-4"
-					class="ma-2"
-					@click="fullscreen=false"
-				>
-					<v-icon>mdi-close</v-icon>
-				</v-btn>
-			</v-img>
+			<v-card>
+				<v-img :src="src">
+					<v-btn fab
+						dark
+						x-small
+						color="grey darken-4"
+						class="ma-2"
+						@click="fullscreen=false"
+					>
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
+				</v-img>
+			</v-card>
 		</v-dialog>
 		<v-img
 			class="card-image"
