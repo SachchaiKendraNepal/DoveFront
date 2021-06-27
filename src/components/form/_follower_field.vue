@@ -61,5 +61,12 @@ export default {
 			}
 		}
 	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("user/filter", {
+				search: this.value.username,
+			})
+		}
+	},
 }
 </script>

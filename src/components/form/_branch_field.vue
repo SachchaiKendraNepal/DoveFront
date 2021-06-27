@@ -18,6 +18,7 @@
 			prepend-inner-icon="mdi-city"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		>
 			<template #no-data>
 				<v-list-item>
@@ -59,6 +60,13 @@ export default {
 			mixinData: {
 				setter: "branch/setSelectedBranch"
 			}
+		}
+	},
+	created() {
+		if (this.value) {
+			this.$store.dispatch("branch/filter", {
+				search: this.value.name,
+			})
 		}
 	},
 }

@@ -15,6 +15,7 @@
 			:prepend-inner-icon="icon"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		/>
 	</v-col>
 </template>

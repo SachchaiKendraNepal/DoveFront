@@ -12,6 +12,7 @@
 			:prepend-inner-icon="icon"
 			:counter="counter"
 			@input="$emit('input', $event)"
+			@change="$emit('change', $event)"
 		/>
 	</v-col>
 </template>
