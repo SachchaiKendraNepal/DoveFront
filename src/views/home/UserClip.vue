@@ -19,9 +19,9 @@
 				{{ $helper.getCurrentUserInitials() }}
 			</span>
 		</v-list-item-avatar>
-		<v-list-item-content>
+		<v-list-item-content class="pl-4">
 			<v-list-item-title class="full-name">
-				<h4>{{ currentUser.first_name }} {{ currentUser.last_name }} </h4>
+				<h4 v-text="getFullName" />
 			</v-list-item-title>
 			<v-list-item-subtitle>
 				<v-icon small
@@ -42,18 +42,21 @@
 <script>
 export default {
 	name: "UserClipComponent",
-	data: () => ({
-		currentUser: null
-	}),
-	created() {
-		this.currentUser = this.$helper.getCurrentUser()
-	},
+	computed: {
+		currentUser() {
+			return this.$helper.getCurrentUser()
+		},
+		getFullName() {
+			if (this.currentUser.first_name && this.currentUser.last_name) {
+				return `${this.currentUser.first_name} ${this.currentUser.last_name}`
+			} else {
+				return this.currentUser.username
+			}
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>
-.full-name
-	//font-size: 1rem
-	//font-weight: 500
 .clip-item
 	padding: 0 8px
 	height: 70px

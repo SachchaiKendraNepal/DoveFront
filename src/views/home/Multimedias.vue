@@ -13,8 +13,10 @@
 			</v-icon>
 			Multimedia Library
 		</div>
+		<no-home-data v-if="posts.length === 0" />
 		<multimedia-post
 			v-for="post in posts"
+			v-else
 			:key="post.id"
 			:post="post"
 			:is-article="false"
@@ -25,10 +27,12 @@
 
 <script>
 import {mapGetters} from "vuex";
+import NoHomeData from "@/components/NoHomeData.vue";
 
 export default {
 	name: "Multimedias",
 	components: {
+		NoHomeData,
 		MultimediaPost: () => import("@/components/Multimedia"),
 	},
 	data: () => ({

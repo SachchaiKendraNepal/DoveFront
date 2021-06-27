@@ -1,7 +1,5 @@
 <template>
-	<v-card min-height="85vh"
-		flat
-	>
+	<div>
 		<v-col
 			cols="12"
 			class="px-0"
@@ -23,7 +21,13 @@
 				</v-chip-group>
 			</v-sheet>
 		</v-col>
-		<v-row no-gutters>
+		<profile-no-content
+			v-if="myEvents.length === 0"
+			:text="noContentText"
+		/>
+		<v-row v-else
+			no-gutters
+		>
 			<v-col v-for="event in myEvents"
 				:key="event.id"
 				cols="12"
@@ -31,7 +35,7 @@
 				<event-home-card :event="event" />
 			</v-col>
 		</v-row>
-	</v-card>
+	</div>
 </template>
 <script>
 import EventHomeCard from "@/views/event/EventHomeCard.vue";
@@ -47,6 +51,7 @@ export default {
 			"General Meetings",
 			"Kendra Meetings"
 		],
+		noContentText: "You do not have added event yet."
 	}),
 	computed: {
 		myEvents() {

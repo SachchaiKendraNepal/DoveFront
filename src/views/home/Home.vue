@@ -26,7 +26,8 @@
 					sm="8"
 				>
 					<add-post-box />
-					<div v-if="posts">
+					<no-home-data v-if="posts.length === 0" />
+					<div v-else>
 						<div v-for="post in posts"
 							:key="post.id" class="mb-2"
 						>
@@ -35,7 +36,6 @@
 							/>
 						</div>
 					</div>
-					<no-home-data v-else />
 				</v-col>
 				<v-col
 					cols="12"
@@ -78,10 +78,10 @@ export default {
 		async initialize() {
 			this.loadingPosts = true
 			// only fetch if store has not any data 😎
-
 			this.fetchingPostsOverlay = true
 			await this.$store.dispatch("multimedia/getAllApproved")
 			this.posts = this.multimedias.results
+			console.log(this.posts)
 			this.fetchingPostsOverlay = false
 			this.loadingPosts = false
 		},

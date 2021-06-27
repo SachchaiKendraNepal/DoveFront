@@ -4,6 +4,7 @@
 		min-height="100vh"
 		:loading="loading"
 	>
+		<header-toolbar />
 		<v-row v-if="currentUser"
 			class="ma-0 pa-0"
 		>
@@ -151,10 +152,11 @@ import {mapGetters} from "vuex";
 import Snack from "@/mixins/Snack";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
 import ProfileFormHeader from "@/components/_profile_form_header";
+import HeaderToolbar from "@/views/profile/HeaderToolbar.vue";
 
 export default {
 	name: "ChangePassword",
-	components: {ProfileFormHeader},
+	components: {HeaderToolbar, ProfileFormHeader},
 	mixins: [Snack],
 	props: {
 		value: Boolean

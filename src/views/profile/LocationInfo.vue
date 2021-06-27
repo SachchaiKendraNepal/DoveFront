@@ -1,9 +1,5 @@
 <template>
-	<v-card flat
-		tile
-		min-height="85vh"
-	>
-		<div class="py-4" />
+	<div>
 		<header-toolbar />
 
 		<v-card id="about-follower-card"
@@ -12,7 +8,7 @@
 		>
 			<profile-list :items="locationInfoItems" />
 		</v-card>
-	</v-card>
+	</div>
 </template>
 <script>
 import HeaderToolbar from "@/views/profile/HeaderToolbar";

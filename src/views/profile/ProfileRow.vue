@@ -1,9 +1,5 @@
 <template>
-	<v-card max-width="1000"
-		class="overflow-hidden mx-auto"
-		tile flat
-		color="transparent"
-	>
+	<div>
 		<v-card
 			tile
 			height="300"
@@ -42,7 +38,7 @@
 		<v-card-text class="text-center pt-2">
 			{{ $helper.getCurrentUser().profile.bio }}
 		</v-card-text>
-	</v-card>
+	</div>
 </template>
 
 <script>

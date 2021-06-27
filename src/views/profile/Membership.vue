@@ -1,8 +1,5 @@
 <template>
-	<v-card flat
-		min-height="85vh"
-	>
-		<div class="py-6" />
+	<div>
 		<header-toolbar />
 		<v-card v-if="isApprovedMember"
 			class="mt-4"
@@ -42,7 +39,7 @@
 		>
 			<v-chip>Not a member yet. Please contact <strong class="px-1">Leaders</strong> or the <strong class="px-1">Administration</strong> for a membership.</v-chip>
 		</v-card>
-	</v-card>
+	</div>
 </template>
 
 <script>

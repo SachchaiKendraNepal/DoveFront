@@ -1,7 +1,5 @@
 <template>
-	<v-card flat
-		tile
-	>
+	<div>
 		<profile-row />
 		<header-toolbar />
 
@@ -11,7 +9,7 @@
 		>
 			<my-personal-info />
 		</v-card>
-	</v-card>
+	</div>
 </template>
 <script>
 import ProfileRow from "@/views/profile/ProfileRow";

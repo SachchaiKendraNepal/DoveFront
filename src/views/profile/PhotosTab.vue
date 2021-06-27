@@ -1,9 +1,6 @@
 <template>
-	<v-card tile
-		flat
-		min-height="85vh"
-	>
-		<v-card-title class="text-center justify-center py-6">
+	<div>
+		<v-card-title class="text-center justify-center pt-0">
 			<h1 class="font-weight-bold display-3 teal--text">
 				GaLLeRy
 			</h1>
@@ -40,7 +37,7 @@
 				<my-event-images />
 			</v-tab-item>
 		</v-tabs-items>
-	</v-card>
+	</div>
 </template>
 <script>
 import ProfileImages from "@/views/profile/ProfileImages";

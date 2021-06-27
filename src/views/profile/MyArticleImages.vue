@@ -10,6 +10,7 @@
 			</v-avatar>
 			Start writing article
 		</v-btn>
+		<div class="py-3" />
 		<profile-no-content
 			v-if="myArticles.length === 0"
 			text="You have not written an article yet."

@@ -65,9 +65,20 @@
 						class="layout-col"
 					>
 						<the-snackbar />
-						<transition name="view">
-							<router-view />
-						</transition>
+						<v-card flat
+							max-width="1000" class="mx-auto"
+							min-height="94vh"
+						>
+							<v-scale-transition>
+								<div v-if="$route.name !== 'ABOUT ME'"
+									class="py-6"
+								/>
+							</v-scale-transition>
+							<transition name="view">
+								<router-view />
+							</transition>
+							<div class="py-6" />
+						</v-card>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -176,8 +187,6 @@ export default {
 		margin-top: 80px
 .layout-col
 	margin: 80px auto 0
-	max-width: 1000px
-
 	transition: margin-top .5s ease
 	@media only screen and (max-width: 631px)
 		margin-top: 0

@@ -216,7 +216,12 @@ const routes = [
 			{
 				path: "showcase-map",
 				name: "MAP ADMINISTRATION",
-				component: () => import("@/views/settings/MapAdmin.vue")
+				component: () => import("@/views/settings/MapAdmin")
+			},
+			{
+				path: "kendra-information",
+				name: "KENDRA INFO ADMIN",
+				component: () => import("@/views/settings/KendraInformation")
 			},
 		]
 	},
@@ -249,6 +254,16 @@ const routes = [
 				path: "change-password",
 				name: "CHANGE PASSWORD",
 				component: () => import("@/views/profile/ChangePassword")
+			},
+			{
+				path: "feedback",
+				name: "MY FEEDBACKS",
+				component: () => import("@/views/profile/MyFeedbacks")
+			},
+			{
+				path: "contribution",
+				name: "MY CONTRIBUTIONS",
+				component: () => import("@/views/profile/MyContributions")
 			},
 			{
 				path: "edit-detail",

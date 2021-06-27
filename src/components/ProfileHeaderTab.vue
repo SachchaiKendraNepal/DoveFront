@@ -42,5 +42,5 @@ export default {
 
 <style scoped lang="sass">
 .profile-tab-active
-	color: rgb(8 40 57) !important
+	color: white
 </style>

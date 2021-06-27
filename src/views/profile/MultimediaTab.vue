@@ -1,9 +1,5 @@
 <template>
-	<v-card class="ma-2 pa-0"
-		flat
-		min-height="83vh"
-	>
-		<div class="py-6" />
+	<div>
 		<StartAPostComponent />
 		<v-btn block
 			height="45"
@@ -12,6 +8,7 @@
 			<v-icon>mdi-video-vintage</v-icon>
 			<span class="pl-2">add new multimedia</span>
 		</v-btn>
+		<div class="py-2" />
 		<profile-no-content
 			v-if="myMultimedias.length === 0"
 			:text="noContentText"
@@ -59,7 +56,7 @@
 				</v-tab-item>
 			</v-tabs-items>
 		</div>
-	</v-card>
+	</div>
 </template>
 <script>
 
@@ -82,7 +79,6 @@ export default {
 	}),
 	computed: {
 		myMultimedias() {
-			console.log(this.$helper.getCurrentUser()["my_multimedias"])
 			return this.$helper.getCurrentUser()["my_multimedias"]
 		},
 		videoUrls() {

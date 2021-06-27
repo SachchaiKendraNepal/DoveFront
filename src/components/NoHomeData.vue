@@ -2,6 +2,8 @@
 	<v-card
 		color="transparent"
 		class="no-post py-3"
+		flat
+		min-height="73vh"
 	>
 		<v-chip color="purple lighten-5"
 			label

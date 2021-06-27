@@ -1,8 +1,5 @@
 <template>
-	<v-card flat
-		min-height="85vh"
-	>
-		<div class="py-6" />
+	<div>
 		<header-toolbar />
 		<v-list
 			v-if="isApprovedMember"
@@ -147,7 +144,7 @@
 		>
 			<v-chip>Not a member yet. Please contact sachchai leaders or administration for a membership.</v-chip>
 		</v-card>
-	</v-card>
+	</div>
 </template>
 
 <script>

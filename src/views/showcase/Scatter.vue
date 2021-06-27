@@ -163,9 +163,6 @@ export default {
 </script>
 
 <style scoped>
-/*:root { font-size: 16px }*/
-/*@media (max-width: 500px) { :root { font-size: 14px } }*/
-
 * {
 	margin: 0;
 	padding: 0;
