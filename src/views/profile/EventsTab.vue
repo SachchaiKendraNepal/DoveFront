@@ -1,59 +1,61 @@
 <template>
-	<tab-item-card>
-		<template #content>
-			<v-row class="pa-0 ma-0">
-				<v-col
-					cols="12"
-					xl="4"
-					lg="4"
-					md="4"
-					class="pa-0"
+	<v-card min-height="85vh"
+		flat
+	>
+		<v-col
+			cols="12"
+			class="px-0"
+		>
+			<v-sheet
+				elevation="10"
+				class="py-4 pl-4 pr-1 rounded"
+			>
+				<v-chip-group
+					multiple
+					active-class="primary--text"
 				>
-					<intro-card />
-					<peek-photos />
-				</v-col>
-				<v-col
-					id="post-column"
-					cols="12"
-					xl="8"
-					lg="8"
-					md="8"
-					class="pa-md-1 pt-md-2 px-2 py-0"
-				>
-					<!--					<div class="mb-2">-->
-					<!--						<article-post :post="articlePost" />-->
-					<!--					</div>-->
-					<!--					<div class="mb-2">-->
-					<!--						<multimedia :post="multimediaPost" />-->
-					<!--					</div>-->
-				</v-col>
-			</v-row>
-		</template>
-	</tab-item-card>
+					<v-chip
+						v-for="tag in tags"
+						:key="tag"
+					>
+						{{ tag }}
+					</v-chip>
+				</v-chip-group>
+			</v-sheet>
+		</v-col>
+		<v-row no-gutters>
+			<v-col v-for="event in myEvents"
+				:key="event.id"
+				cols="12"
+			>
+				<event-home-card :event="event" />
+			</v-col>
+		</v-row>
+	</v-card>
 </template>
 <script>
+import EventHomeCard from "@/views/event/EventHomeCard.vue";
 export default {
 	name: "ProfilePostsTabView",
 	components: {
-		IntroCard: () => import("@/views/profile/Intro"),
-		PeekPhotos: () => import("@/views/profile/PeekPhotos"),
-		TabItemCard: () => import("@/components/ProfileTabItem"),
-		// ArticlePost: () => import("@/components/Article"),
-		// Multimedia: () => import("@/components/Multimedia"),
+		EventHomeCard
 	},
 	data: () => ({
 		loading: false,
+		tags: [
+			"Satsang",
+			"General Meetings",
+			"Kendra Meetings"
+		],
 	}),
+	computed: {
+		myEvents() {
+			return this.$helper.getCurrentUser()["my_events"]
+		}
+	}
 
 }
 </script>
 <style lang="sass" scoped>
-#post-column
-	overflow-y: auto
-	height: 93vh
-	-ms-overflow-style: none
-	scrollbar-width: none
-#post-column::-webkit-scrollbar
-	display: none
 </style>
 
