@@ -101,7 +101,6 @@ export default {
 			this.$bus.emit("open-start-post-dialog")
 		},
 		openAddEventFormDialog() {
-			console.log("here1")
 			this.$bus.emit("open-event-form-dialog-add-item")
 		},
 	}

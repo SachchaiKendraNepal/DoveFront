@@ -103,7 +103,6 @@ export default {
 			currentUser: "user/detail"
 		}),
 		coverImages() {
-			console.log(this.currentUser["profile"]["cover_images"])
 			if(!this.currentUser["profile"]["cover_images"]) return []
 			return this.currentUser["profile"]["cover_images"]
 		},

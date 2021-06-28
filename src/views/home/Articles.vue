@@ -21,14 +21,16 @@
 				</v-chip>
 			</v-chip-group>
 		</v-card>
-		<no-home-data v-if="articles.results.length === 0" />
-		<article-card
-			v-for="post in articles.results"
-			v-else
-			:key="post.id"
-			:article="post"
-			class="ma-3"
-		/>
+		<div v-if="articles.results">
+			<no-home-data v-if="articles.results.length === 0" />
+			<article-card
+				v-for="post in articles.results"
+				v-else
+				:key="post.id"
+				:article="post"
+				class="ma-3"
+			/>
+		</div>
 		<div class="py-16" />
 	</v-card>
 </template>

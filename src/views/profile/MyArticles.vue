@@ -33,9 +33,6 @@ export default {
 		...mapGetters({
 			myArticles: "article/list"
 		})
-	},
-	created() {
-		console.log(this.myArticles)
 	}
 }
 </script>

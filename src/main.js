@@ -13,6 +13,7 @@ import "swiper/swiper-bundle.css"
 import VueBus from "vue-bus"
 import moment from "moment"
 import helper from "@/Helper"
+import constants from "@/./constants"
 import "video.js/dist/video-js.css"
 
 Vue.use(VueBus)
@@ -87,6 +88,7 @@ Vue.prototype.$api = api
 Vue.prototype.$jq = $
 Vue.prototype.$moment = moment
 Vue.prototype.$helper = helper
+Vue.prototype.$constants = constants
 
 Vue.config.productionTip = false
 

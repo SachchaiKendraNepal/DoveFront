@@ -57,7 +57,6 @@
 				:key="index"
 			>
 				<v-avatar size="48"
-					:color="colors[index % 10]"
 					class="d-flex justify-content-center ma-2"
 				>
 					<span class="white--text headline">{{ $helper.getCurrentUserInitials(item.writer) }}</span>
@@ -118,19 +117,7 @@ export default {
 		updateCommentDialog: false,
 		commentToUpdate: null,
 		commentIdToUpdate: null,
-		myComment: "",
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#6d190d",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
+		myComment: ""
 	}),
 	computed: {
 		...mapGetters({

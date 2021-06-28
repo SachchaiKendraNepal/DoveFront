@@ -1,5 +1,7 @@
 <template>
-	<div class="d-flex justify-center align-center">
+	<div
+		class="d-flex justify-center align-center"
+	>
 		<v-menu
 			transition="slide-y-transition"
 			bottom

@@ -7,15 +7,14 @@
 			two-line
 			dense
 		>
-			<v-list-item v-for="(item, index) in comments"
+			<v-list-item v-for="(item) in comments"
 				:key="item.id"
 				class="pl-0"
 			>
 				<v-avatar size="45"
 					tile
 					class="d-flex justify-content-center ma-2 elevation-4 comment-avatar"
-					:color="colors[index % 10]"
-					:style="'border: ' + colors[index % 10]"
+					:color="$constants.pickBackgroundColor()"
 				>
 					<span class="white--text headline">
 						{{ $helper.getUsernameInitials(item.writer) }}
@@ -77,18 +76,6 @@ export default {
 		}
 	},
 	data: () => ({
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#6d190d",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
 		comment: {
 			comment: null,
 			multimedia: null

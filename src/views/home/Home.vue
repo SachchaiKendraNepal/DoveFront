@@ -81,7 +81,6 @@ export default {
 			this.fetchingPostsOverlay = true
 			await this.$store.dispatch("multimedia/getAllApproved")
 			this.posts = this.multimedias.results
-			console.log(this.posts)
 			this.fetchingPostsOverlay = false
 			this.loadingPosts = false
 		},

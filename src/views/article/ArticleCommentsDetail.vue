@@ -13,14 +13,14 @@
 			>
 				Be the first to comment!
 			</v-list-item>
-			<v-list-item v-for="(item, index) in comments.results" v-else
+			<v-list-item v-for="(item) in comments.results" v-else
 				:key="item.id"
 			>
 				<v-avatar size="45"
 					tile
 					class="d-flex justify-content-center ma-2 elevation-4 comment-avatar"
-					:color="colors[index % 10]"
-					:style="'border: ' + colors[index % 10]"
+					:color="avColor"
+					:style="'border: ' + avColor"
 				>
 					<span class="white--text headline">
 						{{ $helper.getCurrentUserInitials(item.writer) }}
@@ -89,24 +89,17 @@ export default {
 	mixins: [Snack],
 	data: () => ({
 		loading: false,
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#6d190d",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
 		comment: {
 			comment: null,
 			article: null
 		},
 		comments: null
 	}),
+	computed: {
+		avColor() {
+			return this.$constants.pickBackgroundColor()
+		}
+	},
 	async created() {
 		await this.init()
 	},

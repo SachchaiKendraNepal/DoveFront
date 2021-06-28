@@ -1,7 +1,7 @@
 <template>
 	<v-card
 		:loading="loading"
-		:color="colors[event.id % 10]"
+		:color="$constants.pickBackgroundColor()"
 		dark
 	>
 		<v-row class="ma-0 pa-0"
@@ -178,18 +178,6 @@ export default {
 	},
 	data() {
 		return {
-			colors: [
-				"#1F7087",
-				"#731231",
-				"#254f0d",
-				"#6d190d",
-				"#952175",
-				"#64410d",
-				"#952175",
-				"#105414",
-				"#60250f",
-				"#10405f",
-			],
 			loading: false,
 			interestedLoading: false,
 			goingStatusLoading: false,

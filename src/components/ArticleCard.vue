@@ -32,7 +32,7 @@
 			<v-list-item>
 				<v-list-item-avatar
 					size="48"
-					:color="getAvColor"
+					:color="$constants.pickBackgroundColor()"
 					class="d-flex justify-center author-av"
 				>
 					<span class="text-uppercase headline white--text">{{ $helper.getUsernameInitials(article.created_by) }}</span>
@@ -145,25 +145,7 @@ export default {
 			bookmarked: null,
 			love_count: null
 		},
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#650887",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
 	}),
-	computed: {
-		getAvColor() {
-			const rem = this.article.id % 10
-			return this.colors[rem]
-		}
-	},
 	async created() {
 		await this.initStatus()
 	},

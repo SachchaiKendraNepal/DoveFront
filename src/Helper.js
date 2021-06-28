@@ -50,16 +50,36 @@ module.exports = {
 	getCurrentUser() {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
+	getInitials(userName) {
+		let parts = userName.split(/[ -]/)
+		let initials = ""
+		parts.forEach((part, index) => {
+			initials += parts[index].charAt(0)
+		})
+		if (initials.length > 3 && initials.search(/[A-Z]/) !== -1) {
+			initials = initials.replace(/[a-z]+/g, "")
+		}
+
+		initials = initials.substr(0, 3).toUpperCase()
+
+		return initials
+	},
 	getUsernameInitials(value) {
-		return value.username[0].toUpperCase()
+		const toCalculate = (value.first_name && value.last_name)
+			? `${value.first_name} ${value.last_name}`
+			: value.username
+		return this.getInitials(toCalculate)
 	},
 	getCurrentUserInitials() {
+		if (!this.getCurrentUser()) return null
 		return this.getUsernameInitials(this.getCurrentUser())
 	},
 	getCurrentProfileImage() {
+		if (!this.getCurrentUser()) return null
 		return this.getCurrentUser()["active_profile_image"]
 	},
 	getCurrentCoverImage() {
+		if (!this.getCurrentUser()) return null
 		const defaultCover = require("@/assets/default_cover_img.jpg")
 		const img = this.getCurrentUser()["active_cover_image"]
 		if (!img) return defaultCover

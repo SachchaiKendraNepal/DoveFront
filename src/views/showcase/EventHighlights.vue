@@ -13,7 +13,7 @@
 				<v-card
 					class="mx-auto py-sm-6 py-md-6 py-lg-6 py-xl-6"
 					max-width="1000"
-					:color="colors[index]"
+					:color="$constants.pickBackgroundColor()"
 				>
 					<v-row
 						class="ma-0 pa-0"
@@ -133,11 +133,6 @@
 export default {
 	name: "EventHighlightsSwiperComponent",
 	data: () => ({
-		colors: [
-			"grey darken-3",
-			"#1F7087",
-			"#385F73",
-		],
 		events: []
 	}),
 	computed: {

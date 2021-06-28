@@ -34,9 +34,7 @@
 						<v-avatar size="45"
 							tile
 							class="d-flex justify-content-center ma-2 elevation-4 comment-avatar"
-							:color="colors[index % 10]"
-							:style="'border: ' + colors[index % 10]"
-							style="border-radius: 4px !important;"
+							:color="$constants.pickBackgroundColor()"
 						>
 							<span class="white--text headline">
 								{{ $helper.getUsernameInitials(item.writer) }}
@@ -150,18 +148,6 @@ export default {
 	name: "CommentsDetailComponent",
 	mixins: [Snack],
 	data: () => ({
-		colors: [
-			"#1F7087",
-			"#731231",
-			"#254f0d",
-			"#6d190d",
-			"#952175",
-			"#64410d",
-			"#952175",
-			"#105414",
-			"#60250f",
-			"#10405f",
-		],
 		updateCommentDialog: false,
 		updateComment: {
 			comment: null
@@ -247,4 +233,6 @@ export default {
 	letter-spacing:  .5px
 .detail-icon
 	margin-top: -2px
+.comment-avatar
+	border-radius: 4px !important
 </style>

@@ -69,7 +69,7 @@
 			cols="12"
 		>
 			<v-card
-				:color="colors[index % 10]"
+				:color="$constants.pickBackgroundColor()"
 				dark
 			>
 				<v-row class="ma-0 pa-0"
@@ -273,18 +273,6 @@ export default {
 			"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
 			"mollit anim id est laborum.",
 		searchEvents: "",
-		colors: [
-			"#F44336",
-			"#009688",
-			"#9C27B0",
-			"#b16e0c",
-			"#673AB7",
-			"#E91E63",
-			"#253380",
-			"#105414",
-			"#d84212",
-			"#952175",
-		],
 		filterMenuItems: [
 			{ title: "By Status", icon: "mdi-check" },
 			{ title: "By Type", icon: "mdi-call-merge" },
