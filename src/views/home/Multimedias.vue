@@ -13,7 +13,9 @@
 			</v-icon>
 			Multimedia Library
 		</div>
-		<no-home-data v-if="posts.length === 0" />
+		<no-home-data v-if="posts.length === 0"
+			:image="require('@/assets/noEventVideos.jpg')"
+		/>
 		<multimedia-post
 			v-for="post in posts"
 			v-else

@@ -12,6 +12,7 @@
 			class="mx-auto pa-0"
 			max-width="1000"
 		>
+			<div class="py-1" />
 			<v-row
 				class="ma-0 pa-0"
 				align="start"
@@ -26,7 +27,9 @@
 					sm="8"
 				>
 					<add-post-box />
-					<no-home-data v-if="posts.length === 0" />
+					<no-home-data v-if="posts.length === 0"
+						:image="require('@/assets/noPostsImg.jpg')"
+					/>
 					<div v-else>
 						<div v-for="post in posts"
 							:key="post.id" class="mb-2"

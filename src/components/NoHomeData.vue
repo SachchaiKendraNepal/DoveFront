@@ -20,7 +20,9 @@
 				:src="image"
 			/>
 		</v-card>
-		<v-chip color="blue lighten-4">
+		<v-chip label
+			color="blue lighten-4"
+		>
 			{{ bottomText }}
 		</v-chip>
 	</v-card>
@@ -33,14 +35,21 @@ export default {
 		image: {
 			type: String,
 			default: "https://media.giphy.com/media/1O2BRZcDgIfDsKMTbG/giphy.gif"
+		}
+	},
+	computed: {
+		getKey() {
+			if (this.$route.name === "HOME") return "posts"
+			else if (this.$route.name === "SACHCHAI NEPAL ARTICLES") return "articles"
+			else if (this.$route.name === "SACHCHAI NEPAL MULTIMEDIAS") return "multimedias"
+			else if (this.$route.name === "SACHCHAI NEPAL EVENTS") return "events"
+			else return "none"
 		},
-		topText: {
-			type: String,
-			default: "There are no approved Sachchai posts now. Please visit us later."
+		topText() {
+			return `There are not any approved Sachchai ${this.getKey} available right now. Please visit us later.`
 		},
-		bottomText: {
-			type: String,
-			default: "Contribute to Sachchai Kendra Nepal by sharing your great moments with us."
+		bottomText() {
+			return "Contribute to Sachchai Kendra Nepal by sharing your great moments with us."
 		}
 	}
 }
