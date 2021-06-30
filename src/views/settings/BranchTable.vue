@@ -70,13 +70,9 @@
 						color="primary"
 						@click="openAddBranchFormDialog"
 					>
-						<v-icon
-							dark
-							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-						>
+						<v-icon dark>
 							mdi-plus-circle
 						</v-icon>
-						<span v-if="$vuetify.breakpoint.smAndUp">Branch</span>
 					</v-btn>
 					<branch-form-dialog @reload="initialize" />
 				</v-toolbar>
@@ -84,7 +80,7 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.name="props">
 				<v-edit-dialog v-model:return-value="props.item.name"
-					@save="patch(props.item.id, {name: nameToUpdate})"
+					@save="patchBranch(props.item.id, {name: nameToUpdate})"
 					@open="nameToUpdate = props.item.name"
 				>
 					{{ props.item.name }}
@@ -102,7 +98,7 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.contact="props">
 				<v-edit-dialog v-model:return-value="props.item.contact"
-					@save="patch(props.item.id, {contact: contactToUpdate})"
+					@save="patchBranch(props.item.id, {contact: contactToUpdate})"
 					@open="contactToUpdate = props.item.contact.substr(4)"
 				>
 					{{ props.item.contact }}
@@ -238,6 +234,7 @@ import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ToggleApproval from "@/mixins/ToggleApproval";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+import PatchMixin from "@/mixins/PatchMixin.js";
 
 export default {
 	name: "BranchTable",
@@ -248,6 +245,7 @@ export default {
 		AdminTableList,
 		AdminTableDeleteItemMixin,
 		ToggleApproval,
+		PatchMixin
 	],
 	data: () => ({
 		model: "branch",
@@ -281,8 +279,11 @@ export default {
 	methods: {
 		async patchSlogan(item) {
 			if (item.slogan !== this.sloganToUpdate) {
-				await this.patch(item.id, {slogan: this.sloganToUpdate})
+				await this.patchBranch(item.id, {slogan: this.sloganToUpdate})
 			}
+		},
+		async patchBranch(itemId, body) {
+			await this.patch(this.model, itemId, body)
 		},
 		getMunicipalityOrVdcName(item) {
 			return (item.vdc !== null)
