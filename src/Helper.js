@@ -51,18 +51,19 @@ module.exports = {
 		return JSON.parse(localStorage.getItem("currentUser"))
 	},
 	getInitials(userName) {
-		let parts = userName.split(/[ -]/)
-		let initials = ""
-		parts.forEach((part, index) => {
-			initials += parts[index].charAt(0)
-		})
-		if (initials.length > 3 && initials.search(/[A-Z]/) !== -1) {
-			initials = initials.replace(/[a-z]+/g, "")
-		}
-
-		initials = initials.substr(0, 3).toUpperCase()
-
-		return initials
+		// let parts = userName.split(/[ -]/)
+		// let initials = ""
+		// parts.forEach((part, index) => {
+		// 	initials += parts[index].charAt(0)
+		// })
+		// if (initials.length > 3 && initials.search(/[A-Z]/) !== -1) {
+		// 	initials = initials.replace(/[a-z]+/g, "")
+		// }
+		//
+		// initials = initials.substr(0, 3).toUpperCase()
+		//
+		// return initials
+		return userName[0].toUpperCase()
 	},
 	getUsernameInitials(value) {
 		const toCalculate = (value.first_name && value.last_name)
