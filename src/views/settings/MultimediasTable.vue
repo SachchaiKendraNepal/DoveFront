@@ -126,6 +126,7 @@ export default {
 	],
 	data() {
 		return {
+			model: "multimedia",
 			headers: [
 				{ text: "ACTIONS", value: "actions", sortable: false },
 				{ text: "ID", value: "id" },
@@ -135,9 +136,6 @@ export default {
 				{ text: "APPROVER", value: "approver" },
 				{ text: "TIMESTAMP", value: "timestamp" },
 			],
-			mixinData: {
-				modelName: "multimedia"
-			}
 		}
 	},
 	computed: {

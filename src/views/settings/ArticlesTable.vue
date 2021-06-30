@@ -141,6 +141,7 @@ export default {
 	],
 	data() {
 		return {
+			model: "article",
 			headers: [
 				{text: "ACTIONS", value: "actions", sortable: false},
 				{text: "ID", value: "id"},
@@ -149,10 +150,7 @@ export default {
 				{text: "STATUS", value: "approval_status"},
 				{text: "APPROVER", value: "approver"},
 				{text: "TIMESTAMP", value: "timestamp"}
-			],
-			mixinData: {
-				modelName: "article"
-			}
+			]
 		}
 	},
 	computed: {
