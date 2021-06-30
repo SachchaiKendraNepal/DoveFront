@@ -16,7 +16,6 @@
 					id="country"
 					v-model="locationFields.country"
 					:province="locationFields.province"
-					:errors="formErrors"
 					@change="patchLocation({country: locationFields.country})"
 				/>
 				<province-field
@@ -24,7 +23,6 @@
 					v-model="locationFields.province"
 					:country="locationFields.country"
 					:district="locationFields.district"
-					:errors="formErrors"
 					@change="patchLocation({province: locationFields.province})"
 				/>
 				<district-field
@@ -33,7 +31,6 @@
 					:province="locationFields.province"
 					:municipality="locationFields.municipality"
 					:vdc="locationFields.vdc"
-					:errors="formErrors"
 					@change="patchLocation({district: locationFields.district})"
 				/>
 				<municipality-field
@@ -42,7 +39,6 @@
 					:district="locationFields.district"
 					:ward="locationFields.municipality_ward"
 					:vdc="locationFields.vdc"
-					:errors="formErrors"
 					@change="patchLocation({municipality: locationFields.municipality})"
 				/>
 				<municipality-ward-field
@@ -50,7 +46,6 @@
 					v-model="locationFields.municipality_ward"
 					:municipality="locationFields.municipality"
 					:vdc="locationFields.vdc"
-					:errors="formErrors"
 					@change="patchLocation({municipality_ward: locationFields.municipality_ward})"
 				/>
 				<vdc-field
@@ -59,7 +54,6 @@
 					:district="locationFields.district"
 					:ward="locationFields.vdc_ward"
 					:municipality="locationFields.municipality"
-					:errors="formErrors"
 					@change="patchLocation({vdc: locationFields.vdc})"
 				/>
 				<vdc-ward-field
@@ -67,7 +61,6 @@
 					v-model="locationFields.vdc_ward"
 					:municipality="locationFields.municipality"
 					:vdc="locationFields.vdc"
-					:errors="formErrors"
 					@change="patchLocation({vdc_ward: locationFields.vdc_ward})"
 				/>
 			</v-row>
@@ -76,23 +69,73 @@
 </template>
 
 <script>
-import LocationUpdateMixin from "@/mixins/LocationUpdateMixin.js";
 import PatchMixin from "@/mixins/PatchMixin.js";
-import {mapGetters} from "vuex";
 
 export default {
 	name: "LocationPatchForm",
-	mixins: [LocationUpdateMixin, PatchMixin],
-	computed: {
-		...mapGetters({
-			formErrors: "branch/formErrors"
-		})
+	mixins: [PatchMixin],
+	props: {
+		modelName: {
+			type: String,
+			required: true,
+			default: ""
+		}
 	},
+
+	data() {
+		return {
+			locationUpdateDialog: false,
+			loadingForm: false,
+			itemIdToUpdate: null,
+			itemModelToUpdate: null,
+			locationFields: {
+				country: null,
+				province: null,
+				district: null,
+				municipality: null,
+				municipality_ward: null,
+				vdc: null,
+				vdc_ward: null
+			}
+		}
+	},
+
 	created() {
-		this.$bus.on("open-location-edit-form", this.loadFormWithExistingData)
+		this.$bus.on("open-location-edit-form", this.openAndLoadForm)
 	},
 	beforeUnmount() {
 		this.$bus.off("open-location-edit-form")
+	},
+	methods: {
+		async openAndLoadForm(args) {
+			this.locationUpdateDialog = true
+			this.loadingForm = true
+			this.model = args.model
+			this.locationFields.country = args.country
+			await this.$store.dispatch("location/setCountries", this.locationFields.country)
+			this.locationFields.province = args.province
+			await this.$store.dispatch("location/setProvinces", this.locationFields.province)
+			this.locationFields.district = args.district
+			await this.$store.dispatch("location/setDistricts", this.locationFields.district)
+			this.locationFields.municipality = args.municipality
+			await this.$store.dispatch("location/setMunicipalities", this.locationFields.municipality)
+			this.locationFields.municipality_ward = args.municipality_ward
+			await this.$store.dispatch("location/setMunicipalityWards", this.locationFields.municipality_ward)
+			this.locationFields.vdc = args.vdc
+			await this.$store.dispatch("location/setVdcs", this.locationFields.vdc)
+			this.locationFields.vdc_ward = args.vdc_ward
+			await this.$store.dispatch("location/setVdcWards", this.locationFields.vdc_ward)
+			this.itemIdToUpdate = args.id
+			this.itemModelToUpdate = this.model
+			console.log(this.itemModelToUpdate)
+			this.loadingForm = false
+		},
+		closeLocationEditDialog() {
+			this.locationUpdateDialog = false
+		},
+		async patchLocation(body) {
+			await this.patch(this.modelName, this.itemIdToUpdate, body)
+		}
 	}
 }
 </script>

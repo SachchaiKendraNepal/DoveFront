@@ -124,8 +124,8 @@
 					@close="patchSlogan(props.item)"
 					@open="sloganToUpdate = props.item.slogan"
 				>
-					{{ props.item.slogan.substr(0, 120) }}
-					<span v-if="props.item.slogan.length > 120">...</span>
+					{{ props.item.slogan.substr(0, 20) }}
+					<span v-if="props.item.slogan.length > 20">...</span>
 					<template #input>
 						<v-textarea
 							v-model="sloganToUpdate"
@@ -202,7 +202,7 @@
 					color="primary"
 					size="20"
 					class="ma-1"
-					@click="openLocationEdiDialog('branch', item)"
+					@click="openLocationEdiDialog(item)"
 				>
 					mdi-map-marker-radius
 				</v-icon>
@@ -225,9 +225,7 @@
 				</v-btn>
 			</template>
 		</v-data-table>
-		<location-patch-form
-			model="branch"
-		/>
+		<location-update-dialog model-name="branch" />
 		<admin-delete-item-dialog
 			model-name="branch"
 			delete-action="branch/delete"
@@ -240,22 +238,19 @@ import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ToggleApproval from "@/mixins/ToggleApproval";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
-import LocationUpdateMixin from "@/mixins/LocationUpdateMixin.js";
-import LocationPatchForm from "@/components/LocationPatchForm.vue";
 
 export default {
 	name: "BranchTable",
 	components: {
-		LocationPatchForm,
 		BranchFormDialog: () => import("@/views/branch/BranchFormDialog")
 	},
 	mixins: [
 		AdminTableList,
 		AdminTableDeleteItemMixin,
 		ToggleApproval,
-		LocationUpdateMixin,
 	],
 	data: () => ({
+		model: "branch",
 		selected: [],
 		nameToUpdate: null,
 		sloganToUpdate: null,
@@ -270,7 +265,6 @@ export default {
 			{ text: "LOCATION", value: "location" },
 			{ text: "CREATED AT", value: "created_at" }
 		],
-		model: "branch"
 	}),
 	computed: {
 		...mapGetters({
@@ -314,6 +308,10 @@ export default {
 		},
 		openAddBranchFormDialog() {
 			this.$bus.emit("open-branch-form-dialog-add-item")
+		},
+		async openLocationEdiDialog(args) {
+			args["model"] = this.model
+			this.$bus.emit("open-location-edit-form", args)
 		},
 		routeToBranchDetailPage(itemId) {
 			this.$router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})

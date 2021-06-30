@@ -2,7 +2,10 @@
  * depends on base data `model`
  * emits reload event to reload respective model
  */
+import Snack from "@/mixins/Snack.js";
+
 const PatchMixin = {
+	mixins: [Snack],
 	methods: {
 		async patch(model, id, body){
 			const actionText = `${model}/patch`
