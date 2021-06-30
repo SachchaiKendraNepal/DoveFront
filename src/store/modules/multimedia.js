@@ -82,8 +82,8 @@ const actions = {
 
 	async createMultimediaPost({commit}, body) {
 		try {
-			const resp = await $api.post(multimediaUrl.createWithList, body)
-			return !!resp.success;
+			await $api.post(multimediaUrl.createWithList, body)
+			return true
 		} catch (e) {
 			const status = parseInt(e.response.status.toString())
 			if (status === 400 || status === 404) {

@@ -498,7 +498,6 @@ export default {
 	methods: {
 		async resetPostForm() {
 			await this.$store.dispatch("multimedia/clearFormErrors")
-			await this.$store.dispatch("article/clearFormErrors")
 			this.post = {
 				title: "",
 				description: "",
@@ -583,16 +582,15 @@ export default {
 			this.sounds.splice(index, 1)
 			this.soundURLs.splice(index, 1)
 		},
-		closeDialog() {
-			this.resetPostForm()
+		async closeDialog() {
 			this.dialog = false
+			await this.resetPostForm()
 		},
 		openDialog() {
 			this.dialog = true
 			this.uploadVideo = false
 		},
 		async createMultimedia() {
-			// create a multimedia
 			const body = await getFormData({
 				...this.post,
 				sound: this.sounds,
@@ -601,9 +599,7 @@ export default {
 				video_url: this.video_urls
 			})
 			const response = await this.$store.dispatch("multimedia/createMultimediaPost", body)
-			if (response === false) {
-				this.postCreationFormErrors = this.multimediaPostCreationFormErrors
-			}
+			if (!response) this.postCreationFormErrors = this.multimediaPostCreationFormErrors
 			return response
 		},
 		async showPostCreationErrorMessages() {
@@ -626,13 +622,14 @@ export default {
 		async makeMultimedia() {
 			let response
 			response = await this.createMultimedia()
-			if (response === false) {
+			if (!response) {
 				await this.showPostCreationErrorMessages()
-			}
-			else {
-				this.closeDialog()
-				await this.resetPostForm()
-				await this.openSnack("Your post is added successfully. An admin approval will make your post visible.", "success")
+			} else {
+				await this.closeDialog()
+				await this.openSnack(
+					"Your post is added successfully. An admin approval will make your post visible.",
+					"success"
+				)
 			}
 		}
 	}
