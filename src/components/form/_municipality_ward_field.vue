@@ -12,7 +12,7 @@
 			item-value="id"
 			hide-details="auto"
 			:disabled="(vdc !== null || municipality === null)"
-			:label="'Select municipality ward'.toUpperCase()"
+			label="SELECT MUNICIPALITY WARD"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"

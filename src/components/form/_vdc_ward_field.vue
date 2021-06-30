@@ -12,7 +12,7 @@
 			item-value="id"
 			hide-details="auto"
 			:disabled="(vdc === null)"
-			:label="'Select vdc ward'.toUpperCase()"
+			label="SELECT VDC WARD"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"

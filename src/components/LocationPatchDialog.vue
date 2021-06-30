@@ -1,16 +1,28 @@
 <template>
-	<v-dialog v-model="locationUpdateDialog"
+	<v-dialog v-model="dialog"
 		max-width="600"
 	>
 		<v-card class="pa-4"
-			:loading="loadingForm"
+			:loading="loading"
 		>
 			<v-row class="ma-0 pa-0">
-				<v-col cols="12">
+				<v-col cols="12"
+					class="d-flex align-center flex-wrap"
+				>
 					<v-card-title class="form-heading">
 						Update location details
 					</v-card-title>
-					<v-divider />
+					<v-spacer />
+					<v-btn fab
+						x-small @click="closeLocationEditDialog"
+					>
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
+				</v-col>
+				<v-col cols="12"
+					class="ma-0 pa-0"
+				>
+					<v-divider class="pb-2 mx-2" />
 				</v-col>
 				<country-field
 					id="country"
@@ -84,10 +96,9 @@ export default {
 
 	data() {
 		return {
-			locationUpdateDialog: false,
-			loadingForm: false,
+			dialog: false,
+			loading: false,
 			itemIdToUpdate: null,
-			itemModelToUpdate: null,
 			locationFields: {
 				country: null,
 				province: null,
@@ -108,30 +119,30 @@ export default {
 	},
 	methods: {
 		async openAndLoadForm(args) {
-			this.locationUpdateDialog = true
-			this.loadingForm = true
-			this.model = args.model
-			this.locationFields.country = args.country
+			this.dialog = true
+			this.loading = true
+			await this.loadFormToPatch(args)
+			this.loading = false
+		},
+		async loadFormToPatch(itemToPatch) {
+			this.locationFields.country = itemToPatch.country
 			await this.$store.dispatch("location/setCountries", this.locationFields.country)
-			this.locationFields.province = args.province
+			this.locationFields.province = itemToPatch.province
 			await this.$store.dispatch("location/setProvinces", this.locationFields.province)
-			this.locationFields.district = args.district
+			this.locationFields.district = itemToPatch.district
 			await this.$store.dispatch("location/setDistricts", this.locationFields.district)
-			this.locationFields.municipality = args.municipality
+			this.locationFields.municipality = itemToPatch.municipality
 			await this.$store.dispatch("location/setMunicipalities", this.locationFields.municipality)
-			this.locationFields.municipality_ward = args.municipality_ward
+			this.locationFields.municipality_ward = itemToPatch.municipality_ward
 			await this.$store.dispatch("location/setMunicipalityWards", this.locationFields.municipality_ward)
-			this.locationFields.vdc = args.vdc
+			this.locationFields.vdc = itemToPatch.vdc
 			await this.$store.dispatch("location/setVdcs", this.locationFields.vdc)
-			this.locationFields.vdc_ward = args.vdc_ward
+			this.locationFields.vdc_ward = itemToPatch.vdc_ward
 			await this.$store.dispatch("location/setVdcWards", this.locationFields.vdc_ward)
-			this.itemIdToUpdate = args.id
-			this.itemModelToUpdate = this.model
-			console.log(this.itemModelToUpdate)
-			this.loadingForm = false
+			this.itemIdToUpdate = itemToPatch.id
 		},
 		closeLocationEditDialog() {
-			this.locationUpdateDialog = false
+			this.dialog = false
 		},
 		async patchLocation(body) {
 			await this.patch(this.modelName, this.itemIdToUpdate, body)

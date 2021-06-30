@@ -12,7 +12,7 @@
 			:disabled="(province !== null)"
 			item-text="name"
 			item-value="id"
-			:label="'Select country'.toUpperCase()"
+			label="SELECT COUNTRY"
 			class="country"
 			hide-details="auto"
 			prepend-inner-icon="mdi-web"

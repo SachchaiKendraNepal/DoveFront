@@ -11,7 +11,7 @@
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
-			:label="'Select province'.toUpperCase()"
+			label="SELECT PROVINCE"
 			:error-messages="getErrorMessage"
 			prepend-inner-icon="mdi-office-building-marker-outline"
 			@input="inputChanged('input', $event)"
