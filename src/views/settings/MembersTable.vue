@@ -100,9 +100,9 @@
 				<v-icon
 					v-if="!item.is_approved"
 					v-ripple
-					class="mr-2"
+					class="ma-1"
 					color="green"
-					size="22"
+					small
 					@click.stop="approve(item)"
 				>
 					mdi-check
@@ -110,18 +110,18 @@
 				<v-icon
 					v-else
 					v-ripple
-					class="mr-2"
-					color="green"
-					size="22"
+					class="ma-1"
+					color="error"
+					small
 					@click.stop="revokeApprove(item)"
 				>
-					mdi-check
+					mdi-close
 				</v-icon>
 				<v-icon
 					v-ripple
-					class="mr-2"
+					class="ma-1"
 					color="primary"
-					size="20"
+					small
 					@click.stop="openEditMemberFormDialog(item)"
 				>
 					mdi-pencil
@@ -129,7 +129,8 @@
 				<v-icon
 					v-ripple
 					color="red"
-					size="20"
+					class="ma-1"
+					small
 					@click="openAdminDeleteItemDialog(item.id, item.user.username)"
 				>
 					mdi-delete

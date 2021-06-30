@@ -108,9 +108,18 @@ const actions = {
 			return false
 		}
 	},
-	async toggleApprovalStatus({commit}, {id: id}) {
+	async approve({commit}, {id: id}) {
 		try {
-			await $api.post(util.format(memberUrls.toggleApproval, id))
+			await $api.put(util.format(memberUrls.toggleApproval, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+
+	async disapprove({commit}, {id: id}) {
+		try {
+			await $api.delete(util.format(memberUrls.toggleApproval, id))
 			return true
 		} catch {
 			return false
