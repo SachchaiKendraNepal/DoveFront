@@ -397,6 +397,7 @@ export default {
 	},
 	emits: ["reload"],
 	data: () => ({
+		model: "event",
 		timeOfDayOptions: [
 			"Morning",
 			"Afternoon",
