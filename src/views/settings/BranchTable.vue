@@ -204,7 +204,7 @@
 					class="ma-1"
 					@click="openLocationEdiDialog('branch', item)"
 				>
-					mdi-pencil
+					mdi-map-marker-radius
 				</v-icon>
 				<v-icon
 					v-ripple

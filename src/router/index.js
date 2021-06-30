@@ -210,8 +210,8 @@ const routes = [
 			},
 			{
 				path: "feedback",
-				name: "ABOUT US ADMINISTRATION",
-				component: () => import("@/views/settings/AboutUsTable")
+				name: "FEEDBACK ADMINISTRATION",
+				component: () => import("@/views/settings/FeedbacksTable")
 			},
 			{
 				path: "showcase-map",
