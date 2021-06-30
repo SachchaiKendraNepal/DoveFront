@@ -141,10 +141,7 @@
 											height="calc(100vh - 60px)"
 											class="rounded-0"
 										>
-											<v-card
-												height="600"
-												class="rounded-0"
-											>
+											<v-card height="600">
 												<youtube-iframe
 													:video-url="nowPlaying"
 													height="600"

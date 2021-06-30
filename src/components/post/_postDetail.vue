@@ -234,6 +234,7 @@ export default {
 		},
 		ifWriterIsMember() {
 			const writer = this.target["uploaded_by"]
+			if (!writer) return false
 			return writer.member !== null
 		}
 	},
