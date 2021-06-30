@@ -438,8 +438,10 @@ import Snack from "@/mixins/Snack";
 export default {
 	name: "MemberFormDialog",
 	mixins: [Snack],
+	emits: ["reload"],
 	data: () => ({
 		loading: null,
+		model: "member",
 		memberBranchRoleFormValid: [],
 		roleNameItems: [
 			"Branch Chief",
@@ -598,7 +600,7 @@ export default {
 			await this.$store.dispatch("member/clearMemberFormError")
 			await this.$store.dispatch("member/clearMemberRoleFormError")
 			await this.$store.dispatch("member/clearMemberBranchFormError")
-			this.$bus.emit("reload")
+			this.$emit("reload")
 		},
 
 		async saveMember() {

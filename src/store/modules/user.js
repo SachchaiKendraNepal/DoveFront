@@ -7,34 +7,12 @@ const userUrls = urls.user
 export const SET_USERS = "SET_USERS"
 export const SET_USER = "SET_USER"
 export const SET_ROLES = "SET_ROLES"
-export const SET_REGISTER_FORM_ERRORS = "SET_REGISTER_FORM_ERRORS"
-export const SET_CREATE_FORM_ERRORS = "SET_CREATE_FORM_ERRORS"
-export const SET_SELECTED_FOLLOWER = "SET_SELECTED_FOLLOWER"
-
-const defaultRegisterErrors = {
-	first_name: null,
-	last_name: null,
-	username: null,
-	email: null,
-	contact: null,
-	password: null,
-	confirm_password: null,
-	birth_date: null,
-	current_city: null,
-	home_town: null,
-	country: null,
-	province: null,
-	district: null,
-}
+export const SET_FORM_ERRORS = "SET_FORM_ERRORS"
 
 const state = {
 	users: [],
 	user: {},
-	registerFormErrors: {
-		... defaultRegisterErrors
-	},
-	createFormErrors: {},
-	selectedFollower: null
+	formErrors: {}
 }
 const mutations = {
 	[SET_USERS](state, value) {
@@ -46,14 +24,8 @@ const mutations = {
 	[SET_ROLES](state, value) {
 		state.roles = value
 	},
-	[SET_REGISTER_FORM_ERRORS](statue, value) {
-		state.registerFormErrors = value
-	},
-	[SET_CREATE_FORM_ERRORS](state, value) {
-		state.createFormErrors = value
-	},
-	[SET_SELECTED_FOLLOWER](state, value) {
-		state.selectedFollower = value
+	[SET_FORM_ERRORS](state, value) {
+		state.formErrors = value
 	}
 }
 
@@ -61,20 +33,12 @@ const getters = {
 	list: (state) => state.users,
 	detail: (state) => state.user,
 	roles: (state) => state.roles,
-	registerFormErrors: (state) => state.registerFormErrors,
-	userCreateFormErrors: (state) => state.createFormErrors,
-	selectedFollower: (state) => state.selectedFollower
+	formErrors: (state) => state.formErrors,
 }
 
 const actions = {
-	setSelectedFollower({commit}, {value: value}) {
-		commit("SET_SELECTED_FOLLOWER", value)
-	},
-	clearRegisterFormErrors({ commit }) {
-		commit("SET_REGISTER_FORM_ERRORS", { ...defaultRegisterErrors })
-	},
-	clearCreateFormErrors({commit}) {
-		commit("SET_CREATE_FORM_ERRORS", {})
+	clearFormErrors({ commit }) {
+		commit("SET_FORM_ERRORS", {})
 	},
 	async create({ commit }, {body: body}) {
 		try {
@@ -82,7 +46,7 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_CREATE_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
@@ -122,7 +86,7 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_CREATE_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}
@@ -149,7 +113,7 @@ const actions = {
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
-				commit("SET_REGISTER_FORM_ERRORS", e.response.data)
+				commit("SET_FORM_ERRORS", e.response.data)
 			}
 			return false
 		}

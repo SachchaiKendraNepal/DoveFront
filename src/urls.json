@@ -17,7 +17,7 @@
     "branch": "member/%s/branch",
     "branchViewSet": "member-branch/",
     "branchDetail": "member-branch/%s/",
-    "toggleApproval": "member/%s/toggle-approval"
+    "toggleApproval": "member/%s/approve"
   },
   "branch": {
     "list": "/branch/",

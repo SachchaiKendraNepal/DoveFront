@@ -18,7 +18,7 @@ const PatchMixin = {
 			)
 			if (updated) {
 				await this.$store.dispatch(`${model}/clearFormErrors`)
-				this.$bus.emit("reload")
+				this.$emit("reload")
 				await this.openSnack(`${model.toUpperCase()} updated successfully.`, "success")
 			} else {
 				if (this.formErrors["non_field_errors"]) {

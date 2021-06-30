@@ -133,7 +133,7 @@
 					v-ripple
 					class="ma-1"
 					color="red"
-					size="22"
+					small
 					@click="revokeApprove(item)"
 				>
 					mdi-close
@@ -143,7 +143,7 @@
 					v-ripple
 					class="ma-1"
 					color="success"
-					size="22"
+					small
 					@click="approve(item)"
 				>
 					mdi-check
@@ -153,7 +153,7 @@
 					v-ripple
 					class="ma-1"
 					color="primary"
-					size="20"
+					small
 					@click="openEditEventFormDialog(item)"
 				>
 					mdi-pencil
@@ -162,7 +162,7 @@
 					v-ripple
 					class="ma-1"
 					color="red"
-					size="20"
+					small
 					@click="openAdminDeleteItemDialog(item.id, item.title)"
 				>
 					mdi-delete

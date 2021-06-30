@@ -61,15 +61,12 @@
 						>
 							<v-avatar
 								class="profile-img-avatar"
+								color="blue lighten-1"
 								size="180"
 							>
-								<v-img
-									v-if="$helper.getCurrentProfileImage()"
-									:src="$helper.getCurrentProfileImage()"
-								/>
-								<span v-else
-									class="headline"
-								>{{ $helper.getCurrentUserInitials() }}</span>
+								<span
+									class="display-1 white--text"
+								>{{ $helper.getUsernameInitials(editedItem) }}</span>
 							</v-avatar>
 						</v-col>
 						<v-col
@@ -237,6 +234,7 @@ import Snack from "@/mixins/Snack";
 export default {
 	name: "FollowerFormDialog",
 	mixins: [AdminCreateEditFormMixin, Snack],
+	emits: ["reload"],
 	data: () => ({
 		defaultProfileImage: require("@/assets/default_profile_image.png"),
 		userData: null,
@@ -250,14 +248,11 @@ export default {
 			is_superuser: null,
 			is_staff: null
 		},
-		defaultItem: {},
-		mixinData: {
-			clearFormErrorAction: "user/clearCreateFormErrors"
-		},
+		defaultItem: {}
 	}),
 	computed: {
 		...mapGetters({
-			formErrors: "user/userCreateFormErrors",
+			formErrors: "user/formErrors",
 		}),
 	},
 	async created() {
@@ -276,8 +271,7 @@ export default {
 			)
 			if (editUser) {
 				await this.openSnack("Follower updated successfully.", "success")
-				this.$bus.emit("reload")
-				this.closeCreateEditDialog()
+				this.$emit("reload")
 			}
 			else await this.openSnack("Follower update failed.")
 		},
@@ -330,7 +324,7 @@ export default {
 .profile-av-row
 	display: flex
 	justify-content: center
-	margin-top: -90px
+	//margin-top: -90px
 	.profile-img-avatar
 		transition: all .5s
 		border: 4px solid white

@@ -66,15 +66,11 @@
 						color="primary"
 						@click.stop="openAddFollowerFormDialog"
 					>
-						<v-icon
-							dark
-							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-						>
+						<v-icon dark>
 							mdi-plus-circle
 						</v-icon>
-						<span v-if="$vuetify.breakpoint.smAndUp">Follower</span>
 					</v-btn>
-					<follower-form-dialog />
+					<follower-form-dialog @reload="initialize" />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -146,6 +142,7 @@ export default {
 	],
 	data() {
 		return {
+			model: "user",
 			headers: [
 				{ text: "Actions", value: "actions", sortable: false },
 				{ text: "Id", value: "id" },

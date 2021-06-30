@@ -78,62 +78,6 @@
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
-			<template #item.name="props">
-				<v-edit-dialog v-model:return-value="props.item.name"
-					@save="patchBranch(props.item.id, {name: nameToUpdate})"
-					@open="nameToUpdate = props.item.name"
-				>
-					{{ props.item.name }}
-					<template #input>
-						<v-text-field
-							v-model="nameToUpdate"
-							label="Update name"
-							single-line
-							:errors="formErrors"
-							counter="64"
-						/>
-					</template>
-				</v-edit-dialog>
-			</template>
-			<!-- eslint-disable-next-line vue/valid-v-slot-->
-			<template #item.contact="props">
-				<v-edit-dialog v-model:return-value="props.item.contact"
-					@save="patchBranch(props.item.id, {contact: contactToUpdate})"
-					@open="contactToUpdate = props.item.contact.substr(4)"
-				>
-					{{ props.item.contact }}
-					<template #input>
-						<v-text-field
-							v-model="contactToUpdate"
-							label="Update contact"
-							single-line
-							:errors="formErrors"
-							counter="64"
-						/>
-					</template>
-				</v-edit-dialog>
-			</template>
-			<!-- eslint-disable-next-line vue/valid-v-slot-->
-			<template #item.slogan="props">
-				<v-edit-dialog v-model:return-value="props.item.slogan"
-					save-text="save"
-					@close="patchSlogan(props.item)"
-					@open="sloganToUpdate = props.item.slogan"
-				>
-					{{ props.item.slogan.substr(0, 20) }}
-					<span v-if="props.item.slogan.length > 20">...</span>
-					<template #input>
-						<v-textarea
-							v-model="sloganToUpdate"
-							label="Update description"
-							auto-grow
-							:errors="formErrors"
-							counter="512"
-						/>
-					</template>
-				</v-edit-dialog>
-			</template>
-			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.is_main="{ item }">
 				<v-checkbox
 					v-model="item.is_main"
@@ -198,9 +142,9 @@
 					color="primary"
 					size="20"
 					class="ma-1"
-					@click="openLocationEdiDialog(item)"
+					@click="openEditForm(item)"
 				>
-					mdi-map-marker-radius
+					mdi-pencil
 				</v-icon>
 				<v-icon
 					v-ripple
@@ -234,7 +178,7 @@ import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ToggleApproval from "@/mixins/ToggleApproval";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
-import PatchMixin from "@/mixins/PatchMixin.js";
+import LoadLocationFormMixin from "@/mixins/LoadLocationFormMixin.js";
 
 export default {
 	name: "BranchTable",
@@ -245,18 +189,14 @@ export default {
 		AdminTableList,
 		AdminTableDeleteItemMixin,
 		ToggleApproval,
-		PatchMixin
+		LoadLocationFormMixin
 	],
 	data: () => ({
 		model: "branch",
 		selected: [],
-		nameToUpdate: null,
-		sloganToUpdate: null,
-		contactToUpdate: null,
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
-			{ text: "SLOGAN", value: "slogan" },
 			{ text: "CONTACTS", value: "contact" },
 			{ text: "IS MAIN BRANCH", value: "is_main" },
 			{ text: "IS APPROVED", value: "is_approved" },
@@ -267,24 +207,9 @@ export default {
 	computed: {
 		...mapGetters({
 			branches: "branch/list",
-			formErrors: "branch/formErrors"
 		})
 	},
-	created() {
-		this.$bus.on("reload", this.initialize)
-	},
-	beforeUnmount() {
-		this.$bus.off("reload")
-	},
 	methods: {
-		async patchSlogan(item) {
-			if (item.slogan !== this.sloganToUpdate) {
-				await this.patchBranch(item.id, {slogan: this.sloganToUpdate})
-			}
-		},
-		async patchBranch(itemId, body) {
-			await this.patch(this.model, itemId, body)
-		},
 		getMunicipalityOrVdcName(item) {
 			return (item.vdc !== null)
 				? item.vdc.name
@@ -310,9 +235,12 @@ export default {
 		openAddBranchFormDialog() {
 			this.$bus.emit("open-branch-form-dialog-add-item")
 		},
-		async openLocationEdiDialog(args) {
-			args["model"] = this.model
-			this.$bus.emit("open-location-edit-form", args)
+		async openEditForm(item) {
+			await this.loadLocationItems(item)
+			this.$bus.emit("open-branch-form-dialog-edit-item", {
+				editedIndex: this.branches.results.indexOf(item),
+				editedItem: Object.assign({}, item),
+			})
 		},
 		routeToBranchDetailPage(itemId) {
 			this.$router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})
