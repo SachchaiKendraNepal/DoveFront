@@ -10,7 +10,6 @@ const DistrictAutocomplete = {
 	computed: {
 		...mapGetters({
 			districts: "location/districtsList",
-			selectedProvince: "location/selectedProvinceId"
 		}),
 	},
 	watch: {

@@ -62,13 +62,6 @@ export default {
 		return {
 			name: "country"
 		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterCountries", {
-				search: this.value.name
-			})
-		}
-	},
+	}
 }
 </script>

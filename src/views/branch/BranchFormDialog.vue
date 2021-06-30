@@ -131,7 +131,9 @@
 								<b>Created by:</b>
 								<span v-if="editedItem.created_by"
 									class="px-1"
-								> {{ editedItem.created_by.username }} </span>
+								>
+									{{ editedItem.created_by.username }}
+								</span>
 							</p>
 							<p class="mb-0 mb-2">
 								<v-icon class="small-detail-icon">
@@ -147,10 +149,14 @@
 								<b>Last Updated By:</b>
 								<span v-if="editedItem.updated_by"
 									class="px-1"
-								>{{ editedItem.updated_by.username }}</span>
+								>
+									{{ editedItem.updated_by.username }}
+								</span>
 								<span v-else
 									class="px-1"
-								>None</span>
+								>
+									None
+								</span>
 							</p>
 						</v-list-item-content>
 					</v-list-item>
@@ -285,6 +291,7 @@ export default {
 		AdminCreateEditFormMixin
 	],
 	data: () => ({
+		model: "branch",
 		editedItem: {
 			id: null,
 			cover_image: null,
@@ -316,7 +323,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters({
-			formErrors: "branch/formErrorMessagesList"
+			formErrors: "branch/formErrors"
 		})
 	},
 	async created() {

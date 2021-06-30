@@ -66,13 +66,6 @@ export default {
 		return {
 			name: "vdc"
 		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterVdc", {
-				search: this.value.name
-			})
-		}
 	}
 }
 </script>

@@ -1,7 +1,6 @@
 import $api from "@/handler/axios"
 const urls = require("@/urls.json")
 const locationUrls = urls.location
-const util = require("util")
 
 export const SET_COUNTRIES = "SET_COUNTRIES"
 export const SET_PROVINCES = "SET_PROVINCES"
@@ -11,14 +10,6 @@ export const SET_MUNICIPALITY_WARDS = "SET_MUNICIPALITY_WARDS"
 export const SET_VDCS = "SET_VDCS"
 export const SET_VDC_WARDS = "SET_VDC_WARDS"
 
-export const SET_SELECTED_COUNTRY = "SET_SELECTED_COUNTRY"
-export const SET_SELECTED_PROVINCE = "SET_SELECTED_PROVINCE"
-export const SET_SELECTED_DISTRICT = "SET_SELECTED_DISTRICT"
-export const SET_SELECTED_MUNICIPALITY = "SET_SELECTED_MUNICIPALITY"
-export const SET_SELECTED_MUNICIPALITY_WARD = "SET_SELECTED_MUNICIPALITY_WARD"
-export const SET_SELECTED_VDC = "SET_SELECTED_VDC"
-export const SET_SELECTED_VDC_WARD = "SET_SELECTED_VDC_WARD"
-
 const state = {
 	countries: {},
 	provinces: {},
@@ -27,15 +18,6 @@ const state = {
 	municipality_wards: {},
 	vdcs: {},
 	vdc_wards: {},
-
-
-	selectedCountry: null,
-	selectedProvince: null,
-	selectedDistrict: null,
-	selectedMunicipality: null,
-	selectedMunicipalityWard: null,
-	selectedVdc: null,
-	selectedVdcWard: null
 }
 
 const mutations = {
@@ -60,40 +42,9 @@ const mutations = {
 	[SET_VDC_WARDS](state, value) {
 		state.vdc_wards = value
 	},
-
-	[SET_SELECTED_COUNTRY](state, value) {
-		state.selectedCountry = value
-	},
-	[SET_SELECTED_PROVINCE](state, value) {
-		state.selectedProvince = value
-	},
-	[SET_SELECTED_DISTRICT](state, value) {
-		state.selectedDistrict = value
-	},
-	[SET_SELECTED_MUNICIPALITY](state, value) {
-		state.selectedMunicipality = value
-	},
-	[SET_SELECTED_MUNICIPALITY_WARD](state, value) {
-		state.selectedMunicipalityWard = value
-	},
-	[SET_SELECTED_VDC](state, value) {
-		state.selectedVdc = value
-	},
-	[SET_SELECTED_VDC_WARD](state, value) {
-		state.selectedVdcWard = value
-	},
 }
 
 const getters = {
-	selectedCountryId: state => state.selectedCountry,
-	selectedProvinceId: state => state.selectedProvince,
-	selectedDistrictId: state => state.selectedDistrict,
-	selectedMunicipalityId: state => state.selectedMunicipality,
-	selectedMunicipalityWardId: state => state.selectedMunicipalityWard,
-	selectedVdcId: state => state.selectedVdc,
-	selectedVdcWardId: state => state.selectedVdcWard,
-
-
 	countriesList: state => state.countries,
 	provincesList: state => state.provinces,
 	districtsList: state => state.districts,
@@ -103,30 +54,33 @@ const getters = {
 	vdcWardsList: state => state.vdc_wards
 }
 
+function getResponse(value) {
+	if(!value) return { results: [] }
+	return { results: [value]}
+}
+
 const actions = {
-	setSelectedCountry({commit}, {value: value}) {
-		commit("SET_SELECTED_COUNTRY", value)
+	setCountries({commit}, value) {
+		commit("SET_COUNTRIES", getResponse(value))
 	},
-	setSelectedProvince({commit}, {value: value}) {
-		commit("SET_SELECTED_PROVINCE", value)
+	async setProvinces({commit}, value) {
+		commit("SET_PROVINCES", getResponse(value))
 	},
-	setSelectedDistrict({commit}, {value: value}) {
-		commit("SET_SELECTED_DISTRICT", value)
+	async setDistricts({commit}, value) {
+		commit("SET_DISTRICTS", getResponse(value))
 	},
-	setSelectedMunicipality({commit}, {value: value}) {
-		commit("SET_SELECTED_MUNICIPALITY", value)
+	async setMunicipalities({commit}, value) {
+		commit("SET_MUNICIPALITIES", getResponse(value))
 	},
-	setSelectedMunicipalityWard({commit}, {value: value}) {
-		commit("SET_SELECTED_MUNICIPALITY_WARD", value)
+	async setMunicipalityWards({commit}, value) {
+		commit("SET_MUNICIPALITY_WARDS", getResponse(value))
 	},
-	setSelectedVdc({commit}, {value: value}) {
-		commit("SET_SELECTED_VDC", value)
+	async setVdcs({commit}, value) {
+		commit("SET_VDCS", getResponse(value))
 	},
-	setSelectedVdcWard({commit}, {value: value}) {
-		commit("SET_SELECTED_VDC_WARD", value)
+	async setVdcWards({commit}, value) {
+		commit("SET_VDC_WARDS", getResponse(value))
 	},
-
-
 	async fetchAllCountries({commit}){
 		const response = await $api.get(locationUrls.countryList)
 		commit("SET_COUNTRIES", response)
@@ -143,26 +97,6 @@ const actions = {
 		const response = await $api.get("/municipality/")
 		commit("SET_MUNICIPALITIES", response)
 	},
-	async fetchAllMunicipalityWards({commit}){
-		const response = await $api.get("/municipality-ward/")
-		commit("SET_MUNICIPALITY_WARDS", response)
-	},
-	async fetchAllVdcs({commit}){
-		const response = await $api.get("/vdc/")
-		commit("SET_VDCS", response)
-	},
-	async fetchAllVdcWards({commit}){
-		const response = await $api.get("/vdc-ward/")
-		commit("SET_VDC_WARDS", response)
-	},
-	async deleteDistrict({}, {id: id}) {
-		try {
-			await $api.delete(util.format(locationUrls.districtDetail, id))
-			return true
-		} catch {
-			return false
-		}
-	},
 	async filterProvinces({commit}, payload) {
 		try {
 			const response = await $api.getWithPayload(locationUrls.provinceList, payload)
@@ -174,6 +108,7 @@ const actions = {
 	},
 	async filterCountries({commit}, payload) {
 		try {
+			console.log("here")
 			const response = await $api.getWithPayload(locationUrls.countryList, payload)
 			commit("SET_COUNTRIES", response)
 			return true

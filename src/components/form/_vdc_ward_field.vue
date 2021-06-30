@@ -59,13 +59,6 @@ export default {
 		return {
 			name: "vdc_ward"
 		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterVdcWard", {
-				search: this.value.name
-			})
-		}
 	}
 }
 </script>

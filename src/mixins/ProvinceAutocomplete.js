@@ -10,12 +10,12 @@ const ProvinceAutocomplete = {
 	computed: {
 		...mapGetters({
 			provinces: "location/provincesList",
-			selectedCountry: "location/selectedCountryId"
 		}),
 	},
 	watch: {
 		async province(val) {
 			if (val) {
+				console.log(val)
 				this.provincesLoading = true
 				await this.$store.dispatch("location/filterProvinces", {
 					search: val,

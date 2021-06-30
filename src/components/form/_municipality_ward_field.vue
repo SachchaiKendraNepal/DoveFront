@@ -63,14 +63,6 @@ export default {
 		return {
 			name: "municipality_ward"
 		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterMunicipalityWard", {
-				search: this.value.name,
-				municipality: (this.municipality) ? this.municipality.id : ""
-			})
-		}
 	}
 }
 </script>

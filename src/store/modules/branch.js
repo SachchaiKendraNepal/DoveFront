@@ -7,7 +7,6 @@ const branchUrl = urls.branch
 export const SET_BRANCHES = "SET_BRANCHES"
 export const SET_BRANCH = "SET_BRANCH"
 export const SET_BRANCH_FORM_ERRORS = "SET_BRANCH_FORM_ERRORS"
-export const SET_SELECTED_BRANCH = "SET_SELECTED_BRANCH"
 
 const state = {
 	branches: {},
@@ -25,25 +24,18 @@ const mutations = {
 	},
 	[SET_BRANCH_FORM_ERRORS](state, value) {
 		state.formErrorMessages = value
-	},
-	[SET_SELECTED_BRANCH](state, value) {
-		state.selectedBranch = value
 	}
 }
 
 const getters = {
 	list: state => state.branches,
 	detail: state => state.branch,
-	selectedBranchId: state => state.selectedBranch,
-	formErrorMessagesList: state => state.formErrorMessages
+	formErrors: state => state.formErrorMessages
 }
 
 const actions = {
 	clearFormErrors({commit}) {
 		commit("SET_BRANCH_FORM_ERRORS", {})
-	},
-	setSelectedBranch({commit}, {value: value}) {
-		commit("SET_SELECTED_BRANCH", value)
 	},
 	async fetchAll({commit}) {
 		const response = await $api.get(branchUrl.list)
@@ -76,9 +68,9 @@ const actions = {
 		}
 	},
 
-	async update({commit}, {id: id, body:body}) {
+	async patch({commit}, {id: id, body:body}) {
 		try {
-			await $api.put(util.format(branchUrl.detail, id), body)
+			await $api.patch(util.format(branchUrl.detail, id), body)
 			return true
 		} catch (e) {
 			if (parseInt(e.response.status.toString()) === 400) {
@@ -97,9 +89,17 @@ const actions = {
 		}
 	},
 
-	async toggleApproval({}, {id: id}) {
+	async approve({}, {id: id}) {
 		try {
-			await $api.post(util.format(branchUrl.toggleApproval, id))
+			await $api.put(util.format(branchUrl.toggleApproval, id))
+			return true
+		} catch {
+			return false
+		}
+	},
+	async disapprove({}, {id: id}) {
+		try {
+			await $api.delete(util.format(branchUrl.toggleApproval, id))
 			return true
 		} catch {
 			return false

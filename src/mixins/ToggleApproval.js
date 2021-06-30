@@ -1,10 +1,10 @@
 const ToggleApproval = {
 	methods: {
 		getCapitalizedModelName() {
-			return this.mixinData["modelName"].replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+			return this.model.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
 		},
 		async approve(item) {
-			const approveAction = `${this.mixinData["modelName"]}/approve`
+			const approveAction = `${this.model}/approve`
 			const response = await this.$store.dispatch(approveAction, {id: item.id})
 			if (response) {
 				await this.openSnack(`${this.getCapitalizedModelName()} approved`, "success")
@@ -12,7 +12,7 @@ const ToggleApproval = {
 			} else await this.openSnack(`${this.getCapitalizedModelName()} approve failed. Try again.`, "success")
 		},
 		async revokeApprove(item) {
-			const revokeApprovalAction = `${this.mixinData["modelName"]}/disapprove`
+			const revokeApprovalAction = `${this.model}/disapprove`
 			const response = await this.$store.dispatch(revokeApprovalAction, {id: item.id})
 			if (response) {
 				await this.openSnack(`${this.getCapitalizedModelName()} approve revoked`, "success")
