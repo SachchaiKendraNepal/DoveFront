@@ -68,13 +68,11 @@
 					>
 						<v-icon
 							dark
-							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
 						>
 							mdi-plus-circle
 						</v-icon>
-						<span v-if="$vuetify.breakpoint.smAndUp">Member</span>
 					</v-btn>
-					<member-form-dialog />
+					<member-form-dialog @reload="initialize" />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -100,11 +98,22 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.actions="{ item }">
 				<v-icon
+					v-if="!item.is_approved"
 					v-ripple
 					class="mr-2"
 					color="green"
 					size="22"
-					@click.stop="toggleApproval(item)"
+					@click.stop="approve(item)"
+				>
+					mdi-check
+				</v-icon>
+				<v-icon
+					v-else
+					v-ripple
+					class="mr-2"
+					color="green"
+					size="22"
+					@click.stop="revokeApprove(item)"
 				>
 					mdi-check
 				</v-icon>
@@ -159,6 +168,7 @@ export default {
 		AdminTableDeleteItemMixin
 	],
 	data: () => ({
+		model: "member",
 		headers: [
 			{ text: "Actions", value: "actions", sortable: false },
 			{ text: "Id", value: "id" },
@@ -195,9 +205,9 @@ export default {
 			if (currentBranch["member_branch_roles"].length === 0) return "None"
 			return currentBranch["member_branch_roles"][0].role_name
 		},
-		async initialize(val) {
+		async initialize(val = null) {
 			this.loading = true
-			if (!val) val = 1
+			if (!val) val = this.options.page
 			await this.$store.dispatch("member/filter", {page: val})
 			this.items = this.members
 			this.totalItems = this.members.count

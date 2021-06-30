@@ -2,7 +2,8 @@ const AdminCreateEditFormMixin = {
 	data() {
 		return {
 			editedIndex: -1,
-			dialog: false
+			dialog: false,
+			model: "user"
 		}
 	},
 	methods: {

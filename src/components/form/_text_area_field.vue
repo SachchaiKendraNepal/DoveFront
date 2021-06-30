@@ -49,6 +49,6 @@ export default {
 			required: true
 		}
 	},
-	emits: ["input"]
+	emits: ["input", "change"]
 }
 </script>

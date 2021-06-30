@@ -50,12 +50,6 @@ const AdminTableList = {
 			deep: true,
 		},
 	},
-	async created() {
-		this.$bus.on("reload", this.initialize)
-	},
-	beforeUnmount() {
-		this.$bus.off("reload")
-	},
 	methods: {
 		formatDate(date) {
 			return this.$moment(date).fromNow()
