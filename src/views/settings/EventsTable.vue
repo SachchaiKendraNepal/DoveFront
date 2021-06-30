@@ -68,13 +68,9 @@
 						color="primary"
 						@click.stop="openAddEventFormDialog"
 					>
-						<v-icon
-							dark
-							:class="$vuetify.breakpoint.smAndUp ? 'mr-2' : ''"
-						>
+						<v-icon dark>
 							mdi-plus-circle
 						</v-icon>
-						<span v-if="$vuetify.breakpoint.smAndUp">Event</span>
 					</v-btn>
 					<event-form-dialog @reload="initialize" />
 				</v-toolbar>
@@ -90,7 +86,9 @@
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.duration="{ item }">
-				<v-chip :color="getDurationChipColor(item.duration)">
+				<v-chip :color="$constants.pickBackgroundColor()"
+					dark
+				>
 					{{ item.duration }}
 				</v-chip>
 			</template>
@@ -191,6 +189,7 @@ import {mapGetters} from "vuex";
 import AdminTableList from "@/mixins/AdminTableList";
 import ToggleApproval from "@/mixins/ToggleApproval";
 import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+import LoadLocationFormMixin from "@/mixins/LoadLocationFormMixin.js";
 const urls = require("@/urls.json");
 const util = require("util");
 
@@ -202,9 +201,11 @@ export default {
 	mixins: [
 		AdminTableList,
 		ToggleApproval,
+		LoadLocationFormMixin,
 		AdminTableDeleteItemMixin
 	],
 	data: () => ({
+		model: "event",
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "TITLE", value: "title" },
@@ -215,11 +216,7 @@ export default {
 			{ text: "VENUE", value: "venue" },
 			{ text: "START DATE", value: "start_date" },
 			{ text: "DURATION (days)", value: "duration" },
-		],
-		mixinData: {
-			modelName: "event",
-			toggleApprovalAction: "event/toggleApproval"
-		}
+		]
 	}),
 	computed: {
 		...mapGetters({
@@ -233,23 +230,6 @@ export default {
 		this.$bus.off("reload")
 	},
 	methods: {
-		getDurationChipColor(value) {
-			const rem = value % 5
-			switch (rem) {
-			case 1:
-				return "red lighten-3"
-			case 2:
-				return "indigo lighten-3"
-			case 3:
-				return "purple lighten-3"
-			case 4:
-				return "teal lighten-3"
-			case 5:
-				return "orange lighten-3"
-			default:
-				return "blue lighten-3"
-			}
-		},
 		getMunicipalityOrVdcName(item) {
 			return (item.vdc !== null)
 				? item.vdc.name
@@ -277,7 +257,8 @@ export default {
 			this.$bus.emit("open-event-form-dialog-add-item")
 		},
 
-		openEditEventFormDialog(item) {
+		async openEditEventFormDialog(item) {
+			await this.loadLocationItems(item)
 			this.$bus.emit("open-event-form-dialog-edit-item", {
 				editedIndex: this.events.results.indexOf(item),
 				editedItem: Object.assign({}, item),

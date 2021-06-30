@@ -108,7 +108,6 @@ const actions = {
 	},
 	async filterCountries({commit}, payload) {
 		try {
-			console.log("here")
 			const response = await $api.getWithPayload(locationUrls.countryList, payload)
 			commit("SET_COUNTRIES", response)
 			return true
