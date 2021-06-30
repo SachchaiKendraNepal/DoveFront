@@ -12,7 +12,7 @@
 			item-value="id"
 			hide-details="auto"
 			:disabled="(vdc !== null || municipality === null)"
-			:label="'Select municipality ward'.toUpperCase()"
+			label="SELECT MUNICIPALITY WARD"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"
@@ -62,14 +62,6 @@ export default {
 	data() {
 		return {
 			name: "municipality_ward"
-		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterMunicipalityWard", {
-				search: this.value.name,
-				municipality: (this.municipality) ? this.municipality.id : ""
-			})
 		}
 	}
 }

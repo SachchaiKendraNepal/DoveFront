@@ -17,7 +17,7 @@ const AdminCreateEditFormMixin = {
 		},
 		async openCreateDialog() {
 			this.editedItem = this.defaultItem
-			await this.$store.dispatch(this.mixinData["clearFormErrorAction"])
+			await this.$store.dispatch(`${this.model}/clearFormErrors`)
 			this.openDialog()
 		},
 

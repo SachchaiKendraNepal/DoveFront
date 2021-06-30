@@ -11,7 +11,7 @@
 			attach=""
 			item-text="name"
 			item-value="id"
-			:label="'Select municipality'.toUpperCase()"
+			label="SELECT MUNICIPALITY"
 			placeholder="Start typing"
 			hide-details="auto"
 			prepend-inner-icon="mdi-google-maps"
@@ -65,13 +65,6 @@ export default {
 	data() {
 		return {
 			name: "municipality"
-		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterMunicipality", {
-				search: this.value.name
-			})
 		}
 	}
 }

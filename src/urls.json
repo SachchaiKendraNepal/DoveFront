@@ -22,7 +22,7 @@
   "branch": {
     "list": "/branch/",
     "detail": "/branch/%s/",
-    "toggleApproval": "branch/%s/toggle-approval"
+    "toggleApproval": "branch/%s/approve"
   },
   "event": {
     "list": "event/",

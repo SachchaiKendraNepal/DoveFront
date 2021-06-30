@@ -12,7 +12,7 @@
 			item-value="id"
 			hide-details="auto"
 			:disabled="(vdc === null)"
-			:label="'Select vdc ward'.toUpperCase()"
+			label="SELECT VDC WARD"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-numeric"
 			:error-messages="getErrorMessage"
@@ -58,13 +58,6 @@ export default {
 	data() {
 		return {
 			name: "vdc_ward"
-		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterVdcWard", {
-				search: this.value.name
-			})
 		}
 	}
 }

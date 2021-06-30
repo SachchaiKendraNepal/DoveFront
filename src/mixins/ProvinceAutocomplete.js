@@ -10,7 +10,6 @@ const ProvinceAutocomplete = {
 	computed: {
 		...mapGetters({
 			provinces: "location/provincesList",
-			selectedCountry: "location/selectedCountryId"
 		}),
 	},
 	watch: {

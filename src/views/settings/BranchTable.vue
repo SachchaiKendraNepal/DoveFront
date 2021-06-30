@@ -78,36 +78,83 @@
 						</v-icon>
 						<span v-if="$vuetify.breakpoint.smAndUp">Branch</span>
 					</v-btn>
-					<branch-form-dialog />
+					<branch-form-dialog @reload="initialize" />
 				</v-toolbar>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
-			<template #item.name="{ item }">
-				<p
-					class="branch-name cursor"
-					@click="routeToBranchDetailPage(item.id)"
+			<template #item.name="props">
+				<v-edit-dialog v-model:return-value="props.item.name"
+					@save="patch(props.item.id, {name: nameToUpdate})"
+					@open="nameToUpdate = props.item.name"
 				>
-					{{ item.name }}
-				</p>
+					{{ props.item.name }}
+					<template #input>
+						<v-text-field
+							v-model="nameToUpdate"
+							label="Update name"
+							single-line
+							:errors="formErrors"
+							counter="64"
+						/>
+					</template>
+				</v-edit-dialog>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.contact="props">
+				<v-edit-dialog v-model:return-value="props.item.contact"
+					@save="patch(props.item.id, {contact: contactToUpdate})"
+					@open="contactToUpdate = props.item.contact.substr(4)"
+				>
+					{{ props.item.contact }}
+					<template #input>
+						<v-text-field
+							v-model="contactToUpdate"
+							label="Update contact"
+							single-line
+							:errors="formErrors"
+							counter="64"
+						/>
+					</template>
+				</v-edit-dialog>
+			</template>
+			<!-- eslint-disable-next-line vue/valid-v-slot-->
+			<template #item.slogan="props">
+				<v-edit-dialog v-model:return-value="props.item.slogan"
+					save-text="save"
+					@close="patchSlogan(props.item)"
+					@open="sloganToUpdate = props.item.slogan"
+				>
+					{{ props.item.slogan.substr(0, 20) }}
+					<span v-if="props.item.slogan.length > 20">...</span>
+					<template #input>
+						<v-textarea
+							v-model="sloganToUpdate"
+							label="Update description"
+							auto-grow
+							:errors="formErrors"
+							counter="512"
+						/>
+					</template>
+				</v-edit-dialog>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.is_main="{ item }">
-				<v-switch
+				<v-checkbox
 					v-model="item.is_main"
 					color="primary"
 					hide-details="auto"
 					class="mt-0"
-					disabled
+					readonly
 				/>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.is_approved="{ item }">
-				<v-switch
+				<v-checkbox
 					v-model="item.is_approved"
 					color="success"
 					hide-details="auto"
 					class="mt-0"
-					disabled
+					readonly
 				/>
 			</template>
 			<!--		 eslint-disable-next-line vue/valid-v-slot-->
@@ -119,9 +166,9 @@
 						{{ getWardNameOfItem(item) }},&nbsp;
 						{{ getMunicipalityOrVdcName(item) }},&nbsp;
 					</span>
-					<i>{{ item.district.name }},&nbsp;
-						{{ item.province.name }},&nbsp;</i>
-					<b>{{ item.country.name }}</b>
+					<i>{{ (item.district) ? item.district.name : '' }},&nbsp;
+						{{ (item.province) ? item.province.name : '' }},&nbsp;</i>
+					<b>{{ (item.country) ? item.country.name : '' }}</b>
 				</p>
 			</template>
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
@@ -131,25 +178,37 @@
 			<!-- eslint-disable-next-line vue/valid-v-slot-->
 			<template #item.actions="{ item }">
 				<v-icon
+					v-if="item.is_approved"
 					v-ripple
-					class="mr-2"
+					class="ma-1"
+					color="error"
+					size="22"
+					@click="revokeApprove(item)"
+				>
+					mdi-close
+				</v-icon>
+				<v-icon
+					v-else
+					v-ripple
 					color="success"
 					size="22"
-					@click="toggleApproval(item)"
+					class="ma-1"
+					@click="approve(item)"
 				>
 					mdi-check
 				</v-icon>
 				<v-icon
 					v-ripple
-					class="mr-2"
 					color="primary"
 					size="20"
-					@click="openEditBranchFormDialog(item)"
+					class="ma-1"
+					@click="openLocationEdiDialog(item)"
 				>
-					mdi-pencil
+					mdi-map-marker-radius
 				</v-icon>
 				<v-icon
 					v-ripple
+					class="ma-1"
 					color="red"
 					size="20"
 					@click="openAdminDeleteItemDialog(item.id, item.name)"
@@ -166,6 +225,7 @@
 				</v-btn>
 			</template>
 		</v-data-table>
+		<location-update-dialog model-name="branch" />
 		<admin-delete-item-dialog
 			model-name="branch"
 			delete-action="branch/delete"
@@ -184,42 +244,63 @@ export default {
 	components: {
 		BranchFormDialog: () => import("@/views/branch/BranchFormDialog")
 	},
-	mixins: [AdminTableList, AdminTableDeleteItemMixin, ToggleApproval],
+	mixins: [
+		AdminTableList,
+		AdminTableDeleteItemMixin,
+		ToggleApproval,
+	],
 	data: () => ({
+		model: "branch",
 		selected: [],
+		nameToUpdate: null,
+		sloganToUpdate: null,
+		contactToUpdate: null,
 		headers: [
 			{ text: "ACTIONS", value: "actions", sortable: false },
 			{ text: "NAME", value: "name" },
+			{ text: "SLOGAN", value: "slogan" },
 			{ text: "CONTACTS", value: "contact" },
 			{ text: "IS MAIN BRANCH", value: "is_main" },
 			{ text: "IS APPROVED", value: "is_approved" },
 			{ text: "LOCATION", value: "location" },
 			{ text: "CREATED AT", value: "created_at" }
 		],
-		mixinData: {
-			modelName: "branch",
-			toggleApprovalAction: "branch/toggleApproval"
-		}
 	}),
 	computed: {
 		...mapGetters({
-			branches: "branch/list"
+			branches: "branch/list",
+			formErrors: "branch/formErrors"
 		})
 	},
+	created() {
+		this.$bus.on("reload", this.initialize)
+	},
+	beforeUnmount() {
+		this.$bus.off("reload")
+	},
 	methods: {
-		getMunicipalityOrVdcName(item) {
-			return (item.vdc !== null) ? item.vdc.name : item.municipality.name
-		},
-		getWardNameOfItem(item) {
-			if (item.vdc_ward) {
-				if (item.vdc_ward["name"]) return item.vdc_ward["name"]
-			} else if (item.municipality_ward) {
-				if (item.municipality_ward["name"]) return item.municipality_ward["name"]
+		async patchSlogan(item) {
+			if (item.slogan !== this.sloganToUpdate) {
+				await this.patch(item.id, {slogan: this.sloganToUpdate})
 			}
 		},
-		async initialize(val) {
+		getMunicipalityOrVdcName(item) {
+			return (item.vdc !== null)
+				? item.vdc.name
+				: (item.municipality)
+					? item.municipality.name
+					: ""
+		},
+		getWardNameOfItem(item) {
+			return (item.vdc_ward)
+				? item.vdc_ward.name
+				: (item.municipality_ward)
+					? item.municipality_ward.name
+					: ""
+		},
+		async initialize(val = null) {
 			this.loading = true
-			if(!val) val = 1
+			if(!val) val = this.options.page
 			await this.$store.dispatch("branch/filter", {page: val})
 			this.items = this.branches
 			this.totalItems = this.branches.count
@@ -228,11 +309,9 @@ export default {
 		openAddBranchFormDialog() {
 			this.$bus.emit("open-branch-form-dialog-add-item")
 		},
-		openEditBranchFormDialog(item) {
-			this.$bus.emit("open-branch-form-dialog-edit-item", {
-				editedIndex: this.branches.results.indexOf(item),
-				editedItem: Object.assign({}, item),
-			})
+		async openLocationEdiDialog(args) {
+			args["model"] = this.model
+			this.$bus.emit("open-location-edit-form", args)
 		},
 		routeToBranchDetailPage(itemId) {
 			this.$router.push({name: "BRANCH ADMINISTRATION", params: { id: itemId }})

@@ -59,7 +59,7 @@ const AdminTableList = {
 	methods: {
 		formatDate(date) {
 			return this.$moment(date).fromNow()
-		},
+		}
 	}
 };
 

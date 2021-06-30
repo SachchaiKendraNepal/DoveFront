@@ -12,7 +12,7 @@
 			item-text="name"
 			item-value="id"
 			hide-details="auto"
-			:label="'Select district'.toUpperCase()"
+			label="SELECT DISTRICT"
 			placeholder="Start typing"
 			:error-messages="getErrorMessage"
 			prepend-inner-icon="mdi-map-marker-multiple-outline"
@@ -33,7 +33,6 @@
 import DistrictAutocomplete from "@/mixins/DistrictAutocomplete";
 import AdminFieldErrorMessage from "@/mixins/AdminFieldErrorMessage";
 import AutocompleteInputChanged from "@/mixins/AutocompleteInputChanged";
-import ProvinceAutocomplete from "@/mixins/ProvinceAutocomplete";
 
 export default {
 	name: "DistrictField",
@@ -67,14 +66,6 @@ export default {
 		return {
 			name: "district"
 		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterDistricts", {
-				search: this.value.name,
-				province: (this.province) ? this.province.id : ""
-			})
-		}
-	},
+	}
 }
 </script>

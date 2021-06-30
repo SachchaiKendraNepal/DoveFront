@@ -18,7 +18,11 @@ import "video.js/dist/video-js.css"
 
 Vue.use(VueBus)
 Vue.use(moment)
+
 Vue.component(APlayer)
+Vue.component("LocationUpdateDialog", () =>
+	import("@/components/LocationPatchDialog.vue")
+);
 Vue.component("ProfileNoContent", () =>
 	import("@/components/ProfileNoContent.vue")
 );

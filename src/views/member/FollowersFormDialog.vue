@@ -141,7 +141,7 @@
 												<b>Last logged in:</b>
 												<span v-if="editedItem.last_login"
 													class="px-1"
-												>{{ formatDate(editedItem.last_login) }}</span>
+												>{{ $moment(editedItem.last_login).fromNow() }}</span>
 												<span v-else
 													class="px-1"
 												>Haven't logged in.</span>
@@ -167,7 +167,7 @@
 								v-model="editedItem.first_name"
 								label="First Name"
 								name="first_name"
-								prepend-inner-icon="mdi-form-textbox"
+								icon="mdi-form-textbox"
 								:errors="formErrors"
 							/>
 							<text-field
@@ -175,7 +175,7 @@
 								v-model="editedItem.last_name"
 								label="Last Name"
 								name="last_name"
-								prepend-inner-icon="mdi-form-textbox"
+								icon="mdi-form-textbox"
 								:errors="formErrors"
 							/>
 							<text-field
@@ -183,7 +183,7 @@
 								v-model="editedItem.username"
 								label="Username"
 								name="username"
-								prepend-inner-icon="mdi-card-account-details-outline"
+								icon="mdi-card-account-details-outline"
 								:errors="formErrors"
 							/>
 							<text-field
@@ -192,7 +192,7 @@
 								type="email"
 								label="Email"
 								name="email"
-								prepend-inner-icon="mdi-at"
+								icon="mdi-at"
 								:errors="formErrors"
 							/>
 							<admin-form-group-title

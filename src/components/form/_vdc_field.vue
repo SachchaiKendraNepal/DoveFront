@@ -12,7 +12,7 @@
 			item-value="id"
 			hide-details="auto"
 			:disabled="(ward !== null || district === null ||municipality !== null)"
-			:label="'Select vdc'.toUpperCase()"
+			label="SELECT VDC"
 			placeholder="Start typing"
 			prepend-inner-icon="mdi-google-maps"
 			:error-messages="getErrorMessage"
@@ -65,13 +65,6 @@ export default {
 	data() {
 		return {
 			name: "vdc"
-		}
-	},
-	created() {
-		if (this.value) {
-			this.$store.dispatch("location/filterVdc", {
-				search: this.value.name
-			})
 		}
 	}
 }
