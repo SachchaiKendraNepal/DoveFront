@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d222023"],{cd7c:function(e,n,s){"use strict";s.r(n);var c=function(){var e=this,n=e.$createElement;e._self._c;return e._m(0)},t=[function(){var e=this,n=e.$createElement,s=e._self._c||n;return s("div",[s("p",[e._v("This is showcase images page")])])}],a={name:"ShowcaseImagesView"},i=a,r=s("2877"),u=Object(r["a"])(i,c,t,!1,null,null,null);n["default"]=u.exports}}]);
-//# sourceMappingURL=chunk-2d222023.52807eeb.js.map

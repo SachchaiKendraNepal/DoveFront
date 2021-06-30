@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0b253a"],{2446:function(n,e,t){"use strict";t.r(e);var a=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div")},c=[],r={name:"KendraInformation"},o=r,u=t("2877"),i=Object(u["a"])(o,a,c,!1,null,"f81c01e2",null);e["default"]=i.exports}}]);
+//# sourceMappingURL=chunk-2d0b253a.beb60103.js.map
