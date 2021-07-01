@@ -205,6 +205,7 @@ export default {
 .headline
 	font-weight: 300
 	font-size: 1.4rem !important
+	line-height: 2.2rem !important
 .bookmark-avatar
 	cursor: pointer
 	opacity: .8

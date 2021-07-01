@@ -123,6 +123,7 @@
 		<admin-delete-item-dialog
 			model-name="follower"
 			delete-action="user/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>

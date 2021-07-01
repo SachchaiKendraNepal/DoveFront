@@ -107,6 +107,7 @@
 		<admin-delete-item-dialog
 			model-name="multimedia"
 			delete-action="multimedia/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>

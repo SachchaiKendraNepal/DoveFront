@@ -121,6 +121,7 @@
 		<admin-delete-item-dialog
 			model-name="district"
 			delete-action="location/deleteDistrict"
+			@reload="initialize"
 		/>
 	</div>
 </template>
@@ -168,9 +169,9 @@ export default {
 		openCreateFormDialog() {
 			this.$bus.emit("open-add-district-form")
 		},
-		async initialize(val) {
+		async initialize(val = null) {
 			this.loading = true
-			if (!val) val = 1
+			if (!val) val = this.options.page
 			await this.$store.dispatch("location/fetchAllDistricts", {page: val})
 			this.items = this.districts
 			this.totalItems = this.districts.count

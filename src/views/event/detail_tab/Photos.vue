@@ -103,6 +103,7 @@
 		<admin-delete-item-dialog
 			model-name="event"
 			delete-action="event/deleteImage"
+			@reload="$emit('reload')"
 		/>
 	</v-card>
 </template>
@@ -114,6 +115,7 @@ import {mapGetters} from "vuex";
 export default {
 	name: "EventPhotos",
 	mixins: [AdminTableDeleteItemMixin],
+	emits: ["reload"],
 	data: () => ({
 		eventImagesForUpload: [],
 		images: [],

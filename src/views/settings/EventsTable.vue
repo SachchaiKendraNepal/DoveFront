@@ -180,6 +180,7 @@
 		<admin-delete-item-dialog
 			model-name="event"
 			delete-action="event/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>
@@ -244,7 +245,7 @@ export default {
 					? item.municipality_ward.name
 					: ""
 		},
-		async initialize(val=null) {
+		async initialize(val = null) {
 			this.loading = true
 			if (!val) val = this.options.page
 			await this.$store.dispatch("event/filter", {page: val})

@@ -23,6 +23,7 @@
 			</v-app-bar-nav-icon>
 			<v-card
 				class="mr-8 ml-4"
+				:class="$route.name === 'HOME' ? '' : 'cursor'"
 				flat
 				color="transparent"
 				height="55"
@@ -33,24 +34,9 @@
 					height="55"
 					width="55"
 					:src="require('@/assets/peace-pegion.png')"
+					@click="routeToFeeds"
 				/>
 			</v-card>
-
-			<v-card
-				max-width="500"
-				class="search-sachchai"
-			>
-				<v-text-field
-					id="search"
-					solo
-					hide-details
-					append-icon="mdi-magnify"
-					clearable
-					clear-icon="clear"
-					placeholder="Search articles, multimedias"
-				/>
-			</v-card>
-
 			<v-spacer />
 
 			<v-card light
@@ -125,6 +111,11 @@ export default {
 		this.mini = this.$vuetify.breakpoint.smAndUp
 	},
 	methods: {
+		routeToFeeds() {
+			if (this.$route.name !== "HOME") {
+				this.$router.push({name: "HOME"})
+			}
+		},
 		toggleHomeDrawer() {
 			if (this.$vuetify.breakpoint.mdAndUp) this.mini = !this.mini
 			else {
@@ -143,40 +134,11 @@ export default {
 	opacity: 0
 .view-enter-to, .view-leave
 	opacity: 1
-.homo-logo
-	// visibility hidden but not occupying space :)
-	// love transition
-	transition: all .2s ease-in-out
-	visibility: visible
-	opacity: 1
-	margin: 0 10px 0 2px
-	@media only screen and (max-width: 360px)
-		height: 45px !important
-		min-width: 45px !important
-		width: 45px !important
-	@media only screen and (max-width: 310px)
-		visibility: hidden
-		opacity: 0
-		height: 0 !important
-		min-width: 0 !important
-		width: 0 !important
-		overflow: hidden
-.search-sachchai
-	transition: all .2s ease-in-out
-	visibility: visible
-	opacity: 1
-	@media only screen and (max-width: 450px)
-		width: 0 !important
-		height: 0 !important
-		max-width: 0 !important
-		visibility: hidden
-		opacity: 0
-		overflow: hidden
 .top-tab-wrapper
 	transition: all .5s
 	visibility: visible
 	opacity: 1
-	@media only screen and (max-width: 975px)
+	@media only screen and (max-width: 600px)
 		margin: 0
 		visibility: hidden
 		opacity: 0
@@ -187,20 +149,20 @@ export default {
 	transition: all .5s
 	visibility: visible
 	opacity: 1
-	@media only screen and (min-width: 976px)
+	@media only screen and (min-width: 601px)
 		visibility: hidden
 		opacity: 0
 		overflow: hidden
 		height: 0 !important
 		max-width: 0 !important
-	@media only screen and (max-width: 976px)
+	@media only screen and (max-width: 601px)
 		margin-top: 80px
 .home-router-container
 	padding-top: 0
 	padding-bottom: 0
 	margin-top: 80px
 	background-color: #f3edff
-	@media only screen and (min-width: 975px)
+	@media only screen and (min-width: 601px)
 		margin-top: 80px !important
 </style>
 <style lang="scss" scoped>

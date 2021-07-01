@@ -169,6 +169,7 @@
 		<admin-delete-item-dialog
 			model-name="branch"
 			delete-action="branch/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>

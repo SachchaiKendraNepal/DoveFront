@@ -53,6 +53,7 @@
 			</v-btn>
 		</v-toolbar>
 		<v-card
+			v-if="coverImg"
 			tile
 			height="450"
 			width="100%"
@@ -78,7 +79,7 @@
 				<span>#{{ tag }}</span>
 			</v-chip>
 		</v-card-subtitle>
-		<v-card-title class="display-2 pt-0">
+		<v-card-title class="display-2">
 			{{ article.title }}
 		</v-card-title>
 		<v-card-subtitle class="py-1">
@@ -123,7 +124,7 @@
 				<span>{{ $moment(article.approved_at).format("Do MMM YYYY") }}</span>
 			</v-chip>
 		</v-card-subtitle>
-		<div>
+		<div class="py-4">
 			<v-card-text v-for="(h, index) in getArticleHtml"
 				:key="index"
 				class="py-2"

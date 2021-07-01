@@ -10,14 +10,15 @@
 			color="rgb(251 250 241)"
 		>
 			<v-card-title
-				:class="(fullscreen) ? 'grey darken-3' : 'indigo lighten-1'"
+				:class="(fullscreen) ? 'grey darken-3' : 'dialog-toolbar'"
 			>
 				<v-avatar
-					color="grey darken-2"
+					:color="(fullscreen) ? 'grey darken-2' : 'grey lighten-3'"
 					size="40"
 					class="mr-4 elevation-1"
 				>
-					<v-icon dark
+					<v-icon
+						:dark="fullscreen"
 						size="22"
 					>
 						{{ formIcon() }}
@@ -26,9 +27,9 @@
 				<span class="form-title">{{ formTitle('Event') }}</span>
 				<v-spacer />
 				<v-btn
-					color="grey darken-2"
+					:color="(fullscreen) ? 'grey darken-2' : ''"
 					fab
-					dark
+					:dark="fullscreen"
 					x-small
 					@click="closeCreateEditDialog"
 				>
@@ -523,4 +524,6 @@ export default {
 .small-detail-icon
 	margin-top: -4px
 	margin-right: 4px
+.dialog-toolbar
+	background-color: #ab5aa9
 </style>

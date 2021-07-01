@@ -45,6 +45,7 @@ export default {
 			default: null
 		}
 	},
+	emits: ["reload", "feeds"],
 	data() {
 		return {
 			actionText: null,
@@ -81,11 +82,11 @@ export default {
 				await this.openSnack(`${this.modelName} deleted successfully.`, "success")
 				if (!this.$route.path.includes("admin")) {
 					if (this.$route.path.includes("article") || this.$route.path.includes("multimedia")) {
-						this.$bus.emit("route-to-feeds")
+						this.$emit("feeds")
 					}
 				}
 				else {
-					this.$bus.emit("reload")
+					this.$emit("reload")
 				}
 			}
 			else await this.openSnack(`${this.modelName} delete failed. Try again later.`)

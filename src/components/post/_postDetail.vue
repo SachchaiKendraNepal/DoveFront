@@ -15,7 +15,7 @@
 					<div class="py-2" />
 					<v-card-title
 						v-if="target['uploaded_by']"
-						class="pt-0 white--text display-1"
+						class="pt-0 display-1"
 					>
 						<div>
 							{{ target.title }}
@@ -186,7 +186,7 @@
 	</v-card>
 </template>
 <script>
-import {mapGetters} from "vuex";
+import Snack from "@/mixins/Snack.js";
 
 export default {
 	name: "BasePostDetailComponent",
@@ -194,6 +194,7 @@ export default {
 		IconWithTooltip: () => import("@/components/IconWithTooltip"),
 		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
+	mixins: [Snack],
 	props: {
 		target: {
 			type: Object,
@@ -214,18 +215,6 @@ export default {
 		descriptionUpdate: null,
 	}),
 	computed: {
-		...mapGetters({
-			snackText: "snack/snackText",
-			snackColor: "snack/snackColor"
-		}),
-		snack: {
-			get() {
-				return this.$store.state.snack.snack
-			},
-			set(v) {
-				this.$store.dispatch("snack/setSnackState", v)
-			}
-		},
 		ifWriterIsCurrentUser() {
 			return this.$helper.getCurrentUser().username === this.target["uploaded_by"]["username"]
 		},

@@ -148,6 +148,7 @@
 		<admin-delete-item-dialog
 			model-name="member"
 			delete-action="member/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>

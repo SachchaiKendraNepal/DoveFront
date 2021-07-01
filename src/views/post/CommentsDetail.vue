@@ -1,8 +1,5 @@
 <template>
-	<v-card
-		dark
-		:loading="loading"
-	>
+	<v-card :loading="loading">
 		<v-toolbar height="50">
 			<v-toolbar-title class="comment-headline">
 				Comments

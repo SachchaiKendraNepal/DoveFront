@@ -39,6 +39,7 @@
 						model-name="multimedia video"
 						delete-action="multimedia/deleteVideoUrl"
 						:video-urls="videoUrls"
+						@reload="$bus.emit('refresh-me')"
 					/>
 				</v-tab-item>
 				<v-tab-item>
@@ -52,6 +53,7 @@
 						:videos="videos"
 						model-name="multimedia video"
 						delete-action="multimedia/deleteVideo"
+						@reload="$bus.emit('refresh-me')"
 					/>
 				</v-tab-item>
 			</v-tabs-items>

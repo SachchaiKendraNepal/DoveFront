@@ -1,15 +1,9 @@
 <template>
-	<v-card dark
+	<v-card
 		width="100vw"
 		flat tile
 	>
-		<v-app-bar
-			app
-			fixed
-			dark
-			height="60"
-			tile
-		>
+		<v-app-bar height="60">
 			<v-app-bar-nav-icon
 				@click="$router.push({name: 'HOME'})"
 			>
@@ -33,14 +27,16 @@
 					class="mx-auto"
 					flat tile
 				>
+					<div class="ma-3" />
 					<base-post-detail
 						v-if="multimediaId"
 						:target="multimedia"
 					>
 						<template #media>
-							<v-carousel height="calc(100vh - 60px)"
-								dark
+							<v-carousel
 								hide-delimiters
+								height="calc(100vh - 170px)"
+								style="border-radius: 4px;"
 							>
 								<template #next="{ on, attrs }">
 									<v-btn dark
@@ -66,27 +62,20 @@
 									active-class="multimedia-active-image"
 									reverse-transition="fade-transition"
 									transition="fade-transition"
+									:src="item.image"
 								>
 									<template #default>
-										<v-card height="calc(100vh - 60px)"
-											class="rounded-0"
+										<v-btn
+											class="ma-2"
+											fab
+											x-small
+											style="position: absolute; right: 20px; top: 10px;"
+											@click="deleteImage(item.id)"
 										>
-											<v-img :src="item.image"
-												height="calc(100vh - 60px)"
-												contain
-											>
-												<v-btn
-													class="ma-2"
-													fab
-													x-small
-													@click="deleteImage(item.id)"
-												>
-													<v-icon color="error">
-														mdi-delete
-													</v-icon>
-												</v-btn>
-											</v-img>
-										</v-card>
+											<v-icon color="error">
+												mdi-delete
+											</v-icon>
+										</v-btn>
 									</template>
 								</v-carousel-item>
 								<v-carousel-item
@@ -137,17 +126,16 @@
 									<template #default>
 										<v-card
 											v-if="nowPlaying"
-											dark
-											height="calc(100vh - 60px)"
+											height="calc(100vh - 170px)"
 											class="rounded-0"
 										>
-											<v-card height="600">
-												<youtube-iframe
-													:video-url="nowPlaying"
-													height="600"
-												/>
-											</v-card>
-											<v-list class="rounded-t-0">
+											<youtube-iframe
+												:video-url="nowPlaying"
+												height="450"
+											/>
+											<v-list class="rounded-t-0"
+												style="overflow-y: auto; overflow-x: hidden; height: calc(100vh - 170px - 450px)"
+											>
 												<v-list-item v-for="(videoUrl) in multimedia['multimedia_video_urls']"
 													:key="videoUrl.id + 522222 * 5.7"
 													@click="1"
@@ -237,16 +225,14 @@ export default {
 		async init() {
 			this.loading=true
 			this.multimediaId = parseInt(this.$route.params.id)
-			this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
-				.then((fetched) => {
-					this.postNotAvailable = !fetched;
-					if (fetched) {
-						if (this.multimedia["multimedia_video_urls"].length > 0) {
-							this.nowPlaying = this.multimedia["multimedia_video_urls"][0].video_url
-						}
-					}
-					this.loading=false
-				})
+			const fetched = await this.$store.dispatch("multimedia/getSingle", {id: this.multimediaId})
+			this.postNotAvailable = !fetched;
+			if (fetched) {
+				if (this.multimedia["multimedia_video_urls"].length > 0) {
+					this.nowPlaying = this.multimedia["multimedia_video_urls"][0].video_url
+				}
+			}
+			this.loading=false
 		},
 		async deleteImage(itemId) {
 

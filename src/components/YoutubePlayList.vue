@@ -29,7 +29,9 @@
 						>
 							mdi-play
 						</v-icon>
-						<v-icon class="slight-up"
+						<v-icon
+							v-else
+							class="slight-up"
 							color="green"
 						>
 							mdi-play
@@ -54,6 +56,7 @@
 		<admin-delete-item-dialog
 			:model-name="modelName"
 			:delete-action="deleteAction"
+			@reload="$emit('reload')"
 		/>
 	</v-col>
 </template>
@@ -86,6 +89,7 @@ export default {
 			required: true
 		}
 	},
+	emits: ["reload"],
 	data() {
 		return {
 			nowPlaying: null,

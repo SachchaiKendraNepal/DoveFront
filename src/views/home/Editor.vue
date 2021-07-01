@@ -380,6 +380,10 @@ export default {
 			else await this.openSnack("Failed to save article as draft. Please try again.")
 		},
 		async postArticle() {
+			if(!this.headline) {
+				await this.openSnack("Please set a headline for your article.")
+				return
+			}
 			const outputData = await this.editor.save()
 			const res = await this.$store.dispatch("article/patch", {
 				id: this.onGoingArticle.id,

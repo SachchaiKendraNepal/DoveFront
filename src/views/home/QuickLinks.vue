@@ -2,7 +2,7 @@
 	<v-list>
 		<v-list-item class="pl-2">
 			<v-list-item-avatar
-				color="blue"
+				color="#ab5aa9"
 				class="ma-0 pa-0 d-flex justify-center"
 			>
 				<span class="headline white--text">

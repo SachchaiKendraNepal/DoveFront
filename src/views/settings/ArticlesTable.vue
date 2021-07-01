@@ -123,6 +123,7 @@
 		<admin-delete-item-dialog
 			model-name="article"
 			delete-action="article/delete"
+			@reload="initialize"
 		/>
 	</div>
 </template>
@@ -159,9 +160,9 @@ export default {
 		})
 	},
 	methods: {
-		async initialize(val) {
+		async initialize(val = null) {
 			this.loading = true
-			if (!val) val = 1
+			if (!val) val = this.options.page
 			await this.$store.dispatch("article/filter", {
 				page: val,
 				completed_writing: true,
