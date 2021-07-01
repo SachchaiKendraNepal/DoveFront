@@ -6,7 +6,7 @@
 			dark
 			color="admin-nav"
 		>
-			<v-app-bar-nav-icon @click="mini= !(mini)">
+			<v-app-bar-nav-icon @click="toggleSettingsDrawer">
 				<v-icon v-if="mini">
 					mdi-menu
 				</v-icon>
@@ -24,11 +24,12 @@
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-navigation-drawer v-model="adminDrawer" :mini-variant.sync="mini"
 			app
-			permanent
+			:permanent="$vuetify.breakpoint.mdAndUp"
+			:temporary="!$vuetify.breakpoint.mdAndUp"
 			dark
 			color="admin-nav"
 		>
-			<admin-sidebar />
+			<admin-sidebar @toggle="mini = !mini" />
 		</v-navigation-drawer>
 		<v-main>
 			<v-container fluid
@@ -42,7 +43,7 @@
 							min-height="88vh"
 							class="mx-auto px-4"
 						>
-							<div class="py-6" />
+							<div :class="$vuetify.breakpoint.smAndUp ? 'py-6': 'py-2'" />
 							<transition name="setting">
 								<router-view />
 							</transition>
@@ -76,6 +77,14 @@ export default {
 			mini: true,
 		}
 	},
+	methods: {
+		toggleSettingsDrawer() {
+			if (this.$vuetify.breakpoint.mdAndUp) this.mini = !this.mini
+			else {
+				this.adminDrawer = !this.adminDrawer
+			}
+		}
+	}
 }
 </script>
 <style lang="sass" scoped>

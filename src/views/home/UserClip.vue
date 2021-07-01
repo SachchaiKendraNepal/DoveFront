@@ -3,15 +3,7 @@
 		class="clip-item"
 		two-line
 	>
-		<v-list-item-avatar v-if="$helper.getCurrentProfileImage()"
-			class="clip-avatar"
-		>
-			<v-img
-				:src="$helper.getCurrentProfileImage()"
-			/>
-		</v-list-item-avatar>
 		<v-list-item-avatar
-			v-else
 			color="blue"
 			class="ma-0 pa-0 d-flex justify-center"
 		>

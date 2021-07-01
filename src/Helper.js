@@ -63,6 +63,7 @@ module.exports = {
 		// initials = initials.substr(0, 3).toUpperCase()
 		//
 		// return initials
+		if (!userName) return null
 		return userName[0].toUpperCase()
 	},
 	getUsernameInitials(value) {

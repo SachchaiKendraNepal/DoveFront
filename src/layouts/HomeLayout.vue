@@ -76,9 +76,10 @@
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-navigation-drawer v-model="homeDrawer" :mini-variant.sync="mini"
 			app
-			permanent
+			:permanent="$vuetify.breakpoint.mdAndUp"
+			:temporary="!$vuetify.breakpoint.mdAndUp"
 		>
-			<quick-links />
+			<quick-links @toggle="mini = !mini" />
 		</v-navigation-drawer>
 
 		<v-main class="mt-0 pt-0">
@@ -117,12 +118,18 @@ export default {
 	},
 	data: () => ({
 		homeDrawer: false,
-		mini: true,
+		mini: false,
 		logo: require("@/assets/showcase_logo_v1.png"),
 	}),
+	created() {
+		this.mini = this.$vuetify.breakpoint.smAndUp
+	},
 	methods: {
 		toggleHomeDrawer() {
-			this.mini = !this.mini
+			if (this.$vuetify.breakpoint.mdAndUp) this.mini = !this.mini
+			else {
+				this.homeDrawer = !this.homeDrawer
+			}
 		}
 	},
 }

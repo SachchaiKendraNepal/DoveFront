@@ -236,7 +236,7 @@ export default {
 	mixins: [AdminCreateEditFormMixin, Snack],
 	emits: ["reload"],
 	data: () => ({
-		defaultProfileImage: require("@/assets/default_profile_image.png"),
+		model: "user",
 		userData: null,
 		profileData: null,
 		editedItem: {

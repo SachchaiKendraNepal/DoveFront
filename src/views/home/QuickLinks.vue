@@ -1,16 +1,50 @@
 <template>
 	<v-list>
-		<user-clip />
-		<v-divider />
+		<v-list-item class="pl-2">
+			<v-list-item-avatar
+				color="blue"
+				class="ma-0 pa-0 d-flex justify-center"
+			>
+				<span class="headline white--text">
+					{{ $helper.getCurrentUserInitials() }}
+				</span>
+			</v-list-item-avatar>
+			<v-list-item-content class="pl-4">
+				<v-list-item-title class="full-name">
+					<h4 v-text="getFullName" />
+				</v-list-item-title>
+				<v-list-item-subtitle>
+					<v-icon small
+						color="orange"
+					>
+						mdi-account-group
+					</v-icon>
+					<v-icon small
+						color="grey"
+						class="ml-1"
+					>
+						mdi-account-cog
+					</v-icon>
+				</v-list-item-subtitle>
+			</v-list-item-content>
+			<v-list-item-action v-if="!$vuetify.breakpoint.mdAndUp">
+				<v-btn fab
+					x-small
+					@click="$emit('toggle')"
+				>
+					<v-icon>mdi-chevron-left</v-icon>
+				</v-btn>
+			</v-list-item-action>
+		</v-list-item>
+		<v-divider class="mx-2 mt-3" />
 		<v-list-group
 			v-for="item in items"
 			:key="item.title"
 			v-model="item.active"
 			active-class="black--text"
-			no-action
 		>
 			<template #prependIcon>
-				<v-icon :color="item.color">
+				<v-icon color="grey darken-2">
 					{{ item.action }}
 				</v-icon>
 			</template>
@@ -29,7 +63,7 @@
 				:to="child.to"
 			>
 				<v-list-item-icon>
-					<v-icon :color="item.itemColor">
+					<v-icon color="grey darken-1">
 						{{ child.icon }}
 					</v-icon>
 				</v-list-item-icon>
@@ -46,15 +80,11 @@
 <script>
 export default {
 	name: "QuickLinksComponent",
-	components: {
-		UserClip: () => import("@/views/home/UserClip"),
-	},
+	emits: ["toggle"],
 	data: () => ({
 		items: [
 			{
-				color: "grey darken-3",
 				action: "mdi-star-circle",
-				itemColor: "grey darken-1",
 				items: [
 					{ title: "My Profile", icon: "mdi-account-circle", to: "/profile/home" },
 					{ title: "My Posts", icon: "mdi-post", to: "/profile/articles" },
@@ -65,10 +95,8 @@ export default {
 				title: "My Links",
 			},
 			{
-				color: "red darken-1",
 				action: "mdi-calendar-clock",
 				active: false,
-				itemColor: "red lighten-1",
 				items: [
 					{ title: "All Events", icon: "mdi-calendar-multiple", to: "/home/event" },
 					{ title: "Satsang", icon: "mdi-heart" },
@@ -79,18 +107,14 @@ export default {
 				title: "Events",
 			},
 			{
-				color: "orange darken-2",
 				action: "mdi-post",
-				itemColor: "orange",
 				items: [
 					{ title: "Photos", icon: "mdi-image" }
 				],
 				title: "Articles",
 			},
 			{
-				color: "teal darken-2",
 				action: "mdi-video-vintage",
-				itemColor: "teal",
 				items: [
 					{ title: "Sounds", icon: "mdi-music-box" },
 					{ title: "Photos", icon: "mdi-image" },
@@ -99,9 +123,7 @@ export default {
 				title: "Multimedia",
 			},
 			{
-				color: "blue darken-4",
 				action: "mdi-earth",
-				itemColor: "blue",
 				items: [
 					{ title: "Social", icon: "mdi-run" },
 					{ title: "Health", icon: "mdi-bottle-tonic-plus" },
@@ -111,9 +133,7 @@ export default {
 				title: "Our Services",
 			},
 			{
-				color: "pink darken-1",
 				action: "mdi-google-maps",
-				itemColor: "pink lighten-2",
 				items: [
 					{ title: "Branches", icon: "mdi-city", to: "/home/map/branch" },
 					{ title: "Kendra Branch", icon: "mdi-map-marker-star", to: "/home/map/kendra" },
@@ -121,8 +141,6 @@ export default {
 				title: "Maps",
 			},
 			{
-				color: "purple darken-4",
-				itemColor: "purple darken-1",
 				action: "mdi-office-building",
 				items: [
 					{ title: "About Us", icon: "mdi-information" },
@@ -133,14 +151,22 @@ export default {
 				title: "Office",
 			},
 			{
-				color: "green darken-3",
-				itemColor: "green",
 				action: "mdi-tag",
 				items: [{ title: "Our Partners", icon: "mdi-handshake" }],
 				title: "Promotions",
 			},
 		]
-	})
+	}),
+	computed: {
+		getFullName() {
+			const currentUser = this.$helper.getCurrentUser()
+			if (currentUser.first_name && currentUser.last_name) {
+				return `${currentUser.first_name} ${currentUser.last_name}`
+			} else {
+				return currentUser.username
+			}
+		}
+	}
 }
 </script>
 <style scoped lang="scss">

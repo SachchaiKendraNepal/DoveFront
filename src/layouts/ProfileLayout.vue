@@ -5,9 +5,10 @@
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-navigation-drawer v-model="drawer" :mini-variant.sync="mini"
 			app
-			permanent
+			:permanent="$vuetify.breakpoint.mdAndUp"
+			:temporary="!$vuetify.breakpoint.mdAndUp"
 		>
-			<sidebar-list />
+			<sidebar-list @toggle="mini = !mini" />
 		</v-navigation-drawer>
 		<v-app-bar
 			dark
@@ -16,7 +17,7 @@
 			height="80"
 			class="blue-gradient"
 		>
-			<v-app-bar-nav-icon @click.stop="mini=!mini">
+			<v-app-bar-nav-icon @click.stop="toggleProfileDrawer">
 				<v-icon v-if="mini">
 					mdi-menu
 				</v-icon>
@@ -144,6 +145,12 @@ export default {
 			this.$helper.setCurrentUser(this.currentUser)
 			this.loading = false
 		},
+		toggleProfileDrawer() {
+			if (this.$vuetify.breakpoint.mdAndUp) this.mini = !this.mini
+			else {
+				this.drawer = !this.homeDrawer
+			}
+		}
 	},
 }
 </script>

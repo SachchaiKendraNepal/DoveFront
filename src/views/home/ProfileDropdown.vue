@@ -1,46 +1,47 @@
 <template>
-	<div
-		class="d-flex justify-center align-center"
+	<v-menu
+		transition="slide-y-transition"
+		bottom
+		offset-y
+		max-width="300"
+		nudge-bottom="5"
+		close-on-click
+		close-delay="1"
 	>
-		<v-menu
-			transition="slide-y-transition"
-			bottom
-			offset-y
-			max-width="300"
-			nudge-bottom="5"
-			close-on-click
-			close-delay="1"
+		<template #activator="{ attrs, on }">
+			<v-avatar v-if="$helper.getCurrentProfileImage()"
+				size="45"
+				v-bind="attrs"
+				v-on="on"
+			>
+				<v-img
+					:src="$helper.getCurrentProfileImage()"
+				/>
+			</v-avatar>
+			<v-btn v-else
+				fab
+				small
+				color="deep-purple"
+				v-bind="attrs"
+				v-on="on"
+			>
+				<span class="headline">{{ $helper.getCurrentUserInitials() }}</span>
+			</v-btn>
+		</template>
+		<v-card
+			color="teal lighten-5"
 		>
-			<template #activator="{ attrs, on }">
-				<v-avatar v-if="$helper.getCurrentProfileImage()"
-					size="45"
-					v-bind="attrs"
-					v-on="on"
-				>
-					<v-img
-						:src="$helper.getCurrentProfileImage()"
-					/>
-				</v-avatar>
-				<v-btn v-else
-					fab
-					small
-					color="deep-purple"
-					v-bind="attrs"
-					v-on="on"
-				>
-					<span class="headline">{{ $helper.getCurrentUserInitials() }}</span>
-				</v-btn>
-			</template>
 			<v-list
+				color="transparent"
 				rounded
 				dense
-				color="teal lighten-5"
 			>
 				<v-list-item-group
 					v-for="(item, i) in items"
 					:key="i"
 				>
 					<v-list-item
+						link
 						:to="item.to"
 					>
 						<v-list-item-icon>
@@ -63,8 +64,8 @@
 					</v-list-item-content>
 				</v-list-item>
 			</v-list>
-		</v-menu>
-	</div>
+		</v-card>
+	</v-menu>
 </template>
 
 <script>
@@ -87,6 +88,11 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+::v-deep.v-list--rounded .v-list-item, .v-list--rounded .v-list-item::before, .v-list--rounded .v-list-item > .v-ripple__container {
+	border-radius: 10px;
+}
+</style>
 <style lang="sass" scoped>
 .profile-card
 	transition: all .2s ease-in-out

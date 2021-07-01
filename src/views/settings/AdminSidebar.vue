@@ -2,26 +2,27 @@
 	<v-list color="transparent">
 		<v-list-item class="pl-2">
 			<v-list-item-avatar
-				v-if="$helper.getCurrentProfileImage()"
-			>
-				<v-img
-					:src="$helper.getCurrentProfileImage()"
-				/>
-			</v-list-item-avatar>
-			<v-list-item-avatar
-				v-else
 				color="grey lighten-2"
+				class="ma-0 pa-0 d-flex justify-center align-center"
 			>
 				<span class="headline grey--text text--darken-1">
 					{{ $helper.getCurrentUserInitials() }}
 				</span>
 			</v-list-item-avatar>
-			<v-list-item-content class="py-0">
+			<v-list-item-content class="py-0 pl-4">
 				<v-list-item-title class="title">
 					{{ currentUser.first_name }} {{ currentUser.last_name }}
 				</v-list-item-title>
 				<v-list-item-subtitle>{{ currentUser.email }}</v-list-item-subtitle>
 			</v-list-item-content>
+			<v-list-item-action v-if="!$vuetify.breakpoint.mdAndUp">
+				<v-btn x-small
+					fab
+					@click="$emit('toggle')"
+				>
+					<v-icon>mdi-chevron-left</v-icon>
+				</v-btn>
+			</v-list-item-action>
 		</v-list-item>
 
 		<v-divider class="my-2 mx-4" />
@@ -68,6 +69,7 @@
 <script>
 export default {
 	name: "AdminSidebar",
+	emits: ["toggle"],
 	data: () => ({
 		drawerItems: [
 			{ title: "Home", icon: "mdi-home", to: "/admin/home" },

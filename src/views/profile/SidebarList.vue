@@ -20,10 +20,17 @@
 					</span>
 				</v-list-item-avatar>
 				<div class="px-2" />
-
 				<v-list-item-title>
 					<h4>{{ $helper.getCurrentUser().username }}</h4>
 				</v-list-item-title>
+				<v-list-item-action v-if="!$vuetify.breakpoint.mdAndUp">
+					<v-btn icon
+						x-small
+						@click="$emit('toggle')"
+					>
+						<v-icon>mdi-chevron-left</v-icon>
+					</v-btn>
+				</v-list-item-action>
 			</v-list-item>
 			<v-divider />
 			<v-list-group>
@@ -55,7 +62,6 @@
 				:key="item.text"
 				link
 				:to="item.to"
-				@click="$bus.emit('close-sidebar')"
 			>
 				<v-list-item-icon>
 					<v-icon>{{ item.icon }}</v-icon>
@@ -74,6 +80,7 @@
 <script>
 export default {
 	name: "SidebarList",
+	emits: ["toggle"],
 	data: () => ({
 		items: [
 			{text: "Location", icon: "mdi-map-marker", to: "/profile/location"},
