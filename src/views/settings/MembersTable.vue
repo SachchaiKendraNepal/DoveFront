@@ -178,11 +178,7 @@ export default {
 			{ text: "Role", value: "role" },
 			{ text: "Approval", value: "is_approved" },
 			{ text: "Created at", value: "created_at" },
-		],
-		mixinData: {
-			modelName: "member",
-			toggleApprovalAction: "member/toggleApprovalStatus"
-		}
+		]
 	}),
 
 	computed: {

@@ -12,6 +12,7 @@
 			hide-details="auto"
 			:error-messages="getErrorMessage"
 			:prepend-inner-icon="icon"
+			:autocomplete="autocomplete"
 			@input="$emit('input', $event)"
 			@change="$emit('change', $event)"
 		/>
@@ -56,6 +57,10 @@ export default {
 		},
 		counter: {
 			default: false
+		},
+		autocomplete: {
+			type: String,
+			default: "off"
 		}
 	},
 	emits: ["input", "change"],

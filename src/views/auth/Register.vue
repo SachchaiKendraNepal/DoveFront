@@ -11,212 +11,113 @@
 			<v-form v-model="valid">
 				<v-row justify="center"
 					align="center"
-					class="ma-0 pa-0 px-6 px-sm-16 px-md-16 px-lg-16 px-xs-16"
+					class="ma-0 pa-0"
 				>
 					<v-col
 						cols="12"
 						xl="6" lg="6"
 						md="6" sm="6"
-						class="py-0"
+						class="ma-0 pa-0"
 					>
-						<v-text-field
+						<text-field
 							v-model="follower.first_name"
-							dense
 							label="First name"
-							required
-							outlined
-							clearable
-							prepend-inner-icon="mdi-form-textbox"
+							icon="mdi-form-textbox"
+							name="first_name"
+							:errors="registerFormErrors"
 						/>
 					</v-col>
-					<v-col cols="12"
+					<v-col
+						cols="12"
 						xl="6" lg="6"
 						md="6" sm="6"
-						class="py-0"
+						class="ma-0 pa-0"
 					>
-						<v-text-field
+						<text-field
 							v-model="follower.last_name"
-							dense
 							label="Last name"
-							required
-							outlined
-							clearable
-							prepend-inner-icon="mdi-form-textbox"
+							name="last_name"
+							icon="mdi-form-textbox"
+							:errors="registerFormErrors"
 						/>
 					</v-col>
-					<v-col cols="12"
+					<v-col
+						cols="12"
 						xl="6" lg="6"
 						md="6" sm="6"
-						class="py-0"
+						class="ma-0 pa-0"
 					>
-						<v-text-field
+						<text-field
 							v-model="follower.username"
-							dense
-							autocomplete="username"
+							name="username"
 							label="Username"
-							required
-							outlined
-							clearable
-							prepend-inner-icon="mdi-account-circle"
-							:error-messages="registerFormErrors.username"
+							autocomplete="username"
+							icon="mdi-account-circle"
+							:errors="registerFormErrors"
 						/>
 					</v-col>
-					<v-col cols="12"
+					<v-col
+						cols="12"
 						xl="6" lg="6"
 						md="6" sm="6"
-						class="py-0"
+						class="ma-0 pa-0"
 					>
-						<v-text-field
+						<text-field
 							v-model="follower.contact"
-							dense
-							label="Contact Number"
-							required
-							outlined
-							clearable
-							prepend-inner-icon="mdi-phone"
+							label="Contact"
+							name="contact"
+							icon="mdi-phone"
 							type="number"
-							:error-messages="registerFormErrors.contact"
+							:errors="registerFormErrors"
 						/>
 					</v-col>
-					<v-col cols="12"
-						class="py-0"
-					>
-						<v-text-field
-							v-model="follower.email"
-							dense
-							label="Email Address"
-							type="email"
-							required
-							outlined
-							clearable
-							prepend-inner-icon="mdi-email"
-							:error-messages="registerFormErrors.email"
-						/>
-					</v-col>
-					<v-col cols="12"
-						class="py-0"
-					>
-						<v-text-field
-							v-model="follower.password"
-							dense
-							label="New password"
-							required
-							type="password"
-							outlined
-							clearable
-							autocomplete="new-password"
-							prepend-inner-icon="mdi-lock"
-							:error-messages="registerFormErrors.password"
-						/>
-					</v-col>
-					<v-col cols="12"
-						class="py-0"
-					>
-						<v-text-field
-							v-model="follower.confirm_password"
-							dense
-							label="Confirm password"
-							required
-							type="password"
-							outlined
-							clearable
-							autocomplete="confirm-password"
-							prepend-inner-icon="mdi-lock-open-check"
-							:error-messages="registerFormErrors.confirm_password"
-						/>
-					</v-col>
-
-					<v-col
-						id="country-input-column"
-						cols="12"
-						class="py-0"
-					>
-						<v-autocomplete
-							id="event-country"
-							v-model="follower.country"
-							:loading="loadingCountries"
-							class="ma-0"
-							allow-overflow
-							dense
-							item-text="name"
-							item-value="id"
-							:items="countries"
-							attach=""
-							outlined
-							label="Country"
-							clearable
-							prepend-inner-icon="mdi-web"
-							:error-messages="registerFormErrors.country"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>country</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="py-0"
-					>
-						<v-autocomplete
-							id="event-province"
-							v-model="follower.province"
-							:loading="loadingProvinces"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							label="Province"
-							item-text="name"
-							item-value="id"
-							:items="provinces"
-							clearable
-							prepend-inner-icon="mdi-office-building-marker-outline"
-							:error-messages="registerFormErrors.province"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>provinces</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
-					<v-col
-						cols="12"
-						class="py-0"
-					>
-						<v-autocomplete
-							id="event-districts"
-							v-model="follower.district"
-							:loading="loadingDistricts"
-							item-text="name"
-							item-value="id"
-							class="ma-0"
-							allow-overflow
-							dense
-							outlined
-							attach=""
-							:items="districts"
-							label="District"
-							clearable
-							prepend-inner-icon="mdi-map-marker-multiple-outline"
-							:error-messages="registerFormErrors.district"
-						>
-							<template #no-data>
-								<v-list-item>
-									<v-list-item-title>
-										No <code>district</code> found.
-									</v-list-item-title>
-								</v-list-item>
-							</template>
-						</v-autocomplete>
-					</v-col>
+					<text-field
+						v-model="follower.email"
+						label="Email Address"
+						type="email"
+						name="email"
+						icon="mdi-email"
+						:errors="registerFormErrors"
+					/>
+					<text-field
+						v-model="follower.password"
+						label="New password"
+						name="password"
+						type="password"
+						icon="mdi-lock"
+						autocomplete="new-password"
+						:errors="registerFormErrors"
+					/>
+					<text-field
+						v-model="follower.confirm_password"
+						label="Confirm password"
+						name="confirm_password"
+						type="password"
+						autocomplete="confirm-password"
+						icon="mdi-lock-open-check"
+						:errors="registerFormErrors"
+					/>
+					<country-field
+						id="country"
+						v-model="follower.country"
+						:province="follower.province"
+						:errors="registerFormErrors"
+					/>
+					<province-field
+						id="province"
+						v-model="follower.province"
+						:country="follower.country"
+						:district="follower.district"
+						:errors="registerFormErrors"
+					/>
+					<district-field
+						id="district"
+						v-model="follower.district"
+						:province="follower.province"
+						:municipality="null"
+						:vdc="null"
+						:errors="registerFormErrors"
+					/>
 				</v-row>
 
 				<v-card-actions class="d-flex justify-center">
@@ -285,36 +186,15 @@ export default {
 
 	computed: {
 		...mapGetters({
-			registerFormErrors: "user/registerFormErrors",
-			countries: "location/countriesList",
-			provinces: "location/provincesList",
-			districts: "location/districtsList"
+			registerFormErrors: "user/formErrors"
 		}),
 	},
 
 	async created() {
-		await this.initCountries()
-		await this.initProvinces()
-		await this.initDistricts()
-		await this.$store.dispatch("user/clearRegisterFormErrors")
+		await this.$store.dispatch("user/clearFormErrors")
 	},
 
 	methods: {
-		async initCountries() {
-			this.loadingCountries = true
-			await this.$store.dispatch("location/fetchAllCountries")
-			this.loadingCountries = false
-		},
-		async initProvinces() {
-			this.loadingProvinces = true
-			await this.$store.dispatch("location/fetchAllProvinces")
-			this.loadingProvinces = false
-		},
-		async initDistricts() {
-			this.loadingDistricts = true
-			await this.$store.dispatch("location/fetchAllDistricts")
-			this.loadingDistricts = false
-		},
 		async registerFollower() {
 			this.loading = true
 			const state = await this.$store.dispatch("user/registerFollower", {body: this.follower})
