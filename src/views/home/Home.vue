@@ -1,12 +1,11 @@
 <template>
 	<div>
-		<v-overlay :value="fetchingPostsOverlay">
+		<v-overlay :value="overlay">
 			<v-progress-circular indeterminate
 				size="64"
 			/>
 		</v-overlay>
 		<v-card
-			:loading="loadingPosts"
 			flat
 			color="transparent"
 			class="mx-auto pa-0"
@@ -27,11 +26,11 @@
 					sm="8"
 				>
 					<add-post-box />
-					<no-home-data v-if="posts.length === 0"
+					<no-home-data v-if="multimedias.count === 0"
 						:image="require('@/assets/noPostsImg.jpg')"
 					/>
 					<div v-else>
-						<div v-for="post in posts"
+						<div v-for="post in multimedias.results"
 							:key="post.id" class="mb-2"
 						>
 							<multimedia
@@ -65,28 +64,22 @@ export default {
 		AddPostBox: () => import("@/views/home/AddPostBox")
 	},
 	data: () => ({
-		loadingPosts: false,
-		fetchingPostsOverlay: true,
-		posts: []
+		loading: null,
+		overlay: null,
 	}),
 	computed: {
 		...mapGetters({
 			multimedias: "multimedia/list"
-		})
+		}),
 	},
-	async mounted() {
-		await this.initialize()
-	},
-	methods: {
-		async initialize() {
-			this.loadingPosts = true
-			// only fetch if store has not any data 😎
-			this.fetchingPostsOverlay = true
+	async created() {
+		this.loading = true
+		if (!this.multimedias.count) {
+			this.overlay = true
 			await this.$store.dispatch("multimedia/getAllApproved")
-			this.posts = this.multimedias.results
-			this.fetchingPostsOverlay = false
-			this.loadingPosts = false
-		},
+			this.overlay = false
+		}
+		this.loading = false
 	}
 }
 </script>

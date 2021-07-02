@@ -17,6 +17,7 @@
 				<v-tooltip bottom>
 					<template #activator="{on, attrs}">
 						<v-btn
+							:loading="loading"
 							dark
 							class="showcase-blue-bg"
 							v-bind="attrs"
@@ -53,6 +54,7 @@ export default {
 	name: "SliderImageContent",
 	mixins: [Snack],
 	data: () => ({
+		loading: null,
 		item: {
 			context: "Sachchai kendra nepal presents",
 			title: "ईश्वरीय मार्ग भजन मंडल सच्चाई केन्द्र नेपाल",
@@ -60,12 +62,20 @@ export default {
 		}
 	}),
 	methods: {
-		routeToFeedsPage() {
+		async routeToFeedsPage() {
+			this.loading = true
 			if (!this.$helper.getCurrentUser()) {
-				this.openSnack("You are not logged in. Please login or register view our feeds pages.")
-				this.$router.push({name: "LOG IN"})
+				await this.openSnack("You are not logged in. Please login or register view our feeds pages.")
+				await this.$router.push({name: "LOG IN"})
 			}
-			else this.$router.push({name: "HOME"})
+			else {
+
+				await this.$store.dispatch("multimedia/filter", {is_approved: true})
+				await this.$store.dispatch("article/filter", {is_approved: true})
+				await this.$store.dispatch("branch/filter", {is_approved: true})
+				await this.$router.push({name: "HOME"})
+			}
+			this.loading = false
 		},
 	}
 }
