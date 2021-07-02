@@ -66,9 +66,11 @@ export default {
 	},
 	async created() {
 		this.loading = true
-		await this.$store.dispatch("article/filter", {
-			is_approved: true
-		})
+		if (!this.articles.count) {
+			await this.$store.dispatch("article/filter", {
+				is_approved: true
+			})
+		}
 		this.loading = false
 	}
 }

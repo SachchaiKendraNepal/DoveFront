@@ -30,6 +30,7 @@
 <script>
 import {mapGetters} from "vuex";
 import NoHomeData from "@/components/NoHomeData.vue";
+import multimedia from "@/store/modules/multimedia.js";
 
 export default {
 	name: "Multimedias",
@@ -48,7 +49,9 @@ export default {
 	},
 	async created() {
 		this.loading = true
-		await this.$store.dispatch("multimedia/getAllApproved")
+		if (!this.multimedias.count) {
+			await this.$store.dispatch("multimedia/filter", {is_approved: true})
+		}
 		this.posts = this.posts.concat(this.multimedias.results)
 		this.loading = false
 	}

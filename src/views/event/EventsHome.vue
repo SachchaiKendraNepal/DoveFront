@@ -128,8 +128,9 @@ export default {
 	methods: {
 		async initForCreatedEvents(payload) {
 			this.loading = true
-			if (this.events["count"]) return
-			await this.$store.dispatch("event/filter", payload)
+			if (!this.events.count) {
+				await this.$store.dispatch("event/filter", payload)
+			}
 			this.loading = false
 		},
 		async initForSearch(payload) {
@@ -143,8 +144,6 @@ export default {
 <style lang="sass" scoped>
 .event-toolbar
 	border-radius: 6px
-.cursor-pointer
-	cursor: pointer
 .event-banner
 	border-radius: 10px
 .button-span
