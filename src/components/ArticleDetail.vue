@@ -283,8 +283,7 @@ export default {
 		},
 		getImageSrc(text) {
 			const regex = /src="(?<find>.+)" alt/gm;
-			const src = this.getRegexMatch(regex, text)
-			return src
+			return this.getRegexMatch(regex, text)
 		},
 		getAltText(imgText) {
 			const regex = /alt="(?<find>.+)"/gm;
