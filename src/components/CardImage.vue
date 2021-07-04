@@ -23,6 +23,7 @@
 			class="card-image"
 			:src="src"
 			:height="height"
+			contain
 		>
 			<template #default>
 				<v-btn icon

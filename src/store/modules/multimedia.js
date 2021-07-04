@@ -71,7 +71,7 @@ const actions = {
 		}
 	},
 
-	async createMultimediaPost({commit}, body) {
+	async createPost({commit}, body) {
 		try {
 			await $api.post(multimediaUrl.createWithList, body)
 			return true
