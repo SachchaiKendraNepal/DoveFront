@@ -1,6 +1,5 @@
 <template>
 	<div id="settings">
-		<the-snackbar />
 		<v-app-bar
 			app
 			dark
@@ -43,6 +42,7 @@
 							min-height="88vh"
 							class="mx-auto px-4"
 						>
+							<the-snackbar />
 							<div :class="$vuetify.breakpoint.smAndUp ? 'py-6': 'py-2'" />
 							<transition name="setting">
 								<router-view />
