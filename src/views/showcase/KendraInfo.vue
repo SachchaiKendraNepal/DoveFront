@@ -87,15 +87,15 @@ export default {
 	mounted() {
 		gsap.timeline({
 			scrollTrigger: {
-				trigger: ".repeating-gradient",
+				trigger: ".showcase-img-wrapper",
 				start: "top center",
-				end: "+=200",
+				// end: "-=600",
 			},
 			yoyo: true
 		})
 			.from(".repeating-gradient", {
 				duration: 1.5,
-				scale: 2,
+				scale: .5,
 				opacity: 0
 			})
 		gsap.timeline({

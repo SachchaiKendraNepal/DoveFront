@@ -278,8 +278,7 @@ export default {
 		},
 		getIframeSrc(text) {
 			const regex = /src="(?<find>.+)"/gm;
-			const src = this.getRegexMatch(regex, text)
-			return src
+			return this.getRegexMatch(regex, text)
 		},
 		getImageSrc(text) {
 			const regex = /src="(?<find>.+)" alt/gm;
