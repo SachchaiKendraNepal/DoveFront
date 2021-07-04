@@ -1,9 +1,9 @@
 <template>
 	<v-dialog
 		v-model="dialog"
-		fullscreen
 		hide-overlay
 		class="start-post-dialog"
+		max-width="600"
 	>
 		<v-card class="start-post-card">
 			<v-toolbar color="#288dba"

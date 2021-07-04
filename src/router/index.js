@@ -19,11 +19,6 @@ const routes = [
 		component: HomeLayout,
 		children: [
 			{
-				path: "/home/article/:id",
-				name: "SACHCHAI NEPAL ARTICLE",
-				component: () => import("@/components/ArticleDetail")
-			},
-			{
 				path: "start-article",
 				name: "Editor",
 				component: () => import("@/views/home/Editor")
@@ -71,6 +66,11 @@ const routes = [
 		]
 	},
 	// Detail Views (Requires Full Page)
+	{
+		path: "/home/article/:id",
+		name: "SACHCHAI NEPAL ARTICLE",
+		component: () => import("@/components/ArticleDetail")
+	},
 	{
 		path: "/home/multimedia/:id",
 		name: "SACHCHAI NEPAL MULTIMEDIA",

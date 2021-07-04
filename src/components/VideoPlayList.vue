@@ -60,7 +60,6 @@
 		<admin-delete-item-dialog
 			:model-name="modelName"
 			:delete-action="deleteAction"
-			@reload="$emit('reload')"
 		/>
 	</v-col>
 </template>
@@ -89,7 +88,6 @@ export default {
 			required: true
 		}
 	},
-	emits: ["reload"],
 	data: () => ({
 		nowPlaying: null,
 	}),

@@ -76,7 +76,7 @@ export default {
 		this.loading = true
 		if (!this.multimedias.count) {
 			this.overlay = true
-			await this.$store.dispatch("multimedia/getAllApproved")
+			await this.$store.dispatch("multimedia/filter", {is_approved: true})
 			this.overlay = false
 		}
 		this.loading = false

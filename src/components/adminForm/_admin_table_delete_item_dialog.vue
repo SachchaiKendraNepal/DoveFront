@@ -80,14 +80,16 @@ export default {
 			const deleted = await this.$store.dispatch(this.actionText, {id: this.itemIdToDelete})
 			if (deleted) {
 				await this.openSnack(`${this.modelName} deleted successfully.`, "success")
-				if (!this.$route.path.includes("admin")) {
-					if (this.$route.path.includes("article") || this.$route.path.includes("multimedia")) {
-						this.$emit("feeds")
-					}
-				}
-				else {
+				if (this.$route.path.includes("admin")) {
 					this.$emit("reload")
+				} else if (this.$route.path.includes("profile")){
+					this.$bus.emit("refresh-me")
 				}
+				else if (this.$route.path.includes("article")) {
+					await this.$router.push({name: "SACHCHAI NEPAL ARTICLES"})
+				} else if (this.$route.path.includes("multimedia")) {
+					await this.$router.push({name: "SACHCHAI NEPAL MULTIMEDIAS"})
+				} else {}
 			}
 			else await this.openSnack(`${this.modelName} delete failed. Try again later.`)
 			this.itemIdToDelete = null

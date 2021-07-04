@@ -1,15 +1,11 @@
 <template>
-	<v-card
-		:loading="loading"
-		:color="$constants.pickBackgroundColor()"
-		dark
-	>
+	<v-card :loading="loading">
 		<v-row class="ma-0 pa-0"
 			align="center"
 		>
 			<v-col cols="12"
-				xl="8"
-				lg="8"
+				:xl="(event['banner_images']) ? 8 : 12"
+				:lg="(event['banner_images']) ? 8 : 12"
 			>
 				<v-card-subtitle class="pb-0">
 					<span class="chip-like">
@@ -78,9 +74,13 @@
 								<v-list-item-content>
 									<v-list-item-title>Location</v-list-item-title>
 									<v-list-item-subtitle>
-										<span v-if="event.municipality">{{ event.municipality_ward.name }} - {{ event.municipality.name }}</span>
-										<span v-else>{{ event.vdc_ward.name }} - {{ event.vdc.name }}</span>
-										{{ event.district.name }}, {{ event.province.name }}, {{ event.country.name }}
+										<span v-if="event.municipality">
+											{{ getMunicipalityWard }} {{ getMunicipality }}
+										</span>
+										<span v-else>
+											{{ getVdcWard }} {{ getVdc }}
+										</span>
+										{{ getDistrict }}, {{ getProvince }}, {{ getCountry }}
 									</v-list-item-subtitle>
 								</v-list-item-content>
 							</v-list-item>
@@ -129,7 +129,7 @@
 								class="button-span red--text text--lighten-1"
 							>Remove Interest</span>
 							<span v-else
-								class="green--text button-span"
+								class="green--text button-span text--darken-3"
 							>Add Interest</span>
 							<span class="stat">({{ eventStatistics['interested_count'] }})</span>
 						</v-btn>
@@ -145,7 +145,7 @@
 								class="button-span red--text text--lighten-1"
 							>Not Going</span>
 							<span v-else
-								class="green--text button-span"
+								class="green--text button-span text--darken-3"
 							>I Am Going</span>
 							<span class="stat">({{ eventStatistics['going_count'] }})</span>
 						</v-btn>
@@ -182,6 +182,29 @@ export default {
 			interestedLoading: false,
 			goingStatusLoading: false,
 			eventStatistics: null
+		}
+	},
+	computed: {
+		getVdcWard() {
+			return (this.event.vdc_ward) ? this.event.vdc_ward.name + " -" : ""
+		},
+		getVdc() {
+			return (this.event.vdc) ? this.event.vdc.name : ""
+		},
+		getDistrict() {
+			return (this.event.district) ? this.event.district.name : ""
+		},
+		getProvince() {
+			return (this.event.province) ? this.event.province.name : ""
+		},
+		getCountry() {
+			return (this.event.country) ? this.event.country.name : ""
+		},
+		getMunicipalityWard() {
+			return (this.event.municipality_ward) ? this.event.municipality_ward.name.name + " -" : ""
+		},
+		getMunicipality() {
+			return (this.event.municipality) ? this.event.municipality.name : ""
 		}
 	},
 	async created() {
@@ -257,14 +280,13 @@ export default {
 }
 .stat {
 	font-family: 'Noto Sans JP', sans-serif;
-	color: #ffd76c;
+	color: #826712;
 	padding: 0 2px;
 	margin-top: -2px;
 }
 .chip-like {
-	background-color: #474747;
+	background-color: #dcdcdc;
 	margin: 0 2px;
-	color: white;
 	padding: 2px;
 	border-radius: 2px;
 	.detail-icon {

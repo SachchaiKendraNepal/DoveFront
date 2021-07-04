@@ -123,13 +123,13 @@ export default {
 		}
 	},
 	created() {
-		this.initForCreatedEvents({is_approved: true})
+		this.initForCreatedEvents()
 	},
 	methods: {
-		async initForCreatedEvents(payload) {
+		async initForCreatedEvents() {
 			this.loading = true
 			if (!this.events.count) {
-				await this.$store.dispatch("event/filter", payload)
+				await this.$store.dispatch("event/filter", {is_approved: true})
 			}
 			this.loading = false
 		},

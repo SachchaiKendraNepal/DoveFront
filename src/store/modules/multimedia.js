@@ -55,10 +55,6 @@ const actions = {
 	clearFormErrors({ commit }) {
 		commit("SET_FORM_ERRORS", { ... defaultFormErrors })
 	},
-	async getAll({commit}) {
-		const response = await $api.get(multimediaUrl.set)
-		commit("SET_MULTIMEDIAS", response)
-	},
 
 	async filter({commit}, payload) {
 		const response = await $api.getWithPayload(multimediaUrl.set, payload)
@@ -73,11 +69,6 @@ const actions = {
 		} catch (e) {
 			return false
 		}
-	},
-
-	async getAllApproved({commit}) {
-		const response = await $api.get(multimediaUrl.set + "?is_approved=true")
-		commit("SET_MULTIMEDIAS", response)
 	},
 
 	async createMultimediaPost({commit}, body) {
