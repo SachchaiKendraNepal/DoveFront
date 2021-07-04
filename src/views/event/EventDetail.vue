@@ -197,7 +197,7 @@ export default {
 	margin: auto auto
 	text-align: center
 .event-tab
-	background: #f1dceb !important
+	background: #fff9fe !important
 
 </style>
 <style lang="scss">

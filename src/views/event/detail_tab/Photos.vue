@@ -66,9 +66,18 @@
 		</v-card-text>
 		<div v-if="event.images">
 			<v-card-text v-if="event.images.length === 0">
-				<div class="no-photos">
-					No photos added yet!
-				</div>
+				<v-card class="no-photos">
+					<v-img
+						height="300"
+						:src="require('@/assets/noEventPhotos.jpg')"
+					>
+						<div class="fill-height d-flex align-center justify-center">
+							<h3 class="white--text">
+								No photos added yet!
+							</h3>
+						</div>
+					</v-img>
+				</v-card>
 			</v-card-text>
 		</div>
 		<v-row no-gutters
@@ -170,15 +179,6 @@ export default {
 	border: 4px dotted black;
 	font-family: 'Stint Ultra Condensed', cursive;
 	font-size: 2rem;
-}
-.no-photos {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
-	background: aliceblue url("./../../../assets/noEventPhotos.jpg") no-repeat;
-	min-height: 150px;
-	border-radius: 20px;
 }
 .file-uploads {
 	width: 100%;
