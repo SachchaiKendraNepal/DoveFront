@@ -77,6 +77,11 @@ const routes = [
 		component: () => import("@/views/multimedia/MultimediaDetail")
 	},
 	{
+		name: "unauthorized",
+		path: "/unauthorized",
+		component: () => import("@/views/settings/Unauthorized")
+	},
+	{
 		path: "/auth/",
 		component: () => import("@/layouts/AuthLayout"),
 		children: [
@@ -105,123 +110,195 @@ const routes = [
 			{
 				path: "home",
 				name: "SACHCHAI KENDRA NEPAL ADMINISTRATION",
-				component: () => import("@/views/settings/Home")
+				component: () => import("@/views/settings/Home"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "follower",
 				name: "FOLLOWERS ADMINISTRATION",
-				component: () => import("@/views/settings/FollowersTable")
+				component: () => import("@/views/settings/FollowersTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "member",
 				name: "MEMBERS ADMINISTRATION",
-				component: () => import("@/views/settings/MembersTable")
+				component: () => import("@/views/settings/MembersTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "follower/:id",
 				name: "FOLLOWER ADMINISTRATION",
-				component: () => import("@/views/member/FollowerDetail")
+				component: () => import("@/views/member/FollowerDetail"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "branch",
 				name: "BRANCHES ADMINISTRATION",
-				component: () => import("@/views/settings/BranchTable")
+				component: () => import("@/views/settings/BranchTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "branch/:id",
 				name: "BRANCH ADMINISTRATION",
-				component: () => import("@/views/branch/BranchDetail")
+				component: () => import("@/views/branch/BranchDetail"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "country",
 				name: "COUNTRY ADMINISTRATION",
-				component: () => import("@/views/settings/CountriesTable.vue")
+				component: () => import("@/views/settings/CountriesTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "province",
 				name: "PROVINCE ADMINISTRATION",
-				component: () => import("@/views/settings/ProvincesTable.vue")
+				component: () => import("@/views/settings/ProvincesTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "district",
 				name: "DISTRICT ADMINISTRATION",
-				component: () => import("@/views/settings/DistrictsTable.vue")
+				component: () => import("@/views/settings/DistrictsTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "municipality",
 				name: "MUNICIPALITY ADMINISTRATION",
-				component: () => import("@/views/settings/MunicipalitiesTable.vue")
+				component: () => import("@/views/settings/MunicipalitiesTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "municipality-ward",
 				name: "MUNICIPALITY WARD ADMINISTRATION",
-				component: () => import("@/views/settings/MunicipalityWardsTable.vue")
+				component: () => import("@/views/settings/MunicipalityWardsTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "vdc",
 				name: "VDC ADMINISTRATION",
-				component: () => import("@/views/settings/VDCsTable.vue")
+				component: () => import("@/views/settings/VDCsTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "vdc-ward",
 				name: "VDC WARD ADMINISTRATION",
-				component: () => import("@/views/settings/VDCWardsTable.vue")
+				component: () => import("@/views/settings/VDCWardsTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "article",
 				name: "ARTICLES ADMINISTRATION",
-				component: () => import("@/views/settings/ArticlesTable.vue")
+				component: () => import("@/views/settings/ArticlesTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 
 			{
 				path: "multimedia",
 				name: "MULTIMEDIA ADMINISTRATION",
-				component: () => import("@/views/settings/MultimediasTable.vue")
+				component: () => import("@/views/settings/MultimediasTable.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "event",
 				name: "EVENTS ADMINISTRATION",
-				component: () => import("@/views/settings/EventsTable")
+				component: () => import("@/views/settings/EventsTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "showcase-gallery",
 				name: "SHOWCASE GALLERY ADMINISTRATION",
-				component: () => import("@/views/settings/ShowcaseImage.vue")
+				component: () => import("@/views/settings/ShowcaseImage.vue"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "ad",
 				name: "ADS ADMINISTRATION",
-				component: () => import("@/views/settings/AdsTable")
+				component: () => import("@/views/settings/AdsTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "about-us",
 				name: "ABOUT US ADMINISTRATION",
-				component: () => import("@/views/settings/AboutUsTable")
+				component: () => import("@/views/settings/AboutUsTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "contact-us",
 				name: "CONTACT US ADMINISTRATION",
-				component: () => import("@/views/settings/ContactUsTable")
+				component: () => import("@/views/settings/ContactUsTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "service",
 				name: "SERVICES ADMINISTRATION",
-				component: () => import("@/views/settings/ServicesTable")
+				component: () => import("@/views/settings/ServicesTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "feedback",
 				name: "FEEDBACK ADMINISTRATION",
-				component: () => import("@/views/settings/FeedbacksTable")
+				component: () => import("@/views/settings/FeedbacksTable"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "showcase-map",
 				name: "MAP ADMINISTRATION",
-				component: () => import("@/views/settings/MapAdmin")
+				component: () => import("@/views/settings/MapAdmin"),
+				meta: {
+					authentication: true
+				}
 			},
 			{
 				path: "kendra-information",
 				name: "KENDRA INFO ADMIN",
-				component: () => import("@/views/settings/KendraInformation")
+				component: () => import("@/views/settings/KendraInformation"),
+				meta: {
+					authentication: true
+				}
 			},
 		]
 	},

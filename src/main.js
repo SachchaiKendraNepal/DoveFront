@@ -96,6 +96,24 @@ Vue.prototype.$constants = constants
 
 Vue.config.productionTip = false
 
+
+router.beforeEach((to, from, next) => {
+	if (to.meta.authentication) {
+		const token = helper.getAccessToken()
+		if (token) {
+			if (helper.getCurrentUser().is_superuser) {
+				next();
+			} else {
+				next("/unauthorized");
+			}
+		} else {
+			next("/auth/login");
+		}
+	} else {
+		next();
+	}
+});
+
 new Vue({
 	$,
 	router,
