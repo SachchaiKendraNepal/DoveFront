@@ -72,17 +72,15 @@ export default {
 		kendra: [
 			{
 				image: require("@/assets/kendra_pramukh.jpg"),
-				name: "Prakash Sir",
+				name: "Prakash Deep Gaire",
 				position: "Kendra Pramukh",
-				contact: "+977-9843565897",
-				branch: "Sachchai Kendra Nepal, Lamachaur"
+				branch: "Sachchai Kendra Nepal"
 			},
 			{
 				image: require("@/assets/kendra_saha_pramukh.jpg"),
-				name: "Sushila Maam",
-				position: "Kendra Saha Pramukh",
-				contact: "+977-9843565147",
-				branch: "Sachchai Kendra Nepal, Lamachaur"
+				name: "Sushila Kattel Gaire",
+				position: "Kendra Upa Pramukh",
+				branch: "Sachchai Kendra Nepal"
 			}
 		]
 	}),
