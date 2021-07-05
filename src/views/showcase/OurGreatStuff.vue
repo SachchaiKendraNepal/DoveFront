@@ -2,11 +2,10 @@
 	<v-row justify="center"
 		class="ma-0 pa-0"
 	>
-		<v-card
-			class="stuff-card"
+		<v-img
+			src="https://images.sadhguru.org/mahashivratri/wp-content/uploads/2020/02/Shiva-Wallpaper-Moon-on-his-head.jpg"
 			height="800"
 			width="100vw"
-			gradient="to top right, rgba(100,115,201,.22), rgba(25,32,72,.6)"
 		>
 			<v-row
 				class="fill-height ma-0 pa-0"
@@ -57,7 +56,7 @@
 					</v-row>
 				</div>
 			</v-row>
-		</v-card>
+		</v-img>
 	</v-row>
 </template>
 <script>
@@ -75,12 +74,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.stuff-card
-	margin: 0
-	padding: 0
-	border-radius: 0
-	background: linear-gradient(rgba(115, 139, 169, 0.5), rgba(148, 119, 165, .2)), url("https://images.sadhguru.org/mahashivratri/wp-content/uploads/2020/02/Shiva-Wallpaper-Moon-on-his-head.jpg") no-repeat
-	background-size: 100%
 #stuff-content
 	h1
 		text-align: center
