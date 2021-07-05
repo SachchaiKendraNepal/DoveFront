@@ -9,7 +9,7 @@
 		<v-toolbar
 			class="elevation-12 ma-0 pa-0 px-4"
 			color="#e4ab02"
-			height="75"
+			height="55"
 			width="100vw"
 			fixed
 		>
@@ -18,14 +18,6 @@
 			>
 				<v-icon>mdi-arrow-left</v-icon>
 			</v-btn>
-			<v-avatar color="gold"
-				class="auth-logo elevation-4 mr-4"
-				size="65"
-			>
-				<span class="display-2"
-					style="color: #3b3b3b"
-				>{{ $route.name[0] }}</span>
-			</v-avatar>
 			<v-toolbar-title class="register-title">
 				{{ $route.name }}
 			</v-toolbar-title>
