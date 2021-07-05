@@ -4,6 +4,7 @@
 			app
 			dark
 			color="admin-nav"
+			height="50"
 		>
 			<v-app-bar-nav-icon @click="toggleSettingsDrawer">
 				<v-icon v-if="mini">
@@ -43,11 +44,11 @@
 							class="mx-auto px-4"
 						>
 							<the-snackbar />
-							<div :class="$vuetify.breakpoint.smAndUp ? 'py-6': 'py-2'" />
+							<div :class="$vuetify.breakpoint.smAndUp ? 'py-4': 'py-1'" />
 							<transition name="setting">
 								<router-view />
 							</transition>
-							<div class="py-6" />
+							<div class="py-2" />
 						</v-card>
 					</v-col>
 				</v-row>

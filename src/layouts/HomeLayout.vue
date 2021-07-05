@@ -6,7 +6,7 @@
 			dark
 			app
 			fixed
-			height="80"
+			height="60"
 			color="purple-gradient"
 		>
 			<v-app-bar-nav-icon @click.stop="toggleHomeDrawer()">
@@ -26,13 +26,13 @@
 				:class="$route.name === 'HOME' ? '' : 'cursor'"
 				flat
 				color="transparent"
-				height="55"
-				width="55"
+				height="45"
+				width="45"
 			>
 				<v-img
 					contain
-					height="55"
-					width="55"
+					height="45"
+					width="45"
 					:src="require('@/assets/peace-pegion.png')"
 					@click="routeToFeeds"
 				/>
@@ -42,6 +42,7 @@
 			<v-card light
 				color="transparent"
 				class="top-tab-wrapper"
+				height="55"
 			>
 				<home-tabs />
 			</v-card>
@@ -156,14 +157,14 @@ export default {
 		height: 0 !important
 		max-width: 0 !important
 	@media only screen and (max-width: 601px)
-		margin-top: 80px
+		margin-top: 60px
 .home-router-container
 	padding-top: 0
 	padding-bottom: 0
-	margin-top: 80px
+	margin-top: 60px
 	background-color: #f3edff
 	@media only screen and (min-width: 601px)
-		margin-top: 80px !important
+		margin-top: 60px !important
 </style>
 <style lang="scss" scoped>
 .purple-gradient {
