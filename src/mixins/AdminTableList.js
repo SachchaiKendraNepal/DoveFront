@@ -16,13 +16,13 @@ const AdminTableList = {
 		/**
 		 * gets total pagination count required in a table
 		 *
-		 * serverItemsPerPage is backend constant `10`
+		 * serverItemsPerPage is backend constant `15`
 		 *
 		 * @returns {number}
 		 */
 		getTotalPaginationData() {
 			if (!this.items) return 0
-			const serverItemsPerPage = 3
+			const serverItemsPerPage = 15
 			const  rem = this.items.count % serverItemsPerPage
 			const div = Math.floor(this.items.count / serverItemsPerPage)
 			if (rem > 0) return div + 1
