@@ -106,7 +106,7 @@
 						<h6 id="built-info"
 							class="flex text-start"
 						>
-							Built on Vuetify -- the open source software that powers SACHCHAI KENDRA NEPAL `DoveFront` and other inclusive communities.
+							Built on Vuetify -- the open source software that powers SACHCHAI KENDRA NEPAL `Dove` and other inclusive communities.
 						</h6>
 						<h6 class="flex text-start">
 							Made with love and NodeJs.
