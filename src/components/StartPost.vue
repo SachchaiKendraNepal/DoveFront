@@ -202,7 +202,7 @@
 					</v-col>
 					<v-col v-for="(file, index) in imageURLs"
 						:key="index"
-						class="d-flex justify-center ma-2 pa-2"
+						class="d-flex justify-center ma-2"
 						cols="12"
 					>
 						<card-img height="300"
@@ -219,7 +219,7 @@
 					</v-col>
 					<v-col v-for="(item, index) in videoURLs" :key="index"
 						cols="12"
-						class="ma-0 pa-0 d-flex justify-center align-start"
+						class="d-flex justify-center ma-2"
 					>
 						<v-card height="300"
 							max-width="500" dark
@@ -231,10 +231,10 @@
 								<v-icon>mdi-close</v-icon>
 							</v-btn>
 							<video
-								class="slight-round"
 								controls
 								width="100%"
 								height="300"
+								@play="onPlay"
 							>
 								<source :src="item.videoUrl"
 									:type="item.type"
@@ -264,7 +264,7 @@
 					</v-col>
 					<v-col v-for="(item, index) in soundURLs" :key="index"
 						cols="3"
-						class="ma-2 d-flex justify-center"
+						class="d-flex justify-center ma-2"
 					>
 						<v-badge
 							bottom
@@ -362,6 +362,7 @@ import APlayer from "vue-aplayer"
 import {mapGetters} from "vuex";
 import YoutubeIframe from "@/components/YoutubeIframe";
 import Snack from "@/mixins/Snack";
+import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {
 	name: "StartAPostComponent",
@@ -369,7 +370,7 @@ export default {
 		YoutubeIframe,
 		APlayer,
 	},
-	mixins: [Snack],
+	mixins: [Snack, HtmlVideoMixin],
 	emits: ["close-dialog"],
 	data: () => ({
 		files: [],

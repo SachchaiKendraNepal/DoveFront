@@ -5,39 +5,56 @@
 		max-width="650" class="mx-auto rounded-0"
 		color="transparent"
 	>
-		<div class="library-title">
+		<div class="py-4" />
+		<div class="d-flex align-center">
 			<v-icon size="40"
-				color="red lighten-1"
+				color="pink lighten-1"
 			>
 				mdi-video
 			</v-icon>
-			Multimedia Library
+			<h2 class="pl-2">
+				Multimedia Library
+			</h2>
 		</div>
+		<v-divider />
 		<no-home-data v-if="posts.length === 0"
 			:image="require('@/assets/noEventVideos.jpg')"
 		/>
-		<multimedia-post
-			v-for="post in posts"
+		<div v-for="post in posts"
 			v-else
 			:key="post.id"
-			:post="post"
-			:is-article="false"
-			class="mb-3"
-		/>
+		>
+			<v-card
+				v-for="video in post['multimedia_videos']"
+				:key="video.id"
+				height="400"
+				dark
+				class="my-2"
+			>
+				<video
+					:class="'sachchai-video-' + video.id"
+					controls
+					height="400"
+					width="100%"
+					:src="video.video"
+					@play="onPlay"
+				/>
+			</v-card>
+		</div>
 	</v-card>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
 import NoHomeData from "@/components/NoHomeData.vue";
-import multimedia from "@/store/modules/multimedia.js";
+import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {
 	name: "Multimedias",
 	components: {
 		NoHomeData,
-		MultimediaPost: () => import("@/components/Multimedia"),
 	},
+	mixins: [HtmlVideoMixin],
 	data: () => ({
 		posts: [],
 		loading: false,
@@ -53,8 +70,9 @@ export default {
 			await this.$store.dispatch("multimedia/filter", {is_approved: true})
 		}
 		this.posts = this.posts.concat(this.multimedias.results)
+		console.log(this.posts)
 		this.loading = false
-	}
+	},
 }
 </script>
 

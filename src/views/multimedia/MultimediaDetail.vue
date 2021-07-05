@@ -35,7 +35,7 @@
 						<template #media>
 							<v-carousel
 								hide-delimiters
-								height="calc(100vh - 170px)"
+								height="77vh"
 								style="border-radius: 4px;"
 							>
 								<template #next="{ on, attrs }">
@@ -87,7 +87,7 @@
 								>
 									<template #default>
 										<v-card
-											height="calc(100vh - 60px)"
+											height="77vh"
 											class="rounded-0"
 										>
 											<v-btn
@@ -100,19 +100,13 @@
 													mdi-delete
 												</v-icon>
 											</v-btn>
-											<video-player
-												:options="{
-													fluid: true,
-													fill: true,
-													autoplay: true,
-													controls: true,
-													sources: [
-														{
-															src: item.video,
-															type: 'video/mp4'
-														}
-													]
-												}"
+											<video
+												height="90%"
+												width="100%"
+												controls
+												crossorigin="anonymous"
+												:src="item.video"
+												@play="onPlay"
 											/>
 										</v-card>
 									</template>
@@ -126,15 +120,19 @@
 									<template #default>
 										<v-card
 											v-if="nowPlaying"
-											height="calc(100vh - 170px)"
+											height="77vh"
 											class="rounded-0"
 										>
-											<youtube-iframe
-												:video-url="nowPlaying"
-												height="450"
-											/>
+											<v-card height="50vh"
+												tile
+											>
+												<youtube-iframe
+													:video-url="nowPlaying"
+													height="100%"
+												/>
+											</v-card>
 											<v-list class="rounded-t-0"
-												style="overflow-y: auto; overflow-x: hidden; height: calc(100vh - 170px - 450px)"
+												style="overflow-y: auto; overflow-x: hidden; height: calc(77vh - 50vh)"
 											>
 												<v-list-item v-for="(videoUrl) in multimedia['multimedia_video_urls']"
 													:key="videoUrl.id + 522222 * 5.7"
@@ -146,21 +144,22 @@
 														/>
 													</v-list-item-avatar>
 													<v-list-item-content>
-														<div class="video-list-name cursor"
+														<v-list-item-title
+															class="video-list-name cursor"
 															@click="nowPlaying = videoUrl.video_url"
 														>
 															{{ videoUrl['yt_info']['title'] }}
-															<span>
-																<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
-																	color="red lighten-1"
-																>
-																	<v-icon>mdi-play</v-icon>
-																</v-btn>
-																<span v-else>
-																	<v-icon color="green">mdi-play</v-icon>
-																</span>
+														</v-list-item-title>
+														<span>
+															<v-btn v-if="!(nowPlaying === videoUrl.video_url)" icon
+																color="red lighten-1"
+															>
+																<v-icon>mdi-play</v-icon>
+															</v-btn>
+															<span v-else>
+																<v-icon color="green">mdi-play</v-icon>
 															</span>
-														</div>
+														</span>
 													</v-list-item-content>
 													<v-list-item-action>
 														<v-btn
@@ -194,16 +193,17 @@
 <script>
 import {mapGetters} from "vuex";
 import SmallFooter from "@/components/SmallFooter";
+import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {
 	name: "MultimediaDetailView",
 	components: {
 		SmallFooter,
 		YoutubeIframe: () => import("@/components/YoutubeIframe"),
-		VideoPlayer: () => import("@/components/VideoPlayer"),
 		BasePostDetail: () => import("@/components/post/_postDetail"),
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},
+	mixins: [HtmlVideoMixin],
 	data: () => ({
 		multimediaId: null,
 		loading: false,
@@ -242,6 +242,12 @@ export default {
 		},
 		async deleteVideoUrl(itemId) {
 
+		},
+		getId(videoUrl) {
+			return this.$helper.getVideoIdFromYoutubeURL(videoUrl)
+		},
+		prepareEmbedUrl(videoUrl) {
+			return `https://www.youtube.com/embed/${this.getId(videoUrl)}`
 		}
 	}
 }
