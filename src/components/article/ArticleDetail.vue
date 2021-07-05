@@ -203,7 +203,7 @@
 	</v-card>
 </template>
 <script>
-import YoutubeIframe from "@/components/YoutubeIframe";
+import YoutubeIframe from "@/components/multimedia/YoutubeIframe.vue";
 import ArticleCommentDetail from "@/views/article/ArticleCommentsDetail";
 import {mapGetters} from "vuex";
 import ArticleActions from "@/mixins/ArticleActions";

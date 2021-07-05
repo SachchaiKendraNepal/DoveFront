@@ -49,7 +49,7 @@
 export default {
 	name: "MultimediaComponent",
 	components: {
-		BasePostCard: () => import("@/components/post/_post")
+		BasePostCard: () => import("@/components/post/_post.vue")
 	},
 	props: {
 		post: {

@@ -62,13 +62,13 @@
 </template>
 
 <script>
-import Snack from "@/mixins/Snack";
-import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin";
+import Snack from "@/mixins/Snack.js";
+import AdminTableDeleteItemMixin from "@/mixins/AdminTableDeleteItemMixin.js";
 
 export default {
 	name: "YoutubePlayList",
 	components: {
-		YoutubeIframe: () => import("@/components/YoutubeIframe")
+		YoutubeIframe: () => import("@/components/multimedia/YoutubeIframe.vue")
 	},
 	mixins: [Snack, AdminTableDeleteItemMixin],
 	props: {
