@@ -1,5 +1,6 @@
 <template>
 	<v-tabs
+		height="55"
 		background-color="transparent"
 		centered
 		:show-arrows="arrows"
@@ -13,7 +14,7 @@
 			:key="index"
 			:to="tab.to"
 		>
-			<v-icon size="30">
+			<v-icon size="26">
 				{{ tab.icon }}
 			</v-icon>
 		</v-tab>

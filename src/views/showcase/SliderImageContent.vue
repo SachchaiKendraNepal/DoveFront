@@ -69,10 +69,11 @@ export default {
 				await this.$router.push({name: "LOG IN"})
 			}
 			else {
-
-				await this.$store.dispatch("multimedia/filter", {is_approved: true})
-				await this.$store.dispatch("article/filter", {is_approved: true})
-				await this.$store.dispatch("branch/filter", {is_approved: true})
+				const approvedPayload = {is_approved: true}
+				await this.$store.dispatch("multimedia/filter", approvedPayload)
+				await this.$store.dispatch("article/filter", approvedPayload)
+				await this.$store.dispatch("branch/filter", approvedPayload)
+				await this.$store.dispatch("event/filter", approvedPayload)
 				await this.$router.push({name: "HOME"})
 			}
 			this.loading = false
