@@ -179,17 +179,24 @@
 				>
 					<facebook-widget />
 				</v-col>
+				<v-col cols="12"
+					class="pa-0"
+				>
+					<v-card tile
+						height="35"
+						style="font-size: 14px;"
+						color="rgb(233 30 99 / 11%)"
+					>
+						<div class="fill-height d-flex justify-center align-center">
+							{{ new Date().getFullYear() }} — <strong class="px-1">Ishworiya Bhajan Mandal Sachchai Kendra Nepal</strong> - made with ❤️ by
+							<a href="https://github.com/kiranparajuli589"
+								target="_blank"
+								class="px-1"
+							>Kiran Parajuli</a>
+						</div>
+					</v-card>
+				</v-col>
 			</v-row>
-
-			<v-divider />
-
-			<div class="d-flex justify-center">
-				<p class="love-text">
-					{{ new Date().getFullYear() }} — <strong>Ishworiya Bhajan Mandal Sachchai Kendra Nepal</strong> - made with ❤️ by <a href="https://github.com/kiranparajuli589"
-						target="_blank"
-					>Kiran Parajuli</a>.
-				</p>
-			</div>
 		</v-card>
 	</v-card>
 </template>
