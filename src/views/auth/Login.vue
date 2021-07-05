@@ -6,7 +6,7 @@
 		:subtitle="loginPage.subtitle"
 		menu-title="Not a follower yet"
 		:menu-items="menuItems"
-		height="400"
+		height="40vh"
 	>
 		<template #form>
 			<v-form
@@ -24,8 +24,8 @@
 							id="username"
 							v-model="user.username"
 							hide-details
-							outlined
-							dense
+							solo
+							clearable
 							label="Username"
 							prepend-inner-icon="mdi-account-circle"
 							background-color="white"
@@ -39,8 +39,8 @@
 						<v-text-field
 							id="password"
 							v-model="user.password"
-							dense
-							outlined
+							solo
+							clearable
 							hide-details
 							label="Password"
 							type="password"

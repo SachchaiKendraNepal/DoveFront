@@ -27,12 +27,13 @@
 						<v-text-field
 							id="username"
 							v-model="user.username"
-							dense
-							outlined
+							solo
+							clearable
 							hide-details
 							label="Username/Email"
 							prepend-inner-icon="mdi-account-circle"
 							background-color="white"
+							@keyup="submitIfEnter"
 						/>
 					</v-col>
 				</v-row>
@@ -47,7 +48,7 @@
 				</v-card-actions>
 				<v-divider class="mx-4" />
 				<v-card-text>
-					<div id="login-terms">
+					<div class="reset-terms">
 						By clicking <code>Forget Password</code>, you agree to our <code>Terms</code>, <code>Data Policy</code> and <code>Cookies Policy</code>.
 						You may receive <i>Email Notifications</i> from us and can opt out any time.
 					</div>
@@ -87,6 +88,9 @@ export default {
 		}
 	},
 	methods: {
+		async submitIfEnter(e) {
+			if (e.keyCode === 13) await this.requestReset()
+		},
 		async requestReset() {
 			try {
 				this.overlay = true
@@ -98,3 +102,8 @@ export default {
 	}
 }
 </script>
+<style>
+.reset-terms {
+	font-size: 10px;
+}
+</style>

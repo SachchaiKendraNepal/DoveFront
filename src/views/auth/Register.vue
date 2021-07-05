@@ -6,6 +6,7 @@
 		:subtitle="registerPage.subtitle"
 		menu-title="Already a follower"
 		:menu-items="items"
+		height="40vh"
 	>
 		<template #form>
 			<v-form v-model="valid">
@@ -135,7 +136,7 @@
 				</v-card-actions>
 				<v-divider class="mx-4" />
 				<v-card-text>
-					<div id="register-terms">
+					<div class="register-terms">
 						By clicking <code>Register</code>, you agree to our <code>Terms</code>, <code>Data Policy</code> and <code>Cookies Policy</code>.
 						You may receive <i>Email Notifications</i> from us and can opt out any time.
 					</div>
@@ -205,6 +206,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-#register-terms
-	font-size: 10px
+.register-terms
+	font-size: 10px !important
 </style>
