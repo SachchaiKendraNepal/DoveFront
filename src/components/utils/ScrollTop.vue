@@ -33,7 +33,7 @@ export default {
 		icon: {
 			type: String,
 			required: false,
-			default: "mdi-arch"
+			default: "mdi-chevron-double-up"
 		}
 	},
 	data: () => ({

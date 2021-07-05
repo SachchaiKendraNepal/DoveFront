@@ -20,14 +20,11 @@ Vue.use(VueBus)
 Vue.use(moment)
 
 Vue.component(APlayer)
-Vue.component("LocationUpdateDialog", () =>
-	import("@/components/LocationPatchDialog.vue")
-);
 Vue.component("ProfileNoContent", () =>
-	import("@/components/ProfileNoContent.vue")
+	import("@/components/profile/ProfileNoContent.vue")
 );
 Vue.component("CardImg", () =>
-	import("@/components/CardImage.vue")
+	import("@/components/multimedia/CardImage.vue")
 );
 Vue.component("TextField", () =>
 	import("@/components/form/_text_field")
@@ -84,7 +81,7 @@ Vue.component("AdminFormDetailItem", () =>
 	import("@/components/adminForm/_admin_form_detail_item")
 );
 Vue.component("NotFound", () =>
-	import("@/components/404NotFound")
+	import("@/components/utils/404NotFound.vue")
 );
 
 

@@ -58,9 +58,9 @@ import {mapGetters} from "vuex";
 export default {
 	name: "HomeComponent",
 	components: {
-		NoHomeData: () => import("@/components/NoHomeData"),
+		NoHomeData: () => import("@/components/feeds/NoHomeData.vue"),
 		HomeAdsColumnView: () => import("@/views/home/Ads"),
-		Multimedia: () => import("@/components/Multimedia"),
+		Multimedia: () => import("@/components/multimedia/Multimedia.vue"),
 		AddPostBox: () => import("@/views/home/AddPostBox")
 	},
 	data: () => ({

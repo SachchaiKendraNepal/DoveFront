@@ -151,7 +151,7 @@
 import {mapGetters} from "vuex";
 import Snack from "@/mixins/Snack";
 import CountryAutocomplete from "@/mixins/CountryAutocomplete";
-import ProfileFormHeader from "@/components/_profile_form_header";
+import ProfileFormHeader from "@/components/profile/_profile_form_header.vue";
 import HeaderToolbar from "@/views/profile/HeaderToolbar.vue";
 
 export default {

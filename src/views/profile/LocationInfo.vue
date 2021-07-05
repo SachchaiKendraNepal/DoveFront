@@ -12,7 +12,7 @@
 </template>
 <script>
 import HeaderToolbar from "@/views/profile/HeaderToolbar";
-import ProfileList from "@/components/ProfileList";
+import ProfileList from "@/components/profile/ProfileList.vue";
 
 export default {
 	name: "LocationInfo",

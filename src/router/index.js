@@ -69,7 +69,7 @@ const routes = [
 	{
 		path: "/home/article/:id",
 		name: "SACHCHAI NEPAL ARTICLE",
-		component: () => import("@/components/ArticleDetail")
+		component: () => import("@/components/article/ArticleDetail.vue")
 	},
 	{
 		path: "/home/multimedia/:id",

@@ -95,7 +95,7 @@
 	</v-card>
 </template>
 <script>
-import CardImage from "@/components/CardImage.vue";
+import CardImage from "@/components/multimedia/CardImage.vue";
 export default {
 	name: "MyArticleImages",
 	components: {CardImage},

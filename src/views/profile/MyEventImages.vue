@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import CardImage from "@/components/CardImage.vue";
+import CardImage from "@/components/multimedia/CardImage.vue";
 import EventFormDialog from "@/views/event/EventFormDialog.vue";
 
 export default {

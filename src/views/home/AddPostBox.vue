@@ -74,8 +74,8 @@ export default {
 	name: "AddPostBoxComponent",
 	components: {
 		EventFormDialog: () => import("@/views/event/EventFormDialog"),
-		StartPostBox: () => import("@/components/StartPost"),
-		DepressedButton: () => import("@/components/DepressedTooltipButton")
+		StartPostBox: () => import("@/components/feeds/StartPost.vue"),
+		DepressedButton: () => import("@/components/button/DepressedTooltipButton.vue")
 	},
 	emits: ["close-post-dialog"],
 	data: () => ({

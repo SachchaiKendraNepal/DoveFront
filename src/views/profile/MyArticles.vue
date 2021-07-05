@@ -27,7 +27,7 @@ import {mapGetters} from "vuex";
 export default {
 	name: "MyArticles",
 	components: {
-		ArticlePost: () => import("@/components/Article"),
+		ArticlePost: () => import("@/components/article/Article.vue"),
 	},
 	computed: {
 		...mapGetters({

@@ -13,9 +13,10 @@
 			multiple
 			hide-details="auto"
 			prepend-icon=""
-			:prepend-inner-icon="prependInnerIcon"
+			:prepend-inner-icon="icon"
 			:error-messages="getErrorMessage"
 			@input="inputChanged('input', $event)"
+			@change="inputChanged('change', $event)"
 		/>
 	</v-col>
 </template>
@@ -27,7 +28,7 @@ export default {
 	name: "FileField",
 	mixins: [AdminFieldErrorMessage, AutocompleteInputChanged],
 	props: {
-		prependInnerIcon: {
+		icon: {
 			required: true,
 			type: String
 		},

@@ -31,7 +31,7 @@
 export default {
 	name: "ArticleComponent",
 	components: {
-		BasePostCard: () => import("@/components/post/_post"),
+		BasePostCard: () => import("@/components/post/_post.vue"),
 	},
 	props: {
 		post: {

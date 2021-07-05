@@ -192,14 +192,14 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-import SmallFooter from "@/components/SmallFooter";
+import SmallFooter from "@/components/utils/SmallFooter.vue";
 import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {
 	name: "MultimediaDetailView",
 	components: {
 		SmallFooter,
-		YoutubeIframe: () => import("@/components/YoutubeIframe"),
+		YoutubeIframe: () => import("@/components/multimedia/YoutubeIframe.vue"),
 		BasePostDetail: () => import("@/components/post/_postDetail"),
 		CommentsDetail: () => import("@/views/post/CommentsDetail"),
 	},

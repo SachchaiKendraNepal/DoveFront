@@ -61,9 +61,9 @@
 </template>
 <script>
 
-import StartAPostComponent from "@/components/StartPost.vue";
-import YoutubePlayList from "@/components/YoutubePlayList.vue";
-import VideoPlayList from "@/components/VideoPlayList.vue";
+import StartAPostComponent from "@/components/feeds/StartPost.vue";
+import YoutubePlayList from "@/components/multimedia/YoutubePlayList.vue";
+import VideoPlayList from "@/components/multimedia/VideoPlayList.vue";
 
 export default {
 	name: "ProfileMultimediaTabView",

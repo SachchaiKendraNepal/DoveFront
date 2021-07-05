@@ -2,6 +2,7 @@
 	<v-btn fab
 		x-small :dark="dark"
 		:color="color"
+		@click="$emit('click')"
 	>
 		<v-icon>{{ icon }}</v-icon>
 	</v-btn>
@@ -23,7 +24,8 @@ export default {
 			type: String,
 			required: true
 		}
-	}
+	},
+	emits: ["click"]
 }
 </script>
 

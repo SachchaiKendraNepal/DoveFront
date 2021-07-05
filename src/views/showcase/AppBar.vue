@@ -54,7 +54,7 @@
 <script>
 import router from "@/router";
 import $ from "jquery";
-import DepressedButtonComponent from "@/components/DepressedTooltipButton";
+import DepressedButtonComponent from "@/components/button/DepressedTooltipButton.vue";
 
 export default {
 	name: "ShowCaseAppBarComponent",

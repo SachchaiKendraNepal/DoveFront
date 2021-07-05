@@ -152,8 +152,8 @@ import {mapGetters} from "vuex";
 export default {
 	name: "EventMultimedias",
 	components: {
-		YoutubeIframe: () => import("@/components/YoutubeIframe"),
-		YoutubePlayList: () => import("@/components/YoutubePlayList"),
+		YoutubeIframe: () => import("@/components/multimedia/YoutubeIframe.vue"),
+		YoutubePlayList: () => import("@/components/multimedia/YoutubePlayList.vue"),
 		FileUpload: VueUploadComponent,
 	},
 	data: () => ({

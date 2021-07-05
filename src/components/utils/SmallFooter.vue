@@ -1,8 +1,11 @@
 <template>
-	<v-footer padless>
+	<v-footer padless
+		:color="color"
+	>
 		<v-col
 			class="text-center"
 			cols="12"
+			style="font-size: 12px"
 		>
 			©️ {{ new Date().getFullYear() }} — <strong>Ishworiya Marg Bhajan Mandal Sachchai Kendra Nepal</strong>
 		</v-col>
@@ -11,7 +14,13 @@
 
 <script>
 export default {
-	name: "SmallFooter"
+	name: "SmallFooter",
+	props: {
+		color: {
+			type: String,
+			default: null
+		}
+	}
 }
 </script>
 

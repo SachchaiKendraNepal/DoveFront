@@ -127,8 +127,8 @@
 	</v-card>
 </template>
 <script>
-import Snack from "@/mixins/Snack";
-import ArticleActions from "@/mixins/ArticleActions";
+import Snack from "@/mixins/Snack.js";
+import ArticleActions from "@/mixins/ArticleActions.js";
 
 export default {
 	name: "ArticleCard",

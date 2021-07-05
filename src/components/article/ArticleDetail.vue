@@ -204,11 +204,11 @@
 </template>
 <script>
 import YoutubeIframe from "@/components/multimedia/YoutubeIframe.vue";
-import ArticleCommentDetail from "@/views/article/ArticleCommentsDetail";
+import ArticleCommentDetail from "@/views/article/ArticleCommentsDetail.vue";
 import {mapGetters} from "vuex";
-import ArticleActions from "@/mixins/ArticleActions";
-import Snack from "@/mixins/Snack";
-import SmallFooter from "@/components/SmallFooter.vue";
+import ArticleActions from "@/mixins/ArticleActions.js";
+import Snack from "@/mixins/Snack.js";
+import SmallFooter from "@/components/utils/SmallFooter.vue";
 const editorJsHtml = require("editorjs-html");
 
 export default {

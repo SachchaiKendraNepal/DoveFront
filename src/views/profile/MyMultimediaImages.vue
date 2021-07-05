@@ -78,8 +78,8 @@
 	</v-card>
 </template>
 <script>
-import CardImage from "@/components/CardImage.vue";
-import StartAPostComponent from "@/components/StartPost.vue";
+import CardImage from "@/components/multimedia/CardImage.vue";
+import StartAPostComponent from "@/components/feeds/StartPost.vue";
 
 export default {
 	name: "MyMultimediaImages",

@@ -291,8 +291,8 @@ export default {
 	name: "FollowerDetailView",
 	components: {
 		PermissionTable: () => import("@/components/PermissionTable"),
-		FollowerArticle: () => import("@/components/Article"),
-		FollowerMultimedia: () => import("@/components/Multimedia"),
+		FollowerArticle: () => import("@/components/article/Article.vue"),
+		FollowerMultimedia: () => import("@/components/multimedia/Multimedia.vue"),
 		DetailViewHeader: () => import("@/components/DetailViewHeader"),
 		DetailViewExplorer: () => import("@/components/DetailViewExplorer")
 	},

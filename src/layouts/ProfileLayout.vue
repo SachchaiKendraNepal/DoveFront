@@ -97,9 +97,9 @@
 </template>
 
 <script>
-import ProfileHeaderTab from "@/components/ProfileHeaderTab";
+import ProfileHeaderTab from "@/components/profile/ProfileHeaderTab.vue";
 import SidebarList from "@/views/profile/SidebarList";
-import TheSnackbar from "@/components/TheSnackbar";
+import TheSnackbar from "@/components/utils/TheSnackbar.vue";
 import ProfileDropdown from "@/views/home/ProfileDropdown";
 import {mapGetters} from "vuex";
 import Snack from "@/mixins/Snack";
@@ -111,7 +111,7 @@ export default {
 		TheSnackbar,
 		SidebarList,
 		ProfileHeaderTab,
-		ScrollUp: () => import("@/components/ScrollTop")
+		ScrollUp: () => import("@/components/utils/ScrollTop.vue")
 	},
 	mixins: [Snack],
 	data: () => ({

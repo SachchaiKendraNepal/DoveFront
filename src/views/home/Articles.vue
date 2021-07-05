@@ -37,13 +37,13 @@
 
 <script>
 import {mapGetters} from "vuex";
-import NoHomeData from "@/components/NoHomeData.vue";
+import NoHomeData from "@/components/feeds/NoHomeData.vue";
 
 export default {
 	name: "Articles",
 	components: {
 		NoHomeData,
-		ArticleCard: () => import("@/components/ArticleCard"),
+		ArticleCard: () => import("@/components/article/ArticleCard.vue"),
 	},
 	data: () => ({
 		loading: false,

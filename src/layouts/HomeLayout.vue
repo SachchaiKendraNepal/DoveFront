@@ -83,14 +83,14 @@
 					</v-col>
 				</v-row>
 			</v-container>
-			<scroll-up />
+			<scroll-up color="#91348e" />
 			<home-footer />
 		</v-main>
 	</v-card>
 </template>
 
 <script>
-import TheSnackbar from "@/components/TheSnackbar";
+import TheSnackbar from "@/components/utils/TheSnackbar.vue";
 import HomeTabs from "@/views/home/Tabs";
 
 export default {
@@ -101,7 +101,7 @@ export default {
 		ProfileDropdown: () => import("@/views/home/ProfileDropdown"),
 		HomeFooter: () => import("@/views/home/Footer"),
 		QuickLinks: () => import("@/views/home/QuickLinks"),
-		ScrollUp: () => import("@/components/ScrollTop")
+		ScrollUp: () => import("@/components/utils/ScrollTop.vue")
 	},
 	data: () => ({
 		homeDrawer: false,

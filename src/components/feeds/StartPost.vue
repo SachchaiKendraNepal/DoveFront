@@ -356,12 +356,12 @@
 </template>
 
 <script>
-import {getFormData} from "@/Helper";
+import {getFormData} from "@/Helper.js";
 
 import APlayer from "vue-aplayer"
 import {mapGetters} from "vuex";
-import YoutubeIframe from "@/components/YoutubeIframe";
-import Snack from "@/mixins/Snack";
+import YoutubeIframe from "@/components/multimedia/YoutubeIframe.vue";
+import Snack from "@/mixins/Snack.js";
 import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {

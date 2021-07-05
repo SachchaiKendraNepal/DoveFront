@@ -191,7 +191,7 @@ import Snack from "@/mixins/Snack.js";
 export default {
 	name: "BasePostDetailComponent",
 	components: {
-		IconWithTooltip: () => import("@/components/IconWithTooltip"),
+		IconWithTooltip: () => import("@/components/button/IconWithTooltip.vue"),
 		PostDetailActionsComponent: () => import("@/views/post/PostDetailActions")
 	},
 	mixins: [Snack],

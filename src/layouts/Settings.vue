@@ -58,10 +58,10 @@
 	</div>
 </template>
 <script>
-import TheSnackbar from "@/components/TheSnackbar";
-import SmallFooter from "@/components/SmallFooter";
+import TheSnackbar from "@/components/utils/TheSnackbar.vue";
+import SmallFooter from "@/components/utils/SmallFooter.vue";
 import AdminSidebar from "@/views/settings/AdminSidebar";
-import ToFeedsPageBtn from "@/components/ToFeedsPageBtn";
+import ToFeedsPageBtn from "@/components/button/ToFeedsPageBtn.vue";
 import ProfileDropdown from "@/views/home/ProfileDropdown";
 
 export default {

@@ -36,7 +36,7 @@ export default {
 	components: {
 		// OrgInfoBar: () => import("@/views/showcase/OrgInfoBar"),
 		AuthPanel: () => import("@/views/showcase/AuthPanel"),
-		ScrollTop: () => import("@/components/ScrollTop"),
+		ScrollTop: () => import("@/components/utils/ScrollTop.vue"),
 		HomeFooter: () => import("@/views/home/Footer")
 	},
 	computed: {

@@ -90,7 +90,7 @@ import {mapGetters} from "vuex";
 export default {
 	name: "EventsHomeComponent",
 	components: {
-		NoHomeData: () => import("@/components/NoHomeData"),
+		NoHomeData: () => import("@/components/feeds/NoHomeData.vue"),
 		EventHomeCard: () => import("@/views/event/EventHomeCard"),
 	},
 	data: () => ({
