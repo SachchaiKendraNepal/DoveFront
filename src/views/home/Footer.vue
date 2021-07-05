@@ -77,7 +77,7 @@
 					</div>
 					<div id="about-kendra">
 						<h4 class="flex text-start">
-							A very constructive and inclusive social network. Open source and radically transparent.
+							Ishworiya Bhajan Mandal Sachchai Kendra Nepal
 						</h4>
 						<v-row class="ma-0 pa-0"
 							align-center
@@ -101,16 +101,16 @@
 							</v-card-actions>
 						</v-row>
 						<h5 class="flex text-start">
-							SACHCHAI community copyright 2019 - 2020
+							Sachchai Community Copyright ©️ 2019 - 2024
 						</h5>
 						<h6 id="built-info"
 							class="flex text-start"
-						>
-							Built on Vuetify -- the open source software that powers SACHCHAI KENDRA NEPAL `Dove` and other inclusive communities.
-						</h6>
-						<h6 class="flex text-start">
-							Made with love and NodeJs.
-						</h6>
+						/>
+						<a style="font-size: .7rem; color: aliceblue">
+							Made with love by <a href="https://github.com/kiranparajuli589"
+								target="_blank"
+							>Kiran Parajuli</a>
+						</a>
 					</div>
 				</v-col>
 				<v-col>
@@ -183,11 +183,13 @@
 
 			<v-divider />
 
-			<v-card-text>
-				<div class="text-right love-text">
-					{{ new Date().getFullYear() }} — <strong>Ishworiya Bhajan Mandal Sachchai Kendra Nepal</strong> - made with ❤️ by <strong>Kiran Parajuli</strong>.
-				</div>
-			</v-card-text>
+			<div class="d-flex justify-center">
+				<p class="love-text">
+					{{ new Date().getFullYear() }} — <strong>Ishworiya Bhajan Mandal Sachchai Kendra Nepal</strong> - made with ❤️ by <a href="https://github.com/kiranparajuli589"
+						target="_blank"
+					>Kiran Parajuli</a>.
+				</p>
+			</div>
 		</v-card>
 	</v-card>
 </template>
@@ -208,21 +210,20 @@ export default {
 		],
 		firstList: [
 			{text: "Home"},
-			{text: "Maps"},
-			{text: "Bookmarks"},
+			{text: "Youtube"},
 			{text: "Events"},
 			{text: "Videos"},
-			{text: "Tags"},
+			{text: "Maps"},
 		],
 		secondList: [
-			{text: "Code of Conduct"},
 			{text: "FAQ"},
-			{text: "Our Artifacts"},
+			{text: "About Us"},
 			{text: "Sponsors"},
-			{text: "About"},
-			{text: "Privacy Policy"},
+			{text: "Our Services"},
+			{text: "Code of Conduct"},
 		],
 		thirdList: [
+			{text: "Privacy Policy"},
 			{text: "Terms of use"},
 			{text: "Contact Us"},
 			{text: "Feedbacks"},
@@ -282,9 +283,10 @@ export default {
 	fill: #f59dc9;
 }
 .love-text {
+	font-size: 12px;
 	position: absolute;
-	bottom: 20px;
-	right: 80px;
+	bottom: 0;
+	text-align: center;
 }
 .become-follower {
 	font-size: 4rem;
