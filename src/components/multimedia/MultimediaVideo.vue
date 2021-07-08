@@ -1,6 +1,6 @@
 <template>
 	<v-card min-height="40vh"
-		class="mx-2"
+		class="my-2"
 	>
 		<video-player
 			:poster="video.poster"
@@ -11,68 +11,7 @@
 			{{ video.title }}
 		</v-card-title>
 		<v-card-subtitle>{{ video.subtitle }}</v-card-subtitle>
-		<v-card-actions class="pa-2 pt-0 flex-wrap justify-space-between">
-			<v-btn
-				:small="$vuetify.breakpoint.width < 400"
-				:x-small="$vuetify.breakpoint.width < 330"
-				class="ma-1"
-				depressed
-				color="#953b93"
-				dark
-				@click="dialog=true"
-			>
-				<v-icon
-					:small="$vuetify.breakpoint.width < 400"
-				>
-					mdi-pencil
-				</v-icon>
-			</v-btn>
-			<v-btn depressed
-				class="ma-1"
-				:small="$vuetify.breakpoint.width < 400"
-				:x-small="$vuetify.breakpoint.width < 330"
-			>
-				<v-icon
-					:small="$vuetify.breakpoint.width < 400"
-				>
-					mdi-heart-outline
-				</v-icon>
-			</v-btn>
-			<v-btn depressed
-				class="ma-1"
-				:small="$vuetify.breakpoint.width < 400"
-				:x-small="$vuetify.breakpoint.width < 330"
-			>
-				<v-icon
-					:small="$vuetify.breakpoint.width < 400"
-				>
-					mdi-comment-outline
-				</v-icon>
-			</v-btn>
-			<v-btn depressed
-				class="ma-1"
-				:small="$vuetify.breakpoint.width < 400"
-				:x-small="$vuetify.breakpoint.width < 330"
-			>
-				<v-icon
-					:small="$vuetify.breakpoint.width < 400"
-				>
-					mdi-share
-				</v-icon>
-			</v-btn>
-			<v-spacer />
-			<v-btn depressed
-				class="ma-1"
-				:small="$vuetify.breakpoint.width < 400"
-				:x-small="$vuetify.breakpoint.width < 330"
-			>
-				<v-icon
-					:small="$vuetify.breakpoint.width < 400"
-				>
-					mdi-bookmark-outline
-				</v-icon>
-			</v-btn>
-		</v-card-actions>
+		<multimedia-action />
 		<v-dialog v-model="dialog"
 			max-width="500"
 		>
@@ -151,9 +90,10 @@
 import VideoPlayer from "@/components/multimedia/VideoPlayer.vue";
 import FabButton from "@/components/button/FabButton.vue";
 import Snack from "@/mixins/Snack.js";
+import MultimediaAction from "@/components/multimedia/MultimediaAction.vue";
 export default {
 	name: "MultimediaVideo",
-	components: {FabButton, VideoPlayer},
+	components: {MultimediaAction, FabButton, VideoPlayer},
 	mixins: [Snack],
 	props: {
 		video: {

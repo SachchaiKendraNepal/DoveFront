@@ -1,8 +1,9 @@
 <template>
 	<v-card
 		:height="height"
+		max-width="100%"
 		dark
-		class="my-2"
+		class="ma-0 pa-0"
 	>
 		<video
 			:poster="poster"
@@ -24,7 +25,7 @@ export default {
 	props: {
 		height: {
 			type: String,
-			default: "400"
+			default: "40vh"
 		},
 		src: {
 			type: String,
