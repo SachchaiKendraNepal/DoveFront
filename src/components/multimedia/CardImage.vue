@@ -4,9 +4,17 @@
 		:height="height"
 		:max-width="maxWidth"
 	>
-		<v-dialog v-model="fullscreen">
-			<v-card>
-				<v-img :src="src">
+		<v-dialog v-model="fullscreen"
+			fullscreen
+		>
+			<v-card height="100%"
+				dark
+				tile
+			>
+				<v-img :src="src"
+					height="100%"
+					contain
+				>
 					<v-btn fab
 						dark
 						x-small
@@ -23,7 +31,7 @@
 			class="card-image"
 			:src="src"
 			:height="height"
-			contain
+			:contain="contain"
 		>
 			<template #default>
 				<v-btn icon
@@ -54,6 +62,10 @@ export default {
 		maxWidth: {
 			type: String,
 			default: "100%"
+		},
+		contain: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data: () => ({
@@ -64,6 +76,7 @@ export default {
 
 <style lang="scss">
 .card-image {
+	border-radius: 4px;
 	transition: visibility ease 1s;
 	.action-btn {
 		visibility: hidden;
