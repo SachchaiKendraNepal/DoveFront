@@ -15,9 +15,11 @@ import moment from "moment"
 import helper from "@/Helper"
 import constants from "@/./constants"
 import "video.js/dist/video-js.css"
+import VueYoutube from "vue-youtube"
 
 Vue.use(VueBus)
 Vue.use(moment)
+Vue.use(VueYoutube)
 
 Vue.component(APlayer)
 Vue.component("ProfileNoContent", () =>
