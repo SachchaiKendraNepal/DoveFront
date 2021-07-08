@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0d748a"],{"75c9":function(e,n,a){"use strict";a.r(n);var t=function(){var e=this,n=e.$createElement,a=e._self._c||n;return a("div")},c=[],r={name:"VDCWardsTable"},s=r,u=a("2877"),l=Object(u["a"])(s,t,c,!1,null,"0084646f",null);n["default"]=l.exports}}]);
+//# sourceMappingURL=chunk-2d0d748a.b48df623.js.map
