@@ -51,7 +51,7 @@
 				dense
 				hide-details="auto"
 				placeholder="Add a comment"
-				@keyup="submitIfEnterIsPressed"
+				@keydown.enter="addCommentToPost"
 			>
 				<template #append>
 					<v-icon class="send-icon-button"
@@ -99,11 +99,6 @@ export default {
 			else if (response.count <= 6) response = response.results
 			else if (response.count > 6) response = response.results.slice(0, 6)
 			this.comments = response
-		},
-		async submitIfEnterIsPressed(e) {
-			if (e.keyCode === 13) {
-				await this.addCommentToPost()
-			}
 		},
 		async addCommentToPost() {
 			this.comment.multimedia = this.postId

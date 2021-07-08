@@ -47,7 +47,7 @@
 							prepend-inner-icon="mdi-lock-question"
 							background-color="white"
 							autocomplete="new-password"
-							@keyup="submitIfEnterPressed"
+							@keydown.enter="login"
 						/>
 					</v-col>
 					<v-col class="login-actions"
@@ -131,11 +131,6 @@ export default {
 		}
 	},
 	methods: {
-		submitIfEnterPressed: function (e) {
-			if (e.keyCode === 13) {
-				this.login()
-			}
-		},
 		async login() {
 			try {
 				this.overlay = true

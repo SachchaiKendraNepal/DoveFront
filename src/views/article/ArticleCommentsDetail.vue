@@ -66,7 +66,7 @@
 				solo
 				hide-details="auto"
 				placeholder="Add a comment"
-				@keyup="submitIfEnterIsPressed"
+				@keydown.enter="postComment"
 			>
 				<template #append>
 					<v-icon class="send-icon-button"
@@ -113,11 +113,6 @@ export default {
 			)
 			this.comments = response
 			this.loading = false
-		},
-		async submitIfEnterIsPressed(e) {
-			if (e.keyCode === 13) {
-				await this.addCommentToPost()
-			}
 		},
 		async postComment() {
 			this.comment.article = this.$route.params.id

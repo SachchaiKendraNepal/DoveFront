@@ -11,7 +11,7 @@
 		<template #form>
 			<v-form
 				class="reset-password-form"
-				@submit.prevent="requestReset()"
+				@submit.prevent="requestReset"
 			>
 				<v-row justify="center"
 					align="center"
@@ -33,7 +33,7 @@
 							label="Username/Email"
 							prepend-inner-icon="mdi-account-circle"
 							background-color="white"
-							@keyup="submitIfEnter"
+							@keydown.enter="requestReset"
 						/>
 					</v-col>
 				</v-row>
@@ -41,7 +41,7 @@
 					<v-btn
 						class="my-0"
 						color="primary"
-						@click="requestReset()"
+						@click="requestReset"
 					>
 						Forget Password
 					</v-btn>
@@ -88,9 +88,6 @@ export default {
 		}
 	},
 	methods: {
-		async submitIfEnter(e) {
-			if (e.keyCode === 13) await this.requestReset()
-		},
 		async requestReset() {
 			try {
 				this.overlay = true
