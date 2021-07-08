@@ -1,8 +1,8 @@
 <template>
 	<v-card-actions class="pa-2 pt-0 flex-wrap justify-space-between">
 		<v-btn
-			:small="$vuetify.breakpoint.width < 400"
-			:x-small="$vuetify.breakpoint.width < 330"
+			:small="ifScreenWidthIsLessThanSmall"
+			:x-small="ifScreenWidthIsLessThanXSmall"
 			class="ma-1"
 			depressed
 			color="#953b93"
@@ -10,40 +10,40 @@
 			@click="dialog=true"
 		>
 			<v-icon
-				:small="$vuetify.breakpoint.width < 400"
+				:small="ifScreenWidthIsLessThanSmall"
 			>
 				mdi-pencil
 			</v-icon>
 		</v-btn>
 		<v-btn depressed
 			class="ma-1"
-			:small="$vuetify.breakpoint.width < 400"
-			:x-small="$vuetify.breakpoint.width < 330"
+			:small="ifScreenWidthIsLessThanSmall"
+			:x-small="ifScreenWidthIsLessThanXSmall"
 		>
 			<v-icon
-				:small="$vuetify.breakpoint.width < 400"
+				:small="ifScreenWidthIsLessThanSmall"
 			>
 				mdi-heart-outline
 			</v-icon>
 		</v-btn>
 		<v-btn depressed
 			class="ma-1"
-			:small="$vuetify.breakpoint.width < 400"
-			:x-small="$vuetify.breakpoint.width < 330"
+			:small="ifScreenWidthIsLessThanSmall"
+			:x-small="ifScreenWidthIsLessThanXSmall"
 		>
 			<v-icon
-				:small="$vuetify.breakpoint.width < 400"
+				:small="ifScreenWidthIsLessThanSmall"
 			>
 				mdi-comment-outline
 			</v-icon>
 		</v-btn>
 		<v-btn depressed
 			class="ma-1"
-			:small="$vuetify.breakpoint.width < 400"
-			:x-small="$vuetify.breakpoint.width < 330"
+			:small="ifScreenWidthIsLessThanSmall"
+			:x-small="ifScreenWidthIsLessThanXSmall"
 		>
 			<v-icon
-				:small="$vuetify.breakpoint.width < 400"
+				:small="ifScreenWidthIsLessThanSmall"
 			>
 				mdi-share
 			</v-icon>
@@ -51,11 +51,11 @@
 		<v-spacer />
 		<v-btn depressed
 			class="ma-1"
-			:small="$vuetify.breakpoint.width < 400"
-			:x-small="$vuetify.breakpoint.width < 330"
+			:small="ifScreenWidthIsLessThanSmall"
+			:x-small="ifScreenWidthIsLessThanXSmall"
 		>
 			<v-icon
-				:small="$vuetify.breakpoint.width < 400"
+				:small="ifScreenWidthIsLessThanXSmall"
 			>
 				mdi-bookmark-outline
 			</v-icon>
@@ -68,7 +68,14 @@ export default {
 	name: "MultimediaAction",
 	props: {},
 	data: () => ({}),
-	computed: {},
+	computed: {
+		ifScreenWidthIsLessThanXSmall() {
+			return this.$vuetify.breakpoint.width < 330
+		},
+		ifScreenWidthIsLessThanSmall() {
+			return this.$vuetify.breakpoint.width < 400
+		}
+	},
 	methods: {}
 }
 </script>

@@ -3,7 +3,6 @@
 		class="my-2"
 	>
 		<video-player
-			class="pt-0"
 			:poster="video.poster"
 			:src="video.video"
 			height="40vh"

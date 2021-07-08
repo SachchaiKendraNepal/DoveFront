@@ -48,7 +48,6 @@
 						<card-img :src="p.image"
 							height="35vh"
 							:contain="false"
-							style="border-radius: 4px;"
 						/>
 						<div class="py-1" />
 						<multimedia-action />
@@ -57,11 +56,10 @@
 			</v-tab-item>
 			<v-tab-item>
 				<v-card
-					tile
 					min-height="75vh"
 					color="transparent"
 				>
-					<div class="py-2" />
+					<div class="py-1" />
 					<v-text-field label="search"
 						name="search"
 						solo hide-details="auto"
