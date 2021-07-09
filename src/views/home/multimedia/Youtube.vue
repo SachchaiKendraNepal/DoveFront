@@ -17,12 +17,14 @@
 
 <script>
 import {mapGetters} from "vuex";
+import MultimediaYoutube from "@/components/multimedia/MultimediaYoutube.vue";
+import NoMultimediaCard from "@/components/multimedia/NoMultimediaCard.vue";
 
 export default {
 	name: "Youtube",
 	components: {
-		NoMultimediaCard: import("@/components/multimedia/NoMultimediaCard.vue"),
-		MultimediaYoutube: import("@/components/multimedia/MultimediaYoutube.vue")
+		NoMultimediaCard,
+		MultimediaYoutube,
 	},
 	computed: {
 		...mapGetters({
