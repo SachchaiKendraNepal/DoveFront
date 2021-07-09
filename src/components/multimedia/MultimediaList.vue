@@ -5,75 +5,77 @@
 		>
 			<base-post-card :post="post">
 				<template #media>
-					<v-row class="ma-0 pa-0">
-						<v-col cols="12"
-							class="py-0"
+					<v-col cols="12"
+						class="pt-0 px-2"
+					>
+						<v-card height="40vh"
+							dark
 						>
-							<v-card height="40vh"
-								dark
+							<v-carousel height="40vh"
+								hide-delimiters
+								class="media-carousel"
 							>
-								<v-carousel height="40vh"
-									hide-delimiters
-									show-arrows-on-hover
+								<template #prev="{ on, attrs }">
+									<v-btn
+										v-show="moreThanOneItem(post)"
+										class="carousel-btn"
+										v-bind="attrs"
+										icon
+										v-on="on"
+										@click="pauseAllPlaying()"
+									>
+										<v-icon>mdi-chevron-left</v-icon>
+									</v-btn>
+								</template>
+								<template #next="{ on, attrs }">
+									<v-btn
+										v-show="moreThanOneItem(post)"
+										class="carousel-btn"
+										v-bind="attrs"
+										icon
+										v-on="on"
+										@click="pauseAllPlaying()"
+									>
+										<v-icon>mdi-chevron-right</v-icon>
+									</v-btn>
+								</template>
+								<v-carousel-item v-for="image in post['multimedia_images']"
+									:key="image.image"
+									:src="image.image"
+								/>
+								<v-carousel-item v-for="video in post['multimedia_videos']"
+									:key="video.video"
 								>
-									<template #prev="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											icon
-											v-on="on"
-											@click="pauseAllPlaying()"
-										>
-											<v-icon>mdi-chevron-left</v-icon>
-										</v-btn>
-									</template>
-									<template #next="{ on, attrs }">
-										<v-btn
-											v-bind="attrs"
-											icon
-											v-on="on"
-											@click="pauseAllPlaying()"
-										>
-											<v-icon>mdi-chevron-right</v-icon>
-										</v-btn>
-									</template>
-									<v-carousel-item v-for="image in post['multimedia_images']"
-										:key="image.image"
-										:src="image.image"
-									/>
-									<v-carousel-item v-for="video in post['multimedia_videos']"
-										:key="video.video"
+									<v-card
+										height="40vh"
+										max-width="100%"
+										dark
+										class="ma-0 pa-0"
 									>
-										<v-card
-											height="40vh"
-											max-width="100%"
-											dark
-											class="ma-0 pa-0"
-										>
-											<video
-												:poster="video.poster"
-												controls
-												height="100%"
-												width="100%"
-												:src="video.video"
-												@play="onPlay"
-											/>
-										</v-card>
-									</v-carousel-item>
-									<v-carousel-item v-for="video in post['multimedia_video_urls']"
-										:key="video.video_url"
-									>
-										<youtube
-											ref="yt"
+										<video
+											:poster="video.poster"
+											controls
 											height="100%"
 											width="100%"
-											:video-id="$youtube.getIdFromUrl(video.video_url)"
-											@playing="playing"
+											:src="video.video"
+											@play="onPlay"
 										/>
-									</v-carousel-item>
-								</v-carousel>
-							</v-card>
-						</v-col>
-					</v-row>
+									</v-card>
+								</v-carousel-item>
+								<v-carousel-item v-for="video in post['multimedia_video_urls']"
+									:key="video.video_url"
+								>
+									<youtube
+										ref="yt"
+										height="100%"
+										width="100%"
+										:video-id="$youtube.getIdFromUrl(video.video_url)"
+										@playing="playing"
+									/>
+								</v-carousel-item>
+							</v-carousel>
+						</v-card>
+					</v-col>
 				</template>
 			</base-post-card>
 		</div>
@@ -103,6 +105,16 @@ export default {
 		async pauseAllPlaying() {
 			await this.pauseAllYt()
 			await this.pauseAllPlayingHTMLVideos()
+		},
+		moreThanOneItem(media) {
+			const mediaImages = media["multimedia_images"]
+			const mediaVideos = media["multimedia_videos"]
+			const mediaUrls = media["multimedia_video_urls"]
+			let temp = []
+			temp = temp.concat(mediaImages)
+			temp = temp.concat(mediaVideos)
+			temp = temp.concat(mediaUrls)
+			return temp.length > 1
 		}
 	}
 }
@@ -131,6 +143,16 @@ export default {
 		position: absolute;
 		top: 2%;
 		right: 2%;
+	}
+}
+.media-carousel {
+	.carousel-btn {
+		display: none;
+	}
+}
+.media-carousel:hover {
+	.carousel-btn {
+		display: block;
 	}
 }
 </style>
