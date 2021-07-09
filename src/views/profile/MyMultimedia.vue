@@ -27,7 +27,7 @@ import {mapGetters} from "vuex";
 export default {
 	name: "MyMultimedia",
 	components: {
-		Multimedia: () => import("@/components/multimedia/Multimedia.vue"),
+		Multimedia: () => import("@/components/multimedia/MultimediaList.vue"),
 	},
 	computed: {
 		...mapGetters({

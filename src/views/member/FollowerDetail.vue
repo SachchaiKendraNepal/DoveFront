@@ -292,7 +292,7 @@ export default {
 	components: {
 		PermissionTable: () => import("@/components/PermissionTable"),
 		FollowerArticle: () => import("@/components/article/Article.vue"),
-		FollowerMultimedia: () => import("@/components/multimedia/Multimedia.vue"),
+		FollowerMultimedia: () => import("@/components/multimedia/MultimediaList.vue"),
 		DetailViewHeader: () => import("@/components/DetailViewHeader"),
 		DetailViewExplorer: () => import("@/components/DetailViewExplorer")
 	},
