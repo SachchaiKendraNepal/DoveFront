@@ -26,7 +26,7 @@
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<v-list-item-action>
-				<v-btn v-if="extraStatus['pinned']"
+				<v-btn v-if="post.is_pinned"
 					icon
 					@click="revokePin"
 				>
@@ -53,7 +53,9 @@
 
 		<slot name="media" />
 
-		<v-card-text class="post-description my-0 pt-2 pb-0">
+		<v-card-text v-if="post.description"
+			class="post-description my-0 pt-2 pb-0"
+		>
 			{{ post.description }}
 		</v-card-text>
 
@@ -181,10 +183,12 @@ export default {
 			await this.performPostAction("removeBookmark")
 		},
 		async setPin() {
-			await this.performPostAction("togglePinStatus")
+			await this.$store.dispatch("multimedia/pin", { id: this.post.id })
+			await this.$store.dispatch("multimedia/filter", {is_approved: true})
 		},
 		async revokePin() {
-			await this.performPostAction("revokePinStatus")
+			await this.$store.dispatch("multimedia/revokePinStatus", { id: this.post.id })
+			await this.$store.dispatch("multimedia/filter", {is_approved: true})
 		}
 	}
 }
