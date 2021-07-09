@@ -41,7 +41,29 @@ const routes = [
 			{
 				path: "multimedia",
 				name: "SACHCHAI NEPAL MULTIMEDIAS",
-				component: () => import("@/views/home/Multimedias")
+				component: () => import("@/views/home/Multimedias"),
+				children: [
+					{
+						path: "",
+						name: "Multimedia Images",
+						component: () => import("@/views/home/multimedia/Pins.vue")
+					},
+					{
+						path: "images",
+						name: "Multimedia Photos",
+						component: () => import("@/views/home/multimedia/Images")
+					},
+					{
+						path: "videos",
+						name: "Multimedia Videos",
+						component: () => import("@/views/home/multimedia/Videos")
+					},
+					{
+						path: "youtube",
+						name: "Youtube",
+						component: () => import("@/views/home/multimedia/Youtube")
+					}
+				]
 			},
 			{
 				path: "event",
