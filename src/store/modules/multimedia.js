@@ -192,7 +192,7 @@ const actions = {
 		}
 	},
 
-	async togglePinStatus({}, {id: id}) {
+	async pin({}, {id: id}) {
 		try {
 			await $api.post(util.format(multimediaUrl.togglePin, id))
 			return true;
@@ -203,7 +203,7 @@ const actions = {
 
 	async revokePinStatus({}, {id: id}) {
 		try {
-			await $api.post(util.format(multimediaUrl.togglePin, id))
+			await $api.delete(util.format(multimediaUrl.togglePin, id))
 			return true;
 		} catch (e) {
 			return false
