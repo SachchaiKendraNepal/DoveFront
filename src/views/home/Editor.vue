@@ -246,8 +246,8 @@ export default {
 				if (this.onGoingArticle.tags) {
 					this.tags = this.onGoingArticle.tags.split(",")
 				}
-				if (this.onGoingArticle["cover_images"].length > 0) {
-					this.cover = this.onGoingArticle["cover_images"][0]
+				if (this.onGoingArticle["cover_images"]) {
+					this.cover = this.onGoingArticle["cover_images"]
 				}
 			}
 		},
