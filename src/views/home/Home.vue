@@ -26,17 +26,13 @@
 					sm="8"
 				>
 					<add-post-box />
-					<no-home-data v-if="multimedias.count === 0"
+					<no-home-data v-if="multimedias.count === 0 || !multimedias.results"
 						:image="require('@/assets/noPostsImg.jpg')"
 					/>
 					<div v-else>
-						<div v-for="post in multimedias.results"
-							:key="post.id" class="mb-2"
-						>
-							<multimedia
-								:post="post"
-							/>
-						</div>
+						<multimedia-list
+							:posts="multimedias.results"
+						/>
 					</div>
 				</v-col>
 				<v-col
@@ -55,14 +51,17 @@
 
 <script>
 import {mapGetters} from "vuex";
+import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
+
 export default {
 	name: "HomeComponent",
 	components: {
+		MultimediaList: () => import("@/components/multimedia/MultimediaList.vue"),
 		NoHomeData: () => import("@/components/feeds/NoHomeData.vue"),
 		HomeAdsColumnView: () => import("@/views/home/Ads"),
-		Multimedia: () => import("@/components/multimedia/Multimedia.vue"),
 		AddPostBox: () => import("@/views/home/AddPostBox")
 	},
+	mixins: [HtmlVideoMixin],
 	data: () => ({
 		loading: null,
 		overlay: null,
@@ -70,7 +69,7 @@ export default {
 	computed: {
 		...mapGetters({
 			multimedias: "multimedia/list"
-		}),
+		})
 	},
 	async created() {
 		this.loading = true
@@ -80,6 +79,6 @@ export default {
 			this.overlay = false
 		}
 		this.loading = false
-	}
+	},
 }
 </script>

@@ -6,7 +6,7 @@
 		color="transparent"
 	>
 		<div v-if="$vuetify.breakpoint.smAndUp"
-			class="py-4"
+			class="py-2"
 		/>
 
 		<v-card color="#90328e14">
@@ -22,6 +22,7 @@
 				<v-tab
 					v-for="item in items"
 					:key="item.title"
+					:to="item.to"
 				>
 					<v-icon>{{ item.icon }}</v-icon>
 					<span class="pl-1">{{ item.title }}</span>
@@ -32,99 +33,27 @@
 		<v-tabs-items v-model="tab"
 			style="background-color: transparent"
 		>
-			<v-tab-item>
-				<v-card
-					min-height="75vh"
-					color="transparent"
-				>
-					<div v-if="posts.length === 0"
-						class="d-flex justify-center pa-2"
-					>
-						<v-chip>Image database is empty</v-chip>
-					</div>
-					<v-card v-for="p in images"
-						:key="p.id" class="my-2 mx-1"
-					>
-						<card-img :src="p.image"
-							height="35vh"
-							:contain="false"
-						/>
-						<div class="py-1" />
-						<multimedia-action />
-					</v-card>
-				</v-card>
-			</v-tab-item>
-			<v-tab-item>
-				<v-card
-					min-height="75vh"
-					color="transparent"
-				>
-					<div class="py-1" />
-					<v-text-field label="search"
-						name="search"
-						solo hide-details="auto"
-						prepend-inner-icon="mdi-magnify"
-					/>
-					<no-home-data v-if="videos.length === 0"
-						:image="require('@/assets/noEventVideos.jpg')"
-					/>
-					<multimedia-video
-						v-for="video in videos"
-						v-else
-						:key="video.id"
-						class="mx-1"
-						:video="video"
-					/>
-				</v-card>
-			</v-tab-item>
-			<v-tab-item>
-				<v-card
-					flat
-					min-height="75vh"
-					color="transparent"
-				>
-					<div v-if="youtube.length === 0"
-						class="d-flex justify-center pa-2"
-					>
-						<v-chip>Youtube database is empty.</v-chip>
-					</div>
-
-					<multimedia-youtube
-						class="mx-1"
-						:videos="youtube"
-					/>
-				</v-card>
-			</v-tab-item>
+			<router-view />
 		</v-tabs-items>
-		<div class="py-4" />
 	</v-card>
 </template>
 <script>
 import {mapGetters} from "vuex";
 import NoHomeData from "@/components/feeds/NoHomeData.vue";
-import MultimediaVideo from "@/components/multimedia/MultimediaVideo.vue";
-import MultimediaYoutube from "@/components/multimedia/MultimediaYoutube.vue";
-import MultimediaAction from "@/components/multimedia/MultimediaAction.vue";
 
 export default {
 	name: "Multimedias",
 	components: {
-		MultimediaAction,
-		MultimediaYoutube,
-		MultimediaVideo,
-		NoHomeData,
 	},
 	data: () => ({
 		posts: [],
-		images: [],
-		videos: [],
-		youtube: [],
 		loading: false,
 		tab: null,
 		items: [
-			{icon: "mdi-image", title: "Images"},
-			{icon: "mdi-video", title: "Videos"},
-			{icon: "mdi-youtube", title: "Youtube"},
+			{icon: "mdi-pin", title: "Pins", to: "/home/multimedia"},
+			{icon: "mdi-image", title: "Images", to: "/home/multimedia/images"},
+			{icon: "mdi-video", title: "Videos", to: "/home/multimedia/videos"},
+			{icon: "mdi-youtube", title: "Youtube", to: "/home/multimedia/youtube"},
 		],
 	}),
 	computed: {
@@ -138,21 +67,8 @@ export default {
 			await this.$store.dispatch("multimedia/filter", {is_approved: true})
 		}
 		this.posts = this.posts.concat(this.multimedias.results)
-		this.prepareMultimedias()
 		this.loading = false
 	},
-	methods: {
-		prepareMultimedias() {
-			this.videos = []
-			this.images = []
-			this.youtube = []
-			this.multimedias.results.forEach(multimedia => {
-				this.images = this.images.concat(multimedia["multimedia_images"])
-				this.videos = this.videos.concat(multimedia["multimedia_videos"])
-				this.youtube = this.youtube.concat(multimedia["multimedia_video_urls"])
-			})
-		},
-	}
 }
 </script>
 
