@@ -57,8 +57,32 @@
 				</v-list-item-content>
 			</template>
 
+			<v-list-item-group
+				v-if="item.title === 'Sachchai'"
+			>
+				<v-list-item
+					v-for="child in item.items"
+					:key="child.title"
+				>
+					<v-list-item-icon>
+						<v-icon color="gery-darken-1">
+							{{ child.icon }}
+						</v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title class="link-subtitle">
+							<a :href="child.to"
+								target="_blank"
+								class="link"
+							>{{ child.title.toUpperCase() }}</a>
+						</v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+			</v-list-item-group>
+
 			<v-list-item
 				v-for="child in item.items"
+				v-else
 				:key="child.title"
 				:to="child.to"
 			>
@@ -84,13 +108,22 @@ export default {
 	data: () => ({
 		items: [
 			{
+				action: "mdi-bird",
+				items: [
+					{ title: "Youtube", icon: "mdi-youtube", to: "https://www.youtube.com/channel/UCJciQdMbWCr-hPmVWu9HVyw" },
+					{ title: "Facebook", icon: "mdi-facebook", to: "/profile/articles" },
+					{ title: "Instagram", icon: "mdi-instagram", to: "/profile/images" }
+				],
+				title: "Sachchai",
+			},
+			{
 				action: "mdi-star-circle",
 				items: [
-					{ title: "My Profile", icon: "mdi-account-circle", to: "/profile/home" },
-					{ title: "My Posts", icon: "mdi-post", to: "/profile/articles" },
-					{ title: "My Photos", icon: "mdi-image", to: "/profile/images" },
-					{ title: "My Medias", icon: "mdi-video-vintage", to: "/profile/multimedias" },
-					{ title: "My Bookmarks", icon: "mdi-bookmark", to: "/profile/bookmarks" },
+					{ title: "Profile", icon: "mdi-account-circle", to: "/profile/home" },
+					{ title: "Posts", icon: "mdi-post", to: "/profile/articles" },
+					{ title: "Photos", icon: "mdi-image", to: "/profile/images" },
+					{ title: "Multimedias", icon: "mdi-video-vintage", to: "/profile/multimedias" },
+					{ title: "Events", icon: "mdi-video-vintage", to: "/profile/events" },
 				],
 				title: "My Links",
 			},
@@ -117,8 +150,9 @@ export default {
 				action: "mdi-video-vintage",
 				items: [
 					{ title: "Sounds", icon: "mdi-music-box" },
-					{ title: "Photos", icon: "mdi-image" },
-					{ title: "Videos", icon: "mdi-video-box" },
+					{ title: "Photos", icon: "mdi-image", to: "/home/multimedia/images" },
+					{ title: "Videos", icon: "mdi-video-box", to: "/home/multimedia/videos" },
+					{ title: "Youtube", icon: "mdi-youtube", to: "/home/multimedia/youtube" },
 				],
 				title: "Multimedia",
 			},
@@ -176,5 +210,10 @@ export default {
 }
 .link-subtitle {
 	font-size: .875rem;
+}
+.link {
+	text-decoration: none;
+	color: inherit;
+	font-weight: inherit;
 }
 </style>
