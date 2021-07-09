@@ -1,7 +1,6 @@
 <template>
 	<v-dialog
 		v-model="dialog"
-		hide-overlay
 		class="start-post-dialog"
 		max-width="600"
 	>
@@ -56,47 +55,25 @@
 				justify="start"
 				align="center"
 			>
-				<v-col
-					cols="2"
-					class="pa-0 d-flex av-col"
-					:class="
-						$vuetify.breakpoint.width < 524 && $vuetify.breakpoint.width > 315
-							? 'pl-3'
-							: $vuetify.breakpoint.width < 315 && $vuetify.breakpoint.width > 237
-								? 'pl-3'
-								: $vuetify.breakpoint.width < 236 && $vuetify.breakpoint.width > 100
-									? 'pl-4'
-									: 'justify-center'
-					"
+				<v-col cols="12"
+					class="py-0"
 				>
-					<v-avatar id="av" class="elevation-4"
-						size="70"
+					<v-list two-line
+						class="py-0"
 					>
-						<v-img
-							v-if="$helper.getCurrentProfileImage()"
-							:src="$helper.getCurrentProfileImage()"
-						/>
-						<v-img v-else
-							:src="defaultProfileImage"
-						/>
-					</v-avatar>
-				</v-col>
-				<v-col
-					v-if="$vuetify.breakpoint.width > 180"
-					cols="10"
-					class="pa-0 d-flex"
-					:class="
-						$vuetify.breakpoint.width < 524 && $vuetify.breakpoint.width > 461
-							? 'justify-start pl-3'
-							:	$vuetify.breakpoint.width < 460 && $vuetify.breakpoint.width > 333
-								? 'justify-start pl-8'
-								: $vuetify.breakpoint.width < 334
-									? 'pl-12'
-									: 'justify-start'
-					"
-				>
-					<v-list two-line>
 						<v-list-item class="text-start pa-0">
+							<v-list-item-avatar id="av"
+								size="70"
+								class="elevation-4"
+							>
+								<v-img
+									v-if="$helper.getCurrentProfileImage()"
+									:src="$helper.getCurrentProfileImage()"
+								/>
+								<v-img v-else
+									:src="defaultProfileImage"
+								/>
+							</v-list-item-avatar>
 							<v-list-item-content class="pa-0">
 								<v-list-item-title
 									style="white-space: normal;"
@@ -123,10 +100,27 @@
 									</v-chip>
 								</v-list-item-subtitle>
 							</v-list-item-content>
+							<v-list-item-action>
+								<v-tooltip bottom>
+									<template #activator="{on, attrs}">
+										<v-btn icon
+											v-bind="attrs"
+											color="red lighten-2"
+											v-on="on"
+											@click="resetPostForm"
+										>
+											<v-icon>mdi-refresh</v-icon>
+										</v-btn>
+									</template>
+									<span>Reset</span>
+								</v-tooltip>
+							</v-list-item-action>
 						</v-list-item>
 					</v-list>
 				</v-col>
-				<v-col cols="12">
+				<v-col cols="12"
+					class="py-0"
+				>
 					<v-text-field
 						id="title"
 						v-model="post.title"
@@ -141,22 +135,52 @@
 						:error-messages="postCreationFormErrors.title"
 					/>
 				</v-col>
-				<v-col cols="12">
-					<v-textarea
-						id="description"
-						v-model="post.description"
-						class="ma-0 pa-0"
-						name="description"
-						label="Description"
-						outlined
-						clearable
-						auto-grow
-						hide-details="auto"
-						counter="2048"
-						placeholder="Write something about your activity, Kiran!"
-						:error-messages="postCreationFormErrors.description"
-					/>
+				<v-col cols="12"
+					class="pt-4"
+					style="position: relative;"
+				>
+					<v-fab-transition>
+						<v-btn v-if="!addDescription"
+							@click="addDescription = true"
+						>
+							<v-icon>mdi-image-text</v-icon>
+							<span v-if="$vuetify.breakpoint.width > 400"
+								class="pl-1"
+							>Add description</span>
+						</v-btn>
+						<v-btn v-else
+							style="position: absolute; right: 3%; top: -20%;"
+							@click="removeDescription"
+						>
+							<v-icon color="red lighten-1">
+								mdi-close
+							</v-icon>
+							<span v-if="$vuetify.breakpoint.width > 400"
+								class="pl-1"
+							>Remove description</span>
+						</v-btn>
+					</v-fab-transition>
 				</v-col>
+				<v-scale-transition>
+					<v-col v-if="addDescription"
+						cols="12"
+					>
+						<v-textarea
+							id="description"
+							v-model="post.description"
+							class="ma-0 pa-0"
+							name="description"
+							label="Description"
+							outlined
+							clearable
+							auto-grow
+							hide-details="auto"
+							counter="2048"
+							placeholder="Write something about your activity, Kiran!"
+							:error-messages="postCreationFormErrors.description"
+						/>
+					</v-col>
+				</v-scale-transition>
 				<v-scale-transition>
 					<v-col v-show="uploadVideo"
 						cols="12"
@@ -205,7 +229,7 @@
 						class="d-flex justify-center ma-2"
 						cols="12"
 					>
-						<card-img height="300"
+						<card-img height="30vh"
 							max-width="500"
 							:src="file"
 						>
@@ -221,7 +245,7 @@
 						cols="12"
 						class="d-flex justify-center ma-2"
 					>
-						<v-card height="300"
+						<v-card height="30vh"
 							max-width="500" dark
 						>
 							<v-btn fab
@@ -233,7 +257,7 @@
 							<video
 								controls
 								width="100%"
-								height="300"
+								height="100%"
 								@play="onPlay"
 							>
 								<source :src="item.videoUrl"
@@ -246,7 +270,7 @@
 						cols="12"
 						class="ma-2"
 					>
-						<v-card height="300"
+						<v-card height="30vh"
 							max-width="500"
 							class="mx-auto"
 						>
@@ -256,10 +280,15 @@
 							>
 								<v-icon>mdi-close</v-icon>
 							</v-btn>
-							<youtube-iframe class="slight-round"
-								:video-url="item"
-								height="300"
-							/>
+							<v-card height="30vh">
+								<youtube
+									ref="yt"
+									height="100%"
+									width="100%"
+									:video-id="$youtube.getIdFromUrl(item)"
+									@playing="playing"
+								/>
+							</v-card>
 						</v-card>
 					</v-col>
 					<v-col v-for="(item, index) in soundURLs" :key="index"
@@ -360,23 +389,21 @@ import {getFormData} from "@/Helper.js";
 
 import APlayer from "vue-aplayer"
 import {mapGetters} from "vuex";
-import YoutubeIframe from "@/components/multimedia/YoutubeIframe.vue";
 import Snack from "@/mixins/Snack.js";
 import HtmlVideoMixin from "@/mixins/HtmlVideoMixin..js";
 
 export default {
 	name: "StartAPostComponent",
 	components: {
-		YoutubeIframe,
 		APlayer,
 	},
 	mixins: [Snack, HtmlVideoMixin],
 	emits: ["close-dialog"],
 	data: () => ({
+		addDescription: false,
 		files: [],
 		dialog: false,
 		uploadVideo: false,
-		playing: false,
 		imageBtn: {icon: "mdi-camera", tooltip: "Upload photo", color: "#3aaada"},
 		soundBtn: {icon: "mdi-music", tooltip: "Upload sound", color: "#9896f2"},
 		videoBtn: {icon: "mdi-video", tooltip: "Add video url", color: "#009688"},
@@ -412,7 +439,7 @@ export default {
 		},
 		media() {
 			return this.images.length > 0 || this.sounds.length > 0 || this.videos.length > 0 || this.video_urls.length > 0;
-		}
+		},
 	},
 	async created() {
 		this.$bus.on("open-start-post-dialog", this.openDialog)
@@ -422,6 +449,10 @@ export default {
 		this.$bus.off("open-start-post-dialog")
 	},
 	methods: {
+		removeDescription() {
+			this.addDescription = false
+			this.post.description = null
+		},
 		imageInputChanged(e) {
 			e.target.files.forEach(file => {
 				this.images.push(file)
@@ -487,7 +518,6 @@ export default {
 		},
 		async closeDialog() {
 			this.dialog = false
-			await this.resetPostForm()
 		},
 		openDialog() {
 			this.dialog = true
@@ -529,6 +559,7 @@ export default {
 				await this.showPostCreationErrorMessages()
 			} else {
 				await this.closeDialog()
+				await this.resetPostForm()
 				await this.openSnack(
 					"Your post is added successfully. An admin approval will make your post visible.",
 					"success"
