@@ -1,6 +1,6 @@
 <template>
 	<v-row
-		class="fill-height ma-0 pa-0"
+		class="fill-height" no-gutters
 		justify="center" align="start"
 	>
 		<div class="text-start image-content">
@@ -84,22 +84,28 @@ export default {
 
 <style lang="scss" scoped>
 .image-content {
-	padding: 150px 10px 0;
+	padding: 150px 20px 0;
+	max-width: 1000px;
+	margin: 0 auto;
+	@media only screen and (max-width: 600px) {
+		padding-top: 50px;
+	}
 }
 .main {
-	font-size: 5.8rem;
-	line-height: 8rem;
+	padding: 20px 0;
+	font-size: 4rem;
+	line-height: 4.5rem;
 	font-weight: 800;
 }
 .sub {
-	font-size: 2.4rem;
-	line-height: 3rem;
+	font-size: 2rem;
+	line-height: 2.5rem;
 	font-weight: 600;
 }
 .context {
  text-transform: capitalize;
-	font-size: 2.4rem;
-	line-height: 3rem;
+	font-size: 2rem;
+	line-height: 2.5rem;
 	font-weight: 500;
 }
 .explore-btn {
@@ -108,96 +114,63 @@ export default {
 		font-size: 18px
 	}
 }
-@media only screen and (max-width: 1450px) and (min-width: 1220px) {
+@media only screen and (max-width: 1000px) {
 	.main {
-		font-size: 5rem;
-		line-height: 8rem;
-		font-weight: 800;
+		font-size: 3.2rem;
+		line-height: 4rem;
 	}
 	.sub {
-		font-size: 2rem;
-		line-height: 3rem;
-		font-weight: 600;
+		font-size: 1.5rem;
+		line-height: 2rem;
 	}
 	.context {
-		text-transform: capitalize;
-		font-size: 2rem;
-		line-height: 3rem;
-		font-weight: 500;
+		font-size: 1.5rem;
+		line-height: 2rem;
 	}
 }
-@media only screen and (max-width: 1219px) and (min-width: 980px) {
+@media only screen and (max-width: 600px) {
 	.main {
-		font-size: 4rem;
-		line-height: 6rem;
-		font-weight: 800;
-	}
-	.sub {
-		font-size: 1.8rem;
-		line-height: 3rem;
-		font-weight: 600;
-	}
-	.context {
-		text-transform: capitalize;
-		font-size: 1.8rem;
-		line-height: 3rem;
-		font-weight: 500;
-	}
-}
-@media only screen and (max-width: 979px) and (min-width: 740px) {
-	.main {
+		padding: 12px 0;
 		font-size: 3rem;
-		line-height: 6rem;
-		font-weight: 800;
+		line-height: 3.5rem;
 	}
 	.sub {
-		font-size: 1.4rem;
+		font-size: 1.2rem;
+		line-height: 1.5rem;
+	}
+	.context {
+		font-size: 1.2rem;
+		line-height: 1.5rem;
+	}
+}
+@media only screen and (max-width: 450px) {
+	.main {
+		padding: 8px 0;
+		font-size: 2.6rem;
+		line-height: 3rem;
+	}
+	.sub {
+		font-size: 1.2rem;
+		line-height: 1.5rem;
+	}
+	.context {
+		font-size: 1rem;
+		line-height: 1.5rem;
+	}
+}
+@media only screen and (max-width: 385px) {
+	.main {
+		padding: 4px 0;
+		font-size: 2rem;
 		line-height: 2.5rem;
-		font-weight: 600;
-	}
-	.context {
-		text-transform: capitalize;
-		font-size: 1.4rem;
-		line-height: 2.4rem;
-		font-weight: 500;
-	}
-}
-@media only screen and (max-width: 739px){
-	.main {
-		text-align: center;
-		font-size: 3rem;
-		line-height: 5rem;
-		font-weight: 800;
 	}
 	.sub {
-		text-align: center;
-		font-size: 1.4rem;
-		line-height: 2rem;
-		font-weight: 600;
+		font-size: 1rem;
+		line-height: 1.2rem;
 	}
 	.context {
-		text-align: center;
-		text-transform: capitalize;
-		font-size: 1.4rem;
-		line-height: 3rem;
-		font-weight: 500;
-	}
-	.explore-btn {
-		text-align: center;
-	}
-}
-@media only screen and (max-width: 380px){
-	.main {
-		font-size: 2.8rem;
-		line-height: 3.2rem;
-	}
-	.context {
-		font-size: 1.2rem;
-		line-height: 2rem;
-	}
-	.sub {
-		font-size: 1.2rem;
-		line-height: 2rem;
+		font-size: .875rem;
+		line-height: 1rem;
 	}
 }
 </style>
