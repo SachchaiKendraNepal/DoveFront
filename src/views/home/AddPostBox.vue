@@ -28,6 +28,26 @@
 			</p>
 		</div>
 		<v-divider />
+		<input
+			v-show="false"
+			id="pre-image-input"
+			ref="preImageInput"
+			class="file-input"
+			type="file"
+			multiple
+			accept="image/*"
+			@change="imageInputChanged"
+		>
+		<input
+			v-show="false"
+			id="pre-video-input"
+			ref="preVideoInput"
+			multiple
+			class="file-input"
+			type="file"
+			accept="video/*"
+			@change="videoInputChanged"
+		>
 		<v-row
 			id="start-post-actions"
 			no-gutters
@@ -35,14 +55,28 @@
 			align="center"
 		>
 			<depressed-button
-				v-for="(item, index) in actionButtons"
-				:key="index"
-				:icon="item.icon"
-				:text="item.text"
-				:color="item.color"
+				:icon="imageButton.icon"
+				:text="imageButton.text"
+				:color="imageButton.color"
 				size="22"
-				:tooltip="item.text"
-				@click.stop="openStartPostBoxDialog"
+				:tooltip="imageButton.text"
+				@click.stop="$refs.preImageInput.click()"
+			/>
+			<depressed-button
+				:icon="videoButton.icon"
+				:text="videoButton.text"
+				:color="videoButton.color"
+				size="22"
+				:tooltip="videoButton.text"
+				@click.stop="$refs.preVideoInput.click()"
+			/>
+			<depressed-button
+				:icon="youtubeButton.icon"
+				:text="youtubeButton.text"
+				:color="youtubeButton.color"
+				size="22"
+				:tooltip="youtubeButton.text"
+				@click.stop="openStartPostBoxDialog({url: true})"
 			/>
 			<depressed-button
 				:icon="eventButton.icon"
@@ -79,11 +113,9 @@ export default {
 	},
 	emits: ["close-post-dialog"],
 	data: () => ({
-		actionButtons: [
-			{icon: "mdi-camera", text: "Images", color: "#3aaada", disabled: true, to: ""},
-			{icon: "mdi-music", text: "Audios", color: "#9896f2", disabled: true, to: ""},
-			{icon: "mdi-video", text: "Videos", color: "#009688", disabled: true, to: ""},
-		],
+		imageButton: {icon: "mdi-camera", text: "Images", color: "#3aaada", disabled: true, to: ""},
+		videoButton: {icon: "mdi-video", text: "Videos", color: "#009688", disabled: true, to: ""},
+		youtubeButton: {icon: "mdi-youtube", text: "Youtube", color: "#fd0012", disabled: true, to: ""},
 		eventButton: {icon: "mdi-calendar-text", text: "Event", color: "#c21d98", disabled: false, to: ""},
 		startArticleButton: {icon: "mdi-post", text: "Write Article", color: "#ef7e37", disabled: false, to: "/home/start-article"},
 		dialog: false,
@@ -97,12 +129,26 @@ export default {
 		})
 	},
 	methods: {
-		openStartPostBoxDialog() {
-			this.$bus.emit("open-start-post-dialog")
+		openStartPostBoxDialog(attrs) {
+			this.$bus.emit("open-start-post-dialog", attrs)
 		},
 		openAddEventFormDialog() {
 			this.$bus.emit("open-event-form-dialog-add-item")
 		},
+		imageInputChanged(e) {
+			if (e.target.files.length > 0) {
+				this.$bus.emit("open-start-post-dialog", {
+					images: e
+				})
+			}
+		},
+		videoInputChanged(e) {
+			if (e.target.files.length > 0) {
+				this.$bus.emit("open-start-post-dialog", {
+					videos: e
+				})
+			}
+		}
 	}
 }
 </script>
