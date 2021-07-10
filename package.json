@@ -34,7 +34,7 @@
     "leaflet": "^1.7.1",
     "roboto-fontface": "*",
     "swiper": "^6.3.3",
-    "video.js": "^7.11.8",
+    "video.js": "^7.13.3",
     "vue": "^2.6.11",
     "vue-aplayer": "^1.6.1",
     "vue-bus": "^1.2.1",
