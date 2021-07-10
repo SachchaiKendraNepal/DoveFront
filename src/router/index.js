@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import HomeLayout from "@/layouts/HomeLayout"
+import helper from "@/Helper.js";
 
 Vue.use(VueRouter)
 
@@ -73,7 +74,29 @@ const routes = [
 			{
 				path: "event/:id",
 				name: "EVENT DETAIL HOME",
-				component: () => import("@/views/event/EventDetail")
+				component: () => import("@/views/event/EventDetail"),
+				children: [
+					{
+						path: "about",
+						name: "About Event",
+						component: () => import("@/views/event/detail_tab/About")
+					},
+					{
+						path: "discussion",
+						name: "Event Discussion",
+						component: () => import("@/views/event/detail_tab/Discussion")
+					},
+					{
+						path: "images",
+						name: "Event Photos",
+						component: () => import("@/views/event/detail_tab/Photos")
+					},
+					{
+						path: "multimedias",
+						name: "Event Multimedias",
+						component: () => import("@/views/event/detail_tab/Multimedia")
+					}
+				]
 			},
 			{
 				path: "map/branch",
@@ -392,5 +415,23 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	routes
 })
+
+
+router.beforeEach((to, from, next) => {
+	if (to.meta.authentication) {
+		const token = helper.getAccessToken()
+		if (token) {
+			if (helper.getCurrentUser().is_superuser) {
+				next();
+			} else {
+				next("/unauthorized");
+			}
+		} else {
+			next("/auth/login");
+		}
+	} else {
+		next();
+	}
+});
 
 export default router

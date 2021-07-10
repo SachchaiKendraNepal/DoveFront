@@ -40,6 +40,7 @@
     "vue-bus": "^1.2.1",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.4.7",
+    "vue-scroll-behavior": "^0.3.0",
     "vue-youtube": "^1.4.0",
     "vue2-leaflet": "^2.6.0",
     "vuetify": "^2.3.15",

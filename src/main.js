@@ -16,7 +16,9 @@ import helper from "@/Helper"
 import constants from "@/./constants"
 import "video.js/dist/video-js.css"
 import VueYoutube from "vue-youtube"
+import vueScrollBehavior from "vue-scroll-behavior"
 
+Vue.use(vueScrollBehavior, { router: router })
 Vue.use(VueBus)
 Vue.use(moment)
 Vue.use(VueYoutube)
@@ -94,24 +96,6 @@ Vue.prototype.$helper = helper
 Vue.prototype.$constants = constants
 
 Vue.config.productionTip = false
-
-
-router.beforeEach((to, from, next) => {
-	if (to.meta.authentication) {
-		const token = helper.getAccessToken()
-		if (token) {
-			if (helper.getCurrentUser().is_superuser) {
-				next();
-			} else {
-				next("/unauthorized");
-			}
-		} else {
-			next("/auth/login");
-		}
-	} else {
-		next();
-	}
-});
 
 new Vue({
 	$,
