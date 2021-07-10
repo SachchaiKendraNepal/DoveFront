@@ -6,7 +6,7 @@
 			dark
 			fixed
 			top
-			left
+			right
 			small
 			max-height="65"
 			max-width="65"
@@ -26,7 +26,7 @@
 					dark
 					fixed
 					top
-					left
+					right
 					small
 					color="teal"
 					@click="logout"
@@ -42,7 +42,7 @@
 					dark
 					fixed
 					top
-					left
+					right
 					small
 					color="green"
 					@click="routeToRegisterPage"
@@ -91,12 +91,14 @@ export default {
 <style scoped lang="scss">
 .auth-panel-btn {
 	top: 20px;
-	right: 90%;
+	left: 90%;
 }
 .logout {
 	top: 80px;
+	left: 90%;
 }
 .register {
 	top: 80px;
+	left: 90%;
 }
 </style>
