@@ -220,7 +220,7 @@ export default {
 			this.loading = false
 		},
 		routeToEventDetail(eventId) {
-			this.$router.push({name: "EVENT DETAIL HOME", params: { id: eventId}})
+			this.$router.push(`/home/event/${eventId}/about`)
 		},
 		getEventCreatorFullName(creator) {
 			if (creator!==null) {

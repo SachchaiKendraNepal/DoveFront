@@ -3,12 +3,13 @@
 		<v-card flat
 			max-width="1000"
 			color="transparent"
-			class="d-flex justify-center align-center flex-wrap mx-auto"
+			class="mx-auto"
 		>
-			<v-card-actions>
+			<v-card-actions class="event-detail-actions">
 				<v-btn
 					:loading="interestedLoading"
-					depressed
+					:depressed="$vuetify.breakpoint.mdAndUp"
+					:icon="!$vuetify.breakpoint.mdAndUp"
 					@click="toggleInterestedStatus"
 				>
 					<v-icon small
@@ -17,19 +18,44 @@
 					>
 						mdi-star-circle
 					</v-icon>
-					<span v-if="statistics['interested']"
-						class="button-span red--text text--lighten-1 event-action-btn-text"
-					>Remove Interest</span>
-					<span v-else
-						class="purple--text event-action-btn-text"
-					>Add Interest</span>
+					<span v-if="$vuetify.breakpoint.mdAndUp">
+						<span v-if="statistics['interested']"
+							class="button-span red--text text--lighten-1"
+						>
+							Remove Interest
+						</span>
+						<span v-else
+							class="purple--text button-span"
+						>
+							Add Interest
+						</span>
+					</span>
 				</v-btn>
-			</v-card-actions>
-			<v-card-actions>
 				<v-btn
+					v-if="event.is_approved"
 					:loading="approvalLoading"
-					depressed
-					@click="toggleApproval"
+					:depressed="$vuetify.breakpoint.mdAndUp"
+					:icon="!$vuetify.breakpoint.mdAndUp"
+					@click="revokeApproval"
+				>
+					<v-icon
+						class="px-1"
+						color="error"
+						small
+					>
+						mdi-check-circle
+					</v-icon>
+					<span
+						v-if="$vuetify.breakpoint.mdAndUp"
+						class="red--text text--lighten-1 button-span"
+					>Dis-approve</span>
+				</v-btn>
+				<v-btn
+					v-else
+					:loading="approvalLoading"
+					:icon="!$vuetify.breakpoint.mdAndUp"
+					:depressed="$vuetify.breakpoint.mdAndUp"
+					@click="approve"
 				>
 					<v-icon
 						class="px-1"
@@ -39,19 +65,14 @@
 						mdi-check-circle
 					</v-icon>
 					<span
-						v-if="event.is_approved"
-						class="event-action-btn-text red--text text--lighten-1"
-					>Dis-approve</span>
-					<span
-						v-else
-						class="event-action-btn-text green--text text-darken-2"
+						v-if="$vuetify.breakpoint.mdAndUp"
+						class="green--text text-darken-2 button-span"
 					>Approve</span>
 				</v-btn>
-			</v-card-actions>
-			<v-card-actions>
 				<v-btn
 					:loading="goingLoading"
-					depressed
+					:icon="!$vuetify.breakpoint.mdAndUp"
+					:depressed="$vuetify.breakpoint.mdAndUp"
 					@click="toggleGoingStatus"
 				>
 					<v-icon
@@ -60,28 +81,56 @@
 					>
 						mdi-walk
 					</v-icon>
-					<span v-if="statistics['going']"
-						class="button-span red--text text--lighten-1 event-action-btn-text"
-					>Not Going</span>
-					<span v-else
-						class="indigo--text event-action-btn-text"
-					>I Am Going</span>
+					<span v-if="$vuetify.breakpoint.mdAndUp">
+						<span v-if="statistics['going']"
+							class="button-span red--text text--lighten-1"
+						>
+							Not Going
+						</span>
+						<span v-else
+							class="indigo--text button-span"
+						>
+							I Am Going
+						</span>
+					</span>
 				</v-btn>
-			</v-card-actions>
-			<v-spacer />
-			<v-card-actions>
-				<v-tooltip bottom>
-					<template #activator="{ on, attrs }">
-						<v-btn icon v-bind="attrs"
+				<v-spacer />
+				<v-menu close-on-click
+					offset-y nudge-bottom="5"
+					transition="slide-y-transition"
+				>
+					<template #activator="{on, attrs}">
+						<v-btn
+							icon
+							v-bind="attrs"
 							v-on="on"
 						>
-							<v-icon color="red darken-2">
-								mdi-delete
-							</v-icon>
+							<v-icon>mdi-dots-vertical</v-icon>
 						</v-btn>
 					</template>
-					<span>Delete Event</span>
-				</v-tooltip>
+					<v-list dense
+						color="#ef93b3"
+					>
+						<v-list-item-group
+							v-for="(item, index) in menuItems"
+							:key="item.icon"
+						>
+							<v-list-item>
+								<v-list-item-icon>
+									<v-icon>{{ item.icon }}</v-icon>
+								</v-list-item-icon>
+								<v-list-item-content>
+									<v-list-item-title>
+										{{ item.text }}
+									</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+							<v-divider v-if="index !== menuItems.length - 1"
+								class="mx-1"
+							/>
+						</v-list-item-group>
+					</v-list>
+				</v-menu>
 			</v-card-actions>
 		</v-card>
 	</v-col>
@@ -89,9 +138,11 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Snack from "@/mixins/Snack.js";
 
 export default {
 	name: "Actions",
+	mixins: [Snack],
 	props: {
 		event: {
 			type: Object,
@@ -106,7 +157,13 @@ export default {
 	computed: {
 		...mapGetters({
 			statistics: "event/statisticsDetail",
-		})
+		}),
+		menuItems() {
+			return [
+				{icon: "mdi-pencil", text: "Edit"},
+				{icon: "mdi-delete", text: "Delete"}
+			]
+		}
 	},
 	methods: {
 		async toggleInterestedStatus() {
@@ -123,17 +180,33 @@ export default {
 			else await this.openSnack("Added interest to event failed.")
 			this.goingLoading = false
 		},
-		async toggleApproval() {
+		async approve() {
 			this.approvalLoading = true
-			const toggled = await this.$store.dispatch("event/toggleApproval", {id: this.event.id})
+			const toggled = await this.$store.dispatch("event/approve", {id: this.event.id})
 			if (toggled) await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
-			else await this.openSnack("Added interest to event failed.")
+			else await this.openSnack("Event approval failed.")
+			this.approvalLoading = false
+		},
+		async revokeApproval() {
+			this.approvalLoading = true
+			const toggled = await this.$store.dispatch("event/disapprove", {id: this.event.id})
+			if (toggled) await this.$store.dispatch("event/fetchSingle", { id: this.$route.params.id})
+			else await this.openSnack("Event approval revoke failed.")
 			this.approvalLoading = false
 		},
 	}
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.event-detail-actions {
+	display: flex;
+	justify-items: center;
+	align-items: center;
+	flex-wrap: wrap;
+	.button-span {
+		font-size: 12px;
+		padding-left: 2px;
+	}
+}
 </style>

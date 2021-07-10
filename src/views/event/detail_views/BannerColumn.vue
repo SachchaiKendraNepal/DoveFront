@@ -90,7 +90,9 @@
 					@click="$refs.bannerInput.click()"
 				>
 					<div class="fill-height d-flex justify-center align-center white--text">
-						<h2>Set banner image for your event</h2>
+						<h2 class="text-center">
+							Set banner image for your event!
+						</h2>
 					</div>
 				</v-img>
 				<input
