@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<show-case-slider />
-		<!--		<event-highlights />-->
+		<event-highlights />
 		<kendra-info-box />
 		<pin-bar />
 		<scatter />
@@ -20,7 +20,7 @@ export default {
 		PinBar: () => import("@/views/showcase/PinnedBar"),
 		ServicesPeek: () => import("@/views/showcase/PeekServices"),
 		Scatter: () => import("@/views/showcase/Scatter"),
-		// EventHighlights: () => import("@/views/showcase/EventHighlights"),
+		EventHighlights: () => import("@/views/showcase/EventHighlights"),
 		OurGreatStuff: () => import("@/views/showcase/OurGreatStuff"),
 		ShowcaseMap: () => import("@/views/showcase/Map")
 	}

@@ -2,81 +2,56 @@
 	<div class="events-highlights-wrapper">
 		<v-carousel
 			cycle
-			height="180"
+			min-height="180"
 			:show-arrows="false"
 			hide-delimiters
+			reverse-transition="fade-transition"
+			transition="fade-transition"
 		>
 			<v-carousel-item
 				v-for="(event, index) in events"
 				:key="index"
 			>
 				<v-card
-					class="mx-auto py-sm-6 py-md-6 py-lg-6 py-xl-6"
+					class="mx-auto"
 					max-width="1000"
-					:color="$constants.pickBackgroundColor()"
+					:color="colors[index]"
 				>
-					<v-row
-						class="ma-0 pa-0"
-						align="center"
-						justify="center"
+					<v-list max-width="800"
+						color="transparent"
+						class="mx-auto"
 					>
-						<v-col
-							id="avatar-column"
-							cols="12"
-							xl="3"
-							lg="3"
-							md="3"
-							sm="4"
-							class="ma-0 pa-0 d-flex justify-center align-center"
+						<v-list-item
+							:class="($vuetify.breakpoint.width < 400) ? 'd-flex justify-center': ''"
 						>
-							<v-avatar
+							<v-list-item-avatar
 								id="date-avatar"
 								color="#e88c04"
 								class="elevation-12"
 								size="120"
+								style="border: 2px solid white;"
 							>
-								<v-row
-									class="ma-0 pa-0"
-									justify="center"
-									align="center"
-								>
-									<v-col
-										id="date-column"
-										cols="12"
-										class="ma-0 pa-0"
-									>
-										<h1>
+								<v-row no-gutters>
+									<v-col cols="12">
+										<h1 class="text-center">
 											{{ event.start_date.day }}<sup>{{
 												getSuperScript(event.start_date.day)
 											}}</sup>
 										</h1>
 									</v-col>
 									<v-col cols="12"
-										class="ma-0 pa-0 month-column"
+										class="month-column elevation-4 py-2"
 									>
-										<h2>
+										<h2 class="text-center">
 											{{ event.start_date.month }}
 										</h2>
 									</v-col>
 								</v-row>
-							</v-avatar>
-						</v-col>
-						<v-col
-							id="event-column"
-							cols="12"
-							xl="9"
-							lg="9"
-							md="9"
-							sm="8"
-							class="ma-0 pa-0"
-						>
-							<v-row
-								justify="center"
-								align="center"
-								class="ma-0 pa-0"
-							>
-								<v-col cols="12">
-									<p class="ma-0 pa-0"
+							</v-list-item-avatar>
+							<v-fade-transition>
+								<v-list-item-content v-if="$vuetify.breakpoint.width > 400">
+									<v-list-item-title
+										class="py-2"
 										:class="
 											$vuetify.breakpoint.smAndDown
 												? 'small-title'
@@ -85,45 +60,43 @@
 									>
 										<v-icon>mdi-calendar-star</v-icon>
 										<u>{{ event.title }}</u>
-									</p>
-								</v-col>
-								<v-col
-									v-show="$vuetify.breakpoint.smAndUp"
-									cols="12"
-									xl="6"
-									lg="6"
-									md="6"
-									sm="6"
-								>
-									<p class="subtitle-2 ma-0 pa-0 text-start">
-										<span><v-icon>mdi-sort-clock-descending</v-icon></span>
-										Friday 5:00 AM
-									</p>
-									<p class="subtitle-2 ma-0 pa-0">
-										<v-icon>mdi-sort-clock-ascending</v-icon>
-										Friday 8:00 PM
-									</p>
-								</v-col>
-								<v-col
-									v-show="$vuetify.breakpoint.smAndUp"
-									cols="12"
-									xl="6"
-									lg="6"
-									md="6"
-									sm="6"
-								>
-									<p class="ma-0 pa-0 subtitle-2 text-start">
-										<v-icon>mdi-home</v-icon>
-										Deep Housing
-									</p>
-									<p class="subtitle-2 ma-0 pa-0">
-										<v-icon>mdi-google-maps</v-icon>
-										Lamachaur-16, Pokhara
-									</p>
-								</v-col>
-							</v-row>
-						</v-col>
-					</v-row>
+									</v-list-item-title>
+									<v-list-item-subtitle v-show="$vuetify.breakpoint.smAndUp"
+										class="d-flex justify-space-between align-center"
+									>
+										<p class="subtitle-2 ma-0 pa-0 text-start">
+											<span><v-icon>mdi-sort-clock-descending</v-icon></span>
+											Friday 5:00 AM
+										</p>
+										<p class="subtitle-2 ma-0 pa-0">
+											<v-icon>mdi-sort-clock-ascending</v-icon>
+											Friday 8:00 PM
+										</p>
+									</v-list-item-subtitle>
+									<v-list-item-subtitle
+										v-show="$vuetify.breakpoint.smAndUp"
+										class="d-flex justify-space-between align-center"
+									>
+										<p class="ma-0 pa-0 subtitle-2 text-start">
+											<v-icon>mdi-home</v-icon>
+											Deep Housing
+										</p>
+										<p class="subtitle-2 ma-0 pa-0">
+											<v-icon>mdi-google-maps</v-icon>
+											Lamachaur-16, Pokhara
+										</p>
+									</v-list-item-subtitle>
+								</v-list-item-content>
+							</v-fade-transition>
+						</v-list-item>
+					</v-list>
+					<v-fade-transition>
+						<v-card-title v-if="$vuetify.breakpoint.width < 400"
+							class="text-center d-flex justify-center"
+						>
+							{{ event.title }}
+						</v-card-title>
+					</v-fade-transition>
 				</v-card>
 			</v-carousel-item>
 		</v-carousel>
@@ -131,13 +104,15 @@
 </template>
 <script>
 export default {
-	name: "EventHighlightsSwiperComponent",
+	name: "EventHighlights",
 	data: () => ({
-		events: []
+		events: [],
+		colors: [
+			"grey darken-3",
+			"#1F7087",
+			"#385F73",
+		],
 	}),
-	computed: {
-		// eslint-disable-next-line vue/return-in-computed-property
-	},
 	created() {
 		this.initialize();
 	},
@@ -273,42 +248,12 @@ export default {
 		margin: -46px 10px 10px 10px
 	@media only screen and (max-width: 240px)
 		margin: -45px 10px 10px 10px
-#avatar-column
-	transition: all .2s
-	border-right: 3px solid white
-	@media only screen and (max-width: 600px)
-		padding-top: 5px !important
-		border-right: none
-	#date-avatar
-		transition: all .2s
-		@media only screen and (max-width: 375px)
-			height: 80px !important
-			min-width: 80px !important
-			width: 80px !important
-		#date-column
-			h1
-				padding-left: 15px
-			@media only screen and (max-width: 375px)
-				padding-top: 17px !important
-				h1
-					font-size: 20px !important
-		.month-column
-			background: #228396
-			border-color: #228396
-			@media only screen and (max-width: 375px)
-				padding: 6px 0 !important
+.month-column
+	background: rgba(0,0,0,.15)
 .small-title
 	font-size: 22px
-	line-height: 20px
-	margin-bottom: 15px
-	@media only screen and (max-width: 600px)
-		text-align: center
+	line-height: 22px
 .big-title
 	font-size: 26px
 	line-height: 26px
-
-#divider
-	background-color: aliceblue
-	height: 130px
-	width: 2px
 </style>
