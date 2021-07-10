@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d22c4df"],{f351:function(n,e,a){"use strict";a.r(e);var t=function(){var n=this,e=n.$createElement,a=n._self._c||e;return a("div")},c=[],i={name:"MunicipalityWardsTable"},u=i,l=a("2877"),r=Object(l["a"])(u,t,c,!1,null,"6a6f3fa3",null);e["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d22c4df.b52fce32.js.map
