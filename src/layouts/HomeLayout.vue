@@ -22,7 +22,7 @@
 				</v-icon>
 			</v-app-bar-nav-icon>
 			<v-card
-				class="mr-8 ml-4"
+				class="mx-4"
 				:class="$route.name === 'HOME' ? '' : 'cursor'"
 				flat
 				color="transparent"
@@ -39,26 +39,11 @@
 			</v-card>
 			<v-spacer />
 
-			<v-card light
-				color="transparent"
-				class="top-tab-wrapper"
-				height="55"
-			>
-				<home-tabs />
-			</v-card>
+			<home-tabs />
 			<v-spacer />
 			<div class="px-1" />
 			<profile-dropdown />
 		</v-app-bar>
-
-		<v-card
-			light
-			max-width="1000"
-			color="rgb(221 161 221)"
-			class="mx-auto rounded-t-0 aux-home-tab-card elevation-12"
-		>
-			<home-tabs :arrows="true" />
-		</v-card>
 
 		<!-- eslint-disable-next-line vue/no-deprecated-v-bind-sync -->
 		<v-navigation-drawer v-model="homeDrawer" :mini-variant.sync="mini"
@@ -69,10 +54,10 @@
 			<quick-links @toggle="mini = !mini" />
 		</v-navigation-drawer>
 
-		<v-main class="mt-0 pt-0">
+		<v-main>
 			<v-container
 				fluid
-				class="home-router-container px-0 mt-0 pt-0"
+				class="home-router-container"
 			>
 				<v-row no-gutters>
 					<v-col>
@@ -135,42 +120,12 @@ export default {
 	opacity: 0
 .view-enter-to, .view-leave
 	opacity: 1
-.top-tab-wrapper
-	transition: all .5s
-	visibility: visible
-	opacity: 1
-	@media only screen and (max-width: 600px)
-		margin: 0
-		visibility: hidden
-		opacity: 0
-		overflow: hidden
-		height: 0 !important
-		max-width: 0 !important
-.aux-home-tab-card
-	transition: all .5s
-	visibility: visible
-	opacity: 1
-	@media only screen and (min-width: 601px)
-		visibility: hidden
-		opacity: 0
-		overflow: hidden
-		height: 0 !important
-		max-width: 0 !important
-	@media only screen and (max-width: 601px)
-		margin-top: 60px
 .home-router-container
-	padding-top: 0
-	padding-bottom: 0
-	margin-top: 60px
+	padding: 0
 	background-color: #f3edff
-	@media only screen and (min-width: 601px)
-		margin-top: 60px !important
 </style>
 <style lang="scss" scoped>
 .purple-gradient {
 	background-image: linear-gradient( 111.5deg,  rgba(254,210,255,1) -7.2%, rgba(115,9,112,1) 100.2% );
-}
-.aux-tab-gradient {
-
 }
 </style>
