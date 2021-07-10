@@ -182,10 +182,11 @@
 					</v-col>
 				</v-scale-transition>
 				<v-scale-transition>
-					<v-col v-show="uploadVideo"
+					<v-col v-show="uploadVideoUrl"
 						cols="12"
 					>
 						<v-combobox
+							ref="videoUrlInput"
 							v-model="video_urls"
 							class="ma-0 pa-0"
 							:items="[]"
@@ -248,7 +249,7 @@
 						<v-card height="30vh"
 							max-width="500" dark
 						>
-							<v-btn fab
+							<v-btn fab style="z-index: 1"
 								x-small class="right-corner"
 								@click="removeVideo(index)"
 							>
@@ -363,7 +364,7 @@
 					<v-btn fab
 						x-small dark
 						:color="videoUrlBtn.color"
-						@click="uploadVideo = !(uploadVideo)"
+						@click="toggleUploadVideoUrlInput()"
 					>
 						<v-icon>{{ videoUrlBtn.icon }}</v-icon>
 					</v-btn>
@@ -403,7 +404,7 @@ export default {
 		addDescription: false,
 		files: [],
 		dialog: false,
-		uploadVideo: false,
+		uploadVideoUrl: false,
 		imageBtn: {icon: "mdi-camera", tooltip: "Upload photo", color: "#3aaada"},
 		soundBtn: {icon: "mdi-music", tooltip: "Upload sound", color: "#9896f2"},
 		videoBtn: {icon: "mdi-video", tooltip: "Add video url", color: "#009688"},
@@ -498,9 +499,6 @@ export default {
 			this.videoURLs = []
 			this.video_URLs = []
 		},
-		clearFiles() {
-			this.files = []
-		},
 		removeImage(index) {
 			this.images.splice(index, 1)
 			this.imageURLs.splice(index, 1)
@@ -516,12 +514,37 @@ export default {
 			this.sounds.splice(index, 1)
 			this.soundURLs.splice(index, 1)
 		},
+		focusVideoUrlInput() {
+			setTimeout(() => {
+				this.$refs.videoUrlInput.focus()
+			}, 500)
+		},
+		toggleUploadVideoUrlInput() {
+			if (this.uploadVideoUrl) {
+				this.uploadVideoUrl = false
+			} else {
+				this.uploadVideoUrl = true
+				this.focusVideoUrlInput()
+			}
+		},
 		async closeDialog() {
 			this.dialog = false
 		},
-		openDialog() {
+		async openDialog(attrs) {
 			this.dialog = true
-			this.uploadVideo = false
+			await this.$nextTick()
+			if (attrs.url) {
+				this.uploadVideoUrl = true
+				this.focusVideoUrlInput()
+			} else {
+				this.uploadVideoUrl = false
+			}
+			if (attrs.images) {
+				this.imageInputChanged(attrs.images)
+			}
+			if (attrs.videos) {
+				this.videoInputChanged(attrs.videos)
+			}
 		},
 		async createMultimedia() {
 			const body = await getFormData({
