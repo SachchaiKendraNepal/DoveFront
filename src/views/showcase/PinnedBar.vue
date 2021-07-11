@@ -80,10 +80,11 @@
 			</v-card>
 		</v-col>
 		<v-col
+			v-if="pinnedMedias"
 			cols="12"
 			class="ma-0 pa-0 pin-column"
 		>
-			<v-card v-if="pinnedMedias.length === 0"
+			<v-card v-if="pinnedMedias.count === 0"
 				flat color="transparent"
 				class="text-center"
 			>
@@ -96,22 +97,12 @@
 			>
 				<div class="swiper-wrapper">
 					<v-card
-						v-for="(item,) in pinnedMedias.article"
+						v-for="(item) in pinnedMedias.results"
 						:key="item.id"
 						class="swiper-slide"
 						dark
 					>
-						<pinned-post :post="item.article"
-							:is-article="true"
-						/>
-					</v-card>
-					<v-card
-						v-for="(item) in pinnedMedias.multimedia"
-						:key="item.id"
-						class="swiper-slide"
-						dark
-					>
-						<pinned-post :post="item.multimedia" />
+						<pinned-post :post="item" />
 					</v-card>
 				</div>
 				<!-- If we need pagination -->
@@ -158,7 +149,7 @@ export default {
 				scale: 4,
 				opacity: 0,
 				color: "transparent",
-				duration: 1
+				duration: .5
 			})
 			.from(".bulls-eye-avatar", {
 				opacity: 20,
@@ -209,6 +200,7 @@ export default {
 	methods: {
 		async init() {
 			await this.$store.dispatch("post/fetchPinnedMultimedia")
+			console.log(this.pinnedMedias)
 		},
 		initSwiper() {
 			Swiper.use([Navigation, Pagination]);

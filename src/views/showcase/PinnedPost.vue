@@ -1,8 +1,8 @@
 <template>
 	<div v-if="!loading">
 		<v-list-item dark>
-			<v-list-item-avatar v-if="userHasProfileImage">
-				<v-img :src="getUploaderImage" />
+			<v-list-item-avatar :color="$constants.pickBackgroundColor()">
+				{{ $helper.getUsernameInitials(post.uploaded_by) }}
 			</v-list-item-avatar>
 			<v-list-item-content>
 				<v-list-item-title
@@ -12,7 +12,7 @@
 					{{ post.title }}
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
-					by&nbsp;{{ post.uploaded_by.username }}
+					by&nbsp;{{ (post.uploaded_by.full_name) ? post.uploaded_by.full_name : post.uploaded_by.username }}
 				</v-list-item-subtitle>
 			</v-list-item-content>
 			<span>
@@ -84,6 +84,7 @@ export  default {
 	},
 	created() {
 		this.init()
+		console.log(this.posts)
 	},
 	methods: {
 		init() {
