@@ -2,11 +2,11 @@
 	<div class="events-highlights-wrapper">
 		<v-carousel
 			cycle
-			min-height="180"
 			:show-arrows="false"
 			hide-delimiters
 			reverse-transition="fade-transition"
 			transition="fade-transition"
+			style="max-height: 200px;"
 		>
 			<v-carousel-item
 				v-for="(event, index) in events"
@@ -15,23 +15,26 @@
 				<v-card
 					class="mx-auto"
 					max-width="1000"
+					max-height="200"
 					:color="colors[index]"
 				>
 					<v-list max-width="800"
 						color="transparent"
 						class="mx-auto"
+						height="100%"
 					>
-						<v-list-item
-							:class="($vuetify.breakpoint.width < 400) ? 'd-flex justify-center': ''"
-						>
+						<v-list-item>
 							<v-list-item-avatar
 								id="date-avatar"
 								color="#e88c04"
 								class="elevation-12"
+								:class="($vuetify.breakpoint.width < 400) ? 'mx-auto': ''"
 								size="120"
 								style="border: 2px solid white;"
 							>
-								<v-row no-gutters>
+								<v-row no-gutters
+									justify="center" align="center"
+								>
 									<v-col cols="12">
 										<h1 class="text-center">
 											{{ event.start_date.day }}<sup>{{
@@ -92,7 +95,7 @@
 					</v-list>
 					<v-fade-transition>
 						<v-card-title v-if="$vuetify.breakpoint.width < 400"
-							class="text-center d-flex justify-center"
+							class="text-center d-flex justify-center pt-0"
 						>
 							{{ event.title }}
 						</v-card-title>
@@ -166,74 +169,74 @@ export default {
 					banner:
 						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
 				},
-				{
-					id: 2,
-					title: "After Lockdown Gathering",
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-						"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
-						"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-						"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
-						"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
-						"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
-						"mollit anim id est laborum.",
-					country: "Nepal",
-					province: "Gandaki Pradesh",
-					district: "Kaski",
-					municipality: "Pokhara",
-					municipality_ward: "Lamachaur",
-					vdc: null,
-					vdc_ward: null,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					venue: "Deep Housing",
-					organizer: "Pokhara Kendra Branch",
-					contacts: [9845689652, 6158965],
-					start_date: {
-						day: 1,
-						month: "Mar"
-					},
-					duration: 5,
-					timeOfDay: "10AM - 5PM",
-					banner:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
-				{
-					id: 3,
-					title: "Hungama Event",
-					description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
-						"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
-						"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-						"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
-						"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
-						"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
-						"mollit anim id est laborum.",
-					country: "Nepal",
-					province: "Bagmati Pradesh",
-					district: "Kathmandu",
-					municipality: "Kathmandu",
-					municipality_ward: "Maitighar",
-					vdc: null,
-					vdc_ward: null,
-					is_main: true,
-					created_by: "bot25",
-					created_at: now,
-					updated_by: "bot25",
-					updated_at: now,
-					venue: "Maiti Ghar Mandala",
-					organizer: "Pokhara Kendra Branch",
-					contacts: [9845689652, 6158965],
-					start_date: {
-						day: 30,
-						month: "Jun"
-					},
-					duration: 2,
-					timeOfDay: "10AM - 5PM",
-					banner:
-						"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
-				},
+				// {
+				// 	id: 2,
+				// 	title: "After Lockdown Gathering",
+				// 	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+				// 		"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
+				// 		"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
+				// 		"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
+				// 		"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
+				// 		"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
+				// 		"mollit anim id est laborum.",
+				// 	country: "Nepal",
+				// 	province: "Gandaki Pradesh",
+				// 	district: "Kaski",
+				// 	municipality: "Pokhara",
+				// 	municipality_ward: "Lamachaur",
+				// 	vdc: null,
+				// 	vdc_ward: null,
+				// 	is_main: true,
+				// 	created_by: "bot25",
+				// 	created_at: now,
+				// 	updated_by: "bot25",
+				// 	updated_at: now,
+				// 	venue: "Deep Housing",
+				// 	organizer: "Pokhara Kendra Branch",
+				// 	contacts: [9845689652, 6158965],
+				// 	start_date: {
+				// 		day: 1,
+				// 		month: "Mar"
+				// 	},
+				// 	duration: 5,
+				// 	timeOfDay: "10AM - 5PM",
+				// 	banner:
+				// 		"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
+				// },
+				// {
+				// 	id: 3,
+				// 	title: "Hungama Event",
+				// 	description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, " +
+				// 		"sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut " +
+				// 		"enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
+				// 		"aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
+				// 		"in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur " +
+				// 		"sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt " +
+				// 		"mollit anim id est laborum.",
+				// 	country: "Nepal",
+				// 	province: "Bagmati Pradesh",
+				// 	district: "Kathmandu",
+				// 	municipality: "Kathmandu",
+				// 	municipality_ward: "Maitighar",
+				// 	vdc: null,
+				// 	vdc_ward: null,
+				// 	is_main: true,
+				// 	created_by: "bot25",
+				// 	created_at: now,
+				// 	updated_by: "bot25",
+				// 	updated_at: now,
+				// 	venue: "Maiti Ghar Mandala",
+				// 	organizer: "Pokhara Kendra Branch",
+				// 	contacts: [9845689652, 6158965],
+				// 	start_date: {
+				// 		day: 30,
+				// 		month: "Jun"
+				// 	},
+				// 	duration: 2,
+				// 	timeOfDay: "10AM - 5PM",
+				// 	banner:
+				// 		"https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/ED4B1180197DC35F40612607655B3DC0B5CFD688690B99B39B758927373D4C50"
+				// },
 			]
 		}
 	}
